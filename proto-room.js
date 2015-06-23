@@ -29,36 +29,36 @@ Room.prototype.getPopulationReport = function() {
 Room.prototype.getMostNeededRoles = function() {
     var out = [];
 
-        var flags = this.find(FIND_FLAGS, function(flag) {
-            return !flag.isMaxed();
-        });
+    var flags = this.find(FIND_FLAGS, function(flag) {
+        return !flag.isMaxed();
+    });
 
-        if (!flags.length) {
-            return false;
+    if (!flags.length) {
+        return false;
+    }
+    flags = _.sortBy(flags, function(flag) {
+        return flag.percentAssigned();
+    });
+
+    flags.forEach(function(flag) {
+        var neededRole = flag.getMostNeededRole();
+        if (neededRole) {
+            out.push({
+                flag: flag,
+                role: neededRole
+            });
         }
-        flags = _.sortBy(flags, function(flag) {
-            return flag.percentAssigned();
-        });
-
-        flags.forEach(function(flag) {
-            var neededRole = flag.getMostNeededRole();
-            if(neededRole){
-                out.push({
-                    flag: flag,
-                    role: neededRole
-                });
-            }
-        });
+    });
 
     return out;
 };
 
-Room.prototype.flagReport = function(){
+Room.prototype.flagReport = function() {
     var flags = this.find(FIND_FLAGS);
     var roomName = this.name;
 
 
-    flags.forEach(function(flag){
+    flags.forEach(function(flag) {
         var percent = (Math.round(flag.percentAssigned() * 100) / 100) * 100;
         var count = '( ' + flag.assignedCount() + '/' + flag.assignedCountMax() + ' )';
 
@@ -66,15 +66,30 @@ Room.prototype.flagReport = function(){
             roomName,
             flag.name,
             flag.role(),
-            percent + '%' ,
+            percent + '%',
             count
         );
     });
 };
 
-Room.prototype.populationCapped = function(value){
+Room.prototype.populationCapped = function(value) {
     if (value !== void 0) {
         this.population_capped = value;
     }
     return this.population_capped;
+};
+
+
+Room.prototype.extensionsFull = function(forceRefresh) {
+    if (forceRefresh || !this.extensions_full) {
+        var extensions = this.find(FIND_STRUCTURES, {
+            filter: function(s) {
+                return s.structureType = 'extension' && s.energy < s.energyCapacity;
+            }
+        });
+
+        this.extensions_full = !extensions.length;
+    }
+
+    return this.extensions_full;
 };

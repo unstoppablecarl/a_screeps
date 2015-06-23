@@ -1,9 +1,5 @@
 'use strict';
-require('proto-creep');
-require('proto-flag');
-require('proto-room');
-require('proto-spawn');
-
+require('proto-all');
 
 var neededRoles;
 for (var roomName in Game.rooms) {
