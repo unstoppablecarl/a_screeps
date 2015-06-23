@@ -13,6 +13,7 @@ var tasks = {
     repair: require('task-repair'),
     return_energy: require('task-return-energy'),
     goto_queue: require('task-goto-queue'),
+    harvest: require('task-harvest'),
 };
 
 Creep.prototype.pendingCreation = function(){
@@ -178,6 +179,7 @@ Creep.prototype.taskTarget = function(target) {
     if(target !== void 0){
         settings = settings || {};
         settings.target_id = target.id;
+        this.taskSettings(settings);
     }
 
     if(settings && settings.target_id){

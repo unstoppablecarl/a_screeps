@@ -18,7 +18,7 @@ var role = {
 
         if(!creep.task()){
             if (creep.energy < creep.energyCapacity) {
-                creep.startTask('get_energy');
+                creep.startTask('harvest');
 
             } else {
                 creep.startTask('return_energy');
