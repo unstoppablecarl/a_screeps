@@ -5,7 +5,7 @@ var role = {
 
     act: function(creep) {
 
-        var range = creep.memory.hostile_range || 20;
+        var range = creep.memory.hostile_range || 10;
         var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);
 
         if (targets.length) {

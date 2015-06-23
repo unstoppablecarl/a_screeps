@@ -36,9 +36,9 @@ Creep.prototype.assignedFlagId = function(id) {
 
 Creep.prototype.assignedFlag = function(flag) {
     if (flag !== void 0) {
-        this.flagId(flag.id);
+        this.assignedFlagId(flag.id);
     }
-    return Game.getObjectById(this.flagId());
+    return Game.getObjectById(this.assignedFlagId());
 };
 
 Creep.prototype.sourceId = function(id) {
@@ -71,7 +71,7 @@ Creep.prototype.act = function() {
     var role = this.role();
     var roleHandler = roles[role];
     if(roleHandler && roleHandler.act){
-        roleHandler.act();
+        roleHandler.act(this);
     }
 
 };

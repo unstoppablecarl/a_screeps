@@ -30,24 +30,24 @@ Room.prototype.getMostNeededRoles = function() {
     var out = [];
     for (var roomName in Game.rooms) {
         var room = Game.rooms[roomName];
-        var flags = _.filter(room.flags, function(flag) {
+        var flags = room.find(FIND_FLAGS, function(flag) {
             return !flag.isMaxed();
         });
 
         if (!flags.length) {
             return false;
         }
-
-        flags = _.sort(flags, function(flag) {
+        flags = _.sortBy(flags, function(flag) {
             return flag.percentAssigned();
         });
+        flags.forEach(function(flag) {
+            var neededRole = flag.getMostNeededRole();
+            if(neededRole){
+                out.push(neededRole);
+            }
 
-        _.each(flags, function(flag) {
-            out.push(flag.getMostNeededRole());
-            console.log(flag.name, flag.percentAssigned(), flag.getMostNeededRole());
         });
     }
-
     return out;
 };
 

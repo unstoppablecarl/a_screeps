@@ -1,13 +1,6 @@
 'use strict';
 var creepTypes = require('creep-types');
 
-Flag.prototype.type = function(type) {
-    if (type !== void 0) {
-        this.memory.type = max;
-    }
-    return this.memory.type;
-};
-
 Flag.prototype.assignedCount = function(forceRefresh) {
     if (forceRefresh || !this.memory.assigned_count) {
         var count = 0;
@@ -30,7 +23,7 @@ Flag.prototype.assignedCountMax = function(max) {
 };
 
 Flag.prototype.isMaxed = function() {
-    return this.assignedCount() < this.assignedCountMax();
+    return this.assignedCount() >= this.assignedCountMax();
 };
 
 Flag.prototype.assignedCountAvailable = function() {
@@ -53,6 +46,13 @@ Flag.prototype.assignedSource = function(source) {
         this.assignedSourceId(source.id);
     }
     return Game.getObjectById(this.assignedSourceId());
+};
+
+Flag.prototype.setSourceToClosest = function(){
+    var source = this.room.findClosest(FIND_SOURCES);
+    if(source){
+        this.assignedSource(source);
+    }
 };
 
 Flag.prototype.role = function(role) {
