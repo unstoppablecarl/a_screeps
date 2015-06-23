@@ -14,6 +14,8 @@ var tasks = {
     return_energy: require('task-return-energy'),
     goto_queue: require('task-goto-queue'),
     harvest: require('task-harvest'),
+    guard: require('task-guard'),
+    attack: require('task-attack'),
 };
 
 Creep.prototype.pendingCreation = function(){

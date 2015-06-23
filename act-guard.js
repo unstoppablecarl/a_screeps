@@ -5,16 +5,22 @@ var role = {
 
     act: function(creep) {
 
-        var range = creep.memory.hostile_range || 10;
-        var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);
+        if(!creep.task()){
+            var target;
+            var range = creep.memory.hostile_range || 10;
+            var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);
 
-        if (targets.length) {
-            var target = creep.pos.findClosest(targets);
-            creep.moveTo(target);
-            creep.attack(target);
+            if (targets.length) {
+                target = creep.pos.findClosest(targets);
+            }
 
-        } else {
-            creep.moveTo(creep.assignedFlag());
+            if(target){
+                creep.startTask('attack', {
+                    target_id: target.id
+                });
+            } else {
+                creep.startTask('guard');
+            }
         }
     },
 
