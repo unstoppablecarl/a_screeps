@@ -1,0 +1,174 @@
+{
+    "globalstrict": true,
+    "node": true,
+    "globals": {
+        "AI": true,
+
+        "_": true,
+        "Game": true,
+        "Memory": true,
+        "console": true,
+        "require": true,
+
+        "Creep": true,
+        "Energy": true,
+        "Flag": true,
+        "Map": true,
+        "Room": true,
+        "RoomPosition": true,
+        "Source": true,
+        "Spawn": true,
+        "Structure": true,
+
+        "FIND_EXIT_TOP": true,
+        "FIND_EXIT_RIGHT": true,
+        "FIND_EXIT_BOTTOM": true,
+        "FIND_EXIT_LEFT": true,
+        "FIND_EXIT": true,
+        "FIND_CREEPS": true,
+        "FIND_MY_CREEPS": true,
+        "FIND_HOSTILE_CREEPS": true,
+        "FIND_SOURCES_ACTIVE": true,
+        "FIND_SOURCES": true,
+        "FIND_DROPPED_ENERGY": true,
+        "FIND_STRUCTURES": true,
+        "FIND_MY_STRUCTURES": true,
+        "FIND_HOSTILE_STRUCTURES": true,
+        "FIND_FLAGS": true,
+        "FIND_CONSTRUCTION_SITES": true,
+        "FIND_MY_SPAWNS": true,
+        "FIND_HOSTILE_SPAWNS": true,
+
+        "TOP": true,
+        "TOP_RIGHT": true,
+        "RIGHT": true,
+        "BOTTOM_RIGHT": true,
+        "BOTTOM": true,
+        "BOTTOM_LEFT": true,
+        "LEFT": true,
+        "TOP_LEFT": true,
+
+        "OK": true,
+        "ERR_NOT_OWNER": true,
+        "ERR_NO_PATH": true,
+        "ERR_NAME_EXISTS": true,
+        "ERR_BUSY": true,
+        "ERR_NOT_FOUND": true,
+        "ERR_NOT_ENOUGH_ENERGY": true,
+        "ERR_INVALID_TARGET": true,
+        "ERR_FULL": true,
+        "ERR_NOT_IN_RANGE": true,
+        "ERR_INVALID_ARGS": true,
+        "ERR_TIRED": true,
+        "ERR_NO_BODYPART": true,
+        "ERR_NOT_ENOUGH_EXTENSIONS": true,
+        "ERR_RCL_NOT_ENOUGH": true,
+        "ERR_GCL_NOT_ENOUGH": true,
+
+        "COLOR_RED": true,
+        "COLOR_PURPLE": true,
+        "COLOR_BLUE": true,
+        "COLOR_CYAN": true,
+        "COLOR_GREEN": true,
+        "COLOR_YELLOW": true,
+        "COLOR_ORANGE": true,
+        "COLOR_BROWN": true,
+        "COLOR_GREY": true,
+        "COLOR_WHITE": true,
+
+        "CREEP_SPAWN_TIME": true,
+        "CREEP_LIFE_TIME": true,
+
+        "OBSTACLE_OBJECT_TYPES": true,
+
+        "ENERGY_REGEN_TIME": true,
+        "ENERGY_REGEN_AMOUNT": true,
+        "ENERGY_DECAY": true,
+
+        "CREEP_CORPSE_RATE": true,
+
+        "REPAIR_COST": true,
+
+        "RAMPART_DECAY_AMOUNT": true,
+        "RAMPART_DECAY_TIME": true,
+        "RAMPART_HITS": true,
+        "RAMPART_HITS_MAX": true,
+
+        "SPAWN_HITS": true,
+        "SPAWN_ENERGY_START": true,
+        "SPAWN_ENERGY_CAPACITY": true,
+
+        "SOURCE_ENERGY_CAPACITY": true,
+
+        "ROAD_HITS": true,
+
+        "WALL_HITS": true,
+        "WALL_HITS_MAX": true,
+
+        "EXTENSION_HITS": true,
+        "EXTENSION_ENERGY_CAPACITY": true,
+
+        "LINK_HITS": true,
+        "LINK_HITS_MAX": true,
+
+        "ROAD_WEAROUT": true,
+
+        "CONTROLLER_HITS": true,
+
+        "LINK_CAPACITY": true,
+        "LINK_COOLDOWN": true,
+        "LINK_LOSS_RATIO": true,
+
+        "BODYPART_COST": true,
+        "CARRY_CAPACITY": true,
+
+        "HARVEST_POWER": true,
+        "REPAIR_POWER": true,
+        "BUILD_POWER": true,
+        "ATTACK_POWER": true,
+        "UPGRADE_CONTROLLER_POWER": true,
+        "RANGED_ATTACK_POWER": true,
+        "HEAL_POWER": true,
+        "RANGED_HEAL_POWER": true,
+
+        "MOVE": true,
+        "WORK": true,
+        "CARRY": true,
+        "ATTACK": true,
+        "RANGED_ATTACK": true,
+        "TOUGH": true,
+        "HEAL": true,
+
+        "CONSTRUCTION_COST": true,
+        "CONSTRUCTION_COST_ROAD_SWAMP_RATIO": true,
+
+        "STRUCTURE_SPAWN": true,
+        "STRUCTURE_EXTENSION": true,
+        "STRUCTURE_ROAD": true,
+        "STRUCTURE_WALL": true,
+        "STRUCTURE_RAMPART": true,
+        "STRUCTURE_KEEPER_LAIR": true,
+        "STRUCTURE_PORTAL": true,
+        "STRUCTURE_CONTROLLER": true,
+        "STRUCTURE_LINK": true,
+
+        "CONTROLLER_LEVELS": true,
+        "CONTROLLER_SPAWNS": true,
+        "CONTROLLER_EXTENSIONS": true,
+        "GCL_POW": true,
+        "GCL_MULTIPLY": true,
+
+        "MODE_SIMULATION": true,
+        "MODE_SURVIVAL": true,
+        "MODE_WORLD": true,
+        "MODE_ARENA": true,
+
+        "TERRAIN_MASK_WALL": true,
+        "TERRAIN_MASK_SWAMP": true,
+        "TERRAIN_MASK_LAVA": true,
+
+        "BODYPARTS_ALL": true
+    },
+
+    "-W100": true
+}

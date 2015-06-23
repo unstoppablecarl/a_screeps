@@ -1,16 +1,46 @@
 'use strict';
 
-module.exports = function(creep) {
+var role = {
+    init: false,
 
-    if (creep.energy == 0) {
-        creep.moveTo(Game.spawns.Spawn1);
-        Game.spawns.Spawn1.transferEnergy(creep);
-    } else {
-        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-        if (targets.length) {
-            creep.moveTo(targets[0]);
-            creep.build(targets[0]);
+    act: function(creep) {
+
+        if (creep.energy === 0) {
+
+            var spawn = creep.spawn();
+            if(!spawn){
+                spawn = creep.pos.findClosest(FIND_MY_SPAWNS, {
+                    filter: function(s) {
+                        return s.energy < s.energyCapacity;
+                    }
+                });
+            }
+
+            if (spawn) {
+                creep.moveTo(spawn);
+                if(spawn.populationCapped()){
+                    spawn.transferEnergy(creep);
+                } else {
+                    var amount = Math.round(spawn.energy * 0.05);
+                    spawn.transferEnergy(creep, amount);
+                }
+            }
+
+            return;
         }
-    }
 
+        var target = creep.pos.findClosest(FIND_CONSTRUCTION_SITES);
+        if (target) {
+            creep.moveTo(target);
+            creep.build(target);
+            return;
+        }
+
+        creep.moveTo(creep.room.controller);
+        creep.upgradeController(creep.room.controller);
+    },
+
+    onAssignToFlag: false,
 };
+
+module.exports = role;

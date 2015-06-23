@@ -1,42 +1,32 @@
-var harvester = require('harvester');
-var builder = require('builder');
-var guard = require('guard');
+'use strict';
 
-if (!Game.spawns.Spawn1.spawning){
+require('proto-creep');
+require('proto-flag');
+require('proto-room');
+require('proto-spawn');
 
-    // data
-    var creepTypes = require('creep-types');
-    var roleDistribution = require('role-distribution.js');
-    var population = require('population');
+for (var roomName in Game.rooms) {
+    var room = Game.rooms[roomName];
 
-    var maxGapRole;
-    var maxGap = 0;
+    var availableSpawns = _.filter(room.spawns, function(spawn){
+        return !spawn.spawning;
+    });
 
-    for(var role in roleDistribution){
-        var populationPercent = population[role].populationPercent;
-        var targetPopulationPercent = roleDistribution[role].populationPercent;
-        var gap = targetPopulationPercent - targetPopulationPercent;
-        if(gap > maxGap){
-            maxGap = gap;
-            maxGapRole = role;
+    if(availableSpawns.length){
+        var neededRoles = room.getMostNeededRoles();
+
+        if (neededRoles) {
+            availableSpawns.forEach(function(spawn){
+                var newCreepRole = neededRoles.pop();
+                spawn.spawnCreep(newCreepRole);
+            });
+        } else {
+            room.populationCapped(true);
         }
     }
 
-    Game.spawns.Spawn1.spawnCreep(role);
-}
-
-for(var name in Game.creeps) {
-    var creep = Game.creeps[name];
-
-    if(creep.memory.role == 'harvester') {
-        harvester(creep);
-    }
-
-    if(creep.memory.role == 'builder') {
-        builder(creep);
-    }
-
-    if(creep.memory.role == 'guard') {
-        guard(creep);
+    for (var name in room.creeps) {
+        var creep = Game.creeps[name];
+        creep.act();
     }
 }

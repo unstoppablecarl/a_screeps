@@ -2,15 +2,15 @@
 
 var data = {
     harvester: {
-        role: 'harvester',
+        defaultRole: 'harvester',
         parts: [WORK, CARRY, MOVE],
     },
     builder: {
-        role: 'builder',
+        defaultRole: 'builder',
         parts: [WORK, WORK, WORK, CARRY, MOVE],
     },
     guard: {
-        role: 'guard',
+        defaultRole: 'guard',
         parts: [TOUGH, ATTACK, MOVE, MOVE],
     }
 };
