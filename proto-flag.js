@@ -3,7 +3,6 @@ var creepTypes = require('creep-types');
 
 Flag.prototype.assignedCount = function(forceRefresh) {
 
-    // if (forceRefresh || !this.memory.assigned_count) {
         var count = 0;
         var id = this.id;
         var assignedCreeps = this.room.find(FIND_MY_CREEPS, {
@@ -11,16 +10,9 @@ Flag.prototype.assignedCount = function(forceRefresh) {
                 return creep.assignedFlagId() === id;
             }
         });
-        console.log('FLAG', this.name, this.id);
 
-        assignedCreeps.forEach(function(creep){
-            console.log('- ', creep.name, creep.assignedFlagId());
-        });
-        // console.log('zz', assignedCreeps.length);
         return assignedCreeps.length;
-        // this.memory.assigned_count = count;
-    // }
-    // return this.memory.assigned_count;
+
 };
 
 Flag.prototype.assignedCountMax = function(max) {

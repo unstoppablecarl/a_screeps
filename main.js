@@ -22,7 +22,7 @@ for (var roomName in Game.rooms) {
                 var needed = neededRoles.pop();
                 var newRole = needed.role;
                 var assignedFlag = needed.flag;
-                // spawn.spawnCreep(newCreepRole);
+                spawn.spawnCreep(newRole, null, assignedFlag);
             });
         } else {
             room.populationCapped(true);
