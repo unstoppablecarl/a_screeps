@@ -67,6 +67,14 @@ Creep.prototype.assignToFlag = function(flag){
     }
 };
 
+Creep.prototype.init = function() {
+    var role = this.role();
+    var roleHandler = roles[role];
+    if(roleHandler && roleHandler.init){
+        roleHandler.init(this);
+    }
+};
+
 Creep.prototype.act = function() {
     var role = this.role();
     var roleHandler = roles[role];

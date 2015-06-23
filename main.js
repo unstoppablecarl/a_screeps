@@ -4,20 +4,24 @@ require('proto-flag');
 require('proto-room');
 require('proto-spawn');
 
+
+var neededRoles;
 for (var roomName in Game.rooms) {
     var room = Game.rooms[roomName];
 
-    var availableSpawns = room.find(FIND_MY_SPAWNS, function(spawn){
+    var availableSpawns = room.find(FIND_MY_SPAWNS, function(spawn) {
         return !spawn.spawning;
     });
 
-    if(availableSpawns.length){
+    if (availableSpawns.length) {
 
-        var neededRoles = room.getMostNeededRoles();
+        neededRoles = room.getMostNeededRoles();
 
         if (neededRoles) {
-            availableSpawns.forEach(function(spawn){
-                var newCreepRole = neededRoles.pop();
+            availableSpawns.forEach(function(spawn) {
+                var needed = neededRoles.pop();
+                var newRole = needed.role;
+                var assignedFlag = needed.flag;
                 // spawn.spawnCreep(newCreepRole);
             });
         } else {
@@ -25,12 +29,13 @@ for (var roomName in Game.rooms) {
         }
     }
 
-    _.each(room.find(FIND_MY_CREEPS), function(creep){
-            creep.act();
+    _.each(room.find(FIND_MY_CREEPS), function(creep) {
 
+        if (creep.pending_creation) {
+            creep.init();
+            delete creep.memory.pending_creation;
+        }
 
-            if(!creep.flagId()){
-
-            }
+        creep.act();
     });
 }
