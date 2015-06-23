@@ -40,12 +40,15 @@ Room.prototype.getMostNeededRoles = function() {
         flags = _.sortBy(flags, function(flag) {
             return flag.percentAssigned();
         });
+
         flags.forEach(function(flag) {
             var neededRole = flag.getMostNeededRole();
             if(neededRole){
-                out.push(neededRole);
+                out.push({
+                    flag: flag,
+                    role: neededRole
+                });
             }
-
         });
     }
     return out;
