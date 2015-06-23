@@ -49,7 +49,7 @@ Flag.prototype.assignedSource = function(source) {
 };
 
 Flag.prototype.setSourceToClosest = function(){
-    var source = this.room.findClosest(FIND_SOURCES);
+    var source = this.pos.findClosest(FIND_SOURCES);
     if(source){
         this.assignedSource(source);
     }
