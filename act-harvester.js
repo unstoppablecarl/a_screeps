@@ -27,36 +27,22 @@ var role = {
         //     creep.say('tired of waiting');
         // }
 
-        var sourceId = creep.memory.assignedSourceId;
+        // var sourceId = creep.memory.assignedSourceId;
 
-        if (!sourceId) {
-            var flaggedSources = manageFlags.getSources();
-            var index = Math.floor(Math.random() * flaggedSources.length);
-            creep.memory.assignedSourceId = flaggedSources[index].id;
-            creep.say('new source id');
-        }
+        // if (!sourceId) {
+        //     var flaggedSources = manageFlags.getSources();
+        //     var index = Math.floor(Math.random() * flaggedSources.length);
+        //     creep.memory.assignedSourceId = flaggedSources[index].id;
+        //     creep.say('new source id');
+        // }
 
         if (creep.energy < creep.energyCapacity) {
-
-            var source;
-            var sources;
-            if (sourceId) {
-                sources = creep.room.find(FIND_SOURCES, {
-                    filter: {
-                        id: sourceId
-                    }
-                });
-                if (sources.length) {
-                    source = sources[0];
-                }
+            var source = creep.source();
+            if(source){
+                creep.moveTo(source);
+                creep.harvest(source);
             }
 
-            if (!source) {
-                source = creep.pos.findClosest(sources);
-            }
-
-            creep.moveTo(source);
-            creep.harvest(source);
         } else {
 
             var target = this.findNearestEnergyDrop(creep);

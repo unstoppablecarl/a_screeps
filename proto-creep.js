@@ -1,9 +1,9 @@
 'use strict';
 
 var roles = {
-    builder: require('builder'),
-    guard: require('guard'),
-    harvester: require('harvester'),
+    builder: require('act-builder'),
+    guard: require('act-guard'),
+    harvester: require('act-harvester'),
 };
 
 Creep.prototype.role = function(role) {
@@ -46,6 +46,13 @@ Creep.prototype.sourceId = function(id) {
         this.memory.source_id = id;
     }
     return this.memory.source_id;
+};
+
+Creep.prototype.source = function(source) {
+    if (source !== void 0) {
+        this.sourceId(source.id);
+    }
+    return Game.getObjectById(this.sourceId());
 };
 
 Creep.prototype.assignToFlag = function(flag){
