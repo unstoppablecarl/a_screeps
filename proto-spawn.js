@@ -28,3 +28,22 @@ Spawn.prototype.spawnCreep = function(type, role, flag) {
     console.log(this.name, 'spawning', creepName, body, role);
     return creepName;
 };
+
+var bodyPartCost = {
+    MOVE: 50,
+    WORK: 100,
+    CARRY: 50,
+    ATTACK: 80,
+    RANGED_ATTACK: 150,
+    HEAL: 200,
+    TOUGH: 10,
+};
+
+Spawn.prototype.getCreepCost = function(body){
+    var total = 0;
+    for (var i = 0; i < body.length; i++) {
+        var part = body[i];
+        total += bodyPartCost[part];
+    }
+    return total;
+};
