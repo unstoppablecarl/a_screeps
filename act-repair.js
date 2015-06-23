@@ -25,10 +25,18 @@ var role = {
         }
 
         var target = creep.pos.findClosest(FIND_MY_STRUCTURES, {
-            filter: function(structure){
-                return structure.hits < structure.hitsMax;
+            filter: function(s){
+                return s.hits < s.hitsMax;
             }
         });
+
+        if(!target){
+            target = creep.pos.findClosest(FIND_STRUCTURES, {
+                filter: function(s){
+                    return !s.owner && s.hits < s.hitsMax;
+                }
+            });
+        }
 
         if (target) {
             creep.moveTo(target);

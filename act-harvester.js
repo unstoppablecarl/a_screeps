@@ -54,7 +54,13 @@ var role = {
                     creep.build(targetConstruction);
                     return;
                 } else {
-                    creep.moveTo(Game.flags.Flag1);
+
+                    // creep.moveTo(creep.room.controller);
+                    // creep.upgradeController(creep.room.controller);
+
+                    creep.moveTo(Game.flags.Flag5);
+
+
                 }
             }
         }
@@ -83,6 +89,9 @@ var role = {
             }
         });
 
+        if(spawn){
+            return spawn;
+        }
         var extension = pos.findClosest(FIND_MY_STRUCTURES, {
             filter: function(structure) {
                 if (structure.structureType == STRUCTURE_EXTENSION) {

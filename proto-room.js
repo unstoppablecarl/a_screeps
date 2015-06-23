@@ -58,6 +58,7 @@ Room.prototype.flagReport = function(){
 
     flags.forEach(function(flag){
         console.log(
+            this.name,
             flag.name,
             flag.role(),
             'precent:', Math.round(flag.percentAssigned() * 100) / 100,
