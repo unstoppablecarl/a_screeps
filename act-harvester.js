@@ -83,9 +83,6 @@ var role = {
             }
         });
 
-    if(spawn){
-        return spawn;
-    }
         var extension = pos.findClosest(FIND_MY_STRUCTURES, {
             filter: function(structure) {
                 if (structure.structureType == STRUCTURE_EXTENSION) {
