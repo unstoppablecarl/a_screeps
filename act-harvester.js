@@ -1,7 +1,5 @@
 'use strict';
 
-var manageFlags = require('manage-flags');
-
 var role = {
 
     init: function(creep) {
