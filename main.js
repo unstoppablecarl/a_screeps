@@ -11,7 +11,6 @@ for (var roomName in Game.rooms) {
         return !spawn.spawning;
     });
 
-    console.log('x', availableSpawns, availableSpawns.length);
     if(availableSpawns.length){
 
         var neededRoles = room.getMostNeededRoles();
@@ -19,7 +18,7 @@ for (var roomName in Game.rooms) {
         if (neededRoles) {
             availableSpawns.forEach(function(spawn){
                 var newCreepRole = neededRoles.pop();
-                spawn.spawnCreep(newCreepRole);
+                // spawn.spawnCreep(newCreepRole);
             });
         } else {
             room.populationCapped(true);
@@ -28,5 +27,10 @@ for (var roomName in Game.rooms) {
 
     _.each(room.find(FIND_MY_CREEPS), function(creep){
             creep.act();
+
+
+            if(!creep.flagId()){
+
+            }
     });
 }

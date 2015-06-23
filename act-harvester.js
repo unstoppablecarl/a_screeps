@@ -9,7 +9,7 @@ var role = {
         }
     },
 
-    assignToFlag: function(creep, flag) {
+    onAssignToFlag: function(creep, flag) {
         var sourceId = flag.assignedSourceId();
         creep.sourceId(sourceId);
     },
