@@ -3,7 +3,7 @@
 var data = {
     harvester: {
         defaultRole: 'harvester',
-        parts: [WORK, CARRY, MOVE],
+        parts: [WORK, WORK, CARRY, MOVE],
     },
     builder: {
         defaultRole: 'builder',
