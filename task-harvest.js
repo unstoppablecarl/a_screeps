@@ -21,7 +21,7 @@ var task = {
         var target = creep.taskTarget();
         if(target){
             creep.moveTo(target);
-            var result = target.harvest(creep);
+            var result = creep.harvest(target);
             if(result === OK){
                 creep.endTask();
             }
