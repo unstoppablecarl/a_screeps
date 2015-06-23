@@ -19,7 +19,7 @@ for (var roomName in Game.rooms) {
 
         if (neededRoles) {
             availableSpawns.forEach(function(spawn) {
-                var needed = neededRoles.pop();
+                var needed = neededRoles.shift();
                 var newRole = needed.role;
                 var assignedFlag = needed.flag;
                 spawn.spawnCreep(newRole, null, assignedFlag);

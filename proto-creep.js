@@ -4,6 +4,7 @@ var roles = {
     builder: require('act-builder'),
     guard: require('act-guard'),
     harvester: require('act-harvester'),
+    repair: require('act-repair'),
 };
 
 Creep.prototype.pendingCreation = function(){

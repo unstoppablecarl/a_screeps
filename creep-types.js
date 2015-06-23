@@ -12,6 +12,11 @@ var data = {
     guard: {
         defaultRole: 'guard',
         parts: [TOUGH, ATTACK, MOVE, MOVE],
+    },
+    repair: {
+        defaultRole: 'guard',
+        parts: [MOVE, WORK, CARRY],
+
     }
 };
 
