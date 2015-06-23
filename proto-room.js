@@ -57,7 +57,13 @@ Room.prototype.flagReport = function(){
     var flags = this.find(FIND_FLAGS);
 
     flags.forEach(function(flag){
-        console.log(flag.name, flag.role(), Math.round(flag.percentAssigned() * 100) / 100);
+        console.log(
+            flag.name,
+            flag.role(),
+            'precent:', Math.round(flag.percentAssigned() * 100) / 100,
+            'count:', flag.assignedCount(),
+            'max:', flag.assignedCountMax()
+        );
     });
 };
 

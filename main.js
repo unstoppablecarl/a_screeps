@@ -17,11 +17,12 @@ for (var roomName in Game.rooms) {
 
         neededRoles = room.getMostNeededRoles();
 
-        if (neededRoles) {
+        if (neededRoles && neededRoles.length) {
             availableSpawns.forEach(function(spawn) {
                 var needed = neededRoles.shift();
                 var newRole = needed.role;
                 var assignedFlag = needed.flag;
+
                 spawn.spawnCreep(newRole, null, assignedFlag);
             });
         } else {
