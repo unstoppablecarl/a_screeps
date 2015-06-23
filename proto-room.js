@@ -55,15 +55,19 @@ Room.prototype.getMostNeededRoles = function() {
 
 Room.prototype.flagReport = function(){
     var flags = this.find(FIND_FLAGS);
+    var roomName = this.name;
+
 
     flags.forEach(function(flag){
+        var percent = Math.round(flag.percentAssigned() * 100) / 100;
+        var count = '( ' + flag.assignedCount() + '/' + flag.assignedCountMax() + ' )';
+
         console.log(
-            this.name,
+            roomName,
             flag.name,
             flag.role(),
-            'precent:', Math.round(flag.percentAssigned() * 100) / 100,
-            'count:', flag.assignedCount(),
-            'max:', flag.assignedCountMax()
+            percent + '%' ,
+            count
         );
     });
 };
