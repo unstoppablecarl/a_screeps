@@ -65,6 +65,7 @@ Creep.prototype.assignToFlag = function(flag){
     if(roleHandler && roleHandler.onAssignToFlag){
         roleHandler.onAssignToFlag(this, flag);
     }
+    flag.assignedCount(true);
 };
 
 Creep.prototype.init = function() {

@@ -4,7 +4,7 @@ var role = {
     init: false,
 
     act: function(creep) {
-
+    return;
         if (creep.energy === 0) {
 
             var spawn = creep.spawn();

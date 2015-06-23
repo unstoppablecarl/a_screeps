@@ -38,4 +38,11 @@ for (var roomName in Game.rooms) {
 
         creep.act();
     });
+
+    for(var k in Memory.creeps){
+        var memCreep = Memory.creeps[k];
+        if(!memCreep.pending_creation && !Game.creeps[k]){
+            Memory.creeps[k] = undefined;
+        }
+    }
 }

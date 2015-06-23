@@ -3,6 +3,7 @@
 
 Spawn.prototype.spawnCreep = function(type, role, flag) {
     var creepType = creepTypes[type];
+    console.log('creepType', type);
     var body = creepType.parts;
     role = role || creepType.defaultRole;
     memory = memory || {};

@@ -4,8 +4,8 @@ var role = {
 
     init: function(creep) {
         var flag = creep.assignedFlag();
-        if (flag && !creep.assignedSourceId()) {
-            this.assignToFlag(creep, flag);
+        if (flag && !creep.sourceId()) {
+            creep.assignToFlag(flag);
         }
     },
 
@@ -76,6 +76,16 @@ var role = {
     findNearestEnergyDrop: function(creep) {
         var pos = creep.pos;
         var targets = [];
+
+        var spawn = pos.findClosest(FIND_MY_SPAWNS, {
+            filter: function(structure) {
+                return structure.energy < structure.energyCapacity;
+            }
+        });
+
+    if(spawn){
+        return spawn;
+    }
         var extension = pos.findClosest(FIND_MY_STRUCTURES, {
             filter: function(structure) {
                 if (structure.structureType == STRUCTURE_EXTENSION) {
@@ -84,11 +94,6 @@ var role = {
             }
         });
 
-        var spawn = pos.findClosest(FIND_MY_SPAWNS, {
-            filter: function(structure) {
-                return structure.energy < structure.energyCapacity;
-            }
-        });
 
         if (extension) {
             targets.push(extension);
