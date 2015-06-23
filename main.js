@@ -36,10 +36,6 @@ for (var roomName in Game.rooms) {
         }
 
         creep.act();
-
-        if(creep.body.length === 1){
-            creep.suicide();
-        }
     });
 
     for(var k in Memory.creeps){
