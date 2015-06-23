@@ -9,6 +9,10 @@ var roles = {
 
 var tasks = {
     get_energy: require('task-get-energy'),
+    build: require('task-build'),
+    repair: require('task-repair'),
+    return_energy: require('task-return-energy'),
+    goto_queue: require('task-goto-queue'),
 };
 
 Creep.prototype.pendingCreation = function(){
