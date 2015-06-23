@@ -28,9 +28,8 @@ Room.prototype.getPopulationReport = function() {
 
 Room.prototype.getMostNeededRoles = function() {
     var out = [];
-    for (var roomName in Game.rooms) {
-        var room = Game.rooms[roomName];
-        var flags = room.find(FIND_FLAGS, function(flag) {
+
+        var flags = this.find(FIND_FLAGS, function(flag) {
             return !flag.isMaxed();
         });
 
@@ -50,8 +49,16 @@ Room.prototype.getMostNeededRoles = function() {
                 });
             }
         });
-    }
+
     return out;
+};
+
+Room.prototype.flagReport = function(){
+    var flags = this.find(FIND_FLAGS);
+
+    flags.forEach(function(flag){
+        console.log(flag.name, flag.percentAssigned());
+    });
 };
 
 Room.prototype.populationCapped = function(value){
