@@ -14,7 +14,7 @@ var data = {
         parts: [TOUGH, ATTACK, MOVE, MOVE],
     },
     repair: {
-        defaultRole: 'guard',
+        defaultRole: 'repair',
         parts: [MOVE, WORK, CARRY],
 
     }
