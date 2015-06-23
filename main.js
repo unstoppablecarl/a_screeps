@@ -31,12 +31,15 @@ for (var roomName in Game.rooms) {
 
     _.each(room.find(FIND_MY_CREEPS), function(creep) {
 
-        if (creep.pending_creation) {
+        if (creep.pendingCreation()) {
             creep.init();
-            delete creep.memory.pending_creation;
         }
 
         creep.act();
+
+        if(creep.body.length === 1){
+            creep.suicide();
+        }
     });
 
     for(var k in Memory.creeps){

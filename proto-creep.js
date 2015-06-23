@@ -6,6 +6,10 @@ var roles = {
     harvester: require('act-harvester'),
 };
 
+Creep.prototype.pendingCreation = function(){
+    return this.memory.pending_creation;
+};
+
 Creep.prototype.role = function(role) {
     if (role !== void 0) {
         this.memory.role = role;
@@ -74,6 +78,7 @@ Creep.prototype.init = function() {
     if(roleHandler && roleHandler.init){
         roleHandler.init(this);
     }
+    this.memory.pending_creation = undefined;
 };
 
 Creep.prototype.act = function() {

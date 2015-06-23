@@ -4,7 +4,7 @@ var role = {
     init: false,
 
     act: function(creep) {
-    return;
+
         if (creep.energy === 0) {
 
             var spawn = creep.spawn();
@@ -18,7 +18,7 @@ var role = {
 
             if (spawn) {
                 creep.moveTo(spawn);
-                if(spawn.populationCapped()){
+                if(spawn.room.populationCapped()){
                     spawn.transferEnergy(creep);
                 } else {
                     var amount = Math.round(spawn.energy * 0.05);
