@@ -59,7 +59,7 @@ Room.prototype.flagReport = function(){
 
 
     flags.forEach(function(flag){
-        var percent = Math.round(flag.percentAssigned() * 100) / 100;
+        var percent = (Math.round(flag.percentAssigned() * 100) / 100) * 100;
         var count = '( ' + flag.assignedCount() + '/' + flag.assignedCountMax() + ' )';
 
         console.log(
