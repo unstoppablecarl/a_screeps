@@ -44,7 +44,7 @@ Room.prototype.getPopulationReport = function() {
     var populationData = {};
     var totalPopulation = 0;
     var creeps = this.creeps;
-
+    console.log('creeps', creeps);
     for (var name in creeps) {
         var creep = creeps[name];
         var role = creep.role();
@@ -63,8 +63,10 @@ Room.prototype.getPopulationReport = function() {
         var percent = roleData.count / totalPopulation;
         roleData.precent = Math.round(percent * 100) / 100;
 
-        console.log(roleName, roleData.percent, '% ', roleData.count, '(count)');
+console.log('roleName', roleName);
+        // console.log(roleName, roleData.percent, '% ', roleData.count, '(count)');
     }
+    console.log('zxc', Object.keys(populationData));
     return populationData;
 };
 
