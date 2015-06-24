@@ -26,7 +26,7 @@ var out = {
 
         var result = Game.getUsedCpu() - start;
 
-        this.results[name] = result;
+        this.results[name] = Math.round(result * 100) / 100;
     },
 
     report: function(){
