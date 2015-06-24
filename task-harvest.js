@@ -22,7 +22,7 @@ var task = {
         if(target){
             creep.moveTo(target);
             var result = creep.harvest(target);
-            if(result === OK){
+            if(creep.energy == creep.energyCapacity){
                 creep.endTask();
             }
         } else {

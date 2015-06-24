@@ -9,7 +9,7 @@ var task = {
         if(!target){
             target = creep.spawn();
 
-            if(target.energy === target.energyCapacity){
+            if(target && target.energy === target.energyCapacity){
                 target = false;
             }
 

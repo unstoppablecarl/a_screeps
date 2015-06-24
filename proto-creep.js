@@ -148,7 +148,9 @@ Creep.prototype.startTask = function(taskName, settings) {
     if(task.start){
         task.start(this);
     }
-    this.say('> ' + taskName);
+    if(taskName !== 'guard'){
+        this.say('> ' + taskName);
+    }
 };
 
 Creep.prototype.cancelTask = function() {
