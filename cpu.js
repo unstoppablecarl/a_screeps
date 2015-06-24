@@ -29,7 +29,7 @@ var out = {
         this.results[name] = result;
     },
 
-    logResults: function(){
+    report: function(){
         console.log('cpu results');
         for(var key in this.results){
             console.log('cpu ', key, this.results[key]);
