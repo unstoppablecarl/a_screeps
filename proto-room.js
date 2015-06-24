@@ -62,6 +62,8 @@ Room.prototype.getPopulationReport = function() {
         var roleData = populationData[roleName];
         var percent = roleData.count / totalPopulation;
         roleData.precent = Math.round(percent * 100) / 100;
+
+        console.log(roleName, roleData.percent, '% ', roleData.count, '(count)');
     }
     return populationData;
 };
