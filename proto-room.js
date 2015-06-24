@@ -5,17 +5,13 @@ var metaRoles = require('meta-roles');
 Room.prototype.act = function() {
     var createCreepMaxEnergyPercent = 0.7;
 
-    // if (Game.time % 5 === 0) {
+    if (Game.time % 5 === 0) {
         this.updateNeededRoles();
-    // }
+    }
 
     if(Game.time % 20 === 0){
         this.updateExtensionCount();
     }
-
-    _.each(this.neededRoles(), function(role){
-        console.log(JSON.stringify(role));
-    });
 
     var neededRoles = this.neededRoles();
 
@@ -116,7 +112,7 @@ Room.prototype.caclulateNeededRoles = function() {
 
     var priority = this.rolePriority();
 
-    flags = _.sortByAll(
+    flags = _.sortByOrder(
         flags,
         [
             function(flag) {
@@ -132,7 +128,7 @@ Room.prototype.caclulateNeededRoles = function() {
             }
         ],
             // direction
-        [true, false]
+        [false, true]
 
     );
 
@@ -225,5 +221,3 @@ Room.prototype.rolePriority = function(value){
 
     return this.memory.role_priority;
 };
-
-
