@@ -46,7 +46,7 @@ var out = {
             dest.push(result);
 
             if(dest.length > this.max){
-                dest = dest.slice(0, this.max - 1);
+                Memory.cpu[key] = dest.slice(0, this.max - 1);
             }
         }
     },
