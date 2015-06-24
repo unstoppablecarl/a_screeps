@@ -6,48 +6,25 @@ var role = {
     act: function(creep) {
 
         if (creep.energy === 0) {
+                var spawn = creep.spawn();
 
-            var spawn = creep.spawn();
-            if(!spawn){
-                spawn = creep.pos.findClosest(FIND_MY_SPAWNS, {
-                    filter: function(s) {
-                        return s.energy < s.energyCapacity;
-                    }
-                });
-            }
-
-            if (spawn) {
-                creep.moveTo(spawn);
-                spawn.transferEnergy(creep);
-            }
-
-            return;
-        }
-
-        var target = creep.pos.findClosest(FIND_MY_STRUCTURES, {
-            filter: function(s){
-                return s.hits < s.hitsMax;
-            }
-        });
-
-        if(!target){
-            target = creep.pos.findClosest(FIND_STRUCTURES, {
-                filter: function(s){
-                    return !s.owner && s.hits < s.hitsMax;
+                if (!spawn) {
+                    spawn = creep.pos.findClosest(FIND_MY_SPAWNS);
                 }
-            });
-        }
+                var roomNeededRoles = creep.room.neededRoles();
+                var roomNeedsCreeps = roomNeededRoles && roomNeededRoles.length;
+                var energyThreshold = creep.room.getEnergyCapacity() * 0.5;
 
-        if (target) {
-            creep.moveTo(target);
-            creep.repair(target);
+                if (!roomNeedsCreeps || spawn.energy >= energyThreshold) {
+                    creep.startTask('get_energy');
+                } else {
+                    creep.startTask('goto_queue');
+                }
+
             return;
         }
 
-        var flag =creep.assignedFlag();
-        if(flag){
-            creep.moveTo(flag);
-        }
+        creep.startTask('repair');
 
     },
 

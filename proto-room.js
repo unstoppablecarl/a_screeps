@@ -3,7 +3,6 @@
 var metaRoles = require('meta-roles');
 
 Room.prototype.act = function() {
-
     var createCreepMaxEnergyPercent = 0.6;
     if (Game.time % 5 === 0) {
         this.updateNeededRoles();
@@ -21,18 +20,20 @@ Room.prototype.act = function() {
 
             var maxCost = this.getEnergyCapacity() * createCreepMaxEnergyPercent;
             availableSpawns.forEach(function(spawn) {
-                var needed = neededRoles.shift();
+                var needed = neededRoles[0];
                 var newRole = needed.role;
                 var assignedFlagId = needed.flag_id;
-                var roleData = metaRoles.roles[newRole];
-
                 var body = metaRoles.getBody(newRole, maxCost);
                 var memory = {
                     spawn_id: spawn.id,
                     role: newRole,
-                    assigned_flag_id: assignedFlagId
+                    assigned_flag_id: assignedFlagId,
+                    pending_creation: true,
                 };
-                spawn.spawnCreep(body, memory);
+                var result = spawn.spawnCreep(body, memory);
+                if(result === OK){
+                    neededRoles.shift();
+                }
             });
         }
     }
@@ -134,7 +135,6 @@ Room.prototype.caclulateNeededRoles = function() {
             });
         }
     });
-
     return out;
 };
 
@@ -185,11 +185,11 @@ Room.prototype.extensionCount = function(count) {
 
 Room.prototype.getEnergyCapacity = function(){
     var total = 0;
-    var spawns = this.spawns();
+    // var spawns = this.spawns();
 
-    if(spawns && spawns.length){
-        total += spawns.length * 300;
-    }
+    // if(spawns && spawns.length){
+    //     total += spawns.length * 300;
+    // }
 
     var extensionCount = this.extensionCount();
 
