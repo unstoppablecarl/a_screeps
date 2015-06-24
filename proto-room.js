@@ -9,7 +9,7 @@ Room.prototype.act = function() {
         this.updateNeededRoles();
     }
 
-    if(Game.time % 20 === 0){
+    if (Game.time % 20 === 0) {
         this.updateExtensionCount();
     }
 
@@ -32,7 +32,7 @@ Room.prototype.act = function() {
                     pending_creation: true,
                 };
                 var result = spawn.spawnCreep(body, memory);
-                if(result === OK){
+                if (result === OK) {
                     neededRoles.shift();
                 }
             });
@@ -43,7 +43,7 @@ Room.prototype.act = function() {
 Room.prototype.getPopulationReport = function() {
     var populationData = {};
     var totalPopulation = 0;
-    var creeps = this.creeps;
+    var creeps = this.creeps();
     console.log('creeps', creeps);
     for (var name in creeps) {
         var creep = creeps[name];
@@ -63,7 +63,7 @@ Room.prototype.getPopulationReport = function() {
         var percent = roleData.count / totalPopulation;
         roleData.precent = Math.round(percent * 100) / 100;
 
-console.log('roleName', roleName);
+        console.log('roleName', roleName);
         // console.log(roleName, roleData.percent, '% ', roleData.count, '(count)');
     }
     console.log('zxc', Object.keys(populationData));
@@ -117,11 +117,10 @@ Room.prototype.caclulateNeededRoles = function() {
     var priority = this.rolePriority();
 
     flags = _.sortByOrder(
-        flags,
-        [
+        flags, [
             function(flag) {
                 var role = flag.role();
-                if(role && priority[role]) {
+                if (role && priority[role]) {
                     return priority[role];
                 } else {
                     return 0;
@@ -131,7 +130,7 @@ Room.prototype.caclulateNeededRoles = function() {
                 return flag.percentAssigned();
             }
         ],
-            // direction
+        // direction
         [false, true]
 
     );
@@ -163,7 +162,7 @@ Room.prototype.neededRoles = function(neededRoles) {
 };
 
 Room.prototype.spawns = function(filter) {
-    if(filter){
+    if (filter) {
         var settings = {
             filter: filter
         };
@@ -173,8 +172,20 @@ Room.prototype.spawns = function(filter) {
     }
 };
 
+Room.prototype.creeps = function(filter) {
+
+    if (filter) {
+        var settings = {
+            filter: filter
+        };
+        return this.find(FIND_MY_CREEPS, settings);
+    } else {
+        return this.find(FIND_MY_CREEPS);
+    }
+};
+
 Room.prototype.getAvailableSpawns = function() {
-    return this.spawns(function(spawn){
+    return this.spawns(function(spawn) {
         return !spawn.spawning;
     });
 };
@@ -195,7 +206,7 @@ Room.prototype.extensionCount = function(count) {
     return this.memory.extension_count;
 };
 
-Room.prototype.getEnergyCapacity = function(){
+Room.prototype.getEnergyCapacity = function() {
     var total = 0;
     // var spawns = this.spawns();
 
@@ -205,23 +216,24 @@ Room.prototype.getEnergyCapacity = function(){
 
     var extensionCount = this.extensionCount();
 
-    if(extensionCount){
+    if (extensionCount) {
         total += extensionCount * 50;
     }
 
     return total;
 };
 
-Room.prototype.rolePriority = function(value){
+Room.prototype.rolePriority = function(value) {
     if (value !== void 0) {
         this.memory.role_priority = value;
     }
 
     var rp = this.memory.role_priority;
 
-    if(!rp){
+    if (!rp) {
         this.memory.role_priority = metaRoles.defaultRolePriority;
     }
 
     return this.memory.role_priority;
 };
+
