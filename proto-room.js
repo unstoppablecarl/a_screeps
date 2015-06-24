@@ -1,4 +1,40 @@
 'use strict';
+    var metaRoles = require('meta-roles');
+
+Room.prototype.act = function() {
+
+    if (Game.time % 5 === 0) {
+        this.updateNeededRoles();
+    }
+
+    if(Game.time % 20 === 0){
+        this.updateExtensionCount();
+    }
+
+    var neededRoles = this.neededRoles();
+
+    if (neededRoles && neededRoles.length) {
+        var availableSpawns = this.getAvailableSpawns();
+        if (availableSpawns.length) {
+
+            var maxCost = this.getEnergyCapacity() * 0.6;
+            console.log('maxCost', maxCost);
+            // availableSpawns.forEach(function(spawn) {
+            //     var needed = neededRoles.shift();
+            //     var newRole = needed.role;
+            //     var assignedFlagId = needed.flag_id;
+            //     var roleData = metaRoles.roles[newRole];
+
+            //     var body = metaRoles.getBody(newRole, maxCost);
+            //     var memory = {
+            //         role: newRole,
+            //         assigned_flag_id: assignedFlagId
+            //     };
+            //     spawn.spawnCreep(newRole, memory);
+            // });
+        }
+    }
+};
 
 Room.prototype.getPopulationReport = function() {
     var populationData = {};
@@ -26,37 +62,10 @@ Room.prototype.getPopulationReport = function() {
     return populationData;
 };
 
-Room.prototype.getMostNeededRoles = function() {
-    var out = [];
-
-    var flags = this.find(FIND_FLAGS, function(flag) {
-        return !flag.isMaxed();
-    });
-
-    if (!flags.length) {
-        return false;
-    }
-    flags = _.sortBy(flags, function(flag) {
-        return flag.percentAssigned();
-    });
-
-    flags.forEach(function(flag) {
-        var neededRole = flag.getMostNeededRole();
-        if (neededRole) {
-            out.push({
-                flag: flag,
-                role: neededRole
-            });
-        }
-    });
-
-    return out;
-};
 
 Room.prototype.flagReport = function() {
     var flags = this.find(FIND_FLAGS);
     var roomName = this.name;
-
 
     flags.forEach(function(flag) {
         var percent = (Math.round(flag.percentAssigned() * 100) / 100) * 100;
@@ -79,7 +88,6 @@ Room.prototype.populationCapped = function(value) {
     return this.population_capped;
 };
 
-
 Room.prototype.extensionsFull = function(forceRefresh) {
     if (forceRefresh || !this.extensions_full) {
         var extensions = this.find(FIND_STRUCTURES, {
@@ -93,3 +101,101 @@ Room.prototype.extensionsFull = function(forceRefresh) {
 
     return this.extensions_full;
 };
+
+
+Room.prototype.caclulateNeededRoles = function() {
+    var out = [];
+
+    var flags = this.find(FIND_FLAGS, function(flag) {
+        return !flag.isMaxed();
+    });
+
+    if (!flags.length) {
+        return false;
+    }
+
+    flags = _.sortByAll(
+        flags,
+        function(flag) {
+            return flag.percentAssigned();
+        },
+        function(flag) {
+            return flag.role === 'harvester';
+        });
+
+    flags.forEach(function(flag) {
+        var neededRole = flag.getMostNeededRole();
+        if (neededRole) {
+            out.push({
+                flag_id: flag.id,
+                role: neededRole
+            });
+        }
+    });
+
+    return out;
+};
+
+
+Room.prototype.updateNeededRoles = function() {
+    this.neededRoles(this.caclulateNeededRoles());
+};
+
+Room.prototype.neededRoles = function(neededRoles) {
+    if (neededRoles !== void 0) {
+        this.memory.needed_roles = neededRoles;
+    }
+    return this.memory.needed_roles;
+};
+
+Room.prototype.spawns = function(filter) {
+    if(filter){
+        var settings = {
+            filter: filter
+        };
+        return this.find(FIND_MY_SPAWNS, settings);
+    } else {
+        return this.find(FIND_MY_SPAWNS);
+    }
+};
+
+Room.prototype.getAvailableSpawns = function() {
+    return this.spawns(function(spawn){
+        return !spawn.spawning;
+    });
+};
+
+Room.prototype.updateExtensionCount = function() {
+    var extensions = this.find(FIND_STRUCTURES, {
+        filter: function(s) {
+            return s.structureType = 'extension';
+        }
+    });
+    this.extensionCount(extensions.length);
+};
+
+Room.prototype.extensionCount = function(count) {
+    if (count !== void 0) {
+        this.memory.extension_count = count;
+    }
+    return this.memory.extension_count;
+};
+
+Room.prototype.getEnergyCapacity = function(){
+    var total = 0;
+    var spawnCount = this.spawns();
+
+    if(spawnCount){
+        total += spawnCount * 300;
+    }
+
+    var extensionCount = this.extensionCount();
+
+    if(extensionCount){
+        total += extensionCount * 50;
+    }
+
+    return total;
+};
+
+

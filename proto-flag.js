@@ -1,18 +1,15 @@
 'use strict';
-var creepTypes = require('creep-types');
 
 Flag.prototype.assignedCount = function(forceRefresh) {
+    var count = 0;
+    var id = this.id;
+    var assignedCreeps = this.room.find(FIND_MY_CREEPS, {
+        filter: function(creep) {
+            return creep.assignedFlagId() === id;
+        }
+    });
 
-        var count = 0;
-        var id = this.id;
-        var assignedCreeps = this.room.find(FIND_MY_CREEPS, {
-            filter: function(creep) {
-                return creep.assignedFlagId() === id;
-            }
-        });
-
-        return assignedCreeps.length;
-
+    return assignedCreeps.length;
 };
 
 Flag.prototype.assignedCountMax = function(max) {

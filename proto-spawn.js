@@ -1,49 +1,34 @@
 'use strict';
-    var creepTypes = require('creep-types');
 
-Spawn.prototype.spawnCreep = function(type, role, flag) {
-    var creepType = creepTypes[type];
-    console.log('creepType', type);
-    var body = creepType.parts;
-    role = role || creepType.defaultRole;
-    memory = memory || {};
+Spawn.prototype.spawnCreep = function(body, memory) {
 
     var canCreate = this.canCreateCreep(body);
     if (canCreate !== OK) {
-        console.log(this.name, 'cannot create', type, canCreate);
+        if(canCreate === ERR_NOT_ENOUGH_ENERGY){
+            return;
+        }
+        else if(canCreate === ERR_NOT_OWNER){
+            canCreate = 'ERR_NOT_OWNER';
+        }
+        else if(canCreate === ERR_NAME_EXISTS){
+            canCreate = 'ERR_NAME_EXISTS';
+        }
+        else if(canCreate === ERR_BUSY){
+            canCreate = 'ERR_BUSY';
+        }
+
+        else if(canCreate === ERR_INVALID_ARGS){
+            canCreate = 'ERR_INVALID_ARGS';
+        }
+        console.log(this.name, 'cannot create', memory.role, canCreate);
         return;
     }
-    var flagId;
-    if(flag){
-        flagId = flag.id;
-    }
-    var memory = {
-        spawn_id: this.id,
-        role: role,
-        pending_creation: true,
-        assigned_flag_id: flagId
-    };
 
     var creepName = this.createCreep(body, null, memory);
-    console.log(this.name, 'spawning', creepName, body, role);
+    console.log(this.name, 'spawning', creepName, memory.role);
     return creepName;
 };
 
-var bodyPartCost = {
-    MOVE: 50,
-    WORK: 100,
-    CARRY: 50,
-    ATTACK: 80,
-    RANGED_ATTACK: 150,
-    HEAL: 200,
-    TOUGH: 10,
-};
+Spawn.prototype.getBody = function(type){
 
-Spawn.prototype.getCreepCost = function(body){
-    var total = 0;
-    for (var i = 0; i < body.length; i++) {
-        var part = body[i];
-        total += bodyPartCost[part];
-    }
-    return total;
 };
