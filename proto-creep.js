@@ -16,6 +16,7 @@ var tasks = {
     harvest: require('task-harvest'),
     guard: require('task-guard'),
     attack: require('task-attack'),
+    upgrade_room_controller: require('task-upgrade-room-controller'),
 };
 
 Creep.prototype.pendingCreation = function(){

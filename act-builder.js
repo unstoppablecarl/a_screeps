@@ -4,10 +4,19 @@ var role = {
     init: false,
 
     act: function(creep) {
-        if(!creep.task()){
+        if (!creep.task()) {
             if (creep.energy === 0) {
 
-                if(creep.room.extensionsFull()){
+                var spawn = creep.spawn();
+
+                if (!spawn) {
+                    spawn = creep.pos.findClosest(FIND_MY_SPAWNS);
+                }
+                var roomNeededRoles = creep.room.neededRoles();
+                var roomNeedsCreeps = roomNeededRoles && roomNeededRoles.length;
+                var energyThreshold = creep.room.getEnergyCapacity() * 0.5;
+
+                if (!roomNeedsCreeps || spawn.energy >= energyThreshold) {
                     creep.startTask('get_energy');
                 } else {
                     creep.startTask('goto_queue');
@@ -16,11 +25,17 @@ var role = {
                 return;
             }
 
-            creep.startTask('build');
+            var target = creep.pos.findClosest(FIND_CONSTRUCTION_SITES);
+
+            if(target){
+                creep.startTask('build', {
+                    target_id: target.id
+                });
+                return;
+            }
+            creep.startTask('upgrade_room_controller');
         }
 
-        // creep.moveTo(creep.room.controller);
-        // creep.upgradeController(creep.room.controller);
     },
     onAssignToFlag: false,
 };

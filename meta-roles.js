@@ -18,7 +18,7 @@ var data = {
         var maxMatchBody;
         for (var i = 0; i < creepType.bodies.length; i++) {
             var body = creepType.bodies[i];
-            var cost = this.getBodyCost(type, body);
+            var cost = this.getBodyCost(body);
 
             if(cost < maxCost && maxMatchCost < cost){
                 maxMatchCost = cost;

@@ -1,8 +1,10 @@
 'use strict';
-    var metaRoles = require('meta-roles');
+
+var metaRoles = require('meta-roles');
 
 Room.prototype.act = function() {
 
+    var createCreepMaxEnergyPercent = 0.6;
     if (Game.time % 5 === 0) {
         this.updateNeededRoles();
     }
@@ -17,21 +19,21 @@ Room.prototype.act = function() {
         var availableSpawns = this.getAvailableSpawns();
         if (availableSpawns.length) {
 
-            var maxCost = this.getEnergyCapacity() * 0.6;
-            console.log('maxCost', maxCost);
-            // availableSpawns.forEach(function(spawn) {
-            //     var needed = neededRoles.shift();
-            //     var newRole = needed.role;
-            //     var assignedFlagId = needed.flag_id;
-            //     var roleData = metaRoles.roles[newRole];
+            var maxCost = this.getEnergyCapacity() * createCreepMaxEnergyPercent;
+            availableSpawns.forEach(function(spawn) {
+                var needed = neededRoles.shift();
+                var newRole = needed.role;
+                var assignedFlagId = needed.flag_id;
+                var roleData = metaRoles.roles[newRole];
 
-            //     var body = metaRoles.getBody(newRole, maxCost);
-            //     var memory = {
-            //         role: newRole,
-            //         assigned_flag_id: assignedFlagId
-            //     };
-            //     spawn.spawnCreep(newRole, memory);
-            // });
+                var body = metaRoles.getBody(newRole, maxCost);
+                var memory = {
+                    spawn_id: spawn.id,
+                    role: newRole,
+                    assigned_flag_id: assignedFlagId
+                };
+                spawn.spawnCreep(body, memory);
+            });
         }
     }
 };
@@ -168,7 +170,7 @@ Room.prototype.getAvailableSpawns = function() {
 Room.prototype.updateExtensionCount = function() {
     var extensions = this.find(FIND_STRUCTURES, {
         filter: function(s) {
-            return s.structureType = 'extension';
+            return s.structureType === 'extension';
         }
     });
     this.extensionCount(extensions.length);
@@ -183,10 +185,10 @@ Room.prototype.extensionCount = function(count) {
 
 Room.prototype.getEnergyCapacity = function(){
     var total = 0;
-    var spawnCount = this.spawns();
+    var spawns = this.spawns();
 
-    if(spawnCount){
-        total += spawnCount * 300;
+    if(spawns && spawns.length){
+        total += spawns.length * 300;
     }
 
     var extensionCount = this.extensionCount();
