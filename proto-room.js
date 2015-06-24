@@ -40,7 +40,7 @@ Room.prototype.act = function() {
     }
 };
 
-Room.prototype.getPopulationReport = function() {
+Room.prototype.populationReport = function() {
     var populationData = {};
     var totalPopulation = 0;
     var creeps = this.creeps();
@@ -58,13 +58,14 @@ Room.prototype.getPopulationReport = function() {
     }
 
     console.log('* population report *');
+    var table = require('util').table;
+
     for (var roleName in populationData) {
         var roleData = populationData[roleName];
         var percent = roleData.count / totalPopulation;
-        roleData.precent = Math.round(percent * 100) / 100;
-        console.log(roleName, roleData.percent, '% ', roleData.count, '(count)');
+        roleData.precent = (Math.round(percent * 100) / 100) + '%';
     }
-    return populationData;
+    table(populationData);
 };
 
 

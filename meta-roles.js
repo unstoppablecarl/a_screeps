@@ -31,28 +31,122 @@ var data = {
     roles: {
         harvester: {
             bodies: [
-                [MOVE, WORK, CARRY],
-                [MOVE, WORK, WORK, CARRY],
-                [MOVE, MOVE, WORK, WORK, CARRY],
-                [MOVE, MOVE, WORK, WORK, CARRY, CARRY],
+                [
+                    CARRY,
+                    WORK,
+                    MOVE
+                ],
+                [
+                    CARRY,
+                    WORK, WORK,
+                    MOVE
+                ],
+                [
+                    CARRY, CARRY,
+                    WORK, WORK,
+                    MOVE
+                ],
+                [
+                    CARRY, CARRY,
+                    WORK, WORK,
+                    MOVE, MOVE
+                ],
+
+                [
+                    CARRY, CARRY, CARRY,
+                    WORK, WORK,
+                    MOVE, MOVE
+                ],
+
+                [
+                    CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK,
+                    MOVE, MOVE
+                ],
+
+                [
+                    CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE
+                ],
             ]
         },
         builder: {
             bodies: [
-                [WORK, WORK, WORK, CARRY, MOVE],
-                [WORK, WORK, WORK, CARRY, CARRY, MOVE],
+                [
+                    CARRY,
+                    WORK, WORK, WORK,
+                    MOVE
+                ],
+                [
+                    CARRY,
+                    WORK, WORK, WORK,
+                    MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY,
+                    WORK, WORK, WORK,
+                    MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY,
+                    WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE
+                ],
             ]
         },
         repair: {
             bodies: [
-                [MOVE, WORK, CARRY],
-                [MOVE, MOVE, WORK, CARRY],
+                [
+                    CARRY,
+                    WORK,
+                    MOVE
+                ],
+                [
+                    CARRY,
+                    WORK,
+                    MOVE, MOVE
+                ],
+                [
+                    CARRY,
+                    WORK, WORK,
+                    MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY,
+                    WORK, WORK,
+                    MOVE, MOVE
+                ],
             ]
 
         },
         guard: {
             bodies: [
-                [TOUGH, ATTACK, MOVE, MOVE],
+                [
+                    TOUGH,
+                    ATTACK,
+                    MOVE, MOVE
+                ],
+                [
+                    TOUGH,
+                    ATTACK, ATTACK,
+                    MOVE, MOVE
+                ],
+                [
+                    TOUGH,
+                    ATTACK, ATTACK,
+                    MOVE, MOVE, MOVE
+                ],
+                [
+                    TOUGH,
+                    ATTACK, ATTACK, ATTACK,
+                    MOVE, MOVE, MOVE
+                ],
             ]
         },
     },
