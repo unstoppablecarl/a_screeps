@@ -11,7 +11,7 @@ var task = {
             if(!target){
                 target = creep.pos.findClosest(FIND_FLAGS, {
                     filter: function(flag){
-                        return flag.role === 'queue';
+                        return flag.role() === 'queue';
                     }
                 });
             }
@@ -19,6 +19,11 @@ var task = {
             if(target){
                 creep.taskTarget(target);
             }
+
+        }
+
+        if(!target){
+            creep.cancelTask();
         }
     },
     act: function(creep){
@@ -31,6 +36,8 @@ var task = {
             if(creep.pos.inRangeTo(target, distance)){
                 creep.endTask();
             }
+        } else {
+            this.start(creep);
         }
     },
     cancel: false,

@@ -33,26 +33,36 @@ var data = {
             bodies: [
                 [MOVE, WORK, CARRY],
                 [MOVE, WORK, WORK, CARRY],
+                [MOVE, MOVE, WORK, WORK, CARRY],
+                [MOVE, MOVE, WORK, WORK, CARRY, CARRY],
             ]
         },
         builder: {
             bodies: [
                 [WORK, WORK, WORK, CARRY, MOVE],
+                [WORK, WORK, WORK, CARRY, CARRY, MOVE],
             ]
+        },
+        repair: {
+            bodies: [
+                [MOVE, WORK, CARRY],
+                [MOVE, MOVE, WORK, CARRY],
+            ]
+
         },
         guard: {
             bodies: [
                 [TOUGH, ATTACK, MOVE, MOVE],
             ]
         },
-        repair: {
-            bodies: [
-                [MOVE, WORK, CARRY],
-                [MOVE, WORK, CARRY],
-            ]
-
-        }
     },
+
+    defaultRolePriority: {
+        harvester: 90,
+        builder: 80,
+        repair: 70,
+        guard: 50,
+    }
 };
 
 
