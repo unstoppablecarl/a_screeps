@@ -3,7 +3,7 @@ require('proto-all');
 
 var cpu = require('cpu');
 
-cpu.start('test');
+cpu.start('all');
 for (var roomName in Game.rooms) {
     var room = Game.rooms[roomName];
 
@@ -30,3 +30,4 @@ if(Game.time % 5 === 0){
 
 cpu.end();
 cpu.report();
+cpu.shutdown();
