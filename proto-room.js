@@ -178,10 +178,6 @@ Room.prototype.energyPercent = function(){
         var extension = extensions[i];
         total += extension.energy;
     }
-
-    console.log('totalCapacity', totalCapacity);
-        console.log('total', total);
-
     return total / totalCapacity;
 };
 
@@ -497,9 +493,7 @@ Room.prototype.getBuildJobs = function() {
 Room.prototype.getDeliverJobs = function() {
 
     var minJobEnergyRatio = this.minJobEnergyRatio();
-    var energyPercent = this.energyPercent();
-    console.log('minJobEnergyRatio', minJobEnergyRatio);
-    console.log('energyPercent', energyPercent);
+    var energyPercent = this.extensionEnergy() / this.extensionEnergyCapacity();
     if(minJobEnergyRatio > energyPercent){
         return [];
     }
