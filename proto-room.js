@@ -96,6 +96,10 @@ Room.prototype.sources = function(filter){
     return finder(this, FIND_SOURCES, filter);
 };
 
+Room.prototype.roads = function(filter){
+    return finder(this, FIND_STRUCTURES, filter);
+};
+
 Room.prototype.availableSpawns = function() {
     return this.spawns(function(spawn) {
         return !spawn.spawning;
@@ -409,6 +413,12 @@ Room.prototype.getRepairJobs = function() {
     var structures = this.structures(function(s){
         return s.hits < s.hitsLeft;
     });
+
+    var roads = this.roads(function(road){
+        return road.hits < road.hitsLeft;
+    });
+
+    structures = structures.concat(roads);
 
     console.log('structures', structures);
     return structures.map(function(s){
