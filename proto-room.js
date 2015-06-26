@@ -443,8 +443,14 @@ Room.prototype.getRepairJobs = function() {
 };
 
 Room.prototype.getHarvesterJobs = function() {
-    var sources = this.sources();
-    var sourceHarvesters = this.getSourceHarvesters();
+    var sources = this.sources(function(source){
+        var flags = source.pos.findInRange(FIND_FLAGS, 3, {
+            filter: function(flag){
+                return flag.role() === 'source';
+            }
+        });
+        return flags && flags.length;
+    });
 
     var harvesters = this.creeps(function(creep){
         return creep.role() === 'harvester';
