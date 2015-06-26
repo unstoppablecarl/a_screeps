@@ -272,7 +272,7 @@ Room.prototype.energyPileThresholdMax = function(value){
 };
 
 Room.prototype.updateEnergyPiles = function() {
-    var threshold = this.energyPileThreshold();
+    var threshold = this.energyPileThresholdMin();
     var piles = this.energy(function(pile){
         return pile.energy >= threshold;
     });
