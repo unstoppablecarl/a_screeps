@@ -15,6 +15,7 @@ var task = {
         return target;
     },
     act: function(creep){
+        console.log('x');
         var target = this._findTarget(creep);
         if(!target){
             creep.cancelTask();
