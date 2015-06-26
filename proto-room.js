@@ -368,25 +368,6 @@ Room.prototype.getJobPriority = function(job) {
     return priority;
 };
 
-Room.prototype.getSourceHarvesters = function() {
-    var creeps = this.creeps(function(creep){
-        if(creep.role() !== 'harvester'){
-            return false;
-        }
-        var target = creep.taskTarget();
-        return target && target instanceof Source;
-    });
-
-    var out = {};
-
-    for (var i = 0; i < creeps.length; i++) {
-        var creep = creeps[i];
-        out[creep.taskTarget().id] = creep.id;
-    }
-
-    return out;
-};
-
 Room.prototype.getReplacementJobs = function() {
 
     var threshold = this.creepReplaceThreshold();
