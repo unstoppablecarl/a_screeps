@@ -531,6 +531,8 @@ Room.prototype.getUpgradeJobs = function() {
             }
         }];
     }
+
+    return [];
 };
 
 Room.prototype.updateJobs = function() {
@@ -549,7 +551,7 @@ Room.prototype.updateJobs = function() {
         // attack / defend
     );
 
-    jobs = jobs.filter(function(v){ return v; });
+    // jobs = jobs.filter(function(v){ return v; });
 
     jobs = _.sortBy(jobs, function(job){
         console.log(job);
