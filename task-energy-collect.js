@@ -21,12 +21,11 @@ var task = {
             }
 
             if(targets && targets.length){
-                targets = targets.filter(function(t){
-                    return t;
-                });
-                console.log('targets', targets);
-
-                target = creep.pos.findClosest(targets);
+                if(targets.length === 1){
+                    target = targets[0];
+                } else {
+                    target = creep.pos.findClosest(targets);
+                }
             }
 
             if (target) {
