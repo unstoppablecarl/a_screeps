@@ -447,7 +447,7 @@ Room.prototype.getHarvesterJobs = function() {
             return harvestedSourceIds.indexOf(source.id) === -1;
         }, this)
         .map(function(source){
-            console.log('s', source);
+            console.log('s', JSON.stringify(source));
             return {
                 role: 'harvester',
                 task_name: 'harvest',
