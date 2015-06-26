@@ -6,7 +6,7 @@ var task = {
     start: false,
     act: function(creep) {
         var target = creep.taskTarget();
-
+        console.log('deliver target', target);
         if(!target){
             creep.cancelTask();
         }
