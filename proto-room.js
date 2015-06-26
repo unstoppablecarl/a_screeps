@@ -407,7 +407,6 @@ Room.prototype.getCollectorJobs = function() {
     energyPiles = energyPiles.filter(function(pile){
         return pile.energy > max;
     });
-
     return energyPiles.map(function(pile){
         return {
             role: 'carrier',
@@ -549,7 +548,12 @@ Room.prototype.allocateJobToExisting = function(job) {
             return creep.energy > 0 && creep.role() === job.role;
         });
 
-    } else {
+    } else if(job.task_name === 'energy_collect'){
+        // idle creeps
+        creeps = this.creeps(function(creep){
+            return creep.idle() && creep.role() === job.role && creep.energy < creep.energyCapacity;
+        });
+    }else {
         // idle creeps
         creeps = this.creeps(function(creep){
             return creep.idle() && creep.role() === job.role;
@@ -560,8 +564,8 @@ Room.prototype.allocateJobToExisting = function(job) {
         return false;
     }
     var memory = job.memory || {};
-    var taskName = memory.task_name;
-    var taskSettings = memory.task_settings || {};
+    var taskName = job.task_name;
+    var taskSettings = job.task_settings || {};
     var targetId = taskSettings.target_id;
     var target = Game.getObjectById(targetId);
 
