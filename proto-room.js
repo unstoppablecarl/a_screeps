@@ -551,10 +551,7 @@ Room.prototype.updateJobs = function() {
         // attack / defend
     );
 
-    // jobs = jobs.filter(function(v){ return v; });
-
     jobs = _.sortBy(jobs, function(job){
-        console.log(job);
         return job.priority;
     });
 
