@@ -10,7 +10,7 @@ require('proto-all');
 
 var room = Game.rooms['W10N1'];
 // for (var roomName in Game.rooms) {
-    var room = Game.rooms[roomName];
+    // var room = Game.rooms[roomName];
 
     _.each(room.find(FIND_MY_CREEPS), function(creep) {
         creep.act();
