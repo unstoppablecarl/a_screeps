@@ -9,7 +9,8 @@ Spawn.prototype.spawnCreep = function(body, memory) {
     if (result !== OK) {
         if(result === ERR_NOT_ENOUGH_ENERGY){
             // do nothing
-            return;
+            return result;
+            // result = 'ERR_NOT_ENOUGH_ENERGY';
         }
         else if(result === ERR_NOT_OWNER){
             result = 'ERR_NOT_OWNER';

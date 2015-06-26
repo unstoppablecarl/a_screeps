@@ -402,10 +402,10 @@ Room.prototype.getReplacementJobs = function() {
 };
 
 Room.prototype.getCollectorJobs = function() {
-    var max = this.energyPileThresholdMax();
+    var min = this.energyPileThresholdMin();
     var energyPiles = this.energyPiles();
     energyPiles = energyPiles.filter(function(pile){
-        return pile.energy > max;
+        return pile.energy > min;
     });
     return energyPiles.map(function(pile){
         return {
