@@ -433,13 +433,11 @@ Room.prototype.getHarvesterJobs = function() {
         return flags && flags.length;
     });
 
-    var harvesters = this.creeps(function(creep){
-        return creep.role() === 'harvester';
-    });
-    var harvestedSourceIds = harvesters.map(function(creep){
-        return creep.taskTarget();
-    }).filter(function(id){
-        return id;
+    var harvestedSourceIds = this.creeps(function(creep){
+        return creep.role() === 'harvester' && creep.taskTarget();
+    }).map(function(creep){
+        var target = creep.taskTarget();
+        return target.id;
     });
 
     return sources
