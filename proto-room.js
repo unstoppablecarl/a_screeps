@@ -494,6 +494,8 @@ Room.prototype.getDeliverJobs = function() {
 
     var minJobEnergyRatio = this.minJobEnergyRatio();
     var energyPercent = this.extensionEnergy() / this.extensionEnergyCapacity();
+    console.log('minJobEnergyRatio', minJobEnergyRatio);
+    console.log('energyPercent', energyPercent);
     if(minJobEnergyRatio > energyPercent){
         return [];
     }
