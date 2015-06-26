@@ -6,7 +6,7 @@ var role = {
     act: function(creep) {
         if (!creep.idle() && creep.energy <= creep.energyCapacity * 0.5) {
             console.log("ASDAS");
-            creep.room.requestEnergy(this);
+            creep.room.requestEnergy(creep);
         }
 
         // @TODO check if energy is being delivered to this creep before going to get it by itself
