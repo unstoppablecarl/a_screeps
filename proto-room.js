@@ -645,7 +645,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
         }
     }
 
-    console.log('spawn allocating', job.role, taskName);
+    console.log('spawn allocating', job.role, job.task_name);
     var body = metaRoles.getBody(job.role, energyThreshold);
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
