@@ -80,6 +80,36 @@ var data = {
                 ],
             ]
         },
+        upgrader: {
+            bodies: [
+                [
+                    CARRY,
+                    WORK,
+                    MOVE
+                ],
+                [
+                    CARRY,
+                    WORK, WORK,
+                    MOVE
+                ],
+                [
+                    CARRY,
+                    WORK, WORK, WORK,
+                    MOVE
+                ],
+                [
+                    CARRY,
+                    WORK, WORK, WORK, WORK,
+                    MOVE
+                ],
+
+                [
+                    CARRY,
+                    WORK, WORK, WORK, WORK, WORK,
+                    MOVE
+                ],
+            ]
+        },
         tech: {
             bodies: [
                 [
