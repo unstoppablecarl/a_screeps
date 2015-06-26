@@ -5,6 +5,7 @@ var role = {
     init: false,
     act: function(creep) {
         if (!creep.idle() && creep.energy <= creep.energyCapacity * 0.5) {
+            console.log("ASDAS");
             creep.room.requestEnergy(this);
         }
 

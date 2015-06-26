@@ -1,6 +1,6 @@
 'use strict';
 
-var task = {
+var energyCollectTask = {
     name: 'energy_collect',
     _getTarget: function(creep) {
         var target = creep.taskTarget();
@@ -61,4 +61,4 @@ var task = {
     end: false,
 };
 
-module.exports = task;
+module.exports = energyCollectTask;
