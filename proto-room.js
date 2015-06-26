@@ -526,8 +526,8 @@ Room.prototype.updateJobs = function() {
     jobs = jobs.concat(
         // this.getReplacementJobs(),
         this.getHarvesterJobs(),
-        this.getCollectorJobs()
-        // this.getRepairJobs(),
+        this.getCollectorJobs(),
+        this.getRepairJobs()
         // this.getBuildJobs(),
         // this.getDeliverJobs(),
         // this.getUpgradeJobs()
