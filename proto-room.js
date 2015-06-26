@@ -494,7 +494,8 @@ Room.prototype.getDeliverJobs = function() {
 
     var minJobEnergyRatio = this.minJobEnergyRatio();
     var energyPercent = this.energyPercent();
-
+    console.log('minJobEnergyRatio', minJobEnergyRatio);
+    console.log('energyPercent', energyPercent);
     if(minJobEnergyRatio > energyPercent){
         return [];
     }
@@ -668,20 +669,6 @@ Room.prototype.allocateJobToSpawn = function(job) {
     }
 
     return false;
-};
-
-Room.prototype.allocateJobsToExisting = function() {
-    var jobs = this.jobs();
-    if(!jobs || !jobs.length){
-        return;
-    }
-    jobs = jobs.filter(function(job){
-        var allocated = this.allocateJobToExisting(job);
-
-        // only keep un allocated jobs in jobs list
-        return !allocated;
-    });
-    this.jobs(jobs);
 };
 
 Room.prototype.allocateJobs = function() {
