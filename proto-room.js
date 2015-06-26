@@ -404,7 +404,7 @@ Room.prototype.getCollectorJobs = function() {
         if(collectTargetIds.indexOf(pile) !== -1){
             return false;
         }
-        return pile.energy < max;
+        return pile.energy > max;
     });
     return energyPiles.map(function(pile){
         return {
