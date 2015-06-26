@@ -47,6 +47,19 @@ Creep.prototype.role = function(role) {
     return this.memory.role;
 };
 
+Creep.prototype.energySourceId = function(id) {
+    if (id !== void 0) {
+        this.memory.energy_sorce_id = id;
+    }
+    return this.memory.energy_sorce_id;
+};
+Creep.prototype.energySource = function(obj) {
+    if (obj !== void 0) {
+        this.energySourceId(obj.id);
+    }
+    return Game.getObjectById(this.energySourceId());
+};
+
 Creep.prototype.idle = function(value) {
     return !this.task();
 };
