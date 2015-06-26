@@ -97,17 +97,17 @@ var data = {
                     WORK, WORK, WORK,
                     MOVE
                 ],
-                [
-                    CARRY,
-                    WORK, WORK, WORK, WORK,
-                    MOVE
-                ],
+                // [
+                //     CARRY,
+                //     WORK, WORK, WORK, WORK,
+                //     MOVE
+                // ],
 
-                [
-                    CARRY,
-                    WORK, WORK, WORK, WORK, WORK,
-                    MOVE
-                ],
+                // [
+                //     CARRY,
+                //     WORK, WORK, WORK, WORK, WORK,
+                //     MOVE
+                // ],
             ]
         },
         tech: {
