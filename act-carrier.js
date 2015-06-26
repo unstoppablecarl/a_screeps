@@ -4,7 +4,7 @@
 var role = {
     init: false,
     act: function(creep) {
-        if (creep.idle() && creep.energy === creep.energyCapacity) {
+        if (creep.idle() && creep.energy > 0) {
             creep.startTask('energy_store');
         }
     },
