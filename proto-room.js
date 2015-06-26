@@ -410,6 +410,7 @@ Room.prototype.getRepairJobs = function() {
         return s.hits < s.hitsLeft;
     });
 
+    console.log('structures', structures);
     return structures.map(function(s){
         return {
             role: 'tech',
@@ -609,7 +610,6 @@ Room.prototype.allocateJobToSpawn = function(job) {
             energyThreshold = this.roomEnergy();
         }
     }
-    console.log('energyThreshold', energyThreshold);
     var spawns = this.availableSpawns();
 
     if(!spawns || !spawns.length){
