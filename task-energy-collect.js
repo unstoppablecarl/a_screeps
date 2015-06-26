@@ -39,6 +39,7 @@ var task = {
         var target = this._getTarget(creep);
         if (!target) {
             creep.cancelTask();
+            return;
         }
 
         creep.moveTo(target);
