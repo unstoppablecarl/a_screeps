@@ -500,7 +500,7 @@ Room.prototype.getDeliverJobs = function() {
     }
 
     var creeps = this.energyRequests();
-
+this.energyRequests([]);
     return creeps.map(function(c){
         return {
             role: 'carrier',
