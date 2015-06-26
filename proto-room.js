@@ -3,11 +3,11 @@
 var metaRoles = require('meta-roles');
 
 Room.prototype.act = function() {
-    // if (Game.time % 5 === 0) {
+    if (Game.time % 5 === 0) {
         this.updateEnergyPiles();
         this.updateJobs();
         this.allocateJobs();
-    // }
+    }
 
     if (Game.time % 20 === 0) {
         this.updateExtensionCount();
@@ -393,7 +393,17 @@ Room.prototype.getReplacementJobs = function() {
 Room.prototype.getCollectorJobs = function() {
     var max = this.energyPileThresholdMax();
     var energyPiles = this.energyPiles();
+
+    var collectTargetIds = this.creeps(function(creep){
+        return creep.role() === 'carrier' && creep.taskName() === 'energy_collect' && creep.taskTarget();
+    }).map(function(creep){
+        return creep.taskTarget().id;
+    });
+
     energyPiles = energyPiles.filter(function(pile){
+        if(collectTargetIds.indexOf(pile) !== -1){
+            return false;
+        }
         return pile.energy < max;
     });
     return energyPiles.map(function(pile){
@@ -415,12 +425,10 @@ Room.prototype.getRepairJobs = function() {
     });
 
     var roads = this.roads(function(road){
-        return road.hits < road.hitsLeft;
+        return road.hitsLeft < road.hits;
     });
 
     structures = structures.concat(roads);
-
-    console.log('structures', structures);
     return structures.map(function(s){
         return {
             role: 'tech',
@@ -431,7 +439,6 @@ Room.prototype.getRepairJobs = function() {
         };
 
     }, this);
-
 };
 
 Room.prototype.getHarvesterJobs = function() {
@@ -639,7 +646,6 @@ Room.prototype.allocateJobToSpawn = function(job) {
     }
 
     var body = metaRoles.getBody(job.role, energyThreshold);
-    console.log('body', body);
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
         var result = spawn.spawnCreep(body, memory);
@@ -654,6 +660,20 @@ Room.prototype.allocateJobToSpawn = function(job) {
     }
 
     return false;
+};
+
+Room.prototype.allocateJobsToExisting = function() {
+    var jobs = this.jobs();
+    if(!jobs || !jobs.length){
+        return;
+    }
+    jobs = jobs.filter(function(job){
+        var allocated = this.allocateJobToExisting(job);
+
+        // only keep un allocated jobs in jobs list
+        return !allocated;
+    });
+    this.jobs(jobs);
 };
 
 Room.prototype.allocateJobs = function() {
