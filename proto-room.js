@@ -609,7 +609,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
             energyThreshold = 0;
         }
     }
-
+    console.log('energyThreshold', energyThreshold);
     var spawns = this.availableSpawns();
 
     if(!spawns || !spawns.length){
@@ -627,6 +627,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
     }
 
     var body = metaRoles.getBody(job.role, energyThreshold);
+    console.log('body', body);
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
         var result = spawn.spawnCreep(body, memory);
