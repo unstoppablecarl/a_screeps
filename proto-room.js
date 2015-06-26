@@ -628,8 +628,14 @@ Room.prototype.allocateJobToSpawn = function(job) {
     var body = metaRoles.getBody(job.role, energyThreshold);
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
-        if(spawn.spawnCreep(body, memory) === OK){
-            return true;
+        var result = spawn.spawnCreep(body, memory);
+
+        if(result === ERR_NOT_ENOUGH_ENERGY ||
+            result === ERR_NOT_OWNER ||
+            result === ERR_NAME_EXISTS ||
+            result === ERR_BUSY ||
+            result === ERR_INVALID_ARGS){
+            return false;
         }
     }
 
