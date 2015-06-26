@@ -677,7 +677,7 @@ Room.prototype.allocateJobs = function() {
         var allocated = this.allocateJobToExisting(job);
 
         if(!allocated){
-            allocated = this.allocateJobToSpawn(job);
+            // allocated = this.allocateJobToSpawn(job);
         }
 
         // only keep un allocated jobs in jobs list
