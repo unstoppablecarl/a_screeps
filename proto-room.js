@@ -178,6 +178,10 @@ Room.prototype.energyPercent = function(){
         var extension = extensions[i];
         total += extension.energy;
     }
+
+    console.log('totalCapacity', totalCapacity);
+        console.log('total', total);
+
     return total / totalCapacity;
 };
 
