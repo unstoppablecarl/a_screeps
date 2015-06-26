@@ -21,6 +21,10 @@ var task = {
             }
 
             if(targets && targets.length){
+                targets = targets.filter(function(t){
+                    return t;
+                });
+
                 target = creep.pos.findClosest(targets);
             }
 
