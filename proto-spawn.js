@@ -5,6 +5,10 @@ Spawn.prototype.spawnCreep = function(body, memory) {
     memory.pending_creation = true;
     memory.spawn_id = this.id;
 
+    if(this.spawning){
+        return ERR_BUSY;
+    }
+
     var result = this.createCreep(body, null, memory);
         var error;
         if(result === ERR_NOT_ENOUGH_ENERGY){
