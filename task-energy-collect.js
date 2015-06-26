@@ -24,7 +24,7 @@ var energyCollectTask = {
                 if(targets.length === 1){
                     target = targets[0];
                 } else {
-                    target = creep.pos.findClosest(targets);
+                    // target = creep.pos.findClosest(targets);
                 }
             }
 
