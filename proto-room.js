@@ -391,10 +391,10 @@ Room.prototype.getReplacementJobs = function() {
 };
 
 Room.prototype.getCollectorJobs = function() {
-    var min = this.energyPileThresholdMin();
+    var max = this.energyPileThresholdMax();
     var energyPiles = this.energyPiles();
     energyPiles = energyPiles.filter(function(pile){
-        return pile.energy > min;
+        return pile.energy < max;
     });
     return energyPiles.map(function(pile){
         return {
