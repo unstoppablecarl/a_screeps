@@ -525,13 +525,13 @@ Room.prototype.updateJobs = function() {
 
     // check for creeps about to die that need to be replaced
     jobs = jobs.concat(
-        this.getReplacementJobs(),
-        this.getHarvesterJobs(),
-        this.getCollectorJobs(),
-        this.getRepairJobs(),
-        this.getBuildJobs(),
-        this.getDeliverJobs(),
-        this.getUpgradeJobs()
+        // this.getReplacementJobs(),
+        this.getHarvesterJobs()
+        // this.getCollectorJobs(),
+        // this.getRepairJobs(),
+        // this.getBuildJobs(),
+        // this.getDeliverJobs(),
+        // this.getUpgradeJobs()
         // attack / defend
     );
         this.jobs(jobs);
