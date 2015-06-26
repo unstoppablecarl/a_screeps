@@ -651,7 +651,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
         var result = spawn.spawnCreep(body, memory);
-
+        console.log('r', result);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
             result === ERR_NAME_EXISTS ||
