@@ -3,11 +3,11 @@
 var metaRoles = require('meta-roles');
 
 Room.prototype.act = function() {
-    if (Game.time % 5 === 0) {
+    // if (Game.time % 5 === 0) {
         this.updateEnergyPiles();
         this.updateJobs();
         this.allocateJobs();
-    }
+    // }
 
     if (Game.time % 20 === 0) {
         this.updateExtensionCount();
@@ -244,6 +244,10 @@ Room.prototype.minJobEnergyRatio = function(ratio) {
 Room.prototype.maxCreepSpawnEnergyRatio = function(max) {
     if (max !== void 0) {
         this.memory.max_creep_spawn_energy_ratio = max;
+    }
+    var r = this.memory.max_creep_spawn_energy_ratio;
+    if (!r) {
+        this.memory.max_creep_spawn_energy_ratio = 0.5;
     }
     return this.memory.max_creep_spawn_energy_ratio;
 };
