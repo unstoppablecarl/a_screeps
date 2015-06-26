@@ -370,14 +370,18 @@ Room.prototype.getJobPriority = function(job) {
 
 Room.prototype.getSourceHarvesters = function() {
     var creeps = this.creeps(function(creep){
-        return creep.role() === 'harvester' && creep.energySource();
+        if(creep.role() !== 'harvester'){
+            return false;
+        }
+        var target = creep.taskTarget();
+        return target && target instanceof Source;
     });
 
     var out = {};
 
     for (var i = 0; i < creeps.length; i++) {
         var creep = creeps[i];
-        out[creep.energySourceId()] = creep.id;
+        out[creep.taskTarget().id] = creep.id;
     }
 
     return out;
