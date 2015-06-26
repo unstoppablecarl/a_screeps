@@ -534,11 +534,12 @@ Room.prototype.updateJobs = function() {
         this.getUpgradeJobs()
         // attack / defend
     );
+        this.jobs(jobs);
 
     jobs = _.sortBy(jobs, function(job){
         return job.priority;
     });
-    this.jobs(jobs);
+    // this.jobs(jobs);
 };
 
 Room.prototype.allocateJobToExisting = function(job) {
