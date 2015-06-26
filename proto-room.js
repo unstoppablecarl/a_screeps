@@ -592,6 +592,8 @@ Room.prototype.allocateJobToExisting = function(job) {
         _.extend(creep.memory, job.memory);
     }
 
+    console.log('allocate job ', taskName, creep.name);
+
     return true;
 };
 
