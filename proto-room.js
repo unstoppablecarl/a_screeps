@@ -445,7 +445,8 @@ Room.prototype.getHarvesterJobs = function() {
     return sources
         .filter(function(source){
             var creepId = sourceHarvesters[source.id];
-            return Game.getObjectById(creepId);
+            var creep = Game.getObjectById(creepId);
+            return !creep;
         })
         .map(function(source){
             return {
