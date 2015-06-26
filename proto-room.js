@@ -526,8 +526,8 @@ Room.prototype.updateJobs = function() {
     // check for creeps about to die that need to be replaced
     jobs = jobs.concat(
         // this.getReplacementJobs(),
-        this.getHarvesterJobs()
-        // this.getCollectorJobs(),
+        this.getHarvesterJobs(),
+        this.getCollectorJobs()
         // this.getRepairJobs(),
         // this.getBuildJobs(),
         // this.getDeliverJobs(),
