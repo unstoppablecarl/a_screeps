@@ -1,18 +1,19 @@
 'use strict';
 
 var task = {
-    name: 'repair',
+    name: 'move_to',
     start: false,
     act: function(creep){
         var target = creep.taskTarget();
         if(target){
             creep.moveTo(target);
-            creep.repair(target);
-            if(target.hits === target.hitsMax){
+            var settings = creep.taskSettings();
+            var distance = settings.target_precision || 2;
+            if(creep.pos.inRangeTo(target, distance)){
                 creep.endTask();
             }
         } else {
-            creep.cancelTask();
+            this.cancelTask();
         }
     },
     cancel: false,

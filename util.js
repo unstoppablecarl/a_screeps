@@ -44,6 +44,7 @@ var util = {
             var width = columnMaxLength[key] + 2;
             headerRow += padRight(key, width);
         });
+        console.log(headerRow);
         _.each(data, function(row) {
             row = _.defaults(row, defaultRow);
 

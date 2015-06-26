@@ -4,8 +4,8 @@ var role = {
     init: false,
 
     act: function(creep) {
-
-        if(!creep.task()){
+        return;
+        if(creep.idle()){
             var target;
             var range = creep.memory.hostile_range || 10;
             var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);

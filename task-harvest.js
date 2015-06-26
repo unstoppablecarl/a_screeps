@@ -2,31 +2,19 @@
 
 var task = {
     name: 'harvest',
-    start: function(creep){
-
-        var target = creep.taskTarget();
-
-        if(!target){
-            target = creep.source();
-            if(!target){
-                target = creep.pos.findClosest(FIND_SOURCES);
-            }
-
-            if(target){
-                creep.taskTarget(target);
-            }
-        }
-    },
+    start: false,
     act: function(creep){
         var target = creep.taskTarget();
         if(target){
-            creep.moveTo(target);
             var result = creep.harvest(target);
-            if(creep.energy == creep.energyCapacity){
-                creep.endTask();
+            if(result === ERR_NOT_IN_RANGE){
+                creep.moveTo(target);
+            }
+            if(creep.energy === creep.energyCapacity){
+                creep.dropEnergy();
             }
         } else {
-            this.start(creep);
+            creep.cancelTask();
         }
     },
     cancel: false,

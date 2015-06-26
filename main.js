@@ -1,18 +1,13 @@
 'use strict';
 require('proto-all');
 
-var cpu = require('cpu');
+// var cpu = require('cpu');
 
-cpu.start('all');
+// cpu.start('all');
 for (var roomName in Game.rooms) {
     var room = Game.rooms[roomName];
 
     _.each(room.find(FIND_MY_CREEPS), function(creep) {
-
-        if (creep.pendingCreation()) {
-            creep.init();
-        }
-
         creep.act();
     });
 
@@ -28,6 +23,6 @@ if(Game.time % 5 === 0){
     }
 }
 
-cpu.end();
-cpu.report();
-cpu.shutdown();
+// cpu.end();
+// cpu.report();
+// cpu.shutdown();

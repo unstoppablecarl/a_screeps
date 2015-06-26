@@ -1,6 +1,6 @@
 'use strict';
 
-// harvests energy and drops it into an energy pile
+// upgrades room controller
 var role = {
     init: false,
     act: false,

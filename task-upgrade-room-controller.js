@@ -2,7 +2,8 @@
 
 var task = {
     name: 'upgrade_room_controller',
-    start: function(creep){
+    start: false,
+    _findTarget: function(creep){
         var target = creep.taskTarget();
         if(!target){
             target = creep.room.controller;
@@ -11,22 +12,17 @@ var task = {
             }
         }
 
+        return target;
+    },
+    act: function(creep){
+        var target = this._findTarget(creep);
         if(!target){
             creep.cancelTask();
         }
-    },
-    act: function(creep){
-        if(creep.energy === 0){
-            creep.cancelTask();
-        }
-
-        var target = creep.taskTarget();
 
         if(target){
             creep.moveTo(target);
             creep.upgradeController(target);
-        } else {
-            this.start(creep);
         }
     },
     cancel: false,

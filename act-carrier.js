@@ -1,9 +1,9 @@
 'use strict';
 
-// harvests energy and drops it into an energy pile
+// carries energy
 var role = {
     init: false,
-    act: false,
+    act: false
 };
 
 module.exports = role;

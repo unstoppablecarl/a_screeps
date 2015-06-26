@@ -1,26 +1,43 @@
 'use strict';
 
 var roles = {
-    builder: require('act-builder'),
+    carrier: require('act-carrier'),
     guard: require('act-guard'),
     harvester: require('act-harvester'),
-    repair: require('act-repair'),
+    tech: require('act-tech'),
 };
 
 var tasks = {
-    get_energy: require('task-get-energy'),
-    build: require('task-build'),
-    repair: require('task-repair'),
-    return_energy: require('task-return-energy'),
-    goto_queue: require('task-goto-queue'),
-    harvest: require('task-harvest'),
-    guard: require('task-guard'),
     attack: require('task-attack'),
+    build: require('task-build'),
+    energy_collect: require('task-energy-collect'),
+    energy_deliver: require('task-energy-deliver'),
+    energy_store: require('task-energy-store'),
+    harvest: require('task-harvest'),
+    move_to: require('task-move-to'),
+    repair: require('task-repair'),
     upgrade_room_controller: require('task-upgrade-room-controller'),
 };
 
-Creep.prototype.pendingCreation = function(){
-    return this.memory.pending_creation;
+Creep.prototype.act = function() {
+    var role = this.role();
+    var roleHandler = roles[role];
+    if (roleHandler) {
+        if (this.memory.pending_creation){
+            if(roleHandler.init) {
+                roleHandler.init(this);
+            }
+            this.memory.pending_creation = undefined;
+        }
+        if (roleHandler.act) {
+            roleHandler.act(this);
+        }
+    }
+
+    var task = this.task();
+    if (task) {
+        task.act(this);
+    }
 };
 
 Creep.prototype.role = function(role) {
@@ -30,95 +47,8 @@ Creep.prototype.role = function(role) {
     return this.memory.role;
 };
 
-Creep.prototype.spawnId = function(id) {
-    if (id !== void 0) {
-        this.memory.spawn_id = id;
-    }
-    return this.memory.spawn_id;
-};
-
-Creep.prototype.spawn = function(spawn) {
-    if (spawn !== void 0) {
-        this.memory.spawn_id = spawn.id;
-    }
-    return Game.getObjectById(this.spawnId());
-};
-
-Creep.prototype.assignedFlagId = function(id) {
-    if (id !== void 0) {
-        this.memory.assigned_flag_id = id;
-    }
-    return this.memory.assigned_flag_id;
-};
-
-Creep.prototype.assignedFlag = function(flag) {
-    if (flag !== void 0) {
-        this.assignedFlagId(flag.id);
-    }
-    return Game.getObjectById(this.assignedFlagId());
-};
-
-Creep.prototype.sourceId = function(id) {
-    if (id !== void 0) {
-        this.memory.source_id = id;
-    }
-    return this.memory.source_id;
-};
-
-Creep.prototype.source = function(source) {
-    if (source !== void 0) {
-        this.sourceId(source.id);
-    }
-    return Game.getObjectById(this.sourceId());
-};
-
-Creep.prototype.assignToFlag = function(flag){
-    var role = this.role();
-    if(flag.role() !== role){
-        console.log('FLAG ASSIGN ERROR');
-        return;
-    }
-    var roleHandler = roles[role];
-    if(roleHandler && roleHandler.onAssignToFlag){
-        roleHandler.onAssignToFlag(this, flag);
-    }
-    flag.assignedCount(true);
-};
-
-Creep.prototype.queueFlagId = function(id) {
-    if (id !== void 0) {
-        this.memory.queue_flag_id = id;
-    }
-    return this.memory.queue_flag_id;
-};
-
-Creep.prototype.queueFlag = function(queueFlag) {
-    if (queueFlag !== void 0) {
-        this.queueFlagId(queueFlag.id);
-    }
-    return Game.getObjectById(this.queueFlagId());
-};
-
-Creep.prototype.init = function() {
-    var role = this.role();
-    var roleHandler = roles[role];
-    if(roleHandler && roleHandler.init){
-        roleHandler.init(this);
-    }
-    this.memory.pending_creation = undefined;
-};
-
-Creep.prototype.act = function() {
-    var role = this.role();
-    var roleHandler = roles[role];
-    if(roleHandler && roleHandler.act){
-        roleHandler.act(this);
-    }
-
-    var task = this.task();
-    if(task){
-        task.act(this);
-    }
+Creep.prototype.idle = function(value) {
+    return !this.task();
 };
 
 Creep.prototype.task = function() {
@@ -145,18 +75,16 @@ Creep.prototype.startTask = function(taskName, settings) {
     this.taskName(taskName);
     this.taskSettings(settings);
     var task = this.task();
-    if(task.start){
+    if (task.start) {
         task.start(this);
     }
-    if(taskName !== 'guard'){
-        this.say('> ' + taskName);
-    }
+    this.say('> ' + taskName);
 };
 
 Creep.prototype.cancelTask = function() {
     var task = this.task();
-    if(task){
-        if(task.cancel){
+    if (task) {
+        if (task.cancel) {
             task.cancel(this);
         }
         this.prevTaskName(task.name);
@@ -168,42 +96,92 @@ Creep.prototype.cancelTask = function() {
 
 Creep.prototype.endTask = function() {
     var task = this.task();
-    if(task){
-        if(task.end){
+    if (task) {
+        if (task.end) {
             task.end(this);
         }
-        this.prevTaskName(task.name);
+        this.prevTaskName(this.taskName());
         this.prevTaskSettings(this.taskSettings());
     }
-    this.memory.task_settings = undefined;
-    this.memory.task_name = undefined;
+    var nextTask = this.nextTask();
+
+    if(nextTask){
+        this.startTask(this.nextTaskName(), this.nextTaskSettings());
+    } else {
+        this.memory.task_name = undefined;
+        this.memory.task_settings = undefined;
+    }
 };
 
 Creep.prototype.taskTarget = function(target) {
     var settings = this.taskSettings();
 
-    if(target !== void 0){
+    if (target !== void 0) {
         settings = settings || {};
         settings.target_id = target.id;
         this.taskSettings(settings);
     }
 
-    if(settings && settings.target_id){
+    if (settings && settings.target_id) {
         return Game.getObjectById(settings.target_id);
     }
 };
 
-Creep.prototype.prevTaskName = function(prevTaskName){
+Creep.prototype.prevTaskName = function(prevTaskName) {
     if (prevTaskName !== void 0) {
         this.memory.prev_task_name = prevTaskName;
     }
     return this.memory.prev_task_name;
 };
-
-Creep.prototype.prevTaskSettings = function(prevTaskSettings){
+Creep.prototype.prevTaskSettings = function(prevTaskSettings) {
     if (prevTaskSettings !== void 0) {
         this.memory.prev_task_settings = prevTaskSettings;
     }
     return this.memory.prev_task_settings;
 };
+Creep.prototype.prevTaskTarget = function(target) {
+    var settings = this.prevTaskSettings();
+
+    if (target !== void 0) {
+        settings = settings || {};
+        settings.target_id = target.id;
+        this.prevTaskSettings(settings);
+    }
+
+    if (settings && settings.target_id) {
+        return Game.getObjectById(settings.target_id);
+    }
+};
+
+Creep.prototype.nextTask = function(taskName, settings) {
+    this.nextTaskName(taskName);
+    this.nextTaskSettings(settings);
+};
+
+Creep.prototype.nextTaskName = function(nextTaskName) {
+    if (nextTaskName !== void 0) {
+        this.memory.next_task_name = nextTaskName;
+    }
+    return this.memory.next_task_name;
+};
+Creep.prototype.nextTaskSettings = function(nextTaskSettings) {
+    if (nextTaskSettings !== void 0) {
+        this.memory.next_task_settings = nextTaskSettings;
+    }
+    return this.memory.next_task_settings;
+};
+Creep.prototype.nextTaskTarget = function(target) {
+    var settings = this.nextTaskSettings();
+
+    if (target !== void 0) {
+        settings = settings || {};
+        settings.target_id = target.id;
+        this.nextTaskSettings(settings);
+    }
+
+    if (settings && settings.target_id) {
+        return Game.getObjectById(settings.target_id);
+    }
+};
+
 
