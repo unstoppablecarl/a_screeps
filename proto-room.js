@@ -576,7 +576,7 @@ Room.prototype.allocateJobToExisting = function(job) {
         creep = creeps[0];
     }
 
-    if(taskName){
+    if(creep && taskName){
         creep.startTask(taskName, taskSettings);
     }
 
