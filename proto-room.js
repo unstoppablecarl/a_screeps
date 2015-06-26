@@ -600,8 +600,15 @@ Room.prototype.allocateJobToSpawn = function(job) {
 
     var maxEnergyRatio = this.maxCreepSpawnEnergyRatio();
     // energy a room must have to allocate a job instead of build a creep
-    var energyThreshold = this.extensionEnergyCapacity() * maxEnergyRatio;
+    var energyThreshold = (300 + this.extensionEnergyCapacity()) * maxEnergyRatio;
 
+    var harvesters = this.creeps(function(creep){
+       return creep.role() === 'harvester';
+    });
+
+    if(!harvesters || !harvesters.length){
+        energyThreshold = 0;
+    }
     var spawns = this.availableSpawns();
 
     if(!spawns || !spawns.length){
