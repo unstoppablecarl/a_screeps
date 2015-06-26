@@ -447,6 +447,7 @@ Room.prototype.getHarvesterJobs = function() {
             return harvestedSourceIds.indexOf(source.id) === -1;
         }, this)
         .map(function(source){
+            console.log('s', source);
             return {
                 role: 'harvester',
                 task_name: 'harvest',
@@ -602,13 +603,16 @@ Room.prototype.allocateJobToSpawn = function(job) {
     // energy a room must have to allocate a job instead of build a creep
     var energyThreshold = (300 + this.extensionEnergyCapacity()) * maxEnergyRatio;
 
-    var harvesters = this.creeps(function(creep){
-       return creep.role() === 'harvester';
-    });
+    if(job.role === 'harvester'){
+        var harvesters = this.creeps(function(creep){
+           return creep.role() === 'harvester';
+        });
 
-    if(!harvesters || !harvesters.length){
-        energyThreshold = 0;
+        if(!harvesters || !harvesters.length){
+            energyThreshold = 0;
+        }
     }
+
     var spawns = this.availableSpawns();
 
     if(!spawns || !spawns.length){
