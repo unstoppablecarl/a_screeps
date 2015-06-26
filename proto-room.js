@@ -606,7 +606,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
         });
 
         if(!harvesters || !harvesters.length){
-            energyThreshold = 0;
+            energyThreshold = this.roomEnergy();
         }
     }
     console.log('energyThreshold', energyThreshold);
