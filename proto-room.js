@@ -446,12 +446,19 @@ Room.prototype.getHarvesterJobs = function() {
     var sources = this.sources();
     var sourceHarvesters = this.getSourceHarvesters();
 
+    var harvesters = this.creeps(function(creep){
+        return creep.role() === 'harvester';
+    });
+    var harvestedSourceIds = harvesters.map(function(creep){
+        return creep.taskTarget();
+    }).filter(function(id){
+        return id;
+    });
+
     return sources
         .filter(function(source){
-            var creepId = sourceHarvesters[source.id];
-            var creep = Game.getObjectById(creepId);
-            return !creep;
-        })
+            return harvestedSourceIds.indexOf(source.id) === -1;
+        }, this)
         .map(function(source){
             return {
                 role: 'harvester',
