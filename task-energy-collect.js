@@ -24,6 +24,7 @@ var task = {
                 targets = targets.filter(function(t){
                     return t;
                 });
+                console.log('targets', targets);
 
                 target = creep.pos.findClosest(targets);
             }
