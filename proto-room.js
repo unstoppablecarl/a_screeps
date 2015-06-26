@@ -291,6 +291,7 @@ Room.prototype.requestEnergy = function(creep) {
     if(!this.memory.energy_requests){
         this.memory.energy_requests = [];
     }
+    console.log('request energy');
     this.memory.energy_requests.push(creep);
 };
 
