@@ -379,7 +379,7 @@ Room.prototype.getJobPriority = function(job, jobs) {
 
         } else if(taskName === 'upgrade_room_controller'){
 
-            taskPriority = 25;
+            taskPriority = 0.25;
         }
     }
 
