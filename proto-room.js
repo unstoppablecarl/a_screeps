@@ -360,6 +360,15 @@ Room.prototype.jobs = function(jobs) {
     return this.memory.jobs;
 };
 
+Room.prototype.getCacelDeliverJobs = function(forceRefresh){
+    if(forceRefresh || this.cancel_deliver_jobs === void 0){
+        var minJobEnergyRatio = this.minJobEnergyRatio();
+        var energyPercent = this.extensionEnergy() / this.extensionEnergyCapacity();
+        this.cancel_deliver_jobs = minJobEnergyRatio > energyPercent;
+    }
+
+    return this.cancel_deliver_jobs;
+};
 
 Room.prototype.getJobPriority = function(job, jobs) {
     var role = job.role;
