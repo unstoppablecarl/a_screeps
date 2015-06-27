@@ -262,6 +262,18 @@ Room.prototype.buildPriority = function(structure, priority) {
     return buildPriority[structure] || 0;
 };
 
+Room.prototype.getRoleCount = function(role, forceRefresh) {
+    if(!this.role_counts){
+        this.role_counts = {};
+    }
+    if(forceRefresh || !this.role_counts[role]){
+        this.role_counts[role] = this.creeps(function(creep){
+            return creep.role() === role;
+        }).length;
+    }
+    return this.role_counts[role];
+};
+
 // ENERGY
 
 // the minimum percentage of room energy there must be to get energy for a job
@@ -566,6 +578,10 @@ Room.prototype.getHarvesterJobs = function() {
 Room.prototype.getBuildJobs = function() {
 
     var sites = this.constructionSites();
+
+    var techCount = this.getRoleCount('tech');
+    var existing_only = techCount > sites.length;
+
     return sites.map(function(s){
         return {
             role: 'tech',
@@ -573,7 +589,8 @@ Room.prototype.getBuildJobs = function() {
             task_settings: {
                 target_id: s.id,
             },
-            memory: null
+            memory: null,
+            existing_only: existing_only,
         };
 
     }, this);
