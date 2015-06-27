@@ -7,6 +7,7 @@ Room.prototype.act = function() {
         this.updateEnergyPiles();
         this.updateJobs();
         // this.jobsReport();
+        this.jobsReportStore();
     }
 
     this.allocateJobs();
@@ -16,7 +17,7 @@ Room.prototype.act = function() {
     }
 };
 
-Room.prototype.jobsReport = function() {
+Room.prototype.jobsReportData = function() {
      var jobData = [];
         _.each(this.jobs(), function(job){
             var target;
@@ -35,10 +36,15 @@ Room.prototype.jobsReport = function() {
                 existing_only: job.existing_only,
             });
         });
+        return jobData;
 
-        var table = require('util').table;
-        console.log('* jobs report * ');
-        table(jobData);
+};
+
+
+Room.prototype.jobsReportStore = function() {
+    var table = require('util').table;
+    var str = table(this.jobsReportData());
+    this.memory.jobs_report = str;
 };
 
 Room.prototype.populationReport = function() {
@@ -60,14 +66,14 @@ Room.prototype.populationReport = function() {
     }
 
     console.log('* population report *');
-    var table = require('util').table;
+    var tableLog = require('util').tableLog;
 
     for (var roleName in populationData) {
         var roleData = populationData[roleName];
         var percent = roleData.count / totalPopulation;
         roleData.percent = (Math.round(percent * 100) / 100) + '%';
     }
-    table(populationData);
+    tableLog(populationData);
 };
 
 var finder = function(room, key, filter){

@@ -39,12 +39,14 @@ var util = {
             });
         });
 
+        var strRows = [];
         var headerRow = '';
         _.each(defaultRow, function(val, key) {
             var width = columnMaxLength[key] + 2;
             headerRow += padRight(key, width);
         });
-        console.log(headerRow);
+        strRows.push(headerRow);
+
         _.each(data, function(row) {
             row = _.defaults(row, defaultRow);
 
@@ -55,9 +57,13 @@ var util = {
                 var width = columnMaxLength[key] + 2;
                 rowStr += padRight(val, width);
             });
-            console.log(rowStr);
+            strRows.push(rowStr);
         });
 
+        return strRows.join('\n');
+    },
+    tableLog: function(data){
+        console.log(this.table(data));
     }
 };
 
