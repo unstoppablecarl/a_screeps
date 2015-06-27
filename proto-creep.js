@@ -5,6 +5,7 @@ var roles = {
     guard: require('act-guard'),
     harvester: require('act-harvester'),
     tech: require('act-tech'),
+    upgrader: require('act-upgrader'),
 };
 
 var tasks = {
@@ -22,16 +23,17 @@ var tasks = {
 Creep.prototype.act = function() {
     var role = this.role();
     var roleHandler = roles[role];
-    if (roleHandler) {
-        if (this.memory.pending_creation){
-            if(roleHandler.init) {
-                roleHandler.init(this);
-            }
-            this.memory.pending_creation = undefined;
+    if(!roleHandler){
+        console.log("ERRROR role handler not found");
+    }
+    if (this.memory.pending_creation){
+        if(roleHandler.init) {
+            roleHandler.init(this);
         }
-        if (roleHandler.act) {
-            roleHandler.act(this);
-        }
+        this.memory.pending_creation = undefined;
+    }
+    if (roleHandler.act) {
+        roleHandler.act(this);
     }
 
     var task = this.task();
