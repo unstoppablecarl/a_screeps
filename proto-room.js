@@ -337,7 +337,7 @@ Room.prototype.jobs = function(jobs) {
 };
 
 
-Room.prototype.getJobPriority = function(job) {
+Room.prototype.getJobPriority = function(job, jobs) {
     var role = job.role;
     var taskName = job.task_name;
     var taskSettings = job.task_settings || {};
@@ -565,6 +565,11 @@ Room.prototype.updateJobs = function() {
         // attack / defend
     );
 
+    jobs = jobs.map(function(job){
+        job.priority = this.getJobPriority(job, jobs);
+        return job;
+    }, this);
+
     jobs = _.sortBy(jobs, function(job){
         return job.priority;
     });
@@ -697,6 +702,7 @@ Room.prototype.allocateJobs = function() {
         // only keep un allocated jobs in jobs list
         return !allocated;
     }, this);
+
 
     // save updated jobs list
     this.jobs(jobs);
