@@ -16,6 +16,8 @@ Room.prototype.act = function() {
             j += job.role + ' ' + job.task_name + ' ' + job.task_settings.target_id;
         });
 
+
+
         console.log('jobs', j);
 
         this.allocateJobs();
