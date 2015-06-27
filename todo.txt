@@ -5,3 +5,19 @@ if the requesting creep energy gets to zero and no energy is on the way it will 
 
 no creeps can pull energy from spawn or energy piles to deliver to another creep when spawn energy is < threshold
 
+
+
+
+
+var jobs {
+    1: {
+        source: null,
+        target: null,
+        task_name: null,
+        task_settings: null,
+    }
+};
+
+creep.source_of_job_id;
+creep.task
+creep.target_of_job_ids = [];
