@@ -389,7 +389,8 @@ Room.prototype.getJobPriority = function(job, jobs) {
 
     if(target){
         if(taskName === 'energy_collect'){
-            return 0.9;
+            rolePriority = 0.9;
+            taskPriority = this.roomEnergy() / this.roomEnergyCapacity();
         }
         else if(taskName === 'repair'){
 
