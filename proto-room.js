@@ -652,7 +652,12 @@ Room.prototype.allocateJobToExisting = function(job) {
     var creeps;
     if(job.task_name === 'energy_deliver'){
         creeps = this.creeps(function(creep){
-            return creep.energy > 0 && creep.role() === job.role;
+
+            if(creep.role() !== job.role){
+                return false;
+            }
+
+            return (creep.idle() || (creep.taskName() === 'energy_store'));
         });
 
     } else if(job.task_name === 'energy_collect'){
