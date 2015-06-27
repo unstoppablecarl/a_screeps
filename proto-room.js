@@ -684,6 +684,7 @@ Room.prototype.allocateJobToSpawn = function(job, spawns) {
         var spawn = spawns[i];
         var result = spawn.spawnCreep(body, memory);
 
+
         console.log('SPAWNING', spawn.spawning);
         // var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
