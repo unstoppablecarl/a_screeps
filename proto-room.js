@@ -5,8 +5,6 @@ var metaRoles = require('meta-roles');
 Room.prototype.act = function() {
     if (Game.time % 5 === 0) {
         this.updateJobs();
-        this.updateTotalCarrierCapacity();
-        this.jobsReport();
     }
 
     this.allocateJobs();
@@ -351,25 +349,6 @@ Room.prototype.creepReplaceThreshold = function(value){
     }
     return this.memory.creep_replace_threshold || 100;
 };
-
-// CREEP DATA
-Room.prototype.totalCarrierCapacity = function(capacity) {
-    if (capacity !== void 0) {
-        this.memory.total_carrier_capacity = capacity;
-    }
-    return this.memory.total_carrier_capacity;
-};
-
-Room.prototype.updateTotalCarrierCapacity = function() {
-    var total = 0;
-    var totalCarrierCapacity = this.creeps(function(creep){
-        if(creep.role() === 'carrier'){
-            total += creep.energyCapacity;
-        }
-    });
-    this.totalCarrierCapacity(total);
-};
-
 
 
 // JOBS
