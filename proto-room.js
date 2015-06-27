@@ -426,13 +426,14 @@ Room.prototype.getCollectorJobs = function() {
     }).map(function(creep){
         return creep.taskTarget().id;
     });
-
+    console.log('energyPiles', energyPiles);
     energyPiles = energyPiles.filter(function(pile){
         if(collectTargetIds.indexOf(pile) !== -1){
             return false;
         }
         return pile.energy > max;
     });
+    console.log('energyPiles filtered', energyPiles);
     return energyPiles.map(function(pile){
         return {
             role: 'carrier',
@@ -602,7 +603,6 @@ Room.prototype.allocateJobToExisting = function(job) {
         creeps = this.creeps(function(creep){
             return creep.idle() && creep.role() === job.role && creep.energy < creep.energyCapacity;
         });
-        console.log('creeps', creeps);
     }else {
         // idle creeps
         creeps = this.creeps(function(creep){
