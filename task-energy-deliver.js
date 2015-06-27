@@ -11,6 +11,7 @@ var task = {
             return;
         }
 
+
         if (target) {
             if (target.energy === target.energyCapacity) {
                 creep.endTask();
