@@ -5,7 +5,7 @@ Spawn.prototype.spawnCreep = function(body, memory) {
     memory.pending_creation = true;
     memory.spawn_id = this.id;
 
-    if(this.spawning){
+    if(this.busy()){
         return ERR_BUSY;
     }
 

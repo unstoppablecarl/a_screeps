@@ -644,6 +644,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
         return false;
     }
 
+    console.log('availableSpawns', spawns.length);
     var memory = {
         role: job.role,
         task_name: job.task_name,
@@ -715,9 +716,6 @@ Room.prototype.allocateJobs = function() {
     }
 
     jobs = jobs.filter(function(job){
-        console.log('j', job.task_name);
-
-
         var allocated = this.allocateJobToExisting(job);
 
         if(!allocated){
