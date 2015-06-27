@@ -128,7 +128,7 @@ Room.prototype.roads = function(filter){
 
 Room.prototype.availableSpawns = function() {
     return this.spawns(function(spawn) {
-        return !spawn.busy();
+        return !spawn.isBusy();
     });
 };
 
