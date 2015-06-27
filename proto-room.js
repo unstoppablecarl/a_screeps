@@ -6,8 +6,7 @@ Room.prototype.act = function() {
     if (Game.time % 5 === 0) {
         this.updateEnergyPiles();
         this.updateJobs();
-        // this.jobsReport();
-        this.jobsReportStore();
+        this.jobsReport();
     }
 
     this.allocateJobs();
@@ -41,10 +40,9 @@ Room.prototype.jobsReportData = function() {
 };
 
 
-Room.prototype.jobsReportStore = function() {
-    var table = require('util').table;
-    var str = table(this.jobsReportData());
-    this.memory.jobs_report = str;
+Room.prototype.jobsReport = function() {
+    var tableLog = require('util').tableLog;
+    var str = tableLog(this.jobsReportData());
 };
 
 Room.prototype.populationReport = function() {
