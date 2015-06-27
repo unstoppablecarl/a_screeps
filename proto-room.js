@@ -678,6 +678,10 @@ Room.prototype.allocateJobToSpawn = function(job) {
         }
     }
 
+    if(energyThreshold === 0 ){
+        console.log('no energy');
+        return false;
+    }
     var body = metaRoles.getBody(job.role, energyThreshold);
         console.log('spawn allocating', job.role, job.task_name, body, energyThreshold);
 
