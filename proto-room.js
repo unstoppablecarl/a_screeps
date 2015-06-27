@@ -412,11 +412,15 @@ Room.prototype.getReplacementJobs = function() {
     var threshold = this.creepReplaceThreshold();
     // exclude idle
     var creeps = this.creeps(function(creep){
-        return !creep.idle() && creep.ticksToLive < threshold;
+        return !creep.idle() && !creep.replaced() && creep.ticksToLive < threshold;
     });
 
     return creeps.map(function(creep){
         return {
+            type: 'replacement',
+            job_settings: {
+                replacing_creep_id: creep.id,
+            },
             role: creep.role(),
             task_name: creep.taskName(),
             task_settings: creep.taskSettings(),
@@ -645,6 +649,14 @@ Room.prototype.allocateJobToExisting = function(job) {
         _.extend(creep.memory, job.memory);
     }
 
+    if(job.type === 'replacement'){
+        if(job.job_settings && job.job_settings.replacing_creep_id){
+            var replacingCreep = Game.getObjectById(job.job_settings.replacing_creep_id);
+            if(replacingCreep){
+                replacingCreep.replaced(true);
+            }
+        }
+    }
     console.log('allocate job ', taskName, creep.name);
 
     return true;
@@ -712,6 +724,15 @@ Room.prototype.allocateJobToSpawn = function(job) {
         }
 
         if(result){
+
+            if(job.type === 'replacement'){
+                if(job.job_settings && job.job_settings.replacing_creep_id){
+                    var replacingCreep = Game.getObjectById(job.job_settings.replacing_creep_id);
+                    if(replacingCreep){
+                        replacingCreep.replaced(true);
+                    }
+                }
+            }
             return true;
         }
     }

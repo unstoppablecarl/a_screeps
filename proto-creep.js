@@ -197,4 +197,11 @@ Creep.prototype.nextTaskTarget = function(target) {
     }
 };
 
+Creep.prototype.replaced = function(replaced) {
+    if (replaced !== void 0) {
+        this.memory.replaced = replaced;
+    }
+    return this.memory.replaced;
+};
+
 

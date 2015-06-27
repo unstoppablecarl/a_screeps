@@ -28,6 +28,11 @@ var task = {
     start: false,
     act: function(creep){
         var target = this._findTarget(creep);
+
+        if(!target){
+            creep.cancelTask();
+            return;
+        }
         if(target){
             creep.moveTo(target);
             var result = creep.transferEnergy(target);
