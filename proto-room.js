@@ -31,7 +31,8 @@ Room.prototype.jobsReport = function() {
                 pos: pos,
                 role: job.role,
                 task: job.task_name,
-                prior: job.priority
+                prior: job.priority,
+                existing_only: job.existing_only,
             });
         });
 
@@ -297,12 +298,12 @@ Room.prototype.energyPileThresholdMin = function(value){
     return this.memory.energy_pile_threshold_min || 150;
 };
 
-// the size of an energy pile required to prompt assigning another collector
-Room.prototype.energyPileThresholdMax = function(value){
+// the size of an energy pile required to prompt spawning another collector
+Room.prototype.energyPileThresholdSpawn = function(value){
     if (value !== void 0) {
-        this.memory.energy_pile_threshold_max = value;
+        this.memory.energy_pile_threshold_spawn = value;
     }
-    return this.memory.energy_pile_threshold_max || 1500;
+    return this.memory.energy_pile_threshold_spawn || 1500;
 };
 
 Room.prototype.updateEnergyPiles = function() {
@@ -418,7 +419,8 @@ Room.prototype.getReplacementJobs = function() {
 };
 
 Room.prototype.getCollectorJobs = function() {
-    var max = this.energyPileThresholdMax();
+    var minEnergySpawn = this.energyPileThresholdSpawn();
+    var min = this.energyPileThresholdMin();
     var energyPiles = this.energyPiles();
 
     var collectTargetIds = this.creeps(function(creep){
@@ -426,23 +428,24 @@ Room.prototype.getCollectorJobs = function() {
     }).map(function(creep){
         return creep.taskTarget().id;
     });
-    console.log('collectTargetIds', collectTargetIds);
-    console.log('energyPiles', energyPiles);
-    console.log('max', max);
+
     energyPiles = energyPiles.filter(function(pile){
+        // exclude piles with creeps already assigned
         if(collectTargetIds.indexOf(pile) !== -1){
             return false;
         }
-        return pile.energy > max;
+        return pile.energy > min;
     });
     console.log('energyPiles filtered', energyPiles);
     return energyPiles.map(function(pile){
+        var existing_only = pile.energy < minEnergySpawn;
         return {
             role: 'carrier',
             task_name: 'energy_collect',
             task_settings: {
                 target_id: pile.id
             },
+            existing_only: existing_only,
             memory: null
         };
     });
@@ -720,13 +723,16 @@ Room.prototype.allocateJobs = function() {
     }
 
     jobs = jobs.filter(function(job){
-        var allocated = this.allocateJobToExisting(job);
 
-        if(!allocated){
+        var allocated;
+
+        allocated = this.allocateJobToExisting(job);
+
+        if(!allocated && !job.existing_only){
             allocated = this.allocateJobToSpawn(job);
         }
 
-        // // only keep un allocated jobs in jobs list
+        // only keep un allocated jobs in jobs list
         return !allocated;
     }, this);
 
