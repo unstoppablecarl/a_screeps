@@ -231,7 +231,7 @@ defaultRepairPriority[STRUCTURE_LINK] = 80;
 defaultRepairPriority[STRUCTURE_RAMPART] = 60;
 defaultRepairPriority[STRUCTURE_WALL] = 50;
 
-Flag.prototype.repairPriority = function(structure, priority) {
+Room.prototype.repairPriority = function(structure, priority) {
     if(!this.memory.repair_priority){
         this.memory.repair_priority = defaultRepairPriority;
     }
@@ -250,7 +250,7 @@ defaultBuildPriority[STRUCTURE_LINK] = 80;
 defaultBuildPriority[STRUCTURE_RAMPART] = 60;
 defaultBuildPriority[STRUCTURE_WALL] = 50;
 
-Flag.prototype.buildPriority = function(structure, priority) {
+Room.prototype.buildPriority = function(structure, priority) {
     if(!this.memory.repair_priority){
         this.memory.repair_priority = defaultBuildPriority;
     }
@@ -775,6 +775,7 @@ Room.prototype.allocateJobs = function() {
     if(!jobs || !jobs.length){
         return;
     }
+
 
     jobs = jobs.filter(function(job){
 
