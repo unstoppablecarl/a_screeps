@@ -362,14 +362,16 @@ Room.prototype.getJobPriority = function(job, jobs) {
     }
     var rolePriorities = {
         harvester: 0.95,
-        collector: 0.90,
     };
 
     var rolePriority = rolePriorities[role] || 0;
     var taskPriority = 0;
 
     if(target){
-        if(taskName === 'repair'){
+        if(taskName === 'energy_collect'){
+            taskPriority = 90;
+        }
+        else if(taskName === 'repair'){
 
             var damagePercent = 1 - (target.hits / target.hitsLeft);
             var repairPriority = this.repairPriority(target.structureType);
