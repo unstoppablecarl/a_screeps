@@ -471,7 +471,7 @@ Room.prototype.getCollectorJobs = function() {
     energyPiles = energyPiles.filter(function(pile){
         var assignedCapacity = pileAssignedCollectCapacity[pile.id] || 0;
         console.log(pile,  assignedCapacity, '/', pile.energy);
-        if(pile.energy < assignedCapacity){
+        if(pile.energy < assignedCapacity * 0.5){
             return false;
         }
         return pile.energy > min;
