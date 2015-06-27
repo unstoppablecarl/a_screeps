@@ -62,9 +62,6 @@ var util = {
 
         return strRows.join('\n');
     },
-    tableLog: function(data){
-        console.log(this.table(data));
-    }
 };
 
 module.exports = util;
