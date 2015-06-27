@@ -45,6 +45,6 @@ Spawn.prototype.busy = function(value){
     if (value !== void 0) {
         this.busy = value;
     }
-    return this.busy = value;
+    return this.busy;
 
 };
