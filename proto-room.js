@@ -438,7 +438,6 @@ Room.prototype.getCollectorJobs = function() {
         }
         return pile.energy > min;
     });
-    console.log('energyPiles filtered', energyPiles);
     return energyPiles.map(function(pile){
         var existing_only = pile.energy < minEnergySpawn;
         return {
@@ -610,7 +609,6 @@ Room.prototype.allocateJobToExisting = function(job) {
         creeps = this.creeps(function(creep){
             return creep.idle() && creep.role() === job.role && creep.energy < creep.energyCapacity;
         });
-        console.log('creeps', creeps);
     }else {
         // idle creeps
         creeps = this.creeps(function(creep){
@@ -653,7 +651,6 @@ Room.prototype.allocateJobToSpawn = function(job) {
         return false;
     }
 
-    console.log('availableSpawns', spawns.length);
     var memory = {
         role: job.role,
         task_name: job.task_name,
@@ -697,8 +694,6 @@ Room.prototype.allocateJobToSpawn = function(job) {
         var spawn = spawns[i];
         var result = spawn.spawnCreep(body, memory);
 
-
-        console.log('SPAWNING', spawn.spawning);
         // var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
