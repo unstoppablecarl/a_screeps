@@ -6,6 +6,18 @@ Room.prototype.act = function() {
     if (Game.time % 5 === 0) {
         this.updateEnergyPiles();
         this.updateJobs();
+
+        var j = '';
+        _.each(this.jobs(), function(job){
+            var target;
+            if(job.task_settings && job.task_settings.target_id){
+                target = job.task_settings.target_id;
+            }
+            j += job.role + ' ' + job.task_name + ' ' + job.task_settings.target_id;
+        });
+
+        console.log('jobs', j);
+
         this.allocateJobs();
     }
 
@@ -500,7 +512,7 @@ Room.prototype.getDeliverJobs = function() {
     }
 
     var creeps = this.energyRequests();
-this.energyRequests([]);
+    this.energyRequests([]);
     return creeps.map(function(c){
         return {
             role: 'carrier',
