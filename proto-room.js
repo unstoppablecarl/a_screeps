@@ -4,8 +4,8 @@ var metaRoles = require('meta-roles');
 
 Room.prototype.act = function() {
     if (Game.time % 5 === 0) {
-        this.updateEnergyPiles();
         this.updateJobs();
+        this.updateTotalCarrierCapacity();
         this.jobsReport();
     }
 
@@ -288,11 +288,14 @@ Room.prototype.maxCreepSpawnEnergyRatio = function(max) {
     return this.memory.max_creep_spawn_energy_ratio;
 };
 
-Room.prototype.energyPiles = function(piles){
-    if (piles !== void 0) {
-        this.memory.energy_piles = piles;
+Room.prototype.getEnergyPiles = function(forceRefresh){
+    if(forceRefresh || !this.piles){
+        var threshold = this.energyPileThresholdMin();
+        this.piles = this.energy(function(pile){
+            return pile.energy >= threshold;
+        });
     }
-    return this.memory.energy_piles;
+    return this.piles;
 };
 
 // min energy a pile must have to be considered
@@ -309,14 +312,6 @@ Room.prototype.energyPileThresholdSpawn = function(value){
         this.memory.energy_pile_threshold_spawn = value;
     }
     return this.memory.energy_pile_threshold_spawn || 1500;
-};
-
-Room.prototype.updateEnergyPiles = function() {
-    var threshold = this.energyPileThresholdMin();
-    var piles = this.energy(function(pile){
-        return pile.energy >= threshold;
-    });
-    this.energyPiles(piles);
 };
 
 Room.prototype.requestEnergy = function(creep) {
@@ -344,6 +339,26 @@ Room.prototype.creepReplaceThreshold = function(value){
     }
     return this.memory.creep_replace_threshold || 100;
 };
+
+// CREEP DATA
+Room.prototype.totalCarrierCapacity = function(capacity) {
+    if (capacity !== void 0) {
+        this.memory.total_carrier_capacity = capacity;
+    }
+    return this.memory.total_carrier_capacity;
+};
+
+Room.prototype.updateTotalCarrierCapacity = function() {
+    var total = 0;
+    var totalCarrierCapacity = this.creeps(function(creep){
+        if(creep.role() === 'carrier'){
+            total += creep.energyCapacity;
+        }
+    });
+    this.totalCarrierCapacity(total);
+};
+
+
 
 // JOBS
 
@@ -429,24 +444,38 @@ Room.prototype.getReplacementJobs = function() {
     });
 };
 
+
 Room.prototype.getCollectorJobs = function() {
     var minEnergySpawn = this.energyPileThresholdSpawn();
     var min = this.energyPileThresholdMin();
-    var energyPiles = this.energyPiles();
+    var energyPiles = this.getEnergyPiles();
 
-    var collectTargetIds = this.creeps(function(creep){
-        return creep.role() === 'carrier' && creep.taskName() === 'energy_collect' && creep.taskTarget();
-    }).map(function(creep){
-        return creep.taskTarget().id;
+    var pileAssignedCollectCapacity = {};
+
+    this.creeps().forEach(function(creep){
+        if(
+            creep.role() === 'carrier' &&
+            creep.taskName() === 'energy_collect'
+        ){
+            var target = creep.taskTarget();
+            if(!target){
+                return;
+            }
+            if(!pileAssignedCollectCapacity[target.id]){
+                pileAssignedCollectCapacity[target.id] = 0;
+            }
+            pileAssignedCollectCapacity[target.id] += creep.energyCapacity;
+        }
     });
 
     energyPiles = energyPiles.filter(function(pile){
-        // exclude piles with creeps already assigned
-        if(collectTargetIds.indexOf(pile) !== -1){
+        var assignedCapacity = pileAssignedCollectCapacity[pile.id] || 0;
+        if(pile.energy < assignedCapacity){
             return false;
         }
         return pile.energy > min;
     });
+
     return energyPiles.map(function(pile){
         var existing_only = pile.energy < minEnergySpawn;
         return {
