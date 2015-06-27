@@ -664,8 +664,6 @@ Room.prototype.allocateJobToSpawn = function(job, spawns) {
         }
     }
 
-
-
     console.log('available spawns', spawns.length);
 
     // order spawns by closest
@@ -684,8 +682,10 @@ Room.prototype.allocateJobToSpawn = function(job, spawns) {
     console.log('spawns 1', spawns);
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
-        // var result = spawn.spawnCreep(body, memory);
-        var result = spawn.canCreateCreep(body, memory);
+        var result = spawn.spawnCreep(body, memory);
+
+        console.log('SPAWNING', spawn.spawning);
+        // var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
             result === ERR_NAME_EXISTS ||
@@ -695,9 +695,10 @@ Room.prototype.allocateJobToSpawn = function(job, spawns) {
         } else {
             result = true;
         }
+
         if(result){
+            // manually remove spawn from list of spawns in this room
             spawns = spawns.splice(1, i);
-            console.log('spawns after splice', spawns);
             return true;
         }
     }
