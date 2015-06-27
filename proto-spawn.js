@@ -32,7 +32,7 @@ Spawn.prototype.spawnCreep = function(body, memory) {
     if(error){
         console.log('SPAWN ERROR', this.room.name, this.name, 'cannot create', memory.role, error);
     } else {
-        this.isBusy(false);
+        this.isBusy(true);
         console.log(this.name, 'spawning', result, memory.role);
     }
     return result;

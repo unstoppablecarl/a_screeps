@@ -698,7 +698,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
             result === ERR_INVALID_ARGS){
             result = false;
         } else {
-            console.log('spawn allocating', job.role, job.task_name, body, energyThreshold);
+            console.log('spawn allocating', job.role, job.task_name, body, energyThreshold, result);
             result = true;
         }
 
