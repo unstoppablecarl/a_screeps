@@ -128,7 +128,7 @@ Room.prototype.roads = function(filter){
 
 Room.prototype.availableSpawns = function() {
     return this.spawns(function(spawn) {
-        return !spawn.spawning;
+        return !spawn.busy();
     });
 };
 
@@ -638,7 +638,11 @@ Room.prototype.allocateJobToExisting = function(job) {
     return true;
 };
 
-Room.prototype.allocateJobToSpawn = function(job, spawns) {
+Room.prototype.allocateJobToSpawn = function(job) {
+    var spawns = this.availableSpawns();
+    if(!spawns|| !spawns.length){
+        return false;
+    }
 
     var memory = {
         role: job.role,
@@ -663,9 +667,6 @@ Room.prototype.allocateJobToSpawn = function(job, spawns) {
             energyThreshold = this.roomEnergy();
         }
     }
-
-    console.log('available spawns', spawns.length);
-
     // order spawns by closest
     if(memory.task_settings && memory.task_settings.target_id){
         var target = Game.getObjectById(memory.task_settings.target_id);
@@ -713,13 +714,6 @@ Room.prototype.allocateJobs = function() {
         return;
     }
 
-
-    // keep list of spawns manually as we cannot tell if they are spawning the same tic
-    var spawns = this.availableSpawns();
-    if(!spawns || !spawns.length){
-        return;
-    }
-
     jobs = jobs.filter(function(job){
         console.log('j', job.task_name);
 
@@ -727,7 +721,7 @@ Room.prototype.allocateJobs = function() {
         var allocated = this.allocateJobToExisting(job);
 
         if(!allocated){
-            allocated = this.allocateJobToSpawn(job, spawns);
+            allocated = this.allocateJobToSpawn(job);
         }
 
         // // only keep un allocated jobs in jobs list
