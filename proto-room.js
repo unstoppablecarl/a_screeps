@@ -602,6 +602,7 @@ Room.prototype.allocateJobToExisting = function(job) {
         creeps = this.creeps(function(creep){
             return creep.idle() && creep.role() === job.role && creep.energy < creep.energyCapacity;
         });
+        console.log('creeps', creeps);
     }else {
         // idle creeps
         creeps = this.creeps(function(creep){
