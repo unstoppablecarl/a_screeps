@@ -696,7 +696,7 @@ Room.prototype.allocateJobToSpawn = function(job, spawns) {
             result = true;
         }
         if(result){
-            spawns.splice(1, i);
+            spawns = spawns.splice(1, i);
             console.log('spawns after splice', spawns);
             return true;
         }
