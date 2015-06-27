@@ -33,6 +33,7 @@ Room.prototype.jobsReportData = function() {
                 task: job.task_name,
                 prior: job.priority,
                 existing_only: job.existing_only,
+                target: target
             });
         });
         return jobData;
