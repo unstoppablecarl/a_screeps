@@ -7,7 +7,7 @@ var task = {
         var target = creep.taskTarget();
         if(!target || target.energy === target.energyCapacity){
             var spawns = creep.room.spawns(function(spawn) {
-                return spawn.energy > 0;
+                return spawn.energy < spawn.energyCapacity;
             });
 
             var extensions = creep.room.extensions(function(s) {

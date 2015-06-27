@@ -41,8 +41,9 @@ Room.prototype.jobsReportData = function() {
 
 
 Room.prototype.jobsReport = function() {
-    var tableLog = require('util').tableLog;
-    var str = tableLog(this.jobsReportData());
+    var table = require('util').table;
+    var str = table(this.jobsReportData());
+    console.log(str);
 };
 
 Room.prototype.populationReport = function() {
