@@ -450,9 +450,25 @@ Room.prototype.getCollectorJobs = function() {
     var min = this.energyPileThresholdMin();
     var energyPiles = this.getEnergyPiles();
 
+    var energyPilesTotal = 0;
+    energyPiles.forEach(function(pile){
+        energyPilesTotal += pile.energy;
+    });
+
+    var carriers = this.creeps(function(creep){
+        return creep.role() === 'carrier';
+    });
+
+    var carrierCapacityTotal = 0;
+    carriers.forEach(function(carrier){
+        carrierCapacityTotal += carrier.energyCapacity;
+    });
+
+    var collectorLimitReached = energyPilesTotal * 0.5 < carrierCapacityTotal;
+
     var pileAssignedCollectCapacity = {};
 
-    this.creeps().forEach(function(creep){
+    var collectors = this.creeps().forEach(function(creep){
         if(
             creep.role() === 'carrier' &&
             creep.taskName() === 'energy_collect'
@@ -470,15 +486,14 @@ Room.prototype.getCollectorJobs = function() {
 
     energyPiles = energyPiles.filter(function(pile){
         var assignedCapacity = pileAssignedCollectCapacity[pile.id] || 0;
-        console.log(pile,  assignedCapacity, '/', pile.energy);
-        if(pile.energy < assignedCapacity * 0.5){
+        if(pile.energy < assignedCapacity){
             return false;
         }
         return pile.energy > min;
     });
 
     return energyPiles.map(function(pile){
-        var existing_only = pile.energy < minEnergySpawn;
+        var existing_only = collectorLimitReached || pile.energy < minEnergySpawn;
         return {
             role: 'carrier',
             task_name: 'energy_collect',
@@ -775,7 +790,6 @@ Room.prototype.allocateJobs = function() {
     if(!jobs || !jobs.length){
         return;
     }
-
 
     jobs = jobs.filter(function(job){
 
