@@ -451,21 +451,25 @@ Room.prototype.getCollectorJobs = function() {
     var min = this.energyPileThresholdMin();
     var energyPiles = this.getEnergyPiles();
 
-    var energyPilesTotal = 0;
-    energyPiles.forEach(function(pile){
-        energyPilesTotal += pile.energy;
-    });
+    // var energyPilesTotal = 0;
+    // energyPiles.forEach(function(pile){
+    //     energyPilesTotal += pile.energy;
+    // });
 
-    var carriers = this.creeps(function(creep){
-        return creep.role() === 'carrier';
-    });
+    // var carriers = this.creeps(function(creep){
+    //     return creep.role() === 'carrier';
+    // });
 
-    var carrierCapacityTotal = 0;
-    carriers.forEach(function(carrier){
-        carrierCapacityTotal += carrier.energyCapacity;
-    });
+    // var carrierCapacityTotal = 0;
+    // carriers.forEach(function(carrier){
+    //     carrierCapacityTotal += carrier.energyCapacity;
+    // });
+        var collectorLimitReached;
+    if(this.getRoleCount('carrier') > 8){
+        collectorLimitReached = true;
+    }
 
-    var collectorLimitReached = energyPilesTotal * 0.5 < carrierCapacityTotal;
+    // var collectorLimitReached = energyPilesTotal * 0.5 < carrierCapacityTotal;
 
     var pileAssignedCollectCapacity = {};
 
@@ -638,8 +642,8 @@ Room.prototype.updateJobs = function() {
         this.getHarvesterJobs(),
         this.getCollectorJobs(),
         this.getRepairJobs(),
-        this.getBuildJobs(),
-        // this.getDeliverJobs(),
+        // this.getBuildJobs(),
+        this.getDeliverJobs(),
         this.getUpgradeJobs()
         // attack / defend
     );
