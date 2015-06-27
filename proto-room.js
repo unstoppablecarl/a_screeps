@@ -30,7 +30,8 @@ Room.prototype.jobsReport = function() {
             jobData.push({
                 pos: pos,
                 role: job.role,
-                task: job.task_name
+                task: job.task_name,
+                prior: job.priority
             });
         });
 
