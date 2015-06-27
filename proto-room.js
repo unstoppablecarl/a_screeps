@@ -410,7 +410,7 @@ Room.prototype.getJobPriority = function(job, jobs) {
         } else if(taskName === 'energy_deliver'){
 
             var energyPriority = 1 - (target.energy / target.energyCapacity);
-            taskPriority = (energyPriority + 55) / 2;
+            taskPriority = (energyPriority + 0.55) / 2;
 
         } else if(taskName === 'upgrade_room_controller'){
 
