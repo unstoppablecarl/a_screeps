@@ -3,13 +3,13 @@
 var metaRoles = require('meta-roles');
 
 Room.prototype.act = function() {
-    // if (Game.time % 5 === 0) {
+    if (Game.time % 5 === 0) {
         this.updateEnergyPiles();
         this.updateJobs();
-        this.jobsReport();
+        // this.jobsReport();
+    }
 
-        // this.allocateJobs();
-    // }
+    this.allocateJobs();
 
     if (Game.time % 20 === 0) {
         this.updateExtensionCount();
@@ -610,6 +610,7 @@ Room.prototype.allocateJobToExisting = function(job) {
         creeps = this.creeps(function(creep){
             return creep.idle() && creep.role() === job.role && creep.energy < creep.energyCapacity;
         });
+        console.log('creeps', creeps);
     }else {
         // idle creeps
         creeps = this.creeps(function(creep){
@@ -737,7 +738,6 @@ Room.prototype.allocateJobs = function() {
         // only keep un allocated jobs in jobs list
         return !allocated;
     }, this);
-
 
     // save updated jobs list
     this.jobs(jobs);
