@@ -593,8 +593,20 @@ Room.prototype.getDeliverJobs = function() {
     }
 
     var creeps = this.energyRequests();
+
+    var destinationCreepIds = this.creeps(function(creep){
+        return creep.role() === 'energy_deliver' && creep.taskTarget();
+    }).map(function(creep){
+        var target = creep.taskTarget();
+        return target.id;
+    });
+
     this.energyRequests([]);
-    return creeps.map(function(c){
+
+    return creeps.filter(function(c){
+            return destinationCreepIds.indexOf(c.id) === -1;
+        }, this)
+    .map(function(c){
         return {
             role: 'carrier',
             task_name: 'energy_deliver',
