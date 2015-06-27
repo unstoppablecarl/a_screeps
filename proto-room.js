@@ -674,12 +674,6 @@ Room.prototype.allocateJobToExisting = function(job) {
     if(!creeps || !creeps.length){
         return false;
     }
-    var memory = job.memory || {};
-    var taskName = job.task_name;
-    var taskSettings = job.task_settings || {};
-    var targetId = taskSettings.target_id;
-    var target = Game.getObjectById(targetId);
-
     var creep;
     if(target && creeps.length > 1){
         creep = target.pos.findClosest(creeps);
@@ -689,6 +683,12 @@ Room.prototype.allocateJobToExisting = function(job) {
     if(!creep){
         return false;
     }
+
+    var memory = job.memory || {};
+    var taskName = job.task_name;
+    var taskSettings = job.task_settings || {};
+    var targetId = taskSettings.target_id;
+    var target = Game.getObjectById(targetId);
 
     if(creep && taskName){
         creep.startTask(taskName, taskSettings);
