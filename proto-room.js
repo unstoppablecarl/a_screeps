@@ -8,7 +8,7 @@ Room.prototype.act = function() {
         this.updateJobs();
         this.jobsReport();
 
-        this.allocateJobs();
+        // this.allocateJobs();
     // }
 
     if (Game.time % 20 === 0) {
@@ -651,9 +651,9 @@ Room.prototype.allocateJobToSpawn = function(job) {
     }
 
     var maxEnergyRatio = this.maxCreepSpawnEnergyRatio();
-    // energy a room must have to allocate a job instead of build a creep
     var energyThreshold = (300 + this.extensionEnergyCapacity()) * maxEnergyRatio;
 
+    // if there are no harvesters spawn whatever type of harvester possible
     if(job.role === 'harvester'){
         var harvesters = this.creeps(function(creep){
            return creep.role() === 'harvester';
@@ -663,8 +663,8 @@ Room.prototype.allocateJobToSpawn = function(job) {
             energyThreshold = this.roomEnergy();
         }
     }
-    var spawns = this.availableSpawns();
 
+    var spawns = this.availableSpawns();
     if(!spawns || !spawns.length){
         return;
     }
@@ -708,7 +708,7 @@ Room.prototype.allocateJobs = function() {
         var allocated = this.allocateJobToExisting(job);
 
         if(!allocated){
-            // allocated = this.allocateJobToSpawn(job);
+            allocated = this.allocateJobToSpawn(job);
         }
 
         // only keep un allocated jobs in jobs list
