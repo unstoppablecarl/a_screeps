@@ -570,9 +570,9 @@ Room.prototype.updateJobs = function() {
         return job;
     }, this);
 
-    jobs = _.sortBy(jobs, function(job){
+    jobs = _.sortByOrder(jobs, [function(job){
         return job.priority;
-    });
+    }], [false]);
 
     this.jobs(jobs);
 
