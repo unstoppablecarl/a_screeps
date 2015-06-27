@@ -9,7 +9,7 @@ var energyCollectTask = {
         if (!target || target.energy === 0) {
             var targets = [];
             if(!settings.spawns_only){
-                 var energyPiles = creep.room.energyPiles();
+                 var energyPiles = creep.room.getEnergyPiles();
                  targets = targets.concat(energyPiles);
             }
 
