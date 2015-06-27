@@ -683,9 +683,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
         return false;
     }
     var body = metaRoles.getBody(job.role, energyThreshold);
-        console.log('spawn allocating', job.role, job.task_name, body, energyThreshold);
 
-    console.log('spawns 1', spawns);
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
         var result = spawn.spawnCreep(body, memory);
@@ -700,12 +698,11 @@ Room.prototype.allocateJobToSpawn = function(job) {
             result === ERR_INVALID_ARGS){
             result = false;
         } else {
+            console.log('spawn allocating', job.role, job.task_name, body, energyThreshold);
             result = true;
         }
 
         if(result){
-            // manually remove spawn from list of spawns in this room
-            spawns = spawns.splice(1, i);
             return true;
         }
     }
