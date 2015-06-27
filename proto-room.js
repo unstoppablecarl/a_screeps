@@ -426,7 +426,9 @@ Room.prototype.getCollectorJobs = function() {
     }).map(function(creep){
         return creep.taskTarget().id;
     });
+    console.log('collectTargetIds', collectTargetIds);
     console.log('energyPiles', energyPiles);
+    console.log('max', max);
     energyPiles = energyPiles.filter(function(pile){
         if(collectTargetIds.indexOf(pile) !== -1){
             return false;
