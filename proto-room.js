@@ -40,7 +40,6 @@ Room.prototype.jobsReportData = function() {
 
 };
 
-
 Room.prototype.jobsReport = function() {
     var table = require('util').table;
     var str = table(this.jobsReportData());
