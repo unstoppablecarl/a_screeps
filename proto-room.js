@@ -638,7 +638,7 @@ Room.prototype.allocateJobToExisting = function(job) {
     return true;
 };
 
-Room.prototype.allocateJobToSpawn = function(job) {
+Room.prototype.allocateJobToSpawn = function(job, spawns) {
 
     var memory = {
         role: job.role,
@@ -664,10 +664,9 @@ Room.prototype.allocateJobToSpawn = function(job) {
         }
     }
 
-    var spawns = this.availableSpawns();
-    if(!spawns || !spawns.length){
-        return;
-    }
+
+
+    console.log('available spawns', spawns.length);
 
     // order spawns by closest
     if(memory.task_settings && memory.task_settings.target_id){
@@ -682,16 +681,24 @@ Room.prototype.allocateJobToSpawn = function(job) {
     var body = metaRoles.getBody(job.role, energyThreshold);
         console.log('spawn allocating', job.role, job.task_name, body, energyThreshold);
 
+    console.log('spawns 1', spawns);
     for (var i = 0; i < spawns.length; i++) {
         var spawn = spawns[i];
-        var result = spawn.spawnCreep(body, memory);
-        console.log('r', result);
+        // var result = spawn.spawnCreep(body, memory);
+        var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
             result === ERR_NAME_EXISTS ||
             result === ERR_BUSY ||
             result === ERR_INVALID_ARGS){
-            return false;
+            result = false;
+        } else {
+            result = true;
+        }
+        if(result){
+            spawns.splice(1, i);
+            console.log('spawns after splice', spawns);
+            return true;
         }
     }
 
@@ -704,14 +711,24 @@ Room.prototype.allocateJobs = function() {
         return;
     }
 
+
+    // keep list of spawns manually as we cannot tell if they are spawning the same tic
+    var spawns = this.availableSpawns();
+    if(!spawns || !spawns.length){
+        return;
+    }
+
     jobs = jobs.filter(function(job){
+        console.log('j', job.task_name);
+
+
         var allocated = this.allocateJobToExisting(job);
 
         if(!allocated){
-            allocated = this.allocateJobToSpawn(job);
+            allocated = this.allocateJobToSpawn(job, spawns);
         }
 
-        // only keep un allocated jobs in jobs list
+        // // only keep un allocated jobs in jobs list
         return !allocated;
     }, this);
 
