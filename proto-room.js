@@ -3,29 +3,40 @@
 var metaRoles = require('meta-roles');
 
 Room.prototype.act = function() {
-    if (Game.time % 5 === 0) {
+    // if (Game.time % 5 === 0) {
         this.updateEnergyPiles();
         this.updateJobs();
-
-        var j = '';
-        _.each(this.jobs(), function(job){
-            var target;
-            if(job.task_settings && job.task_settings.target_id){
-                target = job.task_settings.target_id;
-            }
-            j += job.role + ' ' + job.task_name + ' ' + job.task_settings.target_id;
-        });
-
-
-
-        console.log('jobs', j);
+        this.jobsReport();
 
         this.allocateJobs();
-    }
+    // }
 
     if (Game.time % 20 === 0) {
         this.updateExtensionCount();
     }
+};
+
+Room.prototype.jobsReport = function() {
+     var jobData = [];
+        _.each(this.jobs(), function(job){
+            var target;
+            var pos;
+            if(job.task_settings && job.task_settings.target_id){
+                target = Game.getObjectById(job.task_settings.target_id);
+                if(target){
+                    pos = target.pos;
+                }
+            }
+            jobData.push({
+                pos: pos,
+                role: job.role,
+                task: job.task_name
+            });
+        });
+
+        var table = require('util').table;
+        console.log('* jobs report * ');
+        table(jobData);
 };
 
 Room.prototype.populationReport = function() {
