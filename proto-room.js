@@ -151,7 +151,7 @@ Room.prototype.getExtensionCount = function(forceRefresh) {
 };
 
 Room.prototype.getExtensionEnergyCapacity = function() {
-    var extensionCount = this.extensionCount();
+    var extensionCount = this.getExtensionCount();
     if (extensionCount) {
         return extensionCount * 50;
     }
