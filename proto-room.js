@@ -9,9 +9,9 @@ Room.prototype.act = function() {
 
     this.allocateJobs();
 
-    if (Game.time % 20 === 0) {
-        this.updateExtensionCount();
-    }
+    // if (Game.time % 20 === 0) {
+    //     this.updateExtensionCount();
+    // }
 };
 
 Room.prototype.jobsReportData = function() {
@@ -126,31 +126,22 @@ Room.prototype.sources = function(filter){
     return finder(this, FIND_SOURCES, filter);
 };
 
-Room.prototype.roads = function(filter){
-    return finder(this, FIND_STRUCTURES, filter);
-};
-
 Room.prototype.availableSpawns = function() {
     return this.spawns(function(spawn) {
         return !spawn.isBusy();
     });
 };
 
-Room.prototype.extensionCount = function(count) {
-    if (count !== void 0) {
-        this.memory.extension_count = count;
+Room.prototype.getExtensionCount = function(forceRefresh) {
+    if(forceRefresh || !this.memory.extension_count){
+        var extensions = this.extensions();
+        this.memory.extension_count = extensions.length;
     }
+
     return this.memory.extension_count;
 };
 
-Room.prototype.updateExtensionCount = function() {
-    var extensions = this.extensions();
-    if (extensions && extensions.length) {
-        this.extensionCount(extensions.length);
-    }
-};
-
-Room.prototype.extensionEnergyCapacity = function() {
+Room.prototype.getExtensionEnergyCapacity = function() {
     var extensionCount = this.extensionCount();
     if (extensionCount) {
         return extensionCount * 50;
@@ -163,7 +154,6 @@ Room.prototype.extensionEnergy = function() {
     var total = 0;
     for (var i = 0; i < extensions.length; i++) {
        var ex = extensions[i];
-
        total += ex.energy;
     }
     return total;
@@ -174,7 +164,6 @@ Room.prototype.spawnEnergy = function() {
     var total = 0;
     for (var i = 0; i < spawns.length; i++) {
        var ex = spawns[i];
-
        total += ex.energy;
     }
     return total;
@@ -182,7 +171,7 @@ Room.prototype.spawnEnergy = function() {
 
 Room.prototype.spawnEnergyCapacity = function() {
     var spawns = this.spawns();
-    return spawns.length * 50;
+    return spawns.length * 300;
 };
 
 Room.prototype.roomEnergy = function() {
