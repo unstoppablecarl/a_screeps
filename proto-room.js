@@ -188,7 +188,7 @@ Room.prototype.roomEnergy = function() {
 };
 
 Room.prototype.roomEnergyCapacity = function() {
-    return this.spawnEnergyCapacity() + this.extensionEnergyCapacity();
+    return this.spawnEnergyCapacity() + this.getExtensionEnergyCapacity();
 };
 
 Room.prototype.energyPercent = function(){
@@ -361,7 +361,7 @@ Room.prototype.jobs = function(jobs) {
 Room.prototype.getCacelDeliverJobs = function(forceRefresh){
     if(forceRefresh || this.cancel_deliver_jobs === void 0){
         var minJobEnergyRatio = this.minJobEnergyRatio();
-        var energyPercent = this.extensionEnergy() / this.extensionEnergyCapacity();
+        var energyPercent = this.extensionEnergy() / this.getExtensionEnergyCapacity();
         this.cancel_deliver_jobs = minJobEnergyRatio > energyPercent;
     }
 
@@ -589,7 +589,7 @@ Room.prototype.getBuildJobs = function() {
 Room.prototype.getDeliverJobs = function() {
 
     var minJobEnergyRatio = this.minJobEnergyRatio();
-    var energyPercent = this.extensionEnergy() / this.extensionEnergyCapacity();
+    var energyPercent = this.extensionEnergy() / this.getExtensionEnergyCapacity();
     if(minJobEnergyRatio > energyPercent){
         return [];
     }
@@ -740,7 +740,7 @@ Room.prototype.allocateJobToSpawn = function(job) {
     }
 
     var maxEnergyRatio = this.maxCreepSpawnEnergyRatio();
-    var energyThreshold = (300 + this.extensionEnergyCapacity()) * maxEnergyRatio;
+    var energyThreshold = (300 + this.getExtensionEnergyCapacity()) * maxEnergyRatio;
 
     // if there are no harvesters spawn whatever type of harvester possible
     if(job.role === 'harvester'){
