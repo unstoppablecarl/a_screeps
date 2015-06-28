@@ -96,6 +96,15 @@ Room.prototype.structures = function(filter) {
     return finder(this, FIND_MY_STRUCTURES, filter);
 };
 
+Room.prototype.roads = function(filter){
+    if(filter){
+        return finder(this, FIND_STRUCTURES, function(s){
+            return s.structureType === STRUCTURE_ROAD && filter(s);
+        });
+    }
+    return finder(this, FIND_STRUCTURES, {structureType: STRUCTURE_ROAD});
+};
+
 Room.prototype.extensions = function(filter) {
     return this.structures(function(s){
         if(s.structureType !== 'extension'){

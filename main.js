@@ -10,7 +10,7 @@ require('proto-all');
 
 // var room = Game.rooms[''];
 
-var room = Game.sim.room;
+var room = Game.rooms.sim;
 _.each(room.find(FIND_MY_CREEPS), function(creep) {
     creep.act();
 });
