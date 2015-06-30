@@ -15,6 +15,8 @@ var job_harvest = {
 
             var flag = job.target();
             console.log('flag', JSON.stringify(flag));
+                        console.log(flag.source);
+
             var source = flag.source();
 
             var result = creep.harvest(source);
