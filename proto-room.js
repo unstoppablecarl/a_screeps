@@ -36,7 +36,7 @@ Room.prototype.act = function() {
         this.updateJobs();
     }
 
-    this.jobManager().getJobs();
+    this.jobManager().allocate();
     // this.jobManager.allocate;
 
     // this.allocateJobs();
@@ -238,7 +238,7 @@ Room.prototype.ildeCreeps = function(role){
 Room.prototype.roleCount = function(role){
     if(this.roleCounts === undefined){
         this.roleCounts = {};
-        var creeps = this.room.creeps();
+        var creeps = this.creeps();
         for (var i = 0; i < creeps.length; i++) {
             var creep = creeps[i];
             var creepRole = creep.role();
