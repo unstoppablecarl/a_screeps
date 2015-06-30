@@ -46,35 +46,8 @@ Room.prototype.act = function() {
     // }
 };
 
-Room.prototype.jobsReportData = function() {
-     var jobData = [];
-        _.each(this.jobs(), function(job){
-            var target;
-            var pos;
-            if(job.task_settings && job.task_settings.target_id){
-                target = Game.getObjectById(job.task_settings.target_id);
-                if(target){
-                    pos = target.pos;
-                }
-            }
-            jobData.push({
-                pos: pos,
-                role: job.role,
-                task: job.task_name,
-                prior: job.priority,
-                existing_only: job.existing_only,
-                target: target
-            });
-        });
-        return jobData;
 
-};
 
-Room.prototype.jobsReport = function() {
-    var table = require('util').table;
-    var str = table(this.jobsReportData());
-    console.log(str);
-};
 
 Room.prototype.populationReport = function() {
     var populationData = {};

@@ -515,6 +515,7 @@ JobManager.prototype = {
         var jobs = this.getJobs();
 
 
+
         jobs = jobs.filter(function(job){
 
             var allocated;
@@ -537,7 +538,29 @@ JobManager.prototype = {
         }
 
         // @TODO move idle creeps to idle flags to get out of the way
-    }
+    },
+
+    reportData: function(jobs) {
+     var jobData = [];
+        _.each(this.room.jobsPending(), function(job){
+            var target;
+            var pos;
+            jobData.push({
+                role: job.role,
+                type: job.type,
+                prior: job.priority,
+                source: job.source(),
+                target: job.target(),
+            });
+        });
+        return jobData;
+    },
+
+    report: function() {
+        var table = require('util').table;
+        var str = table(this.reportData());
+        console.log(str);
+    },
 };
 
 
