@@ -8,6 +8,7 @@ var targetOfJobIds = function(){
 };
 
 var targetOfJobs = function(filter){
+    console.log('x');
     var ids = this.targetOfJobIds();
     var result = ids.map(function(id){
         return this.room.jobsActive().get(id);
