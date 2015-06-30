@@ -459,26 +459,26 @@ JobManager.prototype = {
 
         var jobs = [];
 
-        var replacementJobs = this.getReplacementJobs();
+        // var replacementJobs = this.getReplacementJobs();
         var harvestJobs = this.getHarvestJobs();
-        var energyCollectJobs = this.getEnergyCollectJobs();
-        var repairJobs = this.getRepairJobs();
-        var buildJobs = this.getBuildJobs();
-        var upgradeJobs = this.getUpgradeJobs();
-        var guardJobs = this.getGuardJobs();
-        var energyDeliverJobs = this.getEnergyDeliverJobs();
+        // var energyCollectJobs = this.getEnergyCollectJobs();
+        // var repairJobs = this.getRepairJobs();
+        // var buildJobs = this.getBuildJobs();
+        // var upgradeJobs = this.getUpgradeJobs();
+        // var guardJobs = this.getGuardJobs();
+        // var energyDeliverJobs = this.getEnergyDeliverJobs();
 
         // deturmine creeps that really need to be spawned
 
         jobs = jobs.concat(
-            replacementJobs,
-            harvestJobs,
-            energyCollectJobs,
-            repairJobs,
-            buildJobs,
-            upgradeJobs,
-            guardJobs,
-            energyDeliverJobs
+            // replacementJobs,
+            harvestJobs
+            // energyCollectJobs,
+            // repairJobs,
+            // buildJobs,
+            // upgradeJobs,
+            // guardJobs,
+            // energyDeliverJobs
          // attack / defend
         );
         // console.log('harvestJobs', JSON.stringify(harvestJobs));
@@ -489,9 +489,10 @@ JobManager.prototype = {
         // console.log('guardJobs', JSON.stringify(guardJobs));
         // console.log('energyDeliverJobs', JSON.stringify(energyDeliverJobs));
 
-        // return;
+
         //
         jobs = this.prioritizeJobs(jobs);
+        this.report(jobs);
         return jobs;
     },
 
@@ -570,9 +571,9 @@ JobManager.prototype = {
         return jobData;
     },
 
-    report: function() {
+    report: function(jobs) {
         var table = require('util').table;
-        var str = table(this.reportData());
+        var str = table(this.reportData(jobs));
         console.log(str);
     },
 };
