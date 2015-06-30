@@ -57,6 +57,7 @@ JobManager.prototype = {
     getHarvestJobs: function() {
 
         var sources = this.room.flags(function(flag){
+            console.log(flag.source);
             return flag.role() === 'source' && !flag.harvester() && flag.source() && !flag.isTargetOfJobType('harvest');
         }).map(function(flag){
             return flag.source();
@@ -473,12 +474,12 @@ JobManager.prototype = {
          // attack / defend
         );
         console.log('harvestJobs', JSON.stringify(harvestJobs));
-        console.log('energyCollectJobs', JSON.stringify(energyCollectJobs));
-        console.log('repairJobs', JSON.stringify(repairJobs));
-        console.log('buildJobs', JSON.stringify(buildJobs));
-        console.log('upgradeJobs', JSON.stringify(upgradeJobs));
-        console.log('guardJobs', JSON.stringify(guardJobs));
-        console.log('energyDeliverJobs', JSON.stringify(energyDeliverJobs));
+        // console.log('energyCollectJobs', JSON.stringify(energyCollectJobs));
+        // console.log('repairJobs', JSON.stringify(repairJobs));
+        // console.log('buildJobs', JSON.stringify(buildJobs));
+        // console.log('upgradeJobs', JSON.stringify(upgradeJobs));
+        // console.log('guardJobs', JSON.stringify(guardJobs));
+        // console.log('energyDeliverJobs', JSON.stringify(energyDeliverJobs));
 
         // return;
         //
