@@ -17,10 +17,10 @@ var job_harvest = {
                 creep.moveTo(target);
             }
             if(creep.energy === creep.energyCapacity){
-                creep.dropEnergy();
+                job.end();
             }
         } else {
-            creep.cancelTask();
+            job.end();
         }
     },
     cancel: false,
