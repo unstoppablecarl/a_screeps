@@ -50,7 +50,8 @@ var isTargetOfJobType = function(type) {
     var ids = this.targetOfJobIds();
     for (var i = 0; i < ids.length; i++) {
        var id = ids[i];
-       var job = this.room.jobsActive().getById(id);
+       var active = this.room.jobsActive();
+       var job = active.getById(id);
        if(job){
             if(job.type() === type){
                 return true;
