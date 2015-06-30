@@ -134,7 +134,7 @@ JobManager.prototype = {
     getEnergyDeliverJobs: function() {
 
         var jobs = [];
-        var minJobEnergyRatio = this.minJobEnergyRatio();
+        var minJobEnergyRatio = this.room.minJobEnergyRatio();
         var energyPercent = this.extensionEnergy() / this.extensionEnergyCapacity();
         if(minJobEnergyRatio > energyPercent){
 
