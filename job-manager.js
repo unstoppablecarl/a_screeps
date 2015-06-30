@@ -11,7 +11,7 @@ JobManager.prototype = {
 
     assignNewJob: function(creep, jobData){
         var active = this.room.jobsActive();
-        jobData.source_id = creep.id;
+        jobData.source = creep;
         var job = active.add(jobData);
         job = active.get(job.id);
         job.start();
