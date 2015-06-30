@@ -425,7 +425,7 @@ JobManager.prototype = {
             result === ERR_INVALID_ARGS){
             result = false;
         } else {
-            console.log('spawn allocating', job.role, job.task_name, body, energyThreshold, result);
+            console.log('spawn allocating', job.role, job.task_name, body, maxCreepCost, result);
             result = true;
         }
 
