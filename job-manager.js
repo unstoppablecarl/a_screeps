@@ -302,7 +302,13 @@ JobManager.prototype = {
         // creep selected for job
         var creep;
 
-        var idleCreepsByRole = {};
+        var idleCreepsByRole = {
+            carrier: [],
+            guard: [],
+            upgrader: [],
+            harvester: [],
+            tech: [],
+        };
 
         this.room.creeps(function(creep){
             return creep.idle();
