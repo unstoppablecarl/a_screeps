@@ -12,7 +12,11 @@ var job_harvest = {
         }
 
         if(target){
-            var result = creep.harvest(target);
+
+            var flag = job.target();
+            var source = flag.source();
+
+            var result = creep.harvest(source);
             if(result === ERR_NOT_IN_RANGE){
                 creep.moveTo(target);
             }
