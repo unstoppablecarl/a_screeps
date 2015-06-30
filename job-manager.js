@@ -370,7 +370,7 @@ JobManager.prototype = {
         var active = this.room.jobsActive();
         var job = active.add(jobData);
 
-        var spawns = this.availableSpawns();
+        var spawns = this.room.availableSpawns();
         if(!spawns|| !spawns.length){
             return false;
         }
