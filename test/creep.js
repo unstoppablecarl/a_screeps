@@ -41,9 +41,6 @@ describe('Creep', function() {
 
 
 
-
-
-
             assert(creep.job() === false);
             creep.jobId(1);
             assert(creep.job() === false);
