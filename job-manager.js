@@ -57,7 +57,6 @@ JobManager.prototype = {
     getHarvestJobs: function() {
 
         var sources = this.room.flags(function(flag){
-            console.log(flag.source);
             return flag.role() === 'source' && !flag.harvester() && flag.source() && !flag.isTargetOfJobType('harvest');
         }).map(function(flag){
             return flag.source();
@@ -202,8 +201,8 @@ JobManager.prototype = {
     },
 
     getBaseJobPriority: function(job){
-        var type = job.type();
-        var target = job.target();
+        var type = job.type;
+        var target = job.target;
         var priority = 0;
 
 
