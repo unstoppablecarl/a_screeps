@@ -26,7 +26,7 @@ JobList.prototype = {
     all: function(filter){
         var out = [];
         for(var id in this.memory.jobs){
-            var job = this.getById(id);
+            var job = this.get(id);
             if(!filter || filter(job)){
                 out.push(job);
             }
