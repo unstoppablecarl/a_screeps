@@ -1,9 +1,9 @@
 'use strict';
 
 // harvests energy and drops it into an energy pile
-var role = {
+var role_harvester = {
     init: false,
     act: false,
 };
 
-module.exports = role;
+module.exports = role_harvester;

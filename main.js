@@ -1,6 +1,6 @@
 'use strict';
 require('proto-all');
-
+return;
 // var cpu = require('cpu');
 
 // cpu.start('all');

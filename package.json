@@ -1,0 +1,26 @@
+{
+  "name": "screeps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/_mocha ./test/*.js -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unstoppablecarl/screeps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unstoppablecarl/screeps/issues"
+  },
+  "homepage": "https://github.com/unstoppablecarl/screeps",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5"
+  }
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 // carries energy
-var role = {
+var role_carrier = {
     init: false,
     act: function(creep) {
         if (creep.idle() && creep.energy > 0) {
@@ -10,4 +10,4 @@ var role = {
     },
 };
 
-module.exports = role;
+module.exports = role_carrier;

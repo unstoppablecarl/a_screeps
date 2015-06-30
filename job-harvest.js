@@ -1,6 +1,6 @@
 'use strict';
 
-var task = {
+var job_harvest = {
     name: 'harvest',
     start: false,
     act: function(creep){
@@ -21,4 +21,4 @@ var task = {
     end: false,
 };
 
-module.exports = task;
+module.exports = job_harvest;

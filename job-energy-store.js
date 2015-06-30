@@ -1,7 +1,7 @@
 'use strict';
 
 // bring energy to spawn / extensions
-var task = {
+var job_energy_store = {
     name: 'energy_store',
     _findTarget: function(creep){
         var target = creep.taskTarget();
@@ -45,4 +45,4 @@ var task = {
     end: false,
 };
 
-module.exports = task;
+module.exports = job_energy_store;

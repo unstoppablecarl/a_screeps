@@ -167,7 +167,12 @@
         "TERRAIN_MASK_SWAMP": true,
         "TERRAIN_MASK_LAVA": true,
 
-        "BODYPARTS_ALL": true
+        "BODYPARTS_ALL": true,
+
+    "describe": true,
+    "it": true
+
+
     },
 
     "-W100": true

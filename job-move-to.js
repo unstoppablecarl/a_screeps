@@ -1,6 +1,6 @@
 'use strict';
 
-var task = {
+var job_move_to = {
     name: 'move_to',
     start: false,
     act: function(creep){
@@ -20,4 +20,4 @@ var task = {
     end: false,
 };
 
-module.exports = task;
+module.exports = job_move_to;

@@ -1,6 +1,6 @@
 'use strict';
 
-var role = {
+var role_guard = {
     init: false,
 
     act: function(creep) {
@@ -27,4 +27,4 @@ var role = {
     onAssignToFlag: false,
 };
 
-module.exports = role;
+module.exports = role_guard;

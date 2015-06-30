@@ -1,11 +1,10 @@
 'use strict';
 
-// upgrades room controller
-var role = {
+// repairs and builds structures
+var role_tech = {
     init: false,
     act: function(creep) {
         if (!creep.idle() && creep.energy <= creep.energyCapacity * 0.5) {
-            console.log("ASDAS");
             creep.room.requestEnergy(creep);
         }
 
@@ -28,4 +27,4 @@ var role = {
     },
 };
 
-module.exports = role;
+module.exports = role_tech;

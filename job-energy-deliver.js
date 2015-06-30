@@ -1,7 +1,7 @@
 'use strict';
 
 // bring energy to creep
-var task = {
+var job_energy_deliver = {
     name: 'energy_deliver',
     start: false,
     act: function(creep) {
@@ -32,4 +32,4 @@ var task = {
     end: false,
 };
 
-module.exports = task;
+module.exports = job_energy_deliver;

@@ -1,7 +1,7 @@
 'use strict';
 
 
-var data = {
+var roles_meta = {
 
     getBodyCost: function(body) {
         var total = 0;
@@ -192,4 +192,4 @@ var data = {
 
 
 
-module.exports = data;
+module.exports = roles_meta;

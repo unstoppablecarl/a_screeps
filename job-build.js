@@ -1,6 +1,6 @@
 'use strict';
 
-var task = {
+var job_build = {
     name: 'build',
     start: false,
     act: function(creep){
@@ -18,4 +18,4 @@ var task = {
     cancel: false,
 };
 
-module.exports = task;
+module.exports = job_build;
