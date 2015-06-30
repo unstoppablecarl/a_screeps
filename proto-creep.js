@@ -1,11 +1,11 @@
 'use strict';
 
 var roles = {
-    carrier: require('act-carrier'),
-    guard: require('act-guard'),
-    harvester: require('act-harvester'),
-    tech: require('act-tech'),
-    upgrader: require('act-upgrader'),
+    carrier: require('job-carrier'),
+    guard: require('job-guard'),
+    harvester: require('job-harvester'),
+    tech: require('job-tech'),
+    upgrader: require('job-upgrader'),
 };
 
 var jobManager = require('job-manager');
