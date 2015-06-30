@@ -1,6 +1,6 @@
 'use strict';
 
-var jobHandlers = require('task-all');
+var jobHandlers = require('job-all');
 
 var Job = function Job(room, data) {
     this.room = room;
