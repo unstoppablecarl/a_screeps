@@ -32,9 +32,9 @@ Room.prototype.jobManager = function(){
 };
 
 Room.prototype.act = function() {
-    if (Game.time % 5 === 0) {
-        this.updateJobs();
-    }
+    // if (Game.time % 5 === 0) {
+    //     this.updateJobs();
+    // }
 
     this.jobManager().allocate();
     // this.jobManager.allocate;
