@@ -55,14 +55,9 @@ JobManager.prototype = {
     },
 
     getHarvestJobs: function() {
-
-        var sources = this.room.flags(function(flag){
+        return this.room.flags(function(flag){
             return flag.role() === 'source' && !flag.harvester() && flag.source() && !flag.isTargetOfJobType('harvest');
-        }).map(function(flag){
-            return flag.source();
-        });
-
-        return sources.map(function(source){
+        }).map(function(source){
             return {
                 role: 'harvester',
                 type: 'harvest',
