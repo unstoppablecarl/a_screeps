@@ -76,7 +76,7 @@ Job.prototype = {
         }
 
         source.jobId(null);
-        target.removeTargetOfTask(jobId);
+        target.removeTargetOfJob(jobId);
 
         // move job to pending list
         this.room.jobsActive().remove(jobId);
@@ -93,7 +93,7 @@ Job.prototype = {
 
         // remove all references
         source.jobId(null);
-        target.removeTargetOfTask(this.data.id);
+        target.removeTargetOfJob(this.data.id);
         this.room.jobsActive().remove(this.data.id);
     },
 };
