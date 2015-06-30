@@ -472,7 +472,8 @@ JobManager.prototype = {
             energyDeliverJobs
          // attack / defend
         );
-
+        console.log(jobs);
+        return;
         jobs = this.prioritizeJobs(jobs);
         return jobs;
     },
@@ -510,8 +511,7 @@ JobManager.prototype = {
         // @todo or get from cache
         var jobs = this.getJobs();
 
-        console.log(jobs);
-        return;
+
         jobs = jobs.filter(function(job){
 
             var allocated;
