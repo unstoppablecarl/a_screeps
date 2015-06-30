@@ -301,7 +301,7 @@ JobManager.prototype = {
 
         var idleCreepsByRole = {};
 
-        this.creeps(function(creep){
+        this.room.creeps(function(creep){
             return creep.idle();
         }).forEach(function(creep){
             var role = creep.role();
