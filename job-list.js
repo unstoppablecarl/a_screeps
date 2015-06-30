@@ -40,7 +40,7 @@ JobList.prototype = {
             if(!jobData){
                 return false;
             }
-            this._cached[id] = new Job(jobData);
+            this._cached[id] = new Job(this.room, jobData);
         }
         return this._cached[id];
     },
