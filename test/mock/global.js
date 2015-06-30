@@ -183,11 +183,11 @@ module.exports = function(reset) {
         };
     }
 
-    global.Creep = function() {};
+    global.Creep = require('./creep');
     global.Energy = function() {};
     global.Flag = function() {};
     global.Map = function() {};
-    global.Room = function() {};
+    global.Room = require('./room');
     global.RoomPosition = function(x, y, roomName) {
         this.x = x;
         this.y = y;

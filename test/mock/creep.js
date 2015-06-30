@@ -6,6 +6,5 @@ var Creep = function Creep(){
     this.room = null;
 };
 
-require('./../../proto-creep');
 
 module.exports = Creep;

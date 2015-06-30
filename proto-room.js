@@ -9,26 +9,26 @@ var JobManager = require('job-manager');
 Room.prototype.isRoom = true;
 
 Room.prototype.jobsActive = function(){
-    if(this.jobsActive === undefined){
-        this.jobsActive = new JobList(this);
+    if(this.jobs_active === undefined){
+        this.jobs_active = new JobList(this, 'jobs_active');
     }
 
-    return this.jobsActive;
+    return this.jobs_active;
 };
 
 Room.prototype.jobsPending = function(){
-    if(this.jobsActive === undefined){
-        this.jobsActive = new JobList(this);
+    if(this.jobs_active === undefined){
+        this.jobs_active = new JobList(this, 'jobs_pending');
     }
 
-    return this.jobsActive;
+    return this.jobs_active;
 };
 
 Room.prototype.jobManager = function(){
-    if(this.jobManager === undefined){
-        this.jobManager = new JobManager(this);
+    if(this.job_manager === undefined){
+        this.job_manager = new JobManager(this);
     }
-    return this.jobManager;
+    return this.job_manager;
 };
 
 Room.prototype.act = function() {

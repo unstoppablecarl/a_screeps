@@ -21,6 +21,7 @@
   "homepage": "https://github.com/unstoppablecarl/screeps",
   "devDependencies": {
     "chai": "^3.0.0",
+    "lodash": "^3.9.3",
     "mocha": "^2.2.5"
   }
 }

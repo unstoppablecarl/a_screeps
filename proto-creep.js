@@ -8,8 +8,6 @@ var roles = {
     upgrader: require('role-upgrader'),
 };
 
-var jobManager = require('job-manager');
-
 require('mixin-job-target')(Creep.prototype);
 
 Creep.prototype.act = function() {
@@ -45,7 +43,7 @@ Creep.prototype.role = function(role) {
 };
 
 Creep.prototype.idle = function(value) {
-    return !this.task();
+    return !this.job();
 };
 
 Creep.prototype.jobId = function(id) {
@@ -59,7 +57,7 @@ Creep.prototype.job = function(job) {
     if (job !== void 0) {
         this.jobId(job.id);
     }
-    return jobManager.getById(this.jobId());
+    return this.room.jobsActive().get(this.jobId());
 };
 
 

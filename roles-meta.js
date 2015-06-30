@@ -180,16 +180,6 @@ var roles_meta = {
             ]
         },
     },
-
-    defaultRolePriority: {
-        harvester: 90,
-        builder: 80,
-        repair: 70,
-        guard: 50,
-    }
 };
-
-
-
 
 module.exports = roles_meta;
