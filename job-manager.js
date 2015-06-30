@@ -349,6 +349,10 @@ JobManager.prototype = {
             // idle creeps
         }
 
+        if(!creeps){
+            return false;
+        }
+
         if(creeps.length > 1){
             creep = target.pos.findClosest(creeps);
         } else {
