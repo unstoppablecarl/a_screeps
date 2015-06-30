@@ -164,7 +164,7 @@ JobManager.prototype = {
         var creeps = this.room.creeps(function(creep){
             return creep.role() === 'carrier' && creep.energy < creep.energyCapacity;
         });
-        var energyPiles = this.room.energyPiles().filter(function(pile){
+        return this.room.energyPiles().filter(function(pile){
             // one job per pile over the limit or with no collectors assigned
             return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
         }).map(function(pile){
