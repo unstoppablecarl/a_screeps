@@ -8,7 +8,7 @@ defaultRepairPriority[STRUCTURE_RAMPART] = 0.6;
 defaultRepairPriority[STRUCTURE_WALL] = 0.5;
 
 Room.prototype.repairPriority = function(structure, priority) {
-    if(!this.memory.repair_priority){
+    if (!this.memory.repair_priority) {
         this.memory.repair_priority = defaultRepairPriority;
     }
 
@@ -27,7 +27,7 @@ defaultBuildPriority[STRUCTURE_RAMPART] = 0.6;
 defaultBuildPriority[STRUCTURE_WALL] = 0.5;
 
 Room.prototype.buildPriority = function(structure, priority) {
-    if(!this.memory.repair_priority){
+    if (!this.memory.repair_priority) {
         this.memory.repair_priority = defaultBuildPriority;
     }
 
@@ -65,10 +65,10 @@ Room.prototype.maxCreepSpawnEnergyRatio = function(max) {
 
 
 // if creep.ticksToLive <= threshold it will be replaced
-Room.prototype.creepReplaceThreshold = function(value){
+Room.prototype.creepReplaceThreshold = function(value) {
     if (value !== void 0) {
         this.memory.creep_replace_threshold = value;
-    } else if(!this.memory.creep_replace_threshold){
+    } else if (!this.memory.creep_replace_threshold) {
         this.memory.creep_replace_threshold = 100;
     }
     return this.memory.creep_replace_threshold;
@@ -76,7 +76,7 @@ Room.prototype.creepReplaceThreshold = function(value){
 
 
 // min energy a pile must have to be considered
-Room.prototype.energyPileThresholdMin = function(value){
+Room.prototype.energyPileThresholdMin = function(value) {
     if (value !== void 0) {
         this.memory.energy_pile_threshold_min = value;
     }
@@ -84,15 +84,16 @@ Room.prototype.energyPileThresholdMin = function(value){
 };
 
 // the size of an energy pile required to prompt spawning another collector
-Room.prototype.energyPileThresholdSpawn = function(value){
+Room.prototype.energyPileThresholdSpawn = function(value) {
     if (value !== void 0) {
         this.memory.energy_pile_threshold_spawn = value;
     }
     return this.memory.energy_pile_threshold_spawn || 1500;
 };
 
+// the max number of creeps with given role in this room
 Room.prototype.roleCountMax = function(role, max) {
-    if(this.memory.role_count_max === undefined){
+    if (this.memory.role_count_max === undefined) {
         this.memory.role_count_max = {};
     }
     var roleCountMax = this.memory.role_count_max;
@@ -103,12 +104,9 @@ Room.prototype.roleCountMax = function(role, max) {
 };
 
 // the size of an energy pile required to prompt spawning another collector
-Room.prototype.roleCountMax = function(value){
+Room.prototype.roleCountMax = function(value) {
     if (value !== void 0) {
         this.memory.energy_pile_threshold_spawn = value;
     }
     return this.memory.energy_pile_threshold_spawn || 1500;
 };
-
-
-

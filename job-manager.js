@@ -7,7 +7,6 @@ var JobManager = function JobManager(room) {
 
 JobManager.prototype = {
     constructor: JobManager,
-    roleCounts: null,
 
     assignNewJob: function(creep, jobData){
         var active = this.room.jobsActive();
@@ -35,22 +34,6 @@ JobManager.prototype = {
 
         active.get(jobId).start();
         return true;
-    },
-
-    roleCount: function(role){
-        if(this.roleCounts === null){
-            this.roleCounts = {};
-            var creeps = this.room.creeps();
-            for (var i = 0; i < creeps.length; i++) {
-                var creep = creeps[i];
-                var creepRole = creep.role();
-                if(!this.roleCounts[creepRole]){
-                    this.roleCounts[creepRole] = 0;
-                }
-                this.roleCounts[creepRole]++;
-            }
-        }
-        return this.roleCounts[role];
     },
 
     getReplacementJobs: function() {
@@ -111,7 +94,7 @@ JobManager.prototype = {
         var sites = this.room.constructionSites(function(site){
             return !site.isTargetOfJobType('build');
         });
-        var techCount = this.room.getRoleCount('tech');
+        var techCount = this.room.roleCount('tech');
         var existing_only = techCount > sites.length;
 
         // @TODO handle existing only, when setting priority
@@ -147,7 +130,7 @@ JobManager.prototype = {
         return [];
     },
 
-    getDeliverJobs: function() {
+    getEnergyDeliverJobs: function() {
 
         var jobs = [];
         var minJobEnergyRatio = this.minJobEnergyRatio();
@@ -175,7 +158,7 @@ JobManager.prototype = {
         }, this);
     },
 
-    getCollectorJobs: function() {
+    getEnergyCollectJobs: function() {
 
         // var minEnergySpawn = this.energyPileThresholdSpawn();
         // var min = this.energyPileThresholdMin();
@@ -188,6 +171,13 @@ JobManager.prototype = {
                 target: pile,
             };
         });
+    },
+
+    getEnergyStoreJobs: function() {
+
+        if(this.room.roomEnergy() < this.room.roomEnergyCapacity()){
+
+        }
     },
 
     getGuardJobs: function() {
@@ -225,14 +215,14 @@ JobManager.prototype = {
             priority = 1;
 
         }
-        else if(type === 'energy_store'){
+        // else if(type === 'energy_store'){
 
-            priority = 0.8;
+        //     priority = 0.8;
+        //     if(target){
+        //         priority += (target.energy / target.energyCapacity) * 0.1;
+        //     }
 
-            if(target){
-                priority += (target.energy / target.energyCapacity) * 0.1;
-            }
-        }
+        // }
         else if(type === 'energy_deliver'){
 
             priority = 0.6;
@@ -322,80 +312,55 @@ JobManager.prototype = {
 
         var jobs = [];
 
-        // check for creeps about to die that need to be replaced
-        jobs = jobs.concat(
-            this.getReplacementJobs(),
-            this.getHarvestJobs(),
-            this.getCollectJobs(),
-            this.getRepairJobs(),
-            this.getBuildJobs(),
-            this.getDeliverJobs(),
-            this.getUpgradeJobs(),
-            this.getGuardJobs()
+        var replacementJobs = this.getReplacementJobs();
+        var harvestJobs = this.getHarvestJobs();
+        var energyCollectJobs = this.getEnergyCollectJobs();
+        var repairJobs = this.getRepairJobs();
+        var buildJobs = this.getBuildJobs();
+        var upgradeJobs = this.getUpgradeJobs();
+        var guardJobs = this.getGuardJobs();
 
-            // attack / defend
-        );
+        // deturmine creeps that really need to be spawned
+
+        // jobs = jobs.concat(
+
+
+        //     // attack / defend
+        // );
+
+
+        // split energy jobs by energy amount
+
+        // fill room energy first
+        var energyStoreAmount = this.room.roomEnergyCapacity() - this.room.roomEnergy();
+        if(energyStoreAmount){
+            var creeps = this.room.creeps(function(creep){
+                return creep.role() === 'carrier' && creep.energy;
+            });
+
+            for(var i = creeps.length - 1; i >= 0; i--){
+                if(!energyStoreAmount){
+                    break;
+                }
+
+                var creep = creeps[i];
+                energyStoreAmount -= creep.energy;
+                // allocate creep to energy_store
+
+                this.assignNewJob(creep, {
+                    role: 'carrier',
+                    type: 'energy_store'
+                });
+                creeps.splice(1, i);
+            }
+        }
+
+        var energyStoreJobs = this.getEnergyStoreJobs();
+        var energyDeliverJobs = this.getEnergyDeliverJobs();
 
         jobs = this.prioritizeJobs(jobs);
         return jobs;
     },
-};
-
-
-
-
-
-Room.prototype.getJobPriority = function(job, jobs) {
-    var role = job.role;
-    var taskName = job.task_name;
-    var taskSettings = job.task_settings || {};
-    var targetId = taskSettings.target_id;
-    var target;
-
-    if(targetId){
-        target = Game.getObjectById(targetId);
-    }
-    var rolePriorities = {
-        harvester: 0.95,
-    };
-
-    var rolePriority = rolePriorities[role] || 0;
-    var taskPriority = 0;
-
-    if(target){
-        if(taskName === 'energy_collect'){
-            rolePriority = 0.9;
-            taskPriority = this.roomEnergy() / this.roomEnergyCapacity();
-        }
-        else if(taskName === 'repair'){
-
-            var damagePercent = 1 - (target.hits / target.hitsLeft);
-            var repairPriority = this.repairPriority(target.structureType);
-            var repairPriorityPercent = (repairPriority / 100);
-            // average of damage percent and basePriority
-            taskPriority = (damagePercent + repairPriorityPercent) / 2;
-
-        } else if(taskName === 'build'){
-
-            var progressPercent = target.progress / target.progressTotal;
-            var buildPriority = this.buildPriority(target.structureType);
-            var buildPriorityPercent = (buildPriority / 100);
-            // average of progress percent and basePriority
-            taskPriority = (progressPercent + buildPriorityPercent) / 2;
-
-        } else if(taskName === 'energy_deliver'){
-
-            var energyPriority = 1 - (target.energy / target.energyCapacity);
-            taskPriority = (energyPriority + 0.55) / 2;
-
-        } else if(taskName === 'upgrade_room_controller'){
-
-            taskPriority = 0.25;
-        }
-    }
-
-    var priority = (rolePriority + taskPriority) / 2;
-    return priority;
 };
 
 

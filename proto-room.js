@@ -235,16 +235,20 @@ Room.prototype.ildeCreeps = function(role){
     });
 };
 
-Room.prototype.getRoleCount = function(role, forceRefresh) {
-    if(!this.role_counts){
-        this.role_counts = {};
+Room.prototype.roleCount = function(role){
+    if(this.roleCounts === undefined){
+        this.roleCounts = {};
+        var creeps = this.room.creeps();
+        for (var i = 0; i < creeps.length; i++) {
+            var creep = creeps[i];
+            var creepRole = creep.role();
+            if(!this.roleCounts[creepRole]){
+                this.roleCounts[creepRole] = 0;
+            }
+            this.roleCounts[creepRole]++;
+        }
     }
-    if(forceRefresh || !this.role_counts[role]){
-        this.role_counts[role] = this.creeps(function(creep){
-            return creep.role() === role;
-        }).length;
-    }
-    return this.role_counts[role];
+    return this.roleCounts[role];
 };
 
 Room.prototype.energyPiles = function(){
@@ -253,11 +257,3 @@ Room.prototype.energyPiles = function(){
         return pile.energy >= threshold;
     });
 };
-
-Room.prototype.jobManager = function() {
-    if(!this.jobManager){
-        this.jobManager = new JobManager(this);
-    }
-    return this.jobManager;
-};
-
