@@ -48,6 +48,16 @@ Flag.prototype.sourceId = function(id) {
     return this.memory.source_id;
 };
 
+Flag.prototype.source = function(source) {
+    if(this.memory.role !== 'source'){
+        return false;
+    }
+    if (source !== undefined) {
+        this.sourceId(source.id);
+    }
+    return Game.getObjectById(this.sourceId());
+};
+
 Flag.prototype.harvesterId = function(id) {
     if(this.memory.role !== 'source'){
         return false;
