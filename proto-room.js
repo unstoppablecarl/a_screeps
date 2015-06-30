@@ -2,7 +2,6 @@
 
 require('proto-room-settings');
 
-var metaRoles = require('meta-roles');
 var JobList = require('job-list');
 var JobManager = require('job-manager');
 
@@ -38,9 +37,9 @@ Room.prototype.act = function() {
     }
 
     this.jobManager.update();
-    this.jobManager.allocate;
+    // this.jobManager.allocate;
 
-    this.allocateJobs();
+    // this.allocateJobs();
 
     // if (Game.time % 20 === 0) {
     //     this.updateExtensionCount();
