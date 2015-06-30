@@ -10,7 +10,7 @@ var targetOfJobIds = function(){
 var targetOfJobs = function(filter){
     var ids = this.targetOfJobIds();
     var result = ids.map(function(id){
-
+        x;
         return this.room.jobsActive().all(function(job){
             return job.id === id;
         });
