@@ -101,4 +101,4 @@ Job.prototype = {
 
 
 
-module.exports = Task;
+module.exports = Job;
