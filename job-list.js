@@ -59,4 +59,4 @@ JobList.prototype = {
 
 
 
-module.exports = jobList;
+module.exports = JobList;
