@@ -14,9 +14,9 @@ var job_harvest = {
         if(target){
 
             var flag = job.target();
-            console.log('flag', JSON.stringify(flag));
-                        console.log(flag.constructor);
-                        console.log(Flag.prototype.source);
+            // console.log('flag', JSON.stringify(flag));
+                        // console.log(flag.constructor);
+                        // console.log(Flag.prototype.source);
 
             var source = flag.source();
 
