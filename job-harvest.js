@@ -4,7 +4,13 @@ var job_harvest = {
     name: 'harvest',
     start: false,
     act: function(creep){
-        var target = creep.taskTarget();
+        var job = creep.job();
+        var target;
+
+        if(job){
+            target = job.target();
+        }
+
         if(target){
             var result = creep.harvest(target);
             if(result === ERR_NOT_IN_RANGE){
