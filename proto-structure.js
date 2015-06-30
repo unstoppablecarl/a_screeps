@@ -1,2 +1,2 @@
-'use strict';
-require('mixin-job-target')(Structure.prototype);
+// 'use strict';
+// require('mixin-job-target')(Structure.prototype);
