@@ -1,5 +1,6 @@
 'use strict';
 
+var rolesMeta = require('roles-meta');
 
 var JobManager = function JobManager(room) {
     this.room = room;
@@ -159,12 +160,14 @@ JobManager.prototype = {
     },
 
     getEnergyCollectJobs: function() {
-
-        // var minEnergySpawn = this.energyPileThresholdSpawn();
-        // var min = this.energyPileThresholdMin();
-        var energyPiles = this.energyPiles();
-
-        return energyPiles.map(function(pile){
+        var minEnergySpawn = this.room.energyPileThresholdSpawn();
+        var creeps = this.room.creeps(function(creep){
+            return creep.role() === 'carrier' && creep.energy < creep.energyCapacity;
+        });
+        var energyPiles = this.room.energyPiles().filter(function(pile){
+            // one job per pile over the limit or with no collectors assigned
+            return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
+        }).map(function(pile){
             return {
                 role: 'carrier',
                 type: 'energy_collect',
@@ -287,6 +290,148 @@ JobManager.prototype = {
 
         return priority;
     },
+    allocateJobToExisting: function(job) {
+        var type = job.type;
+        var target = job.target;
+
+        // all creeps valid for job
+        var creeps;
+        // creep selected for job
+        var creep;
+
+        var idleCreepsByRole = {};
+
+        this.creeps(function(creep){
+            return creep.idle();
+        }).forEach(function(creep){
+            var role = creep.role();
+            if(!idleCreepsByRole[role]){
+                idleCreepsByRole[role] = [];
+            }
+            idleCreepsByRole[role].push(creep);
+        });
+
+        if(type === 'replacement'){
+
+            var replaceRole = job.role;
+            creeps = idleCreepsByRole[replaceRole];
+
+        }
+        else if(type === 'harvest'){
+
+            creeps = idleCreepsByRole.harvester;
+        }
+        else if(type === 'energy_deliver'){
+
+            creeps = idleCreepsByRole.carrier.filter(function(creep){
+                return creep.energy > 0;
+            });
+        }
+        else if(type === 'energy_collect'){
+            creeps = idleCreepsByRole.carrier.filter(function(creep){
+                return creep.energy < creep.energyCapacity;
+            });
+        }
+        else if(type === 'repair'){
+
+            creeps = idleCreepsByRole.tech;
+        }
+        else if(type === 'build'){
+
+            creeps = idleCreepsByRole.tech;
+        }
+        else if(type === 'upgrade_room_controller'){
+
+            creeps = idleCreepsByRole.upgrader;
+        }
+
+        else {
+            // idle creeps
+        }
+
+        if(creeps.length > 1){
+            creep = target.pos.findClosest(creeps);
+        } else {
+            creep = creeps[0];
+        }
+        // if(!creep){
+        //     return false;
+        // }
+
+        this.assignNewJob(creep, job);
+
+        console.log('allocate job ', job.type, creep.name);
+
+        return true;
+    },
+
+
+    allocateJobToSpawn: function(jobData) {
+        var active = this.room.jobsActive();
+        var job = active.add(jobData);
+
+        var spawns = this.availableSpawns();
+        if(!spawns|| !spawns.length){
+            return false;
+        }
+        var role = job.role;
+        var target;
+        var maxCreepCost;
+        var spawn = spawns[0];
+        // order spawns by closest
+        // un tested
+        // if(spawns.length > 1){
+        //     if(job.target && job.target.id){
+        //         target = Game.getObjectById(job.target.id);
+        //         if(target){
+        //              spawn = target.pos.getClosest(spawns);
+        //         }
+        //     }
+        // }
+
+
+        // if there are no harvesters spawn whatever type of harvester possible
+        if(role === 'harvester'){
+            var harvesterCount = this.room.roleCount('harvester');
+            if(!harvesterCount){
+                maxCreepCost = this.room.extensionEnergy() + spawn.energy;
+            }
+        } else {
+            var singleSpawnEnergyCap = 300;
+            maxCreepCost = this.room.extensionEnergyCapacity() + singleSpawnEnergyCap;
+        }
+
+        if(maxCreepCost === 0 ){
+            console.log('no energy');
+            return false;
+        }
+
+        var memory = {
+            role: role,
+            source_of_job_id: job.id
+        };
+        var body = rolesMeta.getBody(role, maxCreepCost);
+        if(!body){
+            console.log('no affordable body', role, maxCreepCost);
+            return;
+        }
+
+        var result = spawn.spawnCreep(body, memory);
+        // var result = spawn.canCreateCreep(body, memory);
+        if(result === ERR_NOT_ENOUGH_ENERGY ||
+            result === ERR_NOT_OWNER ||
+            result === ERR_NAME_EXISTS ||
+            result === ERR_BUSY ||
+            result === ERR_INVALID_ARGS){
+            result = false;
+        } else {
+            console.log('spawn allocating', job.role, job.task_name, body, energyThreshold, result);
+            result = true;
+        }
+
+        return false;
+    },
+
     prioritizeJobs: function(jobs){
 
         for (var i = 0; i < jobs.length; i++) {
@@ -302,33 +447,6 @@ JobManager.prototype = {
     },
 
     getJobs: function() {
-
-
-         // fill room energy first
-        // split energy jobs by energy amount
-        var energyStoreAmount = this.room.roomEnergyCapacity() - this.room.roomEnergy();
-        if(energyStoreAmount){
-            var creeps = this.room.creeps(function(creep){
-                return creep.role() === 'carrier' && creep.energy;
-            });
-
-            // allocate energy store tasks to creeps until full
-            for(var i = creeps.length - 1; i >= 0; i--){
-                if(!energyStoreAmount){
-                    break;
-                }
-
-                var creep = creeps[i];
-                energyStoreAmount -= creep.energy;
-                // allocate creep to energy_store
-
-                this.assignNewJob(creep, {
-                    role: 'carrier',
-                    type: 'energy_store'
-                });
-                creeps.splice(1, i);
-            }
-        }
 
         var jobs = [];
 
@@ -358,175 +476,64 @@ JobManager.prototype = {
         jobs = this.prioritizeJobs(jobs);
         return jobs;
     },
-};
 
-Room.prototype.allocateJobToExisting = function(job) {
-    var creeps;
-    if(job.task_name === 'energy_deliver'){
-        creeps = this.creeps(function(creep){
-
-            if(creep.role() !== job.role){
-                return false;
-            }
-
-            return (creep.idle() || (creep.taskName() === 'energy_store'));
-        });
-
-    } else if(job.task_name === 'energy_collect'){
-        // idle creeps
-        creeps = this.creeps(function(creep){
-            return creep.idle() && creep.role() === job.role && creep.energy < creep.energyCapacity;
-        });
-    }else {
-        // idle creeps
-        creeps = this.creeps(function(creep){
-            return creep.idle() && creep.role() === job.role;
-        });
-    }
-
-    if(!creeps || !creeps.length){
-        return false;
-    }
-    var creep;
-    if(target && creeps.length > 1){
-        creep = target.pos.findClosest(creeps);
-    } else {
-        creep = creeps[0];
-    }
-    if(!creep){
-        return false;
-    }
-
-    var memory = job.memory || {};
-    var taskName = job.task_name;
-    var taskSettings = job.task_settings || {};
-    var targetId = taskSettings.target_id;
-    var target = Game.getObjectById(targetId);
-
-    if(creep && taskName){
-        creep.startTask(taskName, taskSettings);
-    }
-
-    if(job.memory){
-        _.extend(creep.memory, job.memory);
-    }
-
-    if(job.type === 'replacement'){
-        if(job.job_settings && job.job_settings.replacing_creep_id){
-            var replacingCreep = Game.getObjectById(job.job_settings.replacing_creep_id);
-            if(replacingCreep){
-                replacingCreep.replaced(true);
-            }
-        }
-    }
-    console.log('allocate job ', taskName, creep.name);
-
-    return true;
-};
-
-Room.prototype.allocateJobToSpawn = function(job) {
-    var spawns = this.availableSpawns();
-    if(!spawns|| !spawns.length){
-        return false;
-    }
-
-    var memory = {
-        role: job.role,
-        task_name: job.task_name,
-        task_settings: job.task_settings,
-    };
-
-    if(job.memory){
-        _.extend(memory, job.memory);
-    }
-
-    var maxEnergyRatio = this.maxCreepSpawnEnergyRatio();
-    var energyThreshold = (300 + this.extensionEnergyCapacity()) * maxEnergyRatio;
-
-    // if there are no harvesters spawn whatever type of harvester possible
-    if(job.role === 'harvester'){
-        var harvesters = this.creeps(function(creep){
-           return creep.role() === 'harvester';
-        });
-
-        if(!harvesters || !harvesters.length){
-            energyThreshold = this.roomEnergy();
-        }
-    }
-    // order spawns by closest
-    if(memory.task_settings && memory.task_settings.target_id){
-        var target = Game.getObjectById(memory.task_settings.target_id);
-        if(target){
-            spawns = _.sortBy(spawns, function(spawn){
-                return spawn.pos.getRangeTo(target);
+    allocateEnergyStoreJobs: function(){
+        // fill room energy first
+        // split energy jobs by energy amount
+        var energyStoreAmount = this.room.roomEnergyCapacity() - this.room.roomEnergy();
+        if(energyStoreAmount){
+            var creeps = this.room.creeps(function(creep){
+                return creep.role() === 'carrier' && creep.energy;
             });
-        }
-    }
 
-    if(energyThreshold === 0 ){
-        console.log('no energy');
-        return false;
-    }
-    var body = metaRoles.getBody(job.role, energyThreshold);
-
-    for (var i = 0; i < spawns.length; i++) {
-        var spawn = spawns[i];
-        var result = spawn.spawnCreep(body, memory);
-
-        // var result = spawn.canCreateCreep(body, memory);
-        if(result === ERR_NOT_ENOUGH_ENERGY ||
-            result === ERR_NOT_OWNER ||
-            result === ERR_NAME_EXISTS ||
-            result === ERR_BUSY ||
-            result === ERR_INVALID_ARGS){
-            result = false;
-        } else {
-            console.log('spawn allocating', job.role, job.task_name, body, energyThreshold, result);
-            result = true;
-        }
-
-        if(result){
-
-            if(job.type === 'replacement'){
-                if(job.job_settings && job.job_settings.replacing_creep_id){
-                    var replacingCreep = Game.getObjectById(job.job_settings.replacing_creep_id);
-                    if(replacingCreep){
-                        replacingCreep.replaced(true);
-                    }
+            // allocate energy store tasks to creeps until full
+            for(var i = creeps.length - 1; i >= 0; i--){
+                if(!energyStoreAmount){
+                    break;
                 }
+
+                var creep = creeps[i];
+                energyStoreAmount -= creep.energy;
+                // allocate creep to energy_store
+                this.assignNewJob(creep, {
+                    role: 'carrier',
+                    type: 'energy_store'
+                });
             }
-            return true;
         }
-    }
+    },
 
-    return false;
+    allocate: function(){
+
+        this.allocateEnergyStoreJobs();
+
+        // @todo or get from cache
+        var jobs = this.getJobs();
+
+        jobs = jobs.filter(function(job){
+
+            var allocated;
+
+            allocated = this.allocateJobToExisting(job);
+
+            if(!allocated && !job.existing_only){
+                allocated = this.allocateJobToSpawn(job);
+            }
+
+            // only keep un allocated jobs in jobs list
+            return !allocated;
+        }, this);
+
+        // save updated jobs list
+
+        for (var i = 0; i < jobs.length; i++) {
+            var job = jobs[i];
+            this.room.jobsPending().add(job);
+        }
+
+        // @TODO move idle creeps to idle flags to get out of the way
+    }
 };
 
-Room.prototype.allocateJobs = function() {
-    var jobs = this.jobs();
-    if(!jobs || !jobs.length){
-        return;
-    }
-
-    jobs = jobs.filter(function(job){
-
-        var allocated;
-
-        allocated = this.allocateJobToExisting(job);
-
-        if(!allocated && !job.existing_only){
-            allocated = this.allocateJobToSpawn(job);
-        }
-
-        // only keep un allocated jobs in jobs list
-        return !allocated;
-    }, this);
-
-    // save updated jobs list
-    this.jobs(jobs);
-
-    // @TODO move idle creeps to idle flags to get out of the way
-
-};
 
 module.exports = JobManager;
