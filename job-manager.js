@@ -357,8 +357,7 @@ JobManager.prototype = {
         // if(!creep){
         //     return false;
         // }
-        console.log('creep', JSON.stringify(creep));
-        console.log('job', JSON.stringify(job));
+
         this.assignNewJob(creep, job);
 
         console.log('allocate job ', job.type, creep.name);

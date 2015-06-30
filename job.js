@@ -91,6 +91,7 @@ Job.prototype = {
             handler.end(this.source());
         }
 
+        console.log('target', JSON.stringify(target));
         // remove all references
         source.jobId(null);
         target.removeTargetOfJob(this.data.id);
