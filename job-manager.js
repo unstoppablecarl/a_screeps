@@ -135,7 +135,7 @@ JobManager.prototype = {
 
         var jobs = [];
         var minJobEnergyRatio = this.room.minJobEnergyRatio();
-        var energyPercent = this.extensionEnergy() / this.extensionEnergyCapacity();
+        var energyPercent = this.room.extensionEnergy() / this.room.extensionEnergyCapacity();
         if(minJobEnergyRatio > energyPercent){
 
             // @TODO push split into multiple jobs
