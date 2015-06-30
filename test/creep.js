@@ -37,6 +37,9 @@ describe('Creep', function() {
             var room = new Room();
             creep.room = room;
 
+
+
+
             creep.id = 99;
 
             assert(creep.job() === false);
