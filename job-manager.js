@@ -166,9 +166,10 @@ JobManager.prototype = {
             return job.target().id;
         });
         console.log('existingCollectorJobTargetIds', existingCollectorJobTargetIds);
+
         return this.room.energyPiles().filter(function(pile){
             // one job per pile over the limit or with no collectors assigned
-            return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
+            return (pile.energy > minEnergySpawn) || existingCollectorJobTargetIds.indexOf(pile.id) === -1;
         }).map(function(pile){
             return {
                 role: 'carrier',
