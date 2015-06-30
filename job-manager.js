@@ -472,8 +472,16 @@ JobManager.prototype = {
             energyDeliverJobs
          // attack / defend
         );
-        console.log(JSON.stringify(replacementJobs));
+        console.log('harvestJobs', JSON.stringify(harvestJobs));
+        console.log('energyCollectJobs', JSON.stringify(energyCollectJobs));
+        console.log('repairJobs', JSON.stringify(repairJobs));
+        console.log('buildJobs', JSON.stringify(buildJobs));
+        console.log('upgradeJobs', JSON.stringify(upgradeJobs));
+        console.log('guardJobs', JSON.stringify(guardJobs));
+        console.log('energyDeliverJobs', JSON.stringify(energyDeliverJobs));
+
         // return;
+        //
         jobs = this.prioritizeJobs(jobs);
         return jobs;
     },
