@@ -472,8 +472,8 @@ JobManager.prototype = {
             energyDeliverJobs
          // attack / defend
         );
-        console.log(jobs);
-        return;
+        console.log(JSON.stringify(jobs));
+        // return;
         jobs = this.prioritizeJobs(jobs);
         return jobs;
     },
