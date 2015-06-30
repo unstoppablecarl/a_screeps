@@ -55,6 +55,12 @@ JobList.prototype = {
         delete this._cached[id];
         delete this.memory.jobs[id];
     },
+
+    clean: function(){
+        for(var key in this.memory.jobs){
+
+        }
+    }
 };
 
 module.exports = JobList;

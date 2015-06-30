@@ -173,13 +173,6 @@ JobManager.prototype = {
         });
     },
 
-    getEnergyStoreJobs: function() {
-
-        if(this.room.roomEnergy() < this.room.roomEnergyCapacity()){
-
-        }
-    },
-
     getGuardJobs: function() {
         var jobs = [];
 
@@ -310,34 +303,16 @@ JobManager.prototype = {
 
     getJobs: function() {
 
-        var jobs = [];
 
-        var replacementJobs = this.getReplacementJobs();
-        var harvestJobs = this.getHarvestJobs();
-        var energyCollectJobs = this.getEnergyCollectJobs();
-        var repairJobs = this.getRepairJobs();
-        var buildJobs = this.getBuildJobs();
-        var upgradeJobs = this.getUpgradeJobs();
-        var guardJobs = this.getGuardJobs();
-
-        // deturmine creeps that really need to be spawned
-
-        // jobs = jobs.concat(
-
-
-        //     // attack / defend
-        // );
-
-
+         // fill room energy first
         // split energy jobs by energy amount
-
-        // fill room energy first
         var energyStoreAmount = this.room.roomEnergyCapacity() - this.room.roomEnergy();
         if(energyStoreAmount){
             var creeps = this.room.creeps(function(creep){
                 return creep.role() === 'carrier' && creep.energy;
             });
 
+            // allocate energy store tasks to creeps until full
             for(var i = creeps.length - 1; i >= 0; i--){
                 if(!energyStoreAmount){
                     break;
@@ -355,15 +330,35 @@ JobManager.prototype = {
             }
         }
 
-        var energyStoreJobs = this.getEnergyStoreJobs();
+        var jobs = [];
+
+        var replacementJobs = this.getReplacementJobs();
+        var harvestJobs = this.getHarvestJobs();
+        var energyCollectJobs = this.getEnergyCollectJobs();
+        var repairJobs = this.getRepairJobs();
+        var buildJobs = this.getBuildJobs();
+        var upgradeJobs = this.getUpgradeJobs();
+        var guardJobs = this.getGuardJobs();
         var energyDeliverJobs = this.getEnergyDeliverJobs();
+
+        // deturmine creeps that really need to be spawned
+
+        jobs = jobs.concat(
+            replacementJobs,
+            harvestJobs,
+            energyCollectJobs,
+            repairJobs,
+            buildJobs,
+            upgradeJobs,
+            guardJobs,
+            energyDeliverJobs
+         // attack / defend
+        );
 
         jobs = this.prioritizeJobs(jobs);
         return jobs;
     },
 };
-
-
 
 Room.prototype.allocateJobToExisting = function(job) {
     var creeps;
