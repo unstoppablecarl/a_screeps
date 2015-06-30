@@ -510,6 +510,8 @@ JobManager.prototype = {
         // @todo or get from cache
         var jobs = this.getJobs();
 
+        console.log(jobs);
+        return;
         jobs = jobs.filter(function(job){
 
             var allocated;
