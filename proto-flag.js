@@ -48,6 +48,7 @@ Flag.prototype.sourceId = function(id) {
     return this.memory.source_id;
 };
 
+
 Flag.prototype.source = function(source) {
     if(this.memory.role !== 'source'){
         return false;
