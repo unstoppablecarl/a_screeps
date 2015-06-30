@@ -57,6 +57,4 @@ JobList.prototype = {
     },
 };
 
-
-
 module.exports = JobList;
