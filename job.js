@@ -3,7 +3,7 @@
 var jobHandlers = require('job-all');
 
 var Job = function Job(room, memory) {
-    console.log((new Error("Foo bar")).stack);
+
     this.room = room;
     // keep ref to task memory memory object
     this.memory = memory;
