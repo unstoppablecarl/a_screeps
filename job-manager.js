@@ -385,7 +385,9 @@ console.log('allocateJobToSpawn');
             if(!harvesterCount){
                 maxCreepCost = this.room.extensionEnergy() + spawn.energy;
             }
-        } else {
+        }
+
+        if(maxCreepCost === undefined){
             var singleSpawnEnergyCap = 300;
             maxCreepCost = this.room.extensionEnergyCapacity() + singleSpawnEnergyCap;
         }
