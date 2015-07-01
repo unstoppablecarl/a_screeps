@@ -56,11 +56,6 @@ JobManager.prototype = {
 
     getHarvestJobs: function() {
         return this.room.flags(function(flag){
-
-            console.log('role', flag.role());
-            console.log('source', JSON.stringify(flag.source()));
-            console.log('target of type', JSON.stringify(flag.source().isTargetOfJobType('harvest')));
-
             if(flag.role() !== 'source'){
                 return false;
             }
@@ -495,7 +490,7 @@ JobManager.prototype = {
             // energyDeliverJobs
          // attack / defend
         );
-        console.log('harvestJobs', JSON.stringify(harvestJobs));
+        // console.log('harvestJobs', JSON.stringify(harvestJobs));
         // console.log('energyCollectJobs', JSON.stringify(energyCollectJobs));
         // console.log('repairJobs', JSON.stringify(repairJobs));
         // console.log('buildJobs', JSON.stringify(buildJobs));
@@ -574,7 +569,6 @@ JobManager.prototype = {
             var j = pending.get(jobData.id);
             var target = j.target();
             if(target){
-                console.log('target', JSON.stringify(target));
                 target.setTargetOfJob(jobData.id);
             }
         }
