@@ -7,7 +7,7 @@ var Job = function Job(room, memory) {
     this.room = room;
     // keep ref to task memory memory object
     this.memory = memory;
-
+    console.log('create', room, memory);
     if(memory.source && this.source.id){
         var source = Game.getObjectById(memory.source.id);
         this.source(source);
@@ -55,7 +55,6 @@ Job.prototype = {
     },
 
     target: function(value) {
-        console.log('set target', value);
         var current;
         if(this.memory.target && this.memory.target.id){
             current = Game.getObjectById(this.memory.target.id);
