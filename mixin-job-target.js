@@ -23,8 +23,9 @@ var targetOfJobs = function(filter) {
 };
 
 var setTargetOfJob = function(jobId) {
-    var jobIds = this.targetOfJobIds();
 
+    var jobIds = this.targetOfJobIds();
+    console.log('setTargetOfJob', jobId, jobIds);
     // prevent duplicates
     if (jobIds.indexOf(jobId) === -1) {
         jobIds.push(jobId);
