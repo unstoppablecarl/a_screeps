@@ -396,7 +396,7 @@ console.log('allocateJobToSpawn');
         }
         var memory = {
             role: role,
-            source_of_job_id: job.id
+            source_of_job_id: job.id()
         };
         var body = rolesMeta.getBody(role, maxCreepCost);
         if(!body){
@@ -405,6 +405,8 @@ console.log('allocateJobToSpawn');
         }
         // console.log('spawn ', spawn);
         // console.log('body ', JSON.stringify(body));
+                // console.log('body ', JSON.stringify(body));
+
         // console.log('memory ', JSON.stringify(memory));
         // var result = spawn.createCreep([WORK, MOVE, CARRY], null, {role: 'harvester'});
         var result = spawn.createCreep(body, null, memory);
