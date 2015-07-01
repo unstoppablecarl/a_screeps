@@ -276,6 +276,7 @@ JobManager.prototype = {
         return priority;
     },
     allocateJobToExisting: function(job) {
+        console.log('allocateJobToExisting');
         var type = job.type();
         var target = job.target();
 
@@ -358,7 +359,7 @@ JobManager.prototype = {
     },
 
     allocateJobToSpawn: function(job) {
-
+console.log('allocateJobToSpawn');
         var spawns = this.room.availableSpawns();
         if(!spawns|| !spawns.length){
             return false;
@@ -508,7 +509,7 @@ JobManager.prototype = {
 
     allocate: function(){
 
-        this.allocateEnergyStoreJobs();
+        // this.allocateEnergyStoreJobs();
 
         // @todo or get from cache
 
