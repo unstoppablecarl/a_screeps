@@ -404,6 +404,8 @@ console.log('allocateJobToSpawn');
             return;
         }
         console.log('spawn ', spawn);
+        console.log('body ', body);
+        console.log('memory ', JSON.stringify(memory));
         return;
 
         var result = spawn.spawnCreep(body, memory);
