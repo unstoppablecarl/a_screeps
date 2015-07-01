@@ -1,14 +1,16 @@
 'use strict';
 
+// get job ids array
 var targetOfJobIds = function(){
-    if(this.memory.target_of_job_ids === undefined){
-        this.memory.target_of_job_ids = [];
+    var jobTargets = this.room.jobTargets();
+    if(jobTargets[this.id] === undefined){
+        jobTargets[this.id] = [];
     }
-    return this.memory.target_of_job_ids;
+    return jobTargets[this.id];
 };
 
 var targetOfJobs = function(filter){
-    console.log('x');
+
     var ids = this.targetOfJobIds();
     var result = ids.map(function(id){
         return this.room.jobsActive().get(id);
@@ -19,32 +21,27 @@ var targetOfJobs = function(filter){
     return result;
 };
 
-var setTargetOfJob = function(id){
-    if(this.memory.target_of_job_ids === undefined){
-        this.memory.target_of_job_ids = [];
-    }
+var setTargetOfJob = function(jobId){
+    var jobIds = this.targetOfJobIds();
 
     // prevent duplicates
-    if(this.memory.target_of_job_ids.indexOf(id) === -1){
-        this.memory.target_of_job_ids.push(id);
+    if(jobIds.indexOf(jobId) === -1){
+        jobIds.push(jobId);
     }
 };
 
-var removeTargetOfJob = function(id){
-    if(this.memory.target_of_job_ids === undefined){
-        return;
-    }
-    var index = this.memory.target_of_job_ids.indexOf(id);
+var removeTargetOfJob = function(jobId){
+    var jobIds = this.targetOfJobIds();
+
+    var index = jobIds.indexOf(jobId);
     if(index !== -1){
-        this.memory.target_of_job_ids.splice(1, index);
+        jobIds.splice(1, index);
     }
 };
 
-var isTargetOfJobId = function(id) {
-    if(this.memory.target_of_job_ids === undefined){
-        return false;
-    }
-    return this.memory.target_of_job_ids.indexOf(id) !== -1;
+var isTargetOfJobId = function(jobId) {
+    var jobTargets = this.room.jobTargets();
+    return jobTargets.indexOf(jobId) !== -1;
 };
 
 var isTargetOfJobType = function(type) {

@@ -230,3 +230,11 @@ Room.prototype.energyPiles = function(){
         return pile.energy >= threshold;
     });
 };
+
+Room.prototype.jobTargets = function(){
+    if(this.memory.job_targets === undefined){
+        this.memory.job_targets = {};
+    }
+    return this.memory.job_targets;
+};
+

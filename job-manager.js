@@ -489,8 +489,6 @@ JobManager.prototype = {
         // console.log('guardJobs', JSON.stringify(guardJobs));
         // console.log('energyDeliverJobs', JSON.stringify(energyDeliverJobs));
 
-
-        //
         jobs = this.prioritizeJobs(jobs);
         this.report(jobs);
         return jobs;
