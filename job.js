@@ -24,18 +24,36 @@ Job.prototype = {
     },
 
     source: function(value) {
-        if(value !== undefined){
-            this.memory.source = value;
-        }
+        var current;
         if(this.memory.source && this.memory.source.id){
-            return Game.getObjectById(this.memory.source.id);
+            current = Game.getObjectById(this.memory.source.id);
         }
+
+        if(value !== undefined){
+            if(current){
+                current.clearJob();
+            }
+            this.memory.source = value;
+            value.jobId(this.memory.id);
+            current = value;
+        }
+        return current;
     },
 
-    target: function() {
+    target: function(value) {
+        var current;
         if(this.memory.target && this.memory.target.id){
-            return Game.getObjectById(this.memory.target.id);
+            current = Game.getObjectById(this.memory.target.id);
         }
+        if(value !== undefined){
+            if(current){
+                current.removeTargetOfJob(this.memory.id);
+            }
+            this.memory.target = value;
+            value.setTargetOfJob(this.memory.id);
+            current = value;
+        }
+        return current;
     },
 
     handler: function() {
@@ -60,17 +78,20 @@ Job.prototype = {
         return this.memory.active;
     },
 
+    sourcePendingCreation: function(value){
+        if(value !== undefined){
+            this.memory.source_pending_creation = value;
+        }
+        return this.memory.source_pending_creation;
+    },
+
     start: function(){
-        var jobId = this.memory.id;
         var source = this.source();
-        var target = this.target();
         var handler = this.handler();
 
         if(!source){
             console.log('ERROR trying to start task without source');
         }
-        source.jobId(jobId);
-        target.setTargetOfJob(jobId);
 
         if(handler.start){
             handler.start(source);
@@ -85,11 +106,14 @@ Job.prototype = {
         var source = this.source();
         var target = this.target();
         var handler = this.handler();
-        if(handler.cancel){
-            handler.cancel(this.source());
+        if(source){
+            source.clearJob();
+
+            if(handler.cancel){
+                handler.cancel(source);
+            }
         }
 
-        source.clearJob();
         this.memory.source = undefined;
         this.active(false);
     },
@@ -98,19 +122,25 @@ Job.prototype = {
         var source = this.source();
         var target = this.target();
         var handler = this.handler();
-        if(handler.end){
-            handler.end(this.source());
+
+        if(source){
+            source.clearJob();
+
+            if(handler.end){
+                handler.end(this.source());
+            }
         }
 
-        source.clearJob();
-        target.removeTargetOfJob(this.memory.id);
+        if(target){
+            target.removeTargetOfJob(this.memory.id);
+        }
+
         this.room.jobList.remove(this.memory.id);
     },
 
-
     valid: function(){
         if(this.active()){
-            if(!this.source()){
+            if(!this.sourcePendingCreation() && !this.source()){
                 return false;
             }
             if(!this.target()){

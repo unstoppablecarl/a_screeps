@@ -1,6 +1,6 @@
 'use strict';
 require('proto-all');
-return;
+// return;
 // var cpu = require('cpu');
 
 // cpu.start('all');
@@ -11,7 +11,7 @@ return;
 // var room = Game.rooms[''];
 
 var room = Game.rooms.sim;
-_.each(room.find(FIND_MY_CREEPS), function(creep) {
+_.each(room.creeps(), function(creep) {
     creep.act();
 });
 

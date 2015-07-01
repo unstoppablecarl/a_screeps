@@ -22,9 +22,6 @@ Room.prototype.act = function() {
     // }
 
     this.jobManager.update();
-    // this.jobManager.allocate;
-
-    // this.allocateJobs();
 
     // if (Game.time % 20 === 0) {
     //     this.updateExtensionCount();

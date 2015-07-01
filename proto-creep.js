@@ -20,6 +20,12 @@ Creep.prototype.act = function() {
         if(roleHandler.init) {
             roleHandler.init(this);
         }
+        var job = this.job();
+        if(job && job.sourcePendingCreation()){
+            job.source(this);
+            job.sourcePendingCreation(false);
+            job.start();
+        }
         this.memory.pending_creation = undefined;
     }
     if (roleHandler.act) {

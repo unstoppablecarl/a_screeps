@@ -276,8 +276,8 @@ JobManager.prototype = {
         return priority;
     },
     allocateJobToExisting: function(job) {
-        var type = job.type;
-        var target = job.target;
+        var type = job.type();
+        var target = job.target();
 
         // all creeps valid for job
         var creeps;
@@ -349,23 +349,21 @@ JobManager.prototype = {
         //     return false;
         // }
 
-        this.assignNewJob(creep, job);
+        console.log('allocate job ', job.id(), job.type(), creep.name);
 
-        console.log('allocate job ', job.type, creep.name);
+        job.source(creep);
+        job.start();
 
         return true;
     },
 
-
-    allocateJobToSpawn: function(jobData) {
-        var active = this.room.jobsActive();
-        var job = active.add(jobData);
+    allocateJobToSpawn: function(job) {
 
         var spawns = this.room.availableSpawns();
         if(!spawns|| !spawns.length){
             return false;
         }
-        var role = job.role;
+        var role = job.role();
         var target;
         var maxCreepCost;
         var spawn = spawns[0];
@@ -379,7 +377,6 @@ JobManager.prototype = {
         //         }
         //     }
         // }
-
 
         // if there are no harvesters spawn whatever type of harvester possible
         if(role === 'harvester'){
@@ -416,11 +413,16 @@ JobManager.prototype = {
             result === ERR_INVALID_ARGS){
             result = false;
         } else {
-            console.log('spawn allocating', job.role, job.task_name, body, maxCreepCost, result);
             result = true;
         }
 
-        return false;
+        if(result){
+            console.log('spawn allocating', job.role, job.task_name, body, maxCreepCost, result);
+            job.sourcePendingCreation(true);
+            job.active(true);
+        }
+
+        return result;
     },
 
     prioritizeJobs: function(jobs){
@@ -492,9 +494,12 @@ JobManager.prototype = {
                 var creep = creeps[i];
                 energyStoreAmount -= creep.energy;
                 // allocate creep to energy_store
-                this.assignNewJob(creep, {
+
+                this.room.jobList.add({
                     role: 'carrier',
-                    type: 'energy_store'
+                    type: 'energy_store',
+                    source: creep,
+                    target: 'nearest energy dropoff'
                 });
             }
         }
@@ -506,28 +511,16 @@ JobManager.prototype = {
 
         // @todo or get from cache
 
-        this.report(this.room.jobList);
-
-        this.room.jobList.all().forEach(function(job){
-
-        }, this);
-
-        jobs = jobs.filter(function(job){
-
+        this.room.jobList.getPending().forEach(function(job){
             var allocated;
 
             allocated = this.allocateJobToExisting(job);
 
-            if(!allocated && !job.existing_only){
+            if(!allocated){
                 allocated = this.allocateJobToSpawn(job);
             }
 
-            // only keep un allocated jobs in jobs list
-            return !allocated;
         }, this);
-
-        // save updated jobs list
-
 
         // @TODO move idle creeps to idle flags to get out of the way
     },
@@ -563,15 +556,6 @@ JobManager.prototype = {
         console.log(str);
     },
 
-    clearAll: function(){
-        _.each(this.room.jobsActive().all(), function(job){
-            job.end();
-        });
-        var pending = this.room.jobList.getPending();
-        _.each(pending.all(), function(job){
-            pending.remove(job.id);
-        });
-    }
 };
 
 

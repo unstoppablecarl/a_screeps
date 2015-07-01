@@ -61,8 +61,6 @@ JobList.prototype = {
         jobData.id = id;
         this.memory.jobs[id] = jobData;
         var job = new Job(this.room, jobData);
-
-        job.target().setTargetOfJob(job.id());
         this._cached[id] = job;
         return job;
     },
