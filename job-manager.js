@@ -57,11 +57,11 @@ JobManager.prototype = {
     getHarvestJobs: function() {
         return this.room.flags(function(flag){
             return flag.role() === 'source' && !flag.harvester() && flag.source() && !flag.isTargetOfJobType('harvest');
-        }).map(function(source){
+        }).map(function(flag){
             return {
                 role: 'harvester',
                 type: 'harvest',
-                target: source,
+                target: flag.source(),
             };
         });
     },
@@ -579,8 +579,6 @@ JobManager.prototype = {
 
     report: function() {
         var jobs = this.room.jobsPending().all();
-        console.log('jobs', JSON.stringify(jobs));
-
         var table = require('util').table;
         var str = table(this.reportData(jobs));
         console.log(str);
