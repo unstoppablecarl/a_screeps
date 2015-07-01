@@ -15,6 +15,7 @@ Creep.prototype.act = function() {
     var roleHandler = roles[role];
     if(!roleHandler){
         console.log("ERRROR role handler not found");
+        return;
     }
     if (this.memory.pending_creation){
         if(roleHandler.init) {
