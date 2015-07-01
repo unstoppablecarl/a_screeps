@@ -406,7 +406,7 @@ console.log('allocateJobToSpawn');
         console.log('spawn ', spawn);
         console.log('body ', body);
         console.log('memory ', JSON.stringify(memory));
-        var result = spawn.createCreep([WORK, MOVE, CARRY] null, {role: 'harvester'});
+        var result = spawn.createCreep([WORK, MOVE, CARRY], null, {role: 'harvester'});
 // return;
         // var result = spawn.createCreep(body, null, memory);
         // return;
