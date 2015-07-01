@@ -403,10 +403,9 @@ console.log('allocateJobToSpawn');
             console.log('no affordable body', role, maxCreepCost);
             return;
         }
-        console.log('spawn ', spawn);
+        console.log('spawn ', spawn.spawnCreep);
         console.log('body ', body);
         console.log('memory ', JSON.stringify(memory));
-        return;
 
         var result = spawn.spawnCreep(body, memory);
         console.log('spawn creep', result, body, memory);
