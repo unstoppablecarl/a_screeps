@@ -404,11 +404,11 @@ console.log('allocateJobToSpawn');
             return;
         }
         console.log('spawn ', spawn);
-        console.log('body ', body);
+        console.log('body ', JSON.stringify(body));
         console.log('memory ', JSON.stringify(memory));
-        var result = spawn.createCreep([WORK, MOVE, CARRY], null, {role: 'harvester'});
+        // var result = spawn.createCreep([WORK, MOVE, CARRY], null, {role: 'harvester'});
 // return;
-        // var result = spawn.createCreep(body, null, memory);
+        var result = spawn.createCreep(body, null, memory);
         // return;
          // var result = spawn.spawnCreep(body, memory);
         console.log('spawn creep', result, body, memory);
