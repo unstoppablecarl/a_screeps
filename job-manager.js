@@ -394,7 +394,7 @@ console.log('allocateJobToSpawn');
             console.log('no energy');
             return false;
         }
-            console.log('x');
+            console.log('xyy');
             return;
         var memory = {
             role: role,
@@ -405,6 +405,9 @@ console.log('allocateJobToSpawn');
             console.log('no affordable body', role, maxCreepCost);
             return;
         }
+
+        console.log('asdf');
+            return;
 
         var result = spawn.spawnCreep(body, memory);
         console.log('spawn creep', result, body, memory);
