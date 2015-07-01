@@ -552,12 +552,12 @@ JobManager.prototype = {
     },
 
     update: function(){
-        var jobs = this.getJobs();
-        var pending = this.room.jobsPending();
-        for (var i = 0; i < jobs.length; i++) {
-            var job = jobs[i];
-            pending.add(job);
-        }
+        // var jobs = this.getJobs();
+        // var pending = this.room.jobsPending();
+        // for (var i = 0; i < jobs.length; i++) {
+        //     var job = jobs[i];
+        //     pending.add(job);
+        // }
 
         this.report();
     },
