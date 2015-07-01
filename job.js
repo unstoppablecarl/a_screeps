@@ -8,11 +8,13 @@ var Job = function Job(room, memory) {
     this.memory = memory;
 
     if(memory.source){
-        this.source(memory.source);
+        var source = Game.getObjectById(memory.source.id);
+        this.source(source);
     }
 
-    if(memory.target){
-        this.target(memory.target);
+    if(memory.target && this.target.id){
+        var target = Game.getObjectById(memory.target.id);
+        this.target(target);
     }
 };
 
