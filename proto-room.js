@@ -135,11 +135,11 @@ Room.prototype.availableSpawns = function() {
 };
 
 Room.prototype.extensionCount = function() {
-    return this.extensions().legnth;
+    return this.extensions().length;
 };
 
 Room.prototype.extensionEnergyCapacity = function() {
-    var extensionCount = this.extensions().legnth;
+    var extensionCount = this.extensionCount();
     if (extensionCount) {
         return extensionCount * 50;
     }
