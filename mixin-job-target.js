@@ -1,40 +1,41 @@
 'use strict';
 
 // get job ids array
-var targetOfJobIds = function(){
+var targetOfJobIds = function() {
     var jobTargets = this.room.jobTargets();
-    if(jobTargets[this.id] === undefined){
+    if (jobTargets[this.id] === undefined) {
         jobTargets[this.id] = [];
     }
     return jobTargets[this.id];
 };
 
-var targetOfJobs = function(filter){
+var targetOfJobs = function(filter) {
 
     var ids = this.targetOfJobIds();
-    var result = ids.map(function(id){
-        return this.room.jobsActive().get(id);
+    var result = ids.map(function(id) {
+        return this.room.jobsActive()
+            .get(id);
     });
-    if(filter){
+    if (filter) {
         result = result.filter(filter);
     }
     return result;
 };
 
-var setTargetOfJob = function(jobId){
+var setTargetOfJob = function(jobId) {
     var jobIds = this.targetOfJobIds();
 
     // prevent duplicates
-    if(jobIds.indexOf(jobId) === -1){
+    if (jobIds.indexOf(jobId) === -1) {
         jobIds.push(jobId);
     }
 };
 
-var removeTargetOfJob = function(jobId){
+var removeTargetOfJob = function(jobId) {
     var jobIds = this.targetOfJobIds();
 
     var index = jobIds.indexOf(jobId);
-    if(index !== -1){
+    if (index !== -1) {
         jobIds.splice(1, index);
     }
 };
@@ -47,19 +48,27 @@ var isTargetOfJobId = function(jobId) {
 var isTargetOfJobType = function(type) {
     var ids = this.targetOfJobIds();
     for (var i = 0; i < ids.length; i++) {
-       var id = ids[i];
-       var active = this.room.jobsActive();
-       var job = active.get(id);
-       if(job){
-            if(job.type() === type){
+        var id = ids[i];
+
+        var pending = this.room.jobsActive();
+        var job = pending.get(id);
+        if (job) {
+            if (job.type() === type) {
                 return true;
             }
-       }
+        }
+        var active = this.room.jobsActive();
+        var job = active.get(id);
+        if (job) {
+            if (job.type() === type) {
+                return true;
+            }
+        }
     }
     return false;
 };
 
-var jobTarget = function(obj){
+var jobTarget = function(obj) {
     obj.targetOfJobIds = targetOfJobIds;
     obj.targetOfJobs = targetOfJobs;
     obj.setTargetOfJob = setTargetOfJob;
