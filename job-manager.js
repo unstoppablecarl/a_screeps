@@ -523,7 +523,6 @@ console.log('allocateJobToSpawn');
         }
 
         _.each(this.room.jobList().getPending(), function(job){
-            console.log('pending', job);
             var allocated;
 
             allocated = this.allocateJobToExisting(job);
