@@ -3,15 +3,9 @@
 // bring energy to spawn / extensions
 var job_energy_store = {
     name: 'energy_store',
-    _findTarget: function(creep){
+    _findTarget: function(creep, job){
 
-        var job = creep.job();
-
-        var target;
-
-        if(job){
-            target = job.target();
-        }
+        var target = job.target();
 
         if(!target || target.energy === target.energyCapacity){
             target = creep.closestEnergyStore();
@@ -23,22 +17,24 @@ var job_energy_store = {
         return target;
     },
     start: false,
-    act: function(creep){
-        var target = this._findTarget(creep);
+    act: function(creep, job){
+
+        var target = this._findTarget(creep, job);
 
         if(creep.energy === 0){
-            creep.job().end();
+            job.end();
+            return;
         }
 
         if(!target){
-            creep.job().cancel();
+            job.end();
             return;
         }
         if(target){
             creep.moveTo(target);
             var result = creep.transferEnergy(target);
             if(result === OK){
-                creep.job().end();
+                job.end();
                 return;
             }
         }

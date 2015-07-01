@@ -3,8 +3,7 @@
 var job_harvest = {
     name: 'harvest',
     start: false,
-    act: function(creep){
-        var job = creep.job();
+    act: function(creep, job){
         var target;
 
         if(job){
@@ -39,7 +38,6 @@ var job_harvest = {
                 } else {
                     creep.dropEnergy();
                 }
-                // job.end();
             }
         } else {
             job.end();

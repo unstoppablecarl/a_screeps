@@ -37,7 +37,7 @@ Creep.prototype.act = function() {
     if (job) {
         var jobHandler = job.handler();
         if(jobHandler.act){
-            jobHandler.act(this);
+            jobHandler.act(this, job);
         }
     }
 };

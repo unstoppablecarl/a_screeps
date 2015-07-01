@@ -10,6 +10,7 @@ var jobs = {
     move_to: require('job-move-to'),
     repair: require('job-repair'),
     upgrade_room_controller: require('job-upgrade-room-controller'),
+    idle: require('job-idle'),
 };
 
 module.exports = jobs;

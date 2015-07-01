@@ -36,7 +36,9 @@ var job_energy_collect = {
         return target;
     },
     start: false,
-    act: function(creep, job) {
+    act: function(creep) {
+
+        var job = creep.job();
 
         // got energy from somewhere; target or a distributor
         if (creep.energy === creep.energyCapacity) {
