@@ -542,6 +542,7 @@ console.log('allocateJobToSpawn');
             var target;
             var pos;
             jobData.push({
+                id: job.id(),
                 role: job.role(),
                 type: job.type(),
                 prior: job.priority(),
