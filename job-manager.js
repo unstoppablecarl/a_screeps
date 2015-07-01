@@ -336,7 +336,7 @@ JobManager.prototype = {
             creeps = idleCreepsByRole.upgrader;
         }
 
-        if(!creeps){
+        if(!creeps || !creeps.length){
             return false;
         }
 
