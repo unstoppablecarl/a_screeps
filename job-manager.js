@@ -552,14 +552,19 @@ JobManager.prototype = {
     },
 
     update: function(){
-        // var jobs = this.getJobs();
-        // var pending = this.room.jobsPending();
-        // for (var i = 0; i < jobs.length; i++) {
-        //     var job = jobs[i];
-        //     pending.add(job);
-        // }
+        var jobs = this.getJobs();
+        var pending = this.room.jobsPending();
+        for (var i = 0; i < jobs.length; i++) {
+            var job = jobs[i];
+            var jobData = pending.add(job);
+            var j = pending.get(jobData.id);
+            var target = j.target();
+            if(target){
+                target.setTargetOfJob(jobData.id);
+            }
+        }
 
-        // this.report();
+        this.report();
     },
     reportData: function(jobs) {
         var jobData = [];
