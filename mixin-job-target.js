@@ -49,16 +49,7 @@ var isTargetOfJobType = function(type) {
     var ids = this.targetOfJobIds();
     for (var i = 0; i < ids.length; i++) {
         var id = ids[i];
-
-        var pending = this.room.jobsPending();
-        var job = pending.get(id);
-        if (job) {
-            if (job.type() === type) {
-                return true;
-            }
-        }
-        var active = this.room.jobsActive();
-        var job = active.get(id);
+        var job = this.room.jobList.get(id);
         if (job) {
             if (job.type() === type) {
                 return true;
