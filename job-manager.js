@@ -559,7 +559,7 @@ JobManager.prototype = {
         //     pending.add(job);
         // }
 
-        this.report();
+        // this.report();
     },
     reportData: function(jobs) {
         var jobData = [];
