@@ -563,7 +563,7 @@ JobManager.prototype = {
     },
     reportData: function(jobs) {
      var jobData = [];
-        _.each(this.room.jobsPending(), function(job){
+        _.each(jobs, function(job){
             var target;
             var pos;
             jobData.push({
