@@ -5,7 +5,17 @@ var role_carrier = {
     init: false,
     act: function(creep) {
         if (!creep.job() && creep.energy > 0) {
-            creep.startTask('energy_store');
+
+            var target = creep.closestEnergyStore();
+            if(target){
+                var newJob = creep.room.jobList().add({
+                    role: 'harvester',
+                    type: 'energy_store',
+                    source: creep,
+                    target: target
+                });
+                newJob.start();
+            }
         }
     },
 };
