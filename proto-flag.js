@@ -58,23 +58,3 @@ Flag.prototype.source = function(source) {
     }
     return Game.getObjectById(this.sourceId());
 };
-
-Flag.prototype.harvesterId = function(id) {
-    if(this.memory.role !== 'source'){
-        return false;
-    }
-    if (id !== void 0) {
-        this.memory.harvester_id = id;
-    }
-    return this.memory.harvester_id;
-};
-
-Flag.prototype.harvester = function(harvester) {
-    if(this.memory.role !== 'source'){
-        return false;
-    }
-    if (harvester !== undefined) {
-        this.harvesterId(harvester.id);
-    }
-    return Game.getObjectById(this.harvesterId());
-};
