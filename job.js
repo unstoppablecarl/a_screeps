@@ -3,6 +3,7 @@
 var jobHandlers = require('job-all');
 
 var Job = function Job(room, memory) {
+    throw new Error('ffff');
     this.room = room;
     // keep ref to task memory memory object
     this.memory = memory;
