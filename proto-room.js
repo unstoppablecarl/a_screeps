@@ -112,7 +112,7 @@ Room.prototype.extensions = function(filter) {
             return false;
         }
 
-        if(filter && !filter(s)){
+        if(!filter || filter(s)){
             return false;
         }
 
