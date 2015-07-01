@@ -9,33 +9,6 @@ var JobManager = function JobManager(room) {
 JobManager.prototype = {
     constructor: JobManager,
 
-    assignNewJob: function(creep, jobData){
-        var active = this.room.jobsActive();
-        jobData.source = creep;
-        var job = active.add(jobData);
-        job = active.get(job.id);
-        job.start();
-    },
-
-    assignPendingJob: function(creep, jobId){
-        var pending = this.room.jobsPending();
-        var active = this.room.jobsActive();
-        var job = pending.get(jobId);
-        if(!job){
-            return false;
-        }
-
-        var currentJob = creep.job();
-        if(currentJob){
-            currentJob.cancel();
-        }
-
-        pending.remove(jobId);
-        active.add(job.jobData);
-
-        active.get(jobId).start();
-        return true;
-    },
 
     getReplacementJobs: function() {
         // @TODO base threshold on distance from spawn
@@ -169,8 +142,8 @@ JobManager.prototype = {
             return creep.role() === 'carrier' && creep.energy < creep.energyCapacity;
         });
 
-        var existingCollectorJobTargetIds = this.room.jobsPending().all(function(job){
-            return job.type === 'energy_collect' && job.target();
+        var existingCollectorJobTargetIds = this.room.jobList.getPending(function(job){
+            return job.type() === 'energy_collect' && job.target();
         }).map(function(job){
             return job.target().id;
         });
@@ -213,8 +186,8 @@ JobManager.prototype = {
     },
 
     getBaseJobPriority: function(job){
-        var type = job.type;
-        var target = job.target;
+        var type = job.type();
+        var target = job.target();
         var priority = 0;
 
 
@@ -454,7 +427,7 @@ JobManager.prototype = {
 
         for (var i = 0; i < jobs.length; i++) {
             var job = jobs[i];
-            job.priority = this.getBaseJobPriority(job);
+            job.priority(this.getBaseJobPriority(job));
         }
 
         jobs = _.sortByOrder(jobs, [function(job){
@@ -498,7 +471,6 @@ JobManager.prototype = {
         // console.log('guardJobs', JSON.stringify(guardJobs));
         // console.log('energyDeliverJobs', JSON.stringify(energyDeliverJobs));
 
-        jobs = this.prioritizeJobs(jobs);
         return jobs;
     },
 
@@ -533,8 +505,12 @@ JobManager.prototype = {
         this.allocateEnergyStoreJobs();
 
         // @todo or get from cache
-        var jobs = this.getJobs();
-        this.report(jobs);
+
+        this.report(this.room.jobList);
+
+        this.room.jobList.all().forEach(function(job){
+
+        }, this);
 
         jobs = jobs.filter(function(job){
 
@@ -552,26 +528,15 @@ JobManager.prototype = {
 
         // save updated jobs list
 
-        for (var i = 0; i < jobs.length; i++) {
-            var job = jobs[i];
-            this.room.jobsPending().add(job);
-        }
 
         // @TODO move idle creeps to idle flags to get out of the way
     },
 
     update: function(){
-        var jobs = this.getJobs();
-        var pending = this.room.jobsPending();
-        for (var i = 0; i < jobs.length; i++) {
-            var job = jobs[i];
-            var jobData = pending.add(job);
-            var j = pending.get(jobData.id);
-            var target = j.target();
-            if(target){
-                target.setTargetOfJob(jobData.id);
-            }
-        }
+
+        var newJobs = this.getJobs();
+        this.room.jobList.addMultiple(newJobs);
+        this.prioritizeJobs(this.room.jobList.all());
 
         this.report();
     },
@@ -592,7 +557,7 @@ JobManager.prototype = {
     },
 
     report: function() {
-        var jobs = this.room.jobsPending().all();
+        var jobs = this.room.jobList.getPending();
         var table = require('util').table;
         var str = table(this.reportData(jobs));
         console.log(str);
@@ -602,7 +567,7 @@ JobManager.prototype = {
         _.each(this.room.jobsActive().all(), function(job){
             job.end();
         });
-        var pending = this.room.jobsPending();
+        var pending = this.room.jobList.getPending();
         _.each(pending.all(), function(job){
             pending.remove(job.id);
         });
