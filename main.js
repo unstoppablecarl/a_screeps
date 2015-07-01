@@ -21,7 +21,7 @@ if (Game.time % 5 === 0) {
     for (var k in Memory.creeps) {
         var memCreep = Memory.creeps[k];
         console.log(k, memCreep);
-        if (!memCreep.pending_creation && !Game.creeps[k]) {
+        if (!Game.creeps[k] && !(memCreep && memCreep.pending_creation)) {
             Memory.creeps[k] = undefined;
         }
     }
