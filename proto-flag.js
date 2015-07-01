@@ -58,3 +58,16 @@ Flag.prototype.source = function(source) {
     }
     return Game.getObjectById(this.sourceId());
 };
+
+Flag.prototype.havesterCountMax = function(value) {
+    if(this.memory.role !== 'source'){
+        return false;
+    }
+    if(this.memory.harvester_count_max === undefined){
+        this.memory.harvester_count_max = 3;
+    }
+    if (value !== undefined) {
+        this.memory.harvester_count_max = value;
+    }
+    return this.memory.harvester_count_max;
+};

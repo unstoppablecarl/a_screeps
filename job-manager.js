@@ -40,6 +40,7 @@ JobManager.prototype = {
             }
             var allocatedHarvestWork = 0;
             var allocatedCreepCount = 0;
+            var havesterCountMax = flag.havesterCountMax();
             var jobs = source.targetOfJobs().map(function(job){
                 if(job && job.type() === 'harvest'){
                     var source = job.source();
@@ -53,7 +54,7 @@ JobManager.prototype = {
                 }
             });
             // max 5 work body parts allocated
-            return allocatedCreepCount < 4 && allocatedHarvestWork < 5;
+            return allocatedCreepCount < havesterCountMax && allocatedHarvestWork < 5;
         }).map(function(flag){
             return {
                 role: 'harvester',
