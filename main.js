@@ -1,9 +1,9 @@
 'use strict';
 require('proto-all');
 // return;
-// var cpu = require('cpu');
+var cpu = require('cpu');
 
-// cpu.start('all');
+cpu.start('all');
 //
 //
 
@@ -26,6 +26,6 @@ if (Game.time % 5 === 0) {
     }
 }
 
-// cpu.end();
-// cpu.report();
-// cpu.shutdown();
+cpu.end();
+cpu.report();
+cpu.shutdown();
