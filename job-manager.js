@@ -589,6 +589,16 @@ JobManager.prototype = {
         var str = table(this.reportData(jobs));
         console.log(str);
     },
+
+    clearAll: function(){
+        _.each(this.room.jobsActive().all(), function(job){
+            job.end();
+        });
+        var pending = this.room.jobsPending();
+        _.each(pending.all(), function(job){
+            pending.remove(job.id);
+        });
+    }
 };
 
 
