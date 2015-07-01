@@ -20,6 +20,7 @@ room.act();
 if (Game.time % 5 === 0) {
     for (var k in Memory.creeps) {
         var memCreep = Memory.creeps[k];
+        console.log(k, memCreep);
         if (!memCreep.pending_creation && !Game.creeps[k]) {
             Memory.creeps[k] = undefined;
         }
