@@ -394,7 +394,8 @@ console.log('allocateJobToSpawn');
             console.log('no energy');
             return false;
         }
-
+            console.log('x');
+            return;
         var memory = {
             role: role,
             source_of_job_id: job.id
@@ -517,11 +518,10 @@ console.log('allocateJobToSpawn');
             var allocated;
 
             allocated = this.allocateJobToExisting(job);
-            console.log('x');
 
-            // if(!allocated){
-            //     allocated = this.allocateJobToSpawn(job);
-            // }
+            if(!allocated){
+                allocated = this.allocateJobToSpawn(job);
+            }
 
         }, this);
 
