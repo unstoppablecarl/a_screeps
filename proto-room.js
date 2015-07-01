@@ -36,7 +36,7 @@ Room.prototype.act = function() {
     //     this.updateJobs();
     // }
 
-    this.jobManager().allocate();
+    this.jobManager().update();
     // this.jobManager.allocate;
 
     // this.allocateJobs();

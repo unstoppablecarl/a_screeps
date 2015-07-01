@@ -490,7 +490,6 @@ JobManager.prototype = {
         // console.log('energyDeliverJobs', JSON.stringify(energyDeliverJobs));
 
         jobs = this.prioritizeJobs(jobs);
-        this.report(jobs);
         return jobs;
     },
 
@@ -526,8 +525,7 @@ JobManager.prototype = {
 
         // @todo or get from cache
         var jobs = this.getJobs();
-
-
+        this.report(jobs);
 
         jobs = jobs.filter(function(job){
 
@@ -553,6 +551,16 @@ JobManager.prototype = {
         // @TODO move idle creeps to idle flags to get out of the way
     },
 
+    update: function(){
+        var jobs = this.getJobs();
+        var pending = this.room.jobsPending();
+        for (var i = 0; i < jobs.length; i++) {
+            var job = jobs[i];
+            pending.add(job);
+        }
+
+        this.report();
+    },
     reportData: function(jobs) {
      var jobData = [];
         _.each(this.room.jobsPending(), function(job){
@@ -569,7 +577,8 @@ JobManager.prototype = {
         return jobData;
     },
 
-    report: function(jobs) {
+    report: function() {
+        var jobs = this.room.jobsPending().all();
         var table = require('util').table;
         var str = table(this.reportData(jobs));
         console.log(str);
