@@ -21,15 +21,21 @@ var job_harvest = {
             if(creep.energy === creep.energyCapacity){
 
                 if(!creep.room.roleCount('carrier')){
-                    var newJob = creep.room.jobList().add({
-                        role: 'harvester',
-                        type: 'energy_store',
-                        source: creep,
-                        target: creep.closestEnergyStore()
-                    });
-                    job.cancel();
-                    newJob.start();
-                    return;
+
+                    // can afford to make carrier
+                    var roomEnergy = creep.room.roomEnergy();
+                    var minCarrierCost = 200;
+                    if(roomEnergy < minCarrierCost){
+                        var newJob = creep.room.jobList().add({
+                            role: 'harvester',
+                            type: 'energy_store',
+                            source: creep,
+                            target: creep.closestEnergyStore()
+                        });
+                        job.cancel();
+                        newJob.start();
+                        return;
+                    }
                 } else {
                     creep.dropEnergy();
                 }
