@@ -56,15 +56,20 @@ JobManager.prototype = {
 
     getHarvestJobs: function() {
         return this.room.flags(function(flag){
+
+            console.log('role', flag.role());
+            console.log('source', JSON.stringify(flag.source()));
+            console.log('target of type', JSON.stringify(flag.source().isTargetOfJobType('harvest')));
+
             if(flag.role() !== 'source'){
                 return false;
             }
+
             var source = flag.source();
 
             if(!source){
                 return false;
             }
-
             return !source.isTargetOfJobType('harvest');
         }).map(function(flag){
             return {
