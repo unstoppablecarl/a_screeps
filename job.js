@@ -24,7 +24,7 @@ Job.prototype = {
     },
 
     source: function() {
-        if(this.data.target && this.data.source.id){
+        if(this.data.source && this.data.source.id){
             return Game.getObjectById(this.data.source.id);
         }
     },
