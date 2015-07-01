@@ -1,7 +1,8 @@
 'use strict';
 require('proto-all');
-console.log( Game.rooms.sim.extensions().length, Game.rooms.sim.extensionCount());
-return;
+
+// return;
+
 // var cpu = require('cpu');
 
 // cpu.start('all');
