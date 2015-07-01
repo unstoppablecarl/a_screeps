@@ -43,9 +43,9 @@ Job.prototype = {
         return this.data.settings;
     },
 
-    // priority: function() {
-    //     return this.data.priority;
-    // },
+    priority: function() {
+        return this.data.priority;
+    },
 
     start: function(){
         var jobId = this.data.id;
