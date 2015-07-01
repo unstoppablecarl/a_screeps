@@ -558,7 +558,9 @@ console.log('allocateJobToSpawn');
         var jobs = this.room.jobList().getPending();
         var table = require('util').table;
         var str = table(this.reportData(jobs));
-        console.log(str);
+        if(str){
+            console.log(str);
+        }
     },
 
 };
