@@ -8,7 +8,7 @@ var Job = function Job(room, memory) {
     // keep ref to task memory memory object
     this.memory = memory;
 
-    if(memory.source){
+    if(memory.source && this.source.id){
         var source = Game.getObjectById(memory.source.id);
         this.source(source);
     }
@@ -45,6 +45,9 @@ Job.prototype = {
                 current.clearJob();
             }
             this.memory.source = value;
+            if(value.jobId === undefined){
+                value = Game.getObjectById(value.id);
+            }
             value.jobId(this.memory.id);
             current = value;
         }
@@ -61,7 +64,9 @@ Job.prototype = {
                 current.removeTargetOfJob(this.memory.id);
             }
             this.memory.target = value;
-            console.log('target', value, JSON.stringify(value));
+            if(value.setTargetOfJob === undefined){
+                value = Game.getObjectById(value.id);
+            }
             value.setTargetOfJob(this.memory.id);
             current = value;
         }
