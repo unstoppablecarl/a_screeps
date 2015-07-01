@@ -407,7 +407,9 @@ console.log('allocateJobToSpawn');
         console.log('body ', body);
         console.log('memory ', JSON.stringify(memory));
 
-        var result = spawn.spawnCreep(body, memory);
+        var result = spawn.createCreep(body, null, memory);
+
+        // var result = spawn.spawnCreep(body, memory);
         console.log('spawn creep', result, body, memory);
 
         // var result = spawn.canCreateCreep(body, memory);
