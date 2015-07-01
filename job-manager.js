@@ -411,7 +411,7 @@ JobManager.prototype = {
         }
 
         if(result){
-            console.log('spawn allocating', job.role, job.task_name, body, maxCreepCost, result);
+            console.log('spawn allocating', job.role(), job.type(), body, maxCreepCost, result);
             job.sourcePendingCreation(true);
             job.active(true);
         }
