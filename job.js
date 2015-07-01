@@ -8,12 +8,12 @@ var Job = function Job(room, memory) {
     // keep ref to task memory memory object
     this.memory = memory;
     console.log('create', room, JSON.stringify(memory));
-    if(memory.source && this.source.id){
+    if(memory.source && memory.source.id){
         var source = Game.getObjectById(memory.source.id);
         this.source(source);
     }
 
-    if(memory.target && this.target.id){
+    if(memory.target && memory.target.id){
         var target = Game.getObjectById(memory.target.id);
         this.target(target);
     }
