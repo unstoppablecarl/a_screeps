@@ -403,16 +403,9 @@ console.log('allocateJobToSpawn');
             console.log('no affordable body', role, maxCreepCost);
             return;
         }
-        // console.log('spawn ', spawn);
-        // console.log('body ', JSON.stringify(body));
-                // console.log('body ', JSON.stringify(body));
 
-        // console.log('memory ', JSON.stringify(memory));
-        // var result = spawn.createCreep([WORK, MOVE, CARRY], null, {role: 'harvester'});
-        var result = spawn.createCreep(body, null, memory);
-        // return;
-         // var result = spawn.spawnCreep(body, memory);
-        console.log('spawn creep', result, body, memory);
+         var result = spawn.spawnCreep(body, memory);
+        // console.log('spawn creep', result, body, memory);
 
         // var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
