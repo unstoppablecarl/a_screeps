@@ -138,20 +138,10 @@ JobManager.prototype = {
 
     getEnergyCollectJobs: function() {
         var minEnergySpawn = this.room.energyPileThresholdSpawn();
-        var creeps = this.room.creeps(function(creep){
-            return creep.role() === 'carrier' && creep.energy < creep.energyCapacity;
-        });
-
-        var existingCollectorJobTargetIds = this.room.jobList().getPending(function(job){
-            return job.type() === 'energy_collect' && job.target();
-        }).map(function(job){
-            return job.target().id;
-        });
-        console.log('existingCollectorJobTargetIds', existingCollectorJobTargetIds);
 
         return this.room.energyPiles().filter(function(pile){
             // one job per pile over the limit or with no collectors assigned
-            return (pile.energy > minEnergySpawn) || existingCollectorJobTargetIds.indexOf(pile.id) === -1;
+            return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
         }).map(function(pile){
             return {
                 role: 'carrier',
@@ -449,7 +439,7 @@ JobManager.prototype = {
 
         // var replacementJobs = this.getReplacementJobs();
         var harvestJobs = this.getHarvestJobs();
-        // var energyCollectJobs = this.getEnergyCollectJobs();
+        var energyCollectJobs = this.getEnergyCollectJobs();
         // var repairJobs = this.getRepairJobs();
         // var buildJobs = this.getBuildJobs();
         // var upgradeJobs = this.getUpgradeJobs();
@@ -460,8 +450,8 @@ JobManager.prototype = {
 
         jobs = jobs.concat(
             // replacementJobs,
-            harvestJobs
-            // energyCollectJobs,
+            harvestJobs,
+            energyCollectJobs
             // repairJobs,
             // buildJobs,
             // upgradeJobs,
