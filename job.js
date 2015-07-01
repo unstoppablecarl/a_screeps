@@ -58,6 +58,7 @@ Job.prototype = {
                 current.removeTargetOfJob(this.memory.id);
             }
             this.memory.target = value;
+            console.log('target', target, JSON.stringify(target));
             value.setTargetOfJob(this.memory.id);
             current = value;
         }
