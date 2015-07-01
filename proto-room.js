@@ -28,9 +28,6 @@ Room.prototype.act = function() {
     // }
 };
 
-
-
-
 Room.prototype.populationReport = function() {
     var populationData = {};
     var totalPopulation = 0;

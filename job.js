@@ -6,6 +6,14 @@ var Job = function Job(room, memory) {
     this.room = room;
     // keep ref to task memory memory object
     this.memory = memory;
+
+    if(memory.source){
+        this.source(memory.source);
+    }
+
+    if(memory.target){
+        this.target(memory.target);
+    }
 };
 
 Job.prototype = {
