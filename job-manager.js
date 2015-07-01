@@ -515,12 +515,12 @@ console.log('allocateJobToSpawn');
 
         // @todo or get from cache
 
-        if(this.room.sources().length <= this.room.roleCount('harvester')){
-            this.room.jobList().add({
-                type: 'collect_energy',
-                role: 'carrier',
-            });
-        }
+        // if(this.room.sources().length <= this.room.roleCount('harvester')){
+        //     this.room.jobList().add({
+        //         type: 'energy_collect',
+        //         role: 'carrier',
+        //     });
+        // }
 
         _.each(this.room.jobList().getPending(), function(job){
             var allocated;
