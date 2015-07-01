@@ -26,6 +26,10 @@ var job_energy_store = {
     act: function(creep){
         var target = this._findTarget(creep);
 
+        if(creep.energy === 0){
+            creep.job().end();
+        }
+
         if(!target){
             creep.job().cancel();
             return;
@@ -35,6 +39,7 @@ var job_energy_store = {
             var result = creep.transferEnergy(target);
             if(result === OK){
                 creep.job().end();
+                return;
             }
         }
     },
