@@ -151,7 +151,7 @@ Job.prototype = {
             target.removeTargetOfJob(this.memory.id);
         }
 
-        this.room.jobList.remove(this.memory.id);
+        this.room.jobList().remove(this.memory.id);
     },
 
     valid: function(){

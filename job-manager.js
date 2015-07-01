@@ -142,7 +142,7 @@ JobManager.prototype = {
             return creep.role() === 'carrier' && creep.energy < creep.energyCapacity;
         });
 
-        var existingCollectorJobTargetIds = this.room.jobList.getPending(function(job){
+        var existingCollectorJobTargetIds = this.room.jobList().getPending(function(job){
             return job.type() === 'energy_collect' && job.target();
         }).map(function(job){
             return job.target().id;
@@ -499,7 +499,7 @@ console.log('allocateJobToSpawn');
                 energyStoreAmount -= creep.energy;
                 // allocate creep to energy_store
 
-                this.room.jobList.add({
+                this.room.jobList().add({
                     role: 'carrier',
                     type: 'energy_store',
                     source: creep,
@@ -515,7 +515,7 @@ console.log('allocateJobToSpawn');
 
         // @todo or get from cache
 
-        _.each(this.room.jobList.getPending(), function(job){
+        _.each(this.room.jobList().getPending(), function(job){
             var allocated;
 
             allocated = this.allocateJobToExisting(job);
@@ -532,8 +532,9 @@ console.log('allocateJobToSpawn');
     update: function(){
 
         var newJobs = this.getJobs();
-        this.room.jobList.addMultiple(newJobs);
-        this.prioritizeJobs(this.room.jobList.all());
+        var list = this.room.jobList();
+        list.addMultiple(newJobs);
+        this.prioritizeJobs(list.all());
 
         this.report();
     },
@@ -554,7 +555,7 @@ console.log('allocateJobToSpawn');
     },
 
     report: function() {
-        var jobs = this.room.jobList.getPending();
+        var jobs = this.room.jobList().getPending();
         var table = require('util').table;
         var str = table(this.reportData(jobs));
         console.log(str);

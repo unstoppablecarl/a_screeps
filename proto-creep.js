@@ -63,7 +63,7 @@ Creep.prototype.job = function(job) {
     if (job !== void 0) {
         this.jobId(job.id);
     }
-    return this.room.jobList.get(this.jobId());
+    return this.room.jobList().get(this.jobId());
 };
 
 Creep.prototype.clearJob = function() {
