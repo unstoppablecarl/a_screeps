@@ -45,8 +45,11 @@ JobManager.prototype = {
                     var source = job.source();
                     if(source){
                         allocatedHarvestWork += source.getActiveBodyparts(WORK);
-                        allocatedCreepCount++;
+
+                    } else {
+                        allocatedHarvestWork++;
                     }
+                    allocatedCreepCount++;
                 }
             });
             // max 5 work body parts allocated
