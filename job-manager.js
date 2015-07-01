@@ -405,6 +405,7 @@ JobManager.prototype = {
         }
 
         var result = spawn.spawnCreep(body, memory);
+        console.log('spawn creep', result, body, memory);
         // var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
