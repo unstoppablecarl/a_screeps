@@ -27,7 +27,7 @@ var job_harvest = {
                         source: creep,
                         target: creep.closestEnergyStore()
                     });
-
+                    job.cancel();
                     newJob.start();
                     return;
                 } else {
