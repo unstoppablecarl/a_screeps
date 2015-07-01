@@ -139,7 +139,7 @@ Room.prototype.extensionCount = function() {
 };
 
 Room.prototype.extensionEnergyCapacity = function() {
-    var extensionCount = this.extensionCount();
+    var extensionCount = this.extensions().legnth;
     if (extensionCount) {
         return extensionCount * 50;
     }
