@@ -5,10 +5,13 @@ var Job = require('job');
 var JobList = function JobList(room, memoryKey){
 
     if(!room.memory[memoryKey]){
-        room.memory[memoryKey] = {
-            _id_increment: 1,
-            jobs: {}
-        };
+        room.memory[memoryKey] = {};
+    }
+    if(!room.memory[memoryKey].jobs){
+        room.memory[memoryKey].jobs = {};
+    }
+    if(!room.memory[memoryKey]._id_increment){
+        room.memory[memoryKey]._id_increment = 1;
     }
 
     this.room = room;
