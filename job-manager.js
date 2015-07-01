@@ -579,6 +579,8 @@ JobManager.prototype = {
 
     report: function() {
         var jobs = this.room.jobsPending().all();
+        console.log('jobs', JSON.stringify(jobs));
+
         var table = require('util').table;
         var str = table(this.reportData(jobs));
         console.log(str);
