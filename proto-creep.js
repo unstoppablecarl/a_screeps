@@ -71,7 +71,17 @@ Creep.prototype.clearJob = function() {
     this.memory.source_of_job_id = undefined;
 };
 
+Creep.prototype.closestEnergyStore = function(){
+    var spawns = this.room.spawns(function(spawn) {
+            return spawn.energy < spawn.energyCapacity;
+    });
 
+    var extensions = this.room.extensions(function(s) {
+        return s.structureType === 'extension' && s.energy < s.energyCapacity;
+    });
+    var targets = spawns.concat(extensions);
+    return this.pos.findClosest(targets);
+};
 
 
 // harvesters

@@ -19,7 +19,21 @@ var job_harvest = {
                 creep.moveTo(target);
             }
             if(creep.energy === creep.energyCapacity){
-                job.end();
+
+                if(!creep.room.roleCount('carrier')){
+                    var newJob = creep.room.jobList().add({
+                        role: 'harvester',
+                        type: 'energy_store',
+                        source: creep,
+                        target: creep.closestEnergyStore()
+                    });
+
+                    newJob.start();
+                    return;
+                } else {
+                    creep.dropEnergy();
+                }
+                // job.end();
             }
         } else {
             job.end();
