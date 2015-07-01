@@ -560,6 +560,7 @@ JobManager.prototype = {
             var j = pending.get(jobData.id);
             var target = j.target();
             if(target){
+                console.log('target', JSON.stringify(target));
                 target.setTargetOfJob(jobData.id);
             }
         }
