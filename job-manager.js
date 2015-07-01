@@ -56,7 +56,7 @@ JobManager.prototype = {
 
     getHarvestJobs: function() {
         return this.room.flags(function(flag){
-            if(!flag.role() === 'source'){
+            if(flag.role() !== 'source'){
                 return false;
             }
             var source = flag.source();
