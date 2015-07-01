@@ -108,15 +108,7 @@ Room.prototype.roads = function(filter){
 
 Room.prototype.extensions = function(filter) {
     return this.structures(function(s){
-        if(s.structureType !== 'extension'){
-            return false;
-        }
-
-        if(!filter || filter(s)){
-            return false;
-        }
-
-        return true;
+        return s.structureType === STRUCTURE_EXTENSION && (!filter || filter(s));
     });
 };
 
