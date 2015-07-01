@@ -349,7 +349,7 @@ JobManager.prototype = {
         //     return false;
         // }
 
-        console.log('allocate job ', job.id(), job.type(), creep.name);
+        console.log('allocate job ', job.id(), job.type(), creep);
 
         job.source(creep);
         job.start();
