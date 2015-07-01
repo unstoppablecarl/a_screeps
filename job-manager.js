@@ -515,7 +515,7 @@ console.log('allocateJobToSpawn');
 
         // @todo or get from cache
 
-        if(this.room.sources().length >= this.room.roleCount('harvester')){
+        if(this.room.sources().length <= this.room.roleCount('harvester')){
             this.room.jobList().add({
                 type: 'collect_energy',
                 role: 'carrier',
