@@ -2,45 +2,51 @@
 
 var job_energy_collect = {
     name: 'energy_collect',
-    // _getTarget: function(creep) {
-    //     var target = creep.taskTarget();
-    //     var settings = creep.taskSettings();
+    _getTarget: function(creep, job) {
 
-    //     if (!target || target.energy === 0) {
-    //         var targets = [];
-    //         if(!settings.spawns_only){
-    //              var energyPiles = creep.room.getEnergyPiles();
-    //              targets = targets.concat(energyPiles);
-    //         }
+        var target = job.target();
+        var settings = job.settings() || {};
 
-    //         if(!settings.energy_piles_only){
-    //             var spawns = creep.room.spawns(function(spawn) {
-    //                 return spawn.energy > 0;
-    //             });
-    //             targets = targets.concat(spawns);
-    //         }
+        if (!target || target.energy === 0) {
+            var targets = [];
+            if(!settings.spawns_only){
+                 var energyPiles = creep.room.energyPiles();
+                 targets = targets.concat(energyPiles);
+            }
 
-    //         if(targets && targets.length){
-    //             if(targets.length === 1){
-    //                 target = targets[0];
-    //             } else {
-    //                 // target = creep.pos.findClosest(targets);
-    //             }
-    //         }
+            if(!settings.energy_piles_only){
+                var spawns = creep.room.spawns(function(spawn) {
+                    return spawn.energy > 0;
+                });
+                targets = targets.concat(spawns);
+            }
 
-    //         if (target) {
-    //             creep.taskTarget(target);
-    //         }
-    //     }
-    //     return target;
-    // },
+            if(targets && targets.length){
+                if(targets.length === 1){
+                    target = targets[0];
+                } else {
+                    target = creep.pos.findClosest(targets);
+                }
+            }
+
+            if (target) {
+                job.target(target);
+            }
+        }
+        return target;
+    },
     start: false,
     act: function(creep) {
-        // var target = this._getTarget(creep);
 
         var job = creep.job();
 
-        var target = job.target();
+        // got energy from somewhere target or a distributor
+        if (creep.energy === creep.energyCapacity) {
+            job.end();
+            return;
+        }
+        var target = this._getTarget(creep);
+        // var target = job.target();
 
         if (!target) {
             job.end();
@@ -57,10 +63,6 @@ var job_energy_collect = {
             job.end();
         }
 
-        // got energy from somewhere target or a distributor
-        if (creep.energy === creep.energyCapacity) {
-            job.end();
-        }
     },
     cancel: false,
     end: false,
