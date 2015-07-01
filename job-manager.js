@@ -403,14 +403,12 @@ console.log('allocateJobToSpawn');
             console.log('no affordable body', role, maxCreepCost);
             return;
         }
-
+        console.log('spawn creep', result, body, memory);
+        return;
 
         var result = spawn.spawnCreep(body, memory);
         console.log('spawn creep', result, body, memory);
 
-
-        console.log('asdf');
-            return;
         // var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
