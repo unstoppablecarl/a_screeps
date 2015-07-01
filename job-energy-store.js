@@ -4,22 +4,19 @@
 var job_energy_store = {
     name: 'energy_store',
     _findTarget: function(creep){
-        var target = creep.taskTarget();
+
+        var job = creep.job();
+
+        var target;
+
+        if(job){
+            target = job.target();
+        }
+
         if(!target || target.energy === target.energyCapacity){
-            var spawns = creep.room.spawns(function(spawn) {
-                return spawn.energy < spawn.energyCapacity;
-            });
-
-            var extensions = creep.room.extensions(function(s) {
-                return s.structureType === 'extension' && s.energy < s.energyCapacity;
-            });
-
-            var targets = spawns.concat(extensions);
-
-            target = creep.pos.findClosest(targets);
-
+            target = creep.closestEnergyStore();
             if(target){
-                creep.taskTarget(target);
+                job.target(target);
             }
         }
 
@@ -30,14 +27,14 @@ var job_energy_store = {
         var target = this._findTarget(creep);
 
         if(!target){
-            creep.cancelTask();
+            creep.job().cancel();
             return;
         }
         if(target){
             creep.moveTo(target);
             var result = creep.transferEnergy(target);
             if(result === OK){
-                creep.endTask();
+                creep.job().end();
             }
         }
     },
