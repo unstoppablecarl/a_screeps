@@ -38,7 +38,17 @@ JobManager.prototype = {
             if(!source){
                 return false;
             }
-            return !source.isTargetOfJobType('harvest');
+            var allocatedHarvestWork = 0;
+            var jobs = source.targetOfJobs().map(function(job){
+                if(job && job.type() === 'harvest'){
+                    var source = job.source();
+                    if(source){
+                        allocatedHarvestWork += source.getActiveBodyparts(WORK);
+                    }
+                }
+            });
+            // max 5 work body parts allocated
+            return allocatedHarvestWork < 5;
         }).map(function(flag){
             return {
                 role: 'harvester',

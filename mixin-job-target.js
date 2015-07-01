@@ -13,8 +13,7 @@ var targetOfJobs = function(filter) {
 
     var ids = this.targetOfJobIds();
     var result = ids.map(function(id) {
-        return this.room.jobsActive()
-            .get(id);
+        return this.room.jobsList().get(id);
     });
     if (filter) {
         result = result.filter(filter);
