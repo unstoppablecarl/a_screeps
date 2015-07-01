@@ -55,6 +55,7 @@ Job.prototype = {
     },
 
     target: function(value) {
+        console.log('set target', value);
         var current;
         if(this.memory.target && this.memory.target.id){
             current = Game.getObjectById(this.memory.target.id);
