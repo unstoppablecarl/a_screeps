@@ -39,16 +39,18 @@ JobManager.prototype = {
                 return false;
             }
             var allocatedHarvestWork = 0;
+            var allocatedCreepCount = 0;
             var jobs = source.targetOfJobs().map(function(job){
                 if(job && job.type() === 'harvest'){
                     var source = job.source();
                     if(source){
                         allocatedHarvestWork += source.getActiveBodyparts(WORK);
+                        allocatedCreepCount++;
                     }
                 }
             });
             // max 5 work body parts allocated
-            return allocatedHarvestWork < 5;
+            return allocatedCreepCount < 4 && allocatedHarvestWork < 5;
         }).map(function(flag){
             return {
                 role: 'harvester',
