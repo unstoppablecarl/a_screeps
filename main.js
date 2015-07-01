@@ -22,7 +22,7 @@ if (Game.time % 5 === 0) {
         var memCreep = Memory.creeps[k];
         console.log(k, memCreep);
         if (!Game.creeps[k] && !(memCreep && memCreep.pending_creation)) {
-            Memory.creeps[k] = undefined;
+            delete Memory.creeps[k];
         }
     }
 }
