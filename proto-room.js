@@ -8,6 +8,20 @@ var JobManager = require('job-manager');
 
 Room.prototype.isRoom = true;
 
+// for console only
+Room.prototype.init = function() {
+    if(this.jobManager === undefined){
+        this.jobManager = new JobManager(this);
+    }
+
+    if(this.jobList === undefined){
+        this.jobList = new JobList(this);
+    }
+
+    return this;
+
+};
+
 Room.prototype.act = function() {
     if(this.jobManager === undefined){
         this.jobManager = new JobManager(this);
