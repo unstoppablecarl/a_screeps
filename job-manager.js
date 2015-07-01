@@ -395,7 +395,6 @@ console.log('allocateJobToSpawn');
             return false;
         }
             console.log('xyy');
-            return;
         var memory = {
             role: role,
             source_of_job_id: job.id
