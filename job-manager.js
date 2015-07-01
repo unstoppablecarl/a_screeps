@@ -394,7 +394,6 @@ console.log('allocateJobToSpawn');
             console.log('no energy');
             return false;
         }
-            console.log('xyy');
         var memory = {
             role: role,
             source_of_job_id: job.id
@@ -405,11 +404,13 @@ console.log('allocateJobToSpawn');
             return;
         }
 
-        console.log('asdf');
-            return;
 
         var result = spawn.spawnCreep(body, memory);
         console.log('spawn creep', result, body, memory);
+
+
+        console.log('asdf');
+            return;
         // var result = spawn.canCreateCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
