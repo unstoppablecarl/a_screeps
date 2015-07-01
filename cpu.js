@@ -13,6 +13,9 @@ var out = {
     last: null,
 
     start: function(name){
+        if(!Memory.cpu){
+            Memory.cpu = {};
+        }
         this.data[name] = Game.getUsedCpu();
         this.last = name;
     },
