@@ -17,11 +17,12 @@ Creep.prototype.act = function() {
         console.log("ERRROR role handler not found for role: " + role);
         return;
     }
+    var job = this.job();
     if (this.memory.pending_creation){
         if(roleHandler.init) {
             roleHandler.init(this);
         }
-        var job = this.job();
+
         if(job && job.sourcePendingCreation()){
             job.source(this);
             job.sourcePendingCreation(false);
@@ -33,7 +34,6 @@ Creep.prototype.act = function() {
         roleHandler.act(this);
     }
 
-    var job = this.job();
     if (job) {
         var jobHandler = job.handler();
         if(jobHandler.act){

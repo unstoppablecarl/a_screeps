@@ -96,6 +96,7 @@ Job.prototype = {
 
     sourcePendingCreation: function(value){
         if(value !== undefined){
+            console.log('setting sourcePendingCreation', this.id(), value);
             this.memory.source_pending_creation = value;
         }
         return this.memory.source_pending_creation;
