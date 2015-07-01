@@ -567,8 +567,8 @@ JobManager.prototype = {
             var target;
             var pos;
             jobData.push({
-                role: job.role,
-                type: job.type,
+                role: job.role(),
+                type: job.type(),
                 prior: job.priority,
                 source: job.source(),
                 target: job.target(),
