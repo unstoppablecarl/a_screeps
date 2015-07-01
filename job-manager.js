@@ -514,13 +514,14 @@ console.log('allocateJobToSpawn');
         // @todo or get from cache
 
         this.room.jobList.getPending().forEach(function(job){
-            var allocated;
+            console.log('j', job);
+            // var allocated;
 
-            allocated = this.allocateJobToExisting(job);
+            // allocated = this.allocateJobToExisting(job);
 
-            if(!allocated){
-                allocated = this.allocateJobToSpawn(job);
-            }
+            // if(!allocated){
+            //     allocated = this.allocateJobToSpawn(job);
+            // }
 
         }, this);
 
