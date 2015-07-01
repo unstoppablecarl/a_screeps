@@ -60,6 +60,7 @@ Job.prototype = {
         }
         if(value !== undefined){
             if(current){
+                console.log('current', current);
                 current.removeTargetOfJob(this.memory.id);
             }
             this.memory.target = value;
