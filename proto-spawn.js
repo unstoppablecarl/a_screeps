@@ -1,6 +1,6 @@
 'use strict';
 
-// require('mixin-job-target')(Spawn.prototype);
+require('mixin-job-target')(Spawn.prototype);
 
 Spawn.prototype.spawnCreep = function(body, memory) {
     memory = memory || {};
