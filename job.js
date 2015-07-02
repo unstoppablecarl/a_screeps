@@ -54,12 +54,13 @@ Job.prototype = {
             if(value && value.jobId === undefined){
                 value = Game.getObjectById(value.id);
             }
-            if(value && value.jobId){
-                value.jobId(this.memory.id);
-            }
 
             if(currentJob && currentJob.id() !== this.id()){
                 currentJob.end();
+            }
+
+            if(value && value.jobId){
+                value.jobId(this.memory.id);
             }
             current = value;
         }
