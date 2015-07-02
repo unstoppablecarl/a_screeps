@@ -19,6 +19,8 @@ var Job = function Job(room, memory) {
     }
 };
 
+
+
 Job.prototype = {
     constructor: Job,
 
@@ -34,6 +36,9 @@ Job.prototype = {
         return this.memory.role;
     },
 
+    _source: function(){
+
+    },
     source: function(value) {
         var current;
         if(this.memory.source && this.memory.source.id){
@@ -42,12 +47,12 @@ Job.prototype = {
 
         if(value !== undefined){
             if(current){
-                if(current.id !== value.id){
+                // if(current.id !== value.id){
                     var currentJob = current.job();
                     if(currentJob && currentJob.id() !== this.id()){
                         currentJob.end();
                     }
-                }
+                // }
             }
             this.memory.source = value;
             if(value && value.jobId === undefined){
