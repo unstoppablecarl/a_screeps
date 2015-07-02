@@ -43,7 +43,7 @@ Job.prototype = {
         if(value !== undefined){
             if(current){
                 var currentJob = current.job();
-                if(currentJob){
+                if(currentJob && currentJob !== this){
                     currentJob.end();
                 }
             }
