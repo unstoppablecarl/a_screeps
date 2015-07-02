@@ -40,12 +40,8 @@ var job_harvest = {
                     var storeTarget = this._getStoreTarget(creep, job);
                     console.log('storeTarget', storeTarget);
                     if(storeTarget){
-                        creep.moveTo(target);
-                        var dropResult = creep.transferEnergy(target);
-                        if(dropResult === OK){
-                            job.end();
-                            return;
-                        }
+                        creep.moveTo(storeTarget);
+                        creep.transferEnergy(storeTarget);
                     } else {
                         job.end();
                         return;
@@ -54,7 +50,7 @@ var job_harvest = {
                     creep.dropEnergy();
                 }
             } else {
-                 var result = creep.harvest(source);
+                var result = creep.harvest(source);
                 if(result === ERR_NOT_IN_RANGE){
                     creep.moveTo(target);
                 }
