@@ -18,7 +18,7 @@ var job_harvest = {
                 creep.moveTo(target);
             }
             if(creep.energy === creep.energyCapacity){
-
+                creep.say('energy full');
                 if(!creep.room.roleCount('carrier')){
 
                     // can afford to make carrier
