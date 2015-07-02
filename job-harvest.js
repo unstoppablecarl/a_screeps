@@ -32,10 +32,7 @@ var job_harvest = {
         if(target){
 
             var source = job.target();
-            var result = creep.harvest(source);
-            if(result === ERR_NOT_IN_RANGE){
-                creep.moveTo(target);
-            }
+
             if(creep.energy === creep.energyCapacity){
 
                 if(!creep.room.roleCount('carrier')){
@@ -55,6 +52,11 @@ var job_harvest = {
                     }
                 } else {
                     creep.dropEnergy();
+                }
+            } else {
+                 var result = creep.harvest(source);
+                if(result === ERR_NOT_IN_RANGE){
+                    creep.moveTo(target);
                 }
             }
         } else {
