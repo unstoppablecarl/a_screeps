@@ -3,6 +3,24 @@
 var job_harvest = {
     name: 'harvest',
     start: false,
+
+    _getStoreTarget: function(creep, job){
+        var settings = job.settings();
+        var target;
+        if(settings && settings.store_energy_id){
+            target = Game.getObjectById(settings.store_energy_id);
+        }
+
+        if(!target || target.energy === target.energyCapacity){
+            target = creep.pos.findClosestEnergyStore();
+            if(target){
+                settings.store_energy_id = target.id;
+            }
+        }
+
+        return target;
+    },
+
     act: function(creep, job){
         var target;
 
@@ -22,18 +40,17 @@ var job_harvest = {
                 creep.say('energy full');
                 if(!creep.room.roleCount('carrier')){
 
-                    // can afford to make carrier
-                    var roomEnergy = creep.room.roomEnergy();
-                    var minCarrierCost = 200;
-                    if(roomEnergy < minCarrierCost){
-                        var newJob = creep.room.jobList().add({
-                            role: 'harvester',
-                            type: 'energy_store',
-                            source: creep,
-                            target: creep.pos.findClosestEnergyStore()
-                        });
-                        job.cancel();
-                        newJob.start();
+                    var storeTarget = this._getStoreTarget(creep, job);
+
+                    if(storeTarget){
+                        creep.moveTo(target);
+                        var dropResult = creep.transferEnergy(target);
+                        if(dropResult === OK){
+                            job.end();
+                            return;
+                        }
+                    } else {
+                        job.end();
                         return;
                     }
                 } else {

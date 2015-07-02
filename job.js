@@ -7,6 +7,7 @@ var Job = function Job(room, memory) {
     this.room = room;
     // keep ref to task memory memory object
     this.memory = memory;
+    this.memory.settings = this.memory.settings || {};
     if(memory.source && memory.source.id){
         var source = Game.getObjectById(memory.source.id);
         this.source(source);
