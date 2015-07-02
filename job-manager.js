@@ -540,10 +540,12 @@ JobManager.prototype = {
         }, this);
 
 
-        this.room.creeps(function(creep){
+        var idleCreeps = this.room.creeps(function(creep){
             return creep.idle();
-        }).forEach(function(creep){
+        });
 
+        for (var i = 0; i < idleCreeps.length; i++) {
+            var creep = idleCreeps[i];
             var role = creep.role();
             var idleFlag = creep.pos.findClosestIdleFlag(role);
             var newJob = this.room.jobList().add({
@@ -553,7 +555,7 @@ JobManager.prototype = {
                 target: idleFlag
             });
             newJob.start();
-        });
+        };
     },
 
     update: function(){
