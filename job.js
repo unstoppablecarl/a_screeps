@@ -46,13 +46,9 @@ Job.prototype = {
         }
 
         if(value !== undefined){
+            var currentJob;
             if(current){
-                // if(current.id !== value.id){
-                    var currentJob = current.job();
-                    if(currentJob && currentJob.id() !== this.id()){
-                        currentJob.end();
-                    }
-                // }
+                currentJob = current.job();
             }
             this.memory.source = value;
             if(value && value.jobId === undefined){
@@ -60,6 +56,10 @@ Job.prototype = {
             }
             if(value && value.jobId){
                 value.jobId(this.memory.id);
+            }
+
+            if(currentJob && currentJob.id() !== this.id()){
+                currentJob.end();
             }
             current = value;
         }
