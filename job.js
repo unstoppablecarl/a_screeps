@@ -116,6 +116,7 @@ Job.prototype = {
             handler.start(source);
         }
 
+        source.say(this.type());
         this.active(true);
     },
 
