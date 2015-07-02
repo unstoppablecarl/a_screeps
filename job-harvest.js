@@ -41,7 +41,7 @@ var job_harvest = {
                 if(!creep.room.roleCount('carrier')){
 
                     var storeTarget = this._getStoreTarget(creep, job);
-
+                    console.log('storeTarget', storeTarget);
                     if(storeTarget){
                         creep.moveTo(target);
                         var dropResult = creep.transferEnergy(target);
