@@ -48,16 +48,16 @@ Creep.prototype.act = function() {
         this.memory.tics_without_job++;
 
         if(this.memory.tics_without_job > 3){
-            var idleFlag = this.pos.findClosestIdleFlag(role);
-            if(idleFlag){
-                var newJob = this.room.jobList().add({
-                    type: 'idle',
-                    role: role,
-                    source: this,
-                    target: idleFlag
-                });
-                newJob.start();
-            }
+            // var idleFlag = this.pos.findClosestIdleFlag(role);
+            // if(idleFlag){
+            //     var newJob = this.room.jobList().add({
+            //         type: 'idle',
+            //         role: role,
+            //         source: this,
+            //         target: idleFlag
+            //     });
+            //     newJob.start();
+            // }
         }
     }
 
