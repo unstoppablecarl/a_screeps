@@ -39,20 +39,22 @@ Creep.prototype.act = function() {
         if(jobHandler.act){
             jobHandler.act(this, job);
         }
+        this.say(job.type());
     } else {
-        var idleFlag = this.pos.findClosestIdleFlag(role);
-        if(idleFlag){
-            var newJob = this.room.jobList().add({
-                type: 'idle',
-                role: role,
-                source: this,
-                target: idleFlag
-            });
+        // var idleFlag = this.pos.findClosestIdleFlag(role);
+        // if(idleFlag){
+        //     var newJob = this.room.jobList().add({
+        //         type: 'idle',
+        //         role: role,
+        //         source: this,
+        //         target: idleFlag
+        //     });
 
-            newJob.start();
-        }
+        //     newJob.start();
+        // }
 
     }
+
 };
 
 Creep.prototype.role = function(role) {
