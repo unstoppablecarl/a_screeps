@@ -6,7 +6,7 @@ var Job = function Job(room, memory) {
 
     this.room = room;
     // keep ref to task memory memory object
-
+    this.memory = {};
     if(!memory){
         throw new Error('zcvx');
     }
