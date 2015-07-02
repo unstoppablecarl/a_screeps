@@ -61,7 +61,9 @@ Creep.prototype.idle = function(value) {
 
     }
     if(value && type !== 'idle'){
-        job.end();
+        if(job){
+            job.end();
+        }
         console.log('add idle');
         var role = this.role();
         var newJob = this.room.jobList().add({
