@@ -48,7 +48,9 @@ Job.prototype = {
             if(value && value.jobId === undefined){
                 value = Game.getObjectById(value.id);
             }
-            value.jobId(this.memory.id);
+            if(value && value.jobId){
+                value.jobId(this.memory.id);
+            }
             current = value;
         }
         return current;
@@ -67,7 +69,9 @@ Job.prototype = {
             if(value && value.setTargetOfJob === undefined){
                 value = Game.getObjectById(value.id);
             }
-            value.setTargetOfJob(this.memory.id);
+            if(value && value.setTargetOfJob){
+                value.setTargetOfJob(this.memory.id);
+            }
             current = value;
         }
         return current;
