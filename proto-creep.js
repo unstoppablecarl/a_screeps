@@ -39,6 +39,7 @@ Creep.prototype.act = function() {
         if(jobHandler.act){
             jobHandler.act(this, job);
         }
+        this.memory.tics_without_job = 0;
         this.say(job.type());
     } else {
 
@@ -76,27 +77,6 @@ Creep.prototype.idle = function() {
     if(job){
         type = job.type();
     }
-    // if(value !== undefined && type !== 'idle'){
-    //     if(job){
-    //         job.end();
-    //     }
-    //     console.log('add idle');
-    //     var role = this.role();
-    //     var target = this.pos.findClosestIdleFlag(this, role);
-    //     if(target){
-    //         var newJob = this.room.jobList().add({
-    //             type: 'idle',
-    //             role: role,
-    //             source: this,
-    //             target: target
-    //         });
-    //     }
-    //     if(job){
-    //         job.cancel();
-    //     }
-    //     newJob.start();
-    // }
-
     return !job || type === 'idle';
 };
 
