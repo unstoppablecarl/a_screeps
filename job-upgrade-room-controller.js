@@ -3,19 +3,19 @@
 var task = {
     name: 'upgrade_room_controller',
     start: false,
-    _findTarget: function(creep){
-        var target = creep.taskTarget();
+    _findTarget: function(creep, job){
+        var target = job.target();
         if(!target){
             target = creep.room.controller;
             if(target){
-                creep.taskTarget(target);
+                job.target(target);
             }
         }
 
         return target;
     },
-    act: function(creep){
-        var target = this._findTarget(creep);
+    act: function(creep, job){
+        var target = this._findTarget(creep, job);
         if(!target){
             creep.cancelTask();
         }
