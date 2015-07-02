@@ -88,7 +88,6 @@ Creep.prototype.job = function(job) {
 };
 
 Creep.prototype.clearJob = function() {
-
     this.memory.source_of_job_id = undefined;
 };
 
