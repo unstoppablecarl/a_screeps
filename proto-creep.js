@@ -61,7 +61,7 @@ Creep.prototype.idle = function(value) {
             type: 'idle',
             role: role,
             source: this,
-            target: this.pos.findIdleFlag(this, role)
+            target: this.pos.findClosestIdleFlag(this, role)
         });
 
         if(job){
