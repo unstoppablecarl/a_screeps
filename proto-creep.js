@@ -55,7 +55,12 @@ Creep.prototype.role = function(role) {
 
 Creep.prototype.idle = function(value) {
     var job = this.job();
-    if(value){
+    var type;
+    if(job){
+        type = job.type();
+    }
+    if(value && type !== 'idle'){
+
         var role = this.role();
         var newJob = this.room.jobList().add({
             type: 'idle',
@@ -70,7 +75,7 @@ Creep.prototype.idle = function(value) {
         newJob.start();
     }
 
-    return !job || job.type() === 'idle';
+    return !job || type === 'idle';
 };
 
 Creep.prototype.jobId = function(id) {
