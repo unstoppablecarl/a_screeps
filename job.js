@@ -151,9 +151,7 @@ Job.prototype = {
     },
 
     end: function() {
-        if(this.type() === 'energy_collect'){
-            throw new Error('foo end');
-        }
+
         var source = this.source();
         var target = this.target();
         var handler = this.handler();
