@@ -458,7 +458,7 @@ JobManager.prototype = {
         var energyCollectJobs = this.getEnergyCollectJobs();
         // var repairJobs = this.getRepairJobs();
         // var buildJobs = this.getBuildJobs();
-        // var upgradeJobs = this.getUpgradeJobs();
+        var upgradeJobs = this.getUpgradeJobs();
         // var guardJobs = this.getGuardJobs();
         // var energyDeliverJobs = this.getEnergyDeliverJobs();
 
@@ -467,10 +467,10 @@ JobManager.prototype = {
         jobs = jobs.concat(
             // replacementJobs,
             harvestJobs,
-            energyCollectJobs
+            energyCollectJobs,
             // repairJobs,
             // buildJobs,
-            // upgradeJobs,
+            upgradeJobs
             // guardJobs,
             // energyDeliverJobs
          // attack / defend
