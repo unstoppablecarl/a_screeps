@@ -539,7 +539,21 @@ JobManager.prototype = {
 
         }, this);
 
-        // @TODO move idle creeps to idle flags to get out of the way
+
+        this.room.creeps(function(creep){
+            return creep.idle();
+        }).forEach(function(creep){
+
+            var role = creep.role();
+            var idleFlag = creep.pos.findClosestIdleFlag(role);
+            var newJob = this.room.jobList().add({
+                type: 'idle',
+                role: role,
+                source: creep,
+                target: idleFlag
+            });
+            newJob.start();
+        });
     },
 
     update: function(){
