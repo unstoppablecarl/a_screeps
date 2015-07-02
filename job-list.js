@@ -31,7 +31,7 @@ JobList.prototype = {
     },
     getPending: function(filter){
         return this.all().filter(function(job){
-            return !job.active() && (!filter || filter(job));
+            return !job.active() && job.type() !== 'idle' && (!filter || filter(job));
         });
     },
     all: function(filter){
