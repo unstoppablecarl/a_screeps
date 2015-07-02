@@ -124,6 +124,9 @@ Job.prototype = {
     // set as inactive, unset source, leave target
     cancel: function() {
         var type = this.type();
+        if(type === 'energy_collect'){
+            throw new Error('foo');
+        }
         if(type === 'idle'){
             console.log('type idle');
             this.end();
@@ -148,6 +151,9 @@ Job.prototype = {
     },
 
     end: function() {
+        if(type === 'energy_collect'){
+            throw new Error('foo end');
+        }
         var source = this.source();
         var target = this.target();
         var handler = this.handler();
