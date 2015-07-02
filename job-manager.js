@@ -42,7 +42,6 @@ JobManager.prototype = {
             var allocatedCreepCount = 0;
             var havesterCountMax = flag.havesterCountMax();
             var jobs = source.targetOfJobs().map(function(job){
-                console.log('job', job, job.type);
                 if(job && job.type() === 'harvest'){
                     var source = job.source();
                     if(source){
@@ -193,7 +192,6 @@ JobManager.prototype = {
     },
 
     getBaseJobPriority: function(job){
-        console.log('job', job, job.type);
         var type = job.type();
         var target = job.target();
         var priority = 0;
