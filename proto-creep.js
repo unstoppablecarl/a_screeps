@@ -41,14 +41,17 @@ Creep.prototype.act = function() {
         }
     } else {
         var idleFlag = this.pos.findClosestIdleFlag(role);
-        var newJob = this.room.jobList().add({
-            type: 'idle',
-            role: role,
-            source: this,
-            target: idleFlag
-        });
+        if(idleFlag){
+            var newJob = this.room.jobList().add({
+                type: 'idle',
+                role: role,
+                source: this,
+                target: idleFlag
+            });
 
-        newJob.start();
+            newJob.start();
+        }
+
     }
 };
 
