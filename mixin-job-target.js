@@ -50,7 +50,6 @@ var isTargetOfJobType = function(type) {
         var id = ids[i];
         var job = this.room.jobList().get(id);
         if (job) {
-            console.log('job', job, job.type);
             if (job.type() === type) {
                 return true;
             }
