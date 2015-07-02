@@ -541,7 +541,7 @@ JobManager.prototype = {
 
 
         var idleCreeps = this.room.creeps(function(creep){
-            return creep.idle();
+            return !creep.job();
         });
 
         for (var i = 0; i < idleCreeps.length; i++) {
@@ -555,7 +555,7 @@ JobManager.prototype = {
                 target: idleFlag
             });
             newJob.start();
-        };
+        }
     },
 
     update: function(){
