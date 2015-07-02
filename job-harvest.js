@@ -44,7 +44,6 @@ var job_harvest = {
                     } else {
 
                         job.end();
-                        creep.idle(true);
                         return;
                     }
                 } else {

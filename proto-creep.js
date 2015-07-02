@@ -53,31 +53,32 @@ Creep.prototype.role = function(role) {
     return this.memory.role;
 };
 
-Creep.prototype.idle = function(value) {
+Creep.prototype.idle = function() {
     var job = this.job();
     var type;
     if(job){
         type = job.type();
-
     }
-    if(value && type !== 'idle'){
-        if(job){
-            job.end();
-        }
-        console.log('add idle');
-        var role = this.role();
-        var newJob = this.room.jobList().add({
-            type: 'idle',
-            role: role,
-            source: this,
-            target: this.pos.findClosestIdleFlag(this, role)
-        });
-
-        if(job){
-            job.cancel();
-        }
-        newJob.start();
-    }
+    // if(value !== undefined && type !== 'idle'){
+    //     if(job){
+    //         job.end();
+    //     }
+    //     console.log('add idle');
+    //     var role = this.role();
+    //     var target = this.pos.findClosestIdleFlag(this, role);
+    //     if(target){
+    //         var newJob = this.room.jobList().add({
+    //             type: 'idle',
+    //             role: role,
+    //             source: this,
+    //             target: target
+    //         });
+    //     }
+    //     if(job){
+    //         job.cancel();
+    //     }
+    //     newJob.start();
+    // }
 
     return !job || type === 'idle';
 };
