@@ -48,9 +48,6 @@ Job.prototype = {
             if(value && value.jobId === undefined){
                 value = Game.getObjectById(value.id);
             }
-            if(this.type() === 'idle'){
-                console.log(new Error('s'));
-            }
             value.jobId(this.memory.id);
             current = value;
         }
