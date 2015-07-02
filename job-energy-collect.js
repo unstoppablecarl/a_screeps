@@ -40,6 +40,7 @@ var job_energy_collect = {
 
         // got energy from somewhere; target or a distributor
         if (creep.energy === creep.energyCapacity) {
+            console.log('energy full');
             job.end();
             return;
         }
@@ -58,6 +59,7 @@ var job_energy_collect = {
         } else if(creep.pickup){
             creep.pickup(target);
         } else {
+            console.log('picked up energy');
             job.end();
         }
 
