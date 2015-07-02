@@ -42,9 +42,12 @@ Creep.prototype.act = function() {
         this.say(job.type());
     } else {
 
-        // for (var i = 0; i < idleCreeps.length; i++) {
-        //     var creep = idleCreeps[i];
-            // var role = this.role();
+        if(this.memory.tics_without_job === undefined){
+            this.memory.tics_without_job = 0;
+        }
+        this.memory.tics_without_job++;
+
+        if(this.memory.tics_without_job > 3){
             var idleFlag = this.pos.findClosestIdleFlag(role);
             if(idleFlag){
                 var newJob = this.room.jobList().add({
@@ -55,8 +58,7 @@ Creep.prototype.act = function() {
                 });
                 newJob.start();
             }
-
-        // }
+        }
     }
 
 };
