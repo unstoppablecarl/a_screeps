@@ -46,7 +46,7 @@ var job_energy_collect = {
         var target = this._getTarget(creep, job);
 
         if (!target) {
-            creep.say('no target cancel');
+            console.log('no target cancel');
             job.end();
             return;
         }
