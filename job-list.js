@@ -97,7 +97,6 @@ JobList.prototype = {
         for (var i = 0; i < jobs.length; i++) {
             var job = jobs[i];
             if(!job.valid()){
-                console.log('clean');
                 job.end();
             }
         }

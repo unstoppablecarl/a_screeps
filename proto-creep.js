@@ -59,7 +59,6 @@ Creep.prototype.idle = function(value) {
     if(job){
         type = job.type();
     }
-    console.log('type', type);
     if(value && type !== 'idle'){
 
         var role = this.role();
