@@ -125,6 +125,7 @@ Job.prototype = {
     cancel: function() {
         var type = this.type();
         if(type === 'idle'){
+            console.log('type idle');
             this.end();
             return;
         }
