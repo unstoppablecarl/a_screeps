@@ -4,7 +4,7 @@
 RoomPosition.prototype.findClosestIdleFlag = function(role){
 
     var room = Game.rooms[this.roomName];
-    var flags = this.getIdleFlags();
+    var flags = room.getIdleFlags();
 
     var roleFlags = [];
     var anyRoleFlags = [];
