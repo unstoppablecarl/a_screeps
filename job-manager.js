@@ -577,6 +577,9 @@ JobManager.prototype = {
 
     report: function() {
         var jobs = this.room.jobList().getPending();
+        if(!jobs.length){
+            return;
+        }
         var table = require('util').table;
         var str = table(this.reportData(jobs));
         if(str){
