@@ -45,19 +45,23 @@ Job.prototype = {
             current = Game.getObjectById(this.memory.source.id);
         }
 
+        if(current && curren.jobId() !== this.id()){
+            console.log('x');
+        }
+
         if(value !== undefined){
             var currentJob;
-            if(current){
-                currentJob = current.job();
-            }
+            // if(current){
+            //     currentJob = current.job();
+            // }
             this.memory.source = value;
             if(value && value.jobId === undefined){
                 value = Game.getObjectById(value.id);
             }
 
-            if(currentJob && currentJob.id() !== this.id()){
-                currentJob.end();
-            }
+            // if(currentJob && currentJob.id() !== this.id()){
+            //     currentJob.end();
+            // }
 
             if(value && value.jobId){
                 value.jobId(this.memory.id);
