@@ -15,10 +15,10 @@ var job_energy_collect = {
             }
 
             if(!settings.energy_piles_only){
-                var spawns = creep.room.spawns(function(spawn) {
-                    return spawn.energy > 0;
-                });
-                targets = targets.concat(spawns);
+                // var spawns = creep.room.spawns(function(spawn) {
+                //     return spawn.energy > 0;
+                // });
+                // targets = targets.concat(spawns);
             }
 
             if(targets && targets.length){
