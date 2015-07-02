@@ -59,7 +59,9 @@ var job_energy_collect = {
             console.log('r', r);
         } else if(creep.pickup){
             var p = creep.pickup(target);
-            console.log('p', p);
+            if(p === OK){
+                job.end();
+            }
         } else {
             // console.log('picked up energy');
             job.end();
