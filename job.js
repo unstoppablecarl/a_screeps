@@ -42,10 +42,7 @@ Job.prototype = {
 
         if(value !== undefined){
             if(current){
-                var currentJob = current.job();
-                if(currentJob && currentJob !== this){
-                    currentJob.end();
-                }
+                current.clearJob();
             }
             this.memory.source = value;
             if(value.jobId === undefined){
