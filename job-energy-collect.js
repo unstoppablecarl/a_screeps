@@ -57,14 +57,12 @@ var job_energy_collect = {
         if(target.transferEnergy){
             var r = target.transferEnergy(creep);
             console.log('r', r);
-        } else if(creep.pickup){
+        } else {
             var p = creep.pickup(target);
             if(p === OK){
+                console.log('pickedup');
                 job.end();
             }
-        } else {
-            // console.log('picked up energy');
-            job.end();
         }
 
     },
