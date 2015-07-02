@@ -123,10 +123,17 @@ Job.prototype = {
 
     // set as inactive, unset source, leave target
     cancel: function() {
+        var type = this.type();
+        if(type === 'idle'){
+            this.end();
+            return;
+        }
         var jobId = this.memory.id;
         var source = this.source();
         var target = this.target();
         var handler = this.handler();
+
+
         if(source){
             source.clearJob();
 
@@ -146,7 +153,6 @@ Job.prototype = {
 
         if(source){
             source.clearJob();
-
             if(handler.end){
                 handler.end(this.source());
             }

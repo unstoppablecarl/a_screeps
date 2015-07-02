@@ -24,7 +24,6 @@ Room.prototype.act = function() {
     // }
 };
 
-
 Room.prototype.isRoom = true;
 
 Room.prototype.jobList = function() {
