@@ -45,7 +45,7 @@ Job.prototype = {
             current = Game.getObjectById(this.memory.source.id);
         }
 
-        if(current && curren.jobId() !== this.id()){
+        if(current && current.jobId() !== this.id()){
             console.log('x');
         }
 
