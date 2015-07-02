@@ -9,15 +9,15 @@ var JobManager = require('job-manager');
 
 Room.prototype.act = function() {
 
-    // if (Game.time % 5 === 0) {
-    //     this.updateJobs();
-    // }
+    if (Game.time % 5 === 0) {
+        jobList.cleanup();
+    }
 
     var jobManager = this.jobManager();
     var jobList = this.jobList();
     jobManager.update();
     jobManager.allocate();
-    // jobList.cleanup();
+
 
     // if (Game.time % 20 === 0) {
     //     this.updateExtensionCount();
