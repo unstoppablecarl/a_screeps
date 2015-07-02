@@ -9,7 +9,7 @@ var JobManager = require('job-manager');
 
 Room.prototype.act = function() {
 
-
+console.log('asd');
     var jobManager = this.jobManager();
     var jobList = this.jobList();
 
