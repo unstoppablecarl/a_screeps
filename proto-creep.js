@@ -42,6 +42,21 @@ Creep.prototype.act = function() {
         this.say(job.type());
     } else {
 
+        // for (var i = 0; i < idleCreeps.length; i++) {
+        //     var creep = idleCreeps[i];
+            // var role = this.role();
+            var idleFlag = this.pos.findClosestIdleFlag(role);
+            if(idleFlag){
+                var newJob = this.room.jobList().add({
+                    type: 'idle',
+                    role: role,
+                    source: this,
+                    target: idleFlag
+                });
+                newJob.start();
+            }
+
+        // }
     }
 
 };

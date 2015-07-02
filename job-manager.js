@@ -528,7 +528,11 @@ JobManager.prototype = {
         //     });
         // }
 
-        _.each(this.room.jobList().getPending(), function(job){
+        var pending = this.room.jobList().getPending();
+
+        for (var i = 0; i < pending.length; i++) {
+            var job = pending[i];
+
             var allocated;
 
             allocated = this.allocateJobToExisting(job);
@@ -536,26 +540,13 @@ JobManager.prototype = {
             if(!allocated){
                 allocated = this.allocateJobToSpawn(job);
             }
-
-        }, this);
-
+        }
 
         var idleCreeps = this.room.creeps(function(creep){
+            // do not check creep.idle() only check for creeps with no job
             return !creep.job();
         });
 
-        for (var i = 0; i < idleCreeps.length; i++) {
-            var creep = idleCreeps[i];
-            var role = creep.role();
-            var idleFlag = creep.pos.findClosestIdleFlag(role);
-            var newJob = this.room.jobList().add({
-                type: 'idle',
-                role: role,
-                source: creep,
-                target: idleFlag
-            });
-            newJob.start();
-        }
     },
 
     update: function(){
