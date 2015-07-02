@@ -1,10 +1,10 @@
 'use strict';
 
 require('proto-room-settings');
+require('proto-room-cache');
 
 var JobList = require('job-list');
 var JobManager = require('job-manager');
-
 
 Room.prototype.isRoom = true;
 
@@ -15,8 +15,6 @@ Room.prototype.jobList = function() {
     return this.job_list;
 };
 
-
-// for console only
 Room.prototype.jobManager = function() {
     if(this.job_manager === undefined){
         this.job_manager = new JobManager(this);
@@ -213,10 +211,6 @@ Room.prototype.energyPiles = function(){
     });
 };
 
-Room.prototype.jobTargets = function(){
-    if(this.memory.job_targets === undefined){
-        this.memory.job_targets = {};
-    }
-    return this.memory.job_targets;
-};
+
+
 

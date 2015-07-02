@@ -84,11 +84,23 @@ JobList.prototype = {
         }
     },
 
-    clear: function(){
-        for(var key in this.memory.jobs){
-
+    jobTargets: function(){
+        if(this.memory.job_targets === undefined){
+            this.memory.job_targets = {};
         }
-    }
+        return this.memory.job_targets;
+    },
+
+    // cleanup invalid jobs
+    cleanup: function(){
+        var jobs = this.all();
+        for (var i = 0; i < jobs.length; i++) {
+            var job = jobs[i];
+            if(!job.valid()){
+                job.end();
+            }
+        }
+    },
 };
 
 module.exports = JobList;

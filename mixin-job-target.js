@@ -2,7 +2,7 @@
 
 // get job ids array
 var targetOfJobIds = function() {
-    var jobTargets = this.room.jobTargets();
+    var jobTargets = this.room.jobList().jobTargets();
     if (jobTargets[this.id] === undefined) {
         jobTargets[this.id] = [];
     }
@@ -58,6 +58,21 @@ var isTargetOfJobType = function(type) {
     return false;
 };
 
+var targetOfJobTypeCount = function(type) {
+    var ids = this.targetOfJobIds();
+    var count = 0;
+    for (var i = 0; i < ids.length; i++) {
+        var id = ids[i];
+        var job = this.room.jobList().get(id);
+        if (job) {
+            if (job.type() === type) {
+                count++;
+            }
+        }
+    }
+    return count;
+};
+
 var jobTarget = function(obj) {
     obj.targetOfJobIds = targetOfJobIds;
     obj.targetOfJobs = targetOfJobs;
@@ -65,7 +80,7 @@ var jobTarget = function(obj) {
     obj.removeTargetOfJob = removeTargetOfJob;
     obj.isTargetOfJobId = isTargetOfJobId;
     obj.isTargetOfJobType = isTargetOfJobType;
+    obj.targetOfJobTypeCount = targetOfJobTypeCount;
 };
-
 
 module.exports = jobTarget;

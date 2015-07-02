@@ -159,14 +159,18 @@ Job.prototype = {
 
     valid: function(){
         if(this.active()){
+            // active without source
             if(!this.sourcePendingCreation() && !this.source()){
                 return false;
             }
+            // active without target
             if(!this.target()){
                 return false;
             }
         } else {
-            if(!this.source()){
+
+            // pending without target
+            if(!this.target()){
                 return false;
             }
         }

@@ -29,7 +29,7 @@ var job_harvest = {
                             role: 'harvester',
                             type: 'energy_store',
                             source: creep,
-                            target: creep.closestEnergyStore()
+                            target: creep.pos.findClosestEnergyStore()
                         });
                         job.cancel();
                         newJob.start();

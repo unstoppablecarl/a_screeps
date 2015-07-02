@@ -4,36 +4,21 @@ var job_energy_collect = {
     name: 'energy_collect',
     _getTarget: function(creep, job) {
 
-        var target = job.target();
-        var settings = job.settings() || {};
+        var flags = creep.room.flags(function(flag){
 
-        if (!target || target.energy === 0) {
-            var targets = [];
-            if(!settings.spawns_only){
-                 var energyPiles = creep.room.energyPiles();
-                 targets = targets.concat(energyPiles);
+            if(flag.role() !== 'idle'){
+                return false;
             }
 
-            if(!settings.energy_piles_only){
-                var spawns = creep.room.spawns(function(spawn) {
-                    return spawn.energy > 0;
-                });
-                targets = targets.concat(spawns);
-            }
+            var assignedCreeps = flag.targetOfJobs(function(job){
+                return job.type() === 'idle';
+            });
 
-            if(targets && targets.length){
-                if(targets.length === 1){
-                    target = targets[0];
-                } else {
-                    target = creep.pos.findClosest(targets);
-                }
-            }
+            return assignedCreeps < flag.idleCreepMax();
 
-            if (target) {
-                job.target(target);
-            }
-        }
-        return target;
+        });
+
+
     },
     start: false,
     act: function(creep) {

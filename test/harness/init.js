@@ -22,6 +22,7 @@ Module._nodeModulePaths = function(from) {
 
 function run(_state) {
     require('../mock/global')();
+
     require('../../main');
 }
 

@@ -7,8 +7,8 @@ var job_energy_store = {
 
         var target = job.target();
 
-        if(!target || target.energy === target.energyCapacity){
-            target = creep.closestEnergyStore();
+        if(!target || target.energy === target.energyCapacity || target.isRoom){
+            target = creep.pos.findClosestEnergyStore();
             if(target){
                 job.target(target);
             }
@@ -18,19 +18,18 @@ var job_energy_store = {
     },
     start: false,
     act: function(creep, job){
-
-        var target = this._findTarget(creep, job);
-
         if(creep.energy === 0){
             job.end();
             return;
         }
 
+        var target = this._findTarget(creep, job);
+
         if(!target){
             job.end();
             return;
         }
-        if(target){
+        else {
             creep.moveTo(target);
             var result = creep.transferEnergy(target);
             if(result === OK){

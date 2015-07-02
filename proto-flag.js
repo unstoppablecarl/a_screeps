@@ -71,3 +71,53 @@ Flag.prototype.havesterCountMax = function(value) {
     }
     return this.memory.harvester_count_max;
 };
+
+
+// idle
+
+// type of creeps to idle at this flag
+// if not set any creep type can idle here
+Flag.prototype.idleCreepRole = function(role) {
+    if(this.memory.idle_creep_role !== 'idle'){
+        return false;
+    }
+    if (role !== undefined) {
+        this.memory.idle_creep_role = role;
+    }
+    return this.memory.idle_creep_role;
+};
+
+// max number to idle
+Flag.prototype.idleCreepMax = function(value) {
+    if(this.memory.role !== 'idle'){
+        return false;
+    }
+    if (value !== undefined) {
+        this.memory.idle_creep_max = value;
+    }
+    return this.memory.idle_creep_max;
+};
+
+
+// max number to idle
+Flag.prototype.getCreepIdleSlots = function() {
+    if(this.memory.role !== 'idle'){
+        return false;
+    }
+
+    var idleCreepMax = this.idleCreepMax();
+
+    // unlimited
+    if(!_.isNumber(idleCreepMax)){
+        return true;
+    }
+
+    if(idleCreepMax > 0){
+        var assignedCreeps = this.targetOfJobTypeCount('idle');
+        return idleCreepMax - assignedCreeps;
+    }
+
+    return 0;
+
+};
+
