@@ -42,7 +42,9 @@ var job_harvest = {
                         creep.moveTo(storeTarget);
                         creep.transferEnergy(storeTarget);
                     } else {
+
                         job.end();
+                        creep.idle(true);
                         return;
                     }
                 } else {
