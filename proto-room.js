@@ -17,7 +17,7 @@ Room.prototype.act = function() {
     var jobList = this.jobList();
     jobManager.update();
     jobManager.allocate();
-    jobList.cleanup();
+    // jobList.cleanup();
 
     // if (Game.time % 20 === 0) {
     //     this.updateExtensionCount();
