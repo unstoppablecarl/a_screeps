@@ -45,7 +45,7 @@ Job.prototype = {
                 if(current.id !== value.id){
                     var currentJob = current.job();
                     if(currentJob && currentJob.id() !== this.id()){
-                        // currentJob.end();
+                        currentJob.end();
                     }
                 }
             }
