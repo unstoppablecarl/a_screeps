@@ -6,6 +6,25 @@ require('proto-room-cache');
 var JobList = require('job-list');
 var JobManager = require('job-manager');
 
+
+Room.prototype.act = function() {
+
+    // if (Game.time % 5 === 0) {
+    //     this.updateJobs();
+    // }
+
+    var jobManager = this.jobManager();
+    var jobList = this.jobList();
+    jobManager.update();
+    jobManager.allocate();
+    jobList.cleanup();
+
+    // if (Game.time % 20 === 0) {
+    //     this.updateExtensionCount();
+    // }
+};
+
+
 Room.prototype.isRoom = true;
 
 Room.prototype.jobList = function() {
@@ -20,21 +39,6 @@ Room.prototype.jobManager = function() {
         this.job_manager = new JobManager(this);
     }
     return this.job_manager;
-};
-
-Room.prototype.act = function() {
-
-    // if (Game.time % 5 === 0) {
-    //     this.updateJobs();
-    // }
-
-    var jobManager = this.jobManager();
-    jobManager.update();
-    jobManager.allocate();
-
-    // if (Game.time % 20 === 0) {
-    //     this.updateExtensionCount();
-    // }
 };
 
 Room.prototype.populationReport = function() {
