@@ -58,7 +58,8 @@ Creep.prototype.role = function(role) {
 };
 
 Creep.prototype.idle = function(value) {
-    return !this.job();
+    var job = this.job();
+    return !job || job.type() === 'idle';
 };
 
 Creep.prototype.jobId = function(id) {
