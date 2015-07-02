@@ -45,7 +45,7 @@ Job.prototype = {
                 current.clearJob();
             }
             this.memory.source = value;
-            if(value.jobId === undefined){
+            if(value && value.jobId === undefined){
                 value = Game.getObjectById(value.id);
             }
             value.jobId(this.memory.id);
@@ -64,7 +64,7 @@ Job.prototype = {
                 current.removeTargetOfJob(this.memory.id);
             }
             this.memory.target = value;
-            if(value.setTargetOfJob === undefined){
+            if(value && value.setTargetOfJob === undefined){
                 value = Game.getObjectById(value.id);
             }
             value.setTargetOfJob(this.memory.id);
