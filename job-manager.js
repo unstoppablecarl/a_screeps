@@ -470,7 +470,7 @@ JobManager.prototype = {
             energyCollectJobs,
             // repairJobs,
             // buildJobs,
-            upgradeJobs
+            upgradeJobs,
             // guardJobs,
             energyDeliverJobs
          // attack / defend
