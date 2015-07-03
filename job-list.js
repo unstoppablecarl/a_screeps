@@ -95,6 +95,7 @@ JobList.prototype = {
         // }
         var id = this.memory._id_increment++;
         jobData.id = id;
+        jobData.created_at = Game.time;
         this.memory.jobs[id] = jobData;
         var job = new Job(this.room, jobData);
         this._cached[id] = job;
