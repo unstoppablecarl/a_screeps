@@ -59,12 +59,10 @@ Job.prototype = {
         // }
 
         // set new value
-        if(value !== undefined && current.id !== value.id){
-
-            // if(current.id !== value.id){
-            //     console.log('ERROR trying to set source on job that already has source');
-            // }
-
+        if(
+            value !== undefined &&
+            current.id !== value.id
+        ){
 
             // make sure value is a creep object
             if(value && value.jobId === undefined){
