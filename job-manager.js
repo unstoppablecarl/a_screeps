@@ -453,7 +453,7 @@ JobManager.prototype = {
 
         var jobs = [];
 
-        // var replacementJobs = this.getReplacementJobs();
+        var replacementJobs = this.getReplacementJobs();
         var harvestJobs = this.getHarvestJobs();
         var energyCollectJobs = this.getEnergyCollectJobs();
         // var repairJobs = this.getRepairJobs();
