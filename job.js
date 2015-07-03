@@ -9,6 +9,9 @@ var Job = function Job(room, memory) {
     var source = memory.source;
     var target = memory.target;
 
+    memory.source = undefined;
+    memory.target = undefined;
+
     memory.settings = memory.settings || {};
 
     this.memory = memory;
