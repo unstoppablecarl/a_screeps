@@ -254,7 +254,16 @@ Job.prototype = {
     },
 
     toString: function(){
-        return ['[Job#' + this.id(), this.type(), this.source(), this.target(), ']'].join(' ');
+        return [
+            '[Job#' + this.id(),
+            'type:',
+            this.type(),
+            'source:',
+            this.source(),
+            'target:',
+            this.target(),
+            ']'
+        ].join(' ');
     },
 };
 
