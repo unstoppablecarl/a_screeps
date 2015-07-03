@@ -115,20 +115,12 @@ JobManager.prototype = {
         if(!controller || controller.isTargetOfJobType('upgrade_room_controller')){
             return [];
         }
-
-        var upgraders = this.room.creeps(function(creep){
-            return creep.role() === 'upgrader';
-        });
-
-        if(!upgraders || !upgraders.length){
-            return [{
+        return [{
                 role: 'upgrader',
                 type: 'upgrade_room_controller',
                 target: controller,
             }];
-        }
 
-        return [];
     },
 
     getEnergyDeliverJobs: function() {
