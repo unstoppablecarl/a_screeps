@@ -80,10 +80,11 @@ Job.prototype = {
             this.memory.source.id
         ){
             current = Game.getObjectById(this.memory.source.id);
-            if(!current){
-                // remove this job if it has no source
-                this.end();
-            }
+            // if(!current){
+            //     // remove this job if it has no source
+            //     this.end();
+            //     return false;
+            // }
         }
 
         return current;
