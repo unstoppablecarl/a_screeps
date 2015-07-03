@@ -13,6 +13,7 @@ JobManager.prototype = {
     getReplacementJobs: function() {
         // @TODO base threshold on distance from spawn
         var threshold = this.room.creepReplaceThreshold();
+
         // @TODO exclude unused, something more advanced than just checking idle
         var creeps = this.room.creeps(function(creep) {
             return !creep.idle() && creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
@@ -384,6 +385,13 @@ JobManager.prototype = {
         //         }
         //     }
         // }
+
+        var roleCount = this.room.roleCount(role);
+        var roleCountMax = this.room.roleCountMax(role);
+
+        if(roleCount >= roleCountMax){
+            return false;
+        }
 
         // if there are no harvesters spawn whatever type of harvester possible
         if(role === 'harvester'){
