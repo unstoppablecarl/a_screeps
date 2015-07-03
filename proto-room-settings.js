@@ -80,7 +80,7 @@ Room.prototype.energyPileThresholdMin = function(value) {
     if (value !== void 0) {
         this.memory.energy_pile_threshold_min = value;
     }
-    return this.memory.energy_pile_threshold_min || 150;
+    return this.memory.energy_pile_threshold_min || 50;
 };
 
 // the size of an energy pile required to prompt spawning another collector
