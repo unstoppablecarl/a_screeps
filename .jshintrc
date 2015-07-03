@@ -18,6 +18,7 @@
         "Source": true,
         "Spawn": true,
         "Structure": true,
+        "ConstructionSite": true,
 
         "FIND_EXIT_TOP": true,
         "FIND_EXIT_RIGHT": true,

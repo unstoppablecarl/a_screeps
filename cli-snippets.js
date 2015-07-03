@@ -10,6 +10,7 @@ console.log(
     );
 
 
+require('proto-all'); Game.rooms.sim.constructionSites();
 
 require('proto-all'); Game.rooms.sim.populationReport();
 
