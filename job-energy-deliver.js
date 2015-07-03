@@ -5,21 +5,21 @@ var job_energy_deliver = {
     name: 'energy_deliver',
     start: false,
     act: function(creep, job) {
-        var target = creep.taskTarget();
+        var target = job.target();
         if(!target){
-            creep.cancelTask();
+            job.end();
             return;
         }
 
         if (target) {
             if (target.energy === target.energyCapacity) {
-                creep.endTask();
+                job.end();
                 return;
             }
             creep.moveTo(target);
             var result = creep.transferEnergy(target);
             if (result === OK) {
-                creep.endTask();
+                job.end();
             }
         }
     },
