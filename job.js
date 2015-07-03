@@ -198,6 +198,10 @@ Job.prototype = {
         var target = this.target();
         var handler = this.handler();
 
+        if(this.type() === 'harvest'){
+            console.log(new Error('x').trace);
+        }
+
         if(source){
             source.clearJob();
             if(handler.end){
