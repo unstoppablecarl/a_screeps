@@ -49,7 +49,6 @@ Creep.prototype.act = function() {
         this.memory.tics_without_job++;
 
         if(this.memory.tics_without_job > 5){
-            console.log('xzcv', this.memory.tics_without_job);
             var idleFlag = this.pos.findClosestIdleFlag(role);
             if(idleFlag){
                 var newJob = this.room.jobList().add({
