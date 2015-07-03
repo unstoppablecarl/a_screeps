@@ -254,7 +254,7 @@ Job.prototype = {
     },
 
     toString: function(){
-        return ['Job#' + this.id(), this.type(), this.source(), this.target()].join(' ');
+        return ['[Job#' + this.id(), this.type(), this.source(), this.target(), ']'].join(' ');
     },
 };
 
