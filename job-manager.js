@@ -465,7 +465,7 @@ JobManager.prototype = {
         // deturmine creeps that really need to be spawned
 
         jobs = jobs.concat(
-            // replacementJobs,
+            replacementJobs,
             harvestJobs,
             energyCollectJobs,
             // repairJobs,

@@ -8,25 +8,19 @@ var job_replace = {
         var targetJob = target.job();
 
         if(targetJob){
-            var jobsActive = creep.room.jobsActive();
-            var job = jobsActive.add(targetJob.data);
-        }
 
 
-        creep.room.jobManager().assignJob()
-    },
-    act: function(creep){
-        var target = creep.taskTarget();
-        if(target){
-            creep.moveTo(target);
-            creep.repair(target);
-            if(target.hits === target.hitsMax){
-                creep.endTask();
-            }
-        } else {
-            creep.cancelTask();
+            var newJob = creep.room.jobList().add({
+                source: creep,
+                target: targetJob.target(),
+                type: targetJob.type(),
+                role: targetJob.role(),
+                settings: targetJob.settings(),
+            });
+            newJob.start();
         }
     },
+    act: false,
     cancel: false,
     end: false,
 };
