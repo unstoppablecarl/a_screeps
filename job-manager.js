@@ -54,6 +54,11 @@ JobManager.prototype = {
                 }
             });
 
+            console.log(flag);
+            console.log('allocatedCreepCount', allocatedCreepCount);
+            console.log('havesterCountMax', havesterCountMax);
+            console.log('allocatedHarvestWork', allocatedHarvestWork);
+
 
             // max 5 work body parts allocated
             return allocatedCreepCount < havesterCountMax && allocatedHarvestWork < 5;
