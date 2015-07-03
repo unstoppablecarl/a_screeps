@@ -44,9 +44,6 @@ Job.prototype = {
         return this.memory.role;
     },
 
-    _source: function(){
-
-    },
     source: function(value) {
         var current;
         if(
@@ -62,42 +59,45 @@ Job.prototype = {
         // }
 
         // set new value
-        // if(value !== undefined){
+        if(value !== undefined){
+
+            if(current){
+                console.log('ERROR trying to set source on job that already has source');
+            }
 
 
+            // make sure value is a creep object
+            if(value && value.jobId === undefined){
+                value = Game.getObjectById(value.id);
+            }
 
-        //     // make sure value is a creep object
-        //     if(value && value.jobId === undefined){
-        //         value = Game.getObjectById(value.id);
-        //     }
+            if(!value){
+                return;
+            }
 
-        //     if(!value){
-        //         return;
-        //     }
+            var prevJob = value.job();
 
-        //     var prevJob = value.job();
+            if(
+                prevJob &&
+                prevJob.memory &&
+                prevJob.memory.id !== this.memory.id
+            ){
+                prevJob.end();
+            }
 
-        //     if(
-        //         prevJob &&
-        //         prevJob.memory &&
-        //         prevJob.memory.id !== this.memory.id
-        //     ){
-        //         prevJob.end();
-        //     }
+            if(
+                current &&
+                current.clearJob
+            ){
+                current.clearJob();
+            }
 
-        //     if(
-        //         current &&
-        //         current.clearJob
-        //     ){
-        //         current.clearJob();
-        //     }
+            this.memory.source = value;
 
-        //     this.memory.source = value;
+            value.jobId(this.memory.id);
 
-        //     value.jobId(this.memory.id);
-
-        //     current = value;
-        // }
+            current = value;
+        }
         return current;
     },
 
