@@ -139,7 +139,8 @@ JobManager.prototype = {
         }
 
         var creeps = this.room.creeps(function(creep){
-            return creep.role() === 'tech' && creep.energy < creep.energyCapacity && !creep.isTargetOfJobType('energy_deliver');
+            var role = creep.role();
+            return (role === 'tech' || role === 'upgrader') && creep.energy < creep.energyCapacity && !creep.isTargetOfJobType('energy_deliver');
         });
 
         return creeps.map(function(creep){
