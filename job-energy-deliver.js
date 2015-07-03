@@ -5,11 +5,6 @@ var job_energy_deliver = {
     name: 'energy_deliver',
     start: false,
     act: function(creep, job) {
-
-        if(creep.room.getCacelDeliverJobs()){
-            creep.cancelTask();
-        }
-
         var target = creep.taskTarget();
         if(!target){
             creep.cancelTask();
