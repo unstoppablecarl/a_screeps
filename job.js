@@ -19,8 +19,7 @@ var Job = function Job(room, memory) {
         throw new Error('zcvx');
     }
     if(source && source.id){
-        this.memory.source = Game.getObjectById(source.id);
-        this.source(source);
+        this.memory.source = this._setSource(source);
     }
 
     if(target && target.id){
@@ -44,37 +43,24 @@ Job.prototype = {
         return this.memory.role;
     },
 
-    source: function(value) {
-        var current;
+    // can only be say on init
+    _setSource: function(source){
         if(
-            this.memory &&
-            this.memory.source &&
-            this.memory.source.id
+            source &&
+            source.id &&
+            source.jobId === undefined
         ){
-            current = Game.getObjectById(this.memory.source.id);
-        }
+            source = Game.getObjectById(source.id);
 
-        // if(current && current.jobId() !== this.id()){
-        //     console.log('x');
-        // }
-
-        // set new value
-        if(
-            value !== undefined &&
-            current.id !== value.id
-        ){
-
-            // make sure value is a creep object
-            if(value && value.jobId === undefined){
-                value = Game.getObjectById(value.id);
-            }
-
-            if(!value){
+            // source with matching id does not exist
+            if(!source){
+                // remove this job
+                this.end();
                 return;
             }
 
-            var prevJob = value.job();
-
+            // if source has a prev job that is not this job
+            var prevJob = source.job();
             if(
                 prevJob &&
                 prevJob.memory &&
@@ -83,19 +69,23 @@ Job.prototype = {
                 prevJob.end();
             }
 
-            if(
-                current &&
-                current.clearJob
-            ){
-                current.clearJob();
-            }
-
-            this.memory.source = value;
-
-            value.jobId(this.memory.id);
-
-            current = value;
+            this.memory.source = source;
         }
+    },
+    source: function() {
+        var current;
+        if(
+            this.memory &&
+            this.memory.source &&
+            this.memory.source.id
+        ){
+            current = Game.getObjectById(this.memory.source.id);
+            if(!current){
+                // remove this job if it has no source
+                this.end();
+            }
+        }
+
         return current;
     },
 
@@ -118,7 +108,7 @@ Job.prototype = {
                 value = Game.getObjectById(value.id);
             }
 
-            if(!value){
+            if(!value || (current && current.id === value.id)){
                 return;
             }
 
