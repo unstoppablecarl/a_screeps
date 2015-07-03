@@ -71,6 +71,7 @@ Job.prototype = {
             ){
                 prevJob.end();
             }
+            value.jobId(this.memory.id);
             current = value;
             this.memory.source = value;
         }

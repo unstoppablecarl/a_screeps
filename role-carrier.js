@@ -8,7 +8,7 @@ var role_carrier = {
             var target = creep.pos.findClosestEnergyStore();
             if(target){
                 var newJob = creep.room.jobList().add({
-                    role: 'carrier',
+                    role: creep.role(),
                     type: 'energy_store',
                     source: creep,
                     target: target
