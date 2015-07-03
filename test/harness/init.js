@@ -19,11 +19,15 @@ Module._nodeModulePaths = function(from) {
     return paths;
 };
 // End snippet
-
+var init = false;
 function run(_state) {
-    require('../mock/global')();
+    init = true;
 
-    require('../../main');
+    require('../mock/global')();
+    require('../../proto-all');
+    // require('../../main');
 }
 
-run();
+if(!init){
+    run();
+}

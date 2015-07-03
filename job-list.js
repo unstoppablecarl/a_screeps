@@ -24,6 +24,8 @@ JobList.prototype = {
 
     _cached: {},
 
+    getObjectById: Game.getObjectById || function(){},
+
     getActive: function(filter){
         return this.all().filter(function(job){
             return job.active() && (!filter || filter(job));
@@ -45,10 +47,40 @@ JobList.prototype = {
         return out;
     },
 
+    // _initjobData: function(jobData){
+    //     if(!jobData){
+    //         return false;
+    //     }
+
+    //     if(
+    //         jobData.source &&
+    //         jobData.source.id
+    //     ){
+    //         var source = this.getObjectById(jobData.source.id);
+    //         if(!source){
+    //             return false;
+    //         }
+    //     }
+
+    //     if(
+    //         jobData.target &&
+    //         jobData.target.id
+    //     ){
+    //         var target = this.getObjectById(jobData.target.id);
+    //         if(!target){
+    //             return false;
+    //         }
+    //         jobData.target = target;
+    //     }
+
+    //     return jobData;
+    // },
     get: function(id){
         if(!this._cached[id]){
             var jobData = this.memory.jobs[id];
+            // jobData = this._initjobData(jobData);
             if(!jobData){
+                // this.remove(id);
                 return false;
             }
             this._cached[id] = new Job(this.room, jobData);
@@ -57,6 +89,10 @@ JobList.prototype = {
     },
 
     add: function(jobData){
+        jobData = this._initjobData(jobData);
+        if(!jobData){
+            return false;
+        }
         var id = this.memory._id_increment++;
         jobData.id = id;
         this.memory.jobs[id] = jobData;

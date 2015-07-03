@@ -6,8 +6,6 @@ var Job = function Job(room, memory) {
 
     this.room = room;
     // keep ref to task memory memory object
-    this.memory = {};
-
     var source = memory.source;
     var target = memory.target;
 
@@ -15,11 +13,8 @@ var Job = function Job(room, memory) {
 
     this.memory = memory;
 
-    if(!memory){
-        throw new Error('zcvx');
-    }
     if(source && source.id){
-        this.memory.source = this._setSource(source);
+        this.source(source);
     }
 
     if(target && target.id){
@@ -30,6 +25,9 @@ var Job = function Job(room, memory) {
 
 Job.prototype = {
     constructor: Job,
+
+    // added to ease unit testing
+    getObjectById: Game.getObjectById || function(){},
 
     id: function(){
         return this.memory.id;
@@ -42,25 +40,27 @@ Job.prototype = {
     role: function() {
         return this.memory.role;
     },
-
-    // can only be say on init
-    _setSource: function(source){
+    source: function(value) {
+        var current;
         if(
-            source &&
-            source.id &&
-            source.jobId === undefined
+            this.memory &&
+            this.memory.source &&
+            this.memory.source.id
         ){
-            source = Game.getObjectById(source.id);
+            current = this.getObjectById(this.memory.source.id);
+        }
 
-            // source with matching id does not exist
-            if(!source){
-                // remove this job
-                this.end();
-                return;
+        if(value !== undefined){
+            // make sure value is a creep object
+            if(value.jobId === undefined){
+                value = this.getObjectById(value.id);
+            }
+            if(!value){
+                return false;
             }
 
             // if source has a prev job that is not this job
-            var prevJob = source.job();
+            var prevJob = value.job();
             if(
                 prevJob &&
                 prevJob.memory &&
@@ -68,23 +68,8 @@ Job.prototype = {
             ){
                 prevJob.end();
             }
-
-            this.memory.source = source;
-        }
-    },
-    source: function() {
-        var current;
-        if(
-            this.memory &&
-            this.memory.source &&
-            this.memory.source.id
-        ){
-            current = Game.getObjectById(this.memory.source.id);
-            // if(!current){
-            //     // remove this job if it has no source
-            //     this.end();
-            //     return false;
-            // }
+            current = value;
+            this.memory.source = value;
         }
 
         return current;
@@ -98,15 +83,15 @@ Job.prototype = {
             this.memory.target &&
             this.memory.target.id
         ){
-            current = Game.getObjectById(this.memory.target.id);
+            current = this.getObjectById(this.memory.target.id);
         }
 
         // set new value
         if(value !== undefined){
 
-            // make sure value is a creep object
+            // make sure value is a game object
             if(value && value.setTargetOfJob === undefined){
-                value = Game.getObjectById(value.id);
+                value = this.getObjectById(value.id);
             }
 
             if(!value || (current && current.id === value.id)){
@@ -149,6 +134,7 @@ Job.prototype = {
     sourcePendingCreation: function(value){
         if(value !== undefined){
             if(!value){
+                // set undefined to remove from memory
                 value = undefined;
             }
             this.memory.source_pending_creation = value;
@@ -222,23 +208,15 @@ Job.prototype = {
     },
 
     valid: function(){
-        if(this.active()){
-            // active without source
-            if(!this.sourcePendingCreation() && !this.source()){
-                return false;
-            }
-            // active without target
-            if(!this.target()){
-                return false;
-            }
-        } else {
-
-            // pending without target
-            if(!this.target()){
-                return false;
-            }
+        // active without target
+        if(!this.target()){
+            return false;
         }
 
+        // active without source;
+        if(this.active() && !this.sourcePendingCreation() && !this.source()){
+            return false;
+        }
         return true;
     },
 

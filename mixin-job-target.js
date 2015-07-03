@@ -45,28 +45,33 @@ var isTargetOfJobId = function(jobId) {
 
 var isTargetOfJobType = function(type) {
     var ids = this.targetOfJobIds();
-    for (var i = 0; i < ids.length; i++) {
+    for(var i = ids.length - 1; i >= 0; i--){
         var id = ids[i];
         var job = this.room.jobList().get(id);
         if (job) {
             if (job.type() === type) {
                 return true;
             }
+        } else {
+            ids.splice(1, i);
         }
     }
+
     return false;
 };
 
 var targetOfJobTypeCount = function(type) {
     var ids = this.targetOfJobIds();
     var count = 0;
-    for (var i = 0; i < ids.length; i++) {
+    for(var i = ids.length - 1; i >= 0; i--){
         var id = ids[i];
         var job = this.room.jobList().get(id);
         if (job) {
             if (job.type() === type) {
                 count++;
             }
+        } else {
+            ids.splice(1, i);
         }
     }
     return count;

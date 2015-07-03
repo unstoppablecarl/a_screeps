@@ -11,31 +11,17 @@ var JobManager = require('../job-manager');
 describe('Room', function() {
 
 
-    describe('jobsActive', function() {
+    describe('jobList', function() {
 
-        it('room.jobsActive()', function() {
+        it('room.jobList()', function() {
             var room = new Room();
 
-            assert(room.jobsActive() instanceof JobList);
-            var ja = room.jobsActive();
-            assert(ja === room.jobsActive());
+            assert(room.jobList() instanceof JobList);
+            var jobList = room.jobList();
+            assert.deepEqual(jobList, room.jobList());
 
         });
     });
-
-
-    describe('jobsPending', function() {
-
-        it('room.jobsPending()', function() {
-            var room = new Room();
-
-            assert(room.jobsPending() instanceof JobList);
-            var ja = room.jobsPending();
-            assert(ja === room.jobsPending());
-
-        });
-    });
-
 
     describe('jobManager', function() {
 
@@ -44,8 +30,8 @@ describe('Room', function() {
 
             assert(room.jobManager() instanceof JobManager);
 
-            var ja = room.jobManager();
-            assert(ja === room.jobManager());
+            var jobManager = room.jobManager();
+            assert.deepEqual(jobManager, room.jobManager());
 
         });
     });

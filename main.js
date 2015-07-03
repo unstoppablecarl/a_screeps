@@ -13,11 +13,14 @@ require('proto-all');
 // var room = Game.rooms[''];
 
 var room = Game.rooms.sim;
-_.each(room.creeps(), function(creep) {
-    creep.act();
-});
+if(room){
+    _.each(room.creeps(), function(creep) {
+        creep.act();
+    });
+    room.act();
+}
 
-room.act();
+
 
 if (Game.time % 5 === 0) {
     for (var k in Memory.creeps) {

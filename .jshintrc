@@ -2,7 +2,6 @@
     "globalstrict": true,
     "node": true,
     "globals": {
-        "AI": true,
 
         "_": true,
         "Game": true,
@@ -169,11 +168,11 @@
 
         "BODYPARTS_ALL": true,
 
-    "describe": true,
-    "it": true
 
+        "describe": true,
+        "it": true,
+        "before": true,
+        "after": true
 
-    },
-
-    "-W100": true
+    }
 }
