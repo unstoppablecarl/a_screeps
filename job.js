@@ -159,6 +159,7 @@ Job.prototype = {
         if(handler.start){
             handler.start(source);
         }
+        source.say(this.type());
         this.active(true);
     },
 
