@@ -129,6 +129,7 @@ Job.prototype = {
             }
 
             this.memory.target = value;
+            console.log('setTargetOfJob', value, this.memory.id);
             value.setTargetOfJob(this.memory.id);
             current = value;
         }
