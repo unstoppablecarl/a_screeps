@@ -35,12 +35,13 @@ Creep.prototype.act = function() {
     }
 
     if (job) {
+           this.say(job.type());
         this.memory.tics_without_job = 0;
         var jobHandler = job.handler();
         if(jobHandler.act){
             jobHandler.act(this, job);
         }
-        this.say(job.type());
+
     } else {
 
         if(this.memory.tics_without_job === undefined){
