@@ -256,11 +256,11 @@ Job.prototype = {
     toString: function(){
         return [
             '[Job#' + this.id(),
-            'type:',
+            ',type:',
             this.type(),
-            'source:',
+            ',source:',
             this.source(),
-            'target:',
+            ',target:',
             this.target(),
             ']'
         ].join(' ');
