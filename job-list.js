@@ -89,10 +89,10 @@ JobList.prototype = {
     },
 
     add: function(jobData){
-        jobData = this._initjobData(jobData);
-        if(!jobData){
-            return false;
-        }
+        // jobData = this._initjobData(jobData);
+        // if(!jobData){
+        //     return false;
+        // }
         var id = this.memory._id_increment++;
         jobData.id = id;
         this.memory.jobs[id] = jobData;
