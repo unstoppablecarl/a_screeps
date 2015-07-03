@@ -102,11 +102,3 @@ Room.prototype.roleCountMax = function(role, max) {
     }
     return roleCountMax[role];
 };
-
-// the size of an energy pile required to prompt spawning another collector
-Room.prototype.roleCountMax = function(value) {
-    if (value !== void 0) {
-        this.memory.energy_pile_threshold_spawn = value;
-    }
-    return this.memory.energy_pile_threshold_spawn || 1500;
-};
