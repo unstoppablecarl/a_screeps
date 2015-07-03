@@ -61,7 +61,7 @@ Job.prototype = {
         // set new value
         if(value !== undefined){
 
-            if(current){
+            if(current.id !== value.id){
                 console.log('ERROR trying to set source on job that already has source');
             }
 
