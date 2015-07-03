@@ -112,7 +112,7 @@ JobManager.prototype = {
 
     getUpgradeJobs: function() {
         var controller = this.room.controller;
-        if(!controller){
+        if(!controller || controller.isTargetOfJobType('upgrade_room_controller')){
             return [];
         }
 
