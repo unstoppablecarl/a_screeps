@@ -24,7 +24,7 @@ var job_energy_store = {
         }
 
         var target = this._findTarget(creep, job);
-
+        console.log('target', target);
         if(!target){
             job.end();
             return;
