@@ -164,33 +164,33 @@ Job.prototype = {
     },
 
     // set as inactive, unset source, leave target
-    cancel: function() {
-        var type = this.type();
-        if(type === 'energy_collect'){
-            throw new Error('foo');
-        }
-        if(type === 'idle'){
-            console.log('type idle');
-            this.end();
-            return;
-        }
-        var jobId = this.memory.id;
-        var source = this.source();
-        var target = this.target();
-        var handler = this.handler();
+    // cancel: function() {
+    //     var type = this.type();
+    //     if(type === 'energy_collect'){
+    //         throw new Error('foo');
+    //     }
+    //     if(type === 'idle'){
+    //         console.log('type idle');
+    //         this.end();
+    //         return;
+    //     }
+    //     var jobId = this.memory.id;
+    //     var source = this.source();
+    //     var target = this.target();
+    //     var handler = this.handler();
 
 
-        if(source){
-            source.clearJob();
+    //     if(source){
+    //         source.clearJob();
 
-            if(handler.cancel){
-                handler.cancel(source);
-            }
-        }
+    //         if(handler.cancel){
+    //             handler.cancel(source);
+    //         }
+    //     }
 
-        this.memory.source = undefined;
-        this.active(false);
-    },
+    //     this.memory.source = undefined;
+    //     this.active(false);
+    // },
 
     end: function() {
 

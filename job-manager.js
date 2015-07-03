@@ -93,19 +93,16 @@ JobManager.prototype = {
     },
 
     getBuildJobs: function() {
+        // @TODO asign idle builders to sites that already have a builder
         var sites = this.room.constructionSites(function(site){
             return !site.isTargetOfJobType('build');
         });
-        var techCount = this.room.roleCount('tech');
-        var existing_only = techCount > sites.length;
 
-        // @TODO handle existing only, when setting priority
         return sites.map(function(site){
             return {
                 role: 'tech',
                 type: 'build',
                 target: site,
-                existing_only: existing_only,
             };
 
         }, this);
@@ -477,7 +474,7 @@ JobManager.prototype = {
             harvestJobs,
             energyCollectJobs,
             // repairJobs,
-            // buildJobs,
+            buildJobs,
             upgradeJobs,
             // guardJobs,
             energyDeliverJobs
