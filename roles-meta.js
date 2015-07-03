@@ -20,7 +20,7 @@ var roles_meta = {
             var body = creepType.bodies[i];
             var cost = this.getBodyCost(body);
 
-            if(cost < maxCost && maxMatchCost < cost){
+            if(cost <= maxCost && maxMatchCost <= cost){
                 maxMatchCost = cost;
                 maxMatchBody = body;
             }
