@@ -18,6 +18,7 @@ var job_energy_store = {
     },
     start: false,
     act: function(creep, job){
+        console.log('energy_store.act');
         if(creep.energy === 0){
             job.end();
             return;
