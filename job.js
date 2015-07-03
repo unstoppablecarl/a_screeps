@@ -96,15 +96,17 @@ Job.prototype = {
 
             if(!value || (current && current.id === value.id)){
                 return;
+            } else {
+                if(current){
+                    current.removeTargetOfJob(this.memory.id);
+                }
+
+                this.memory.target = value;
+                value.setTargetOfJob(this.memory.id);
+                current = value;
             }
 
-            if(current){
-                current.removeTargetOfJob(this.memory.id);
-            }
 
-            this.memory.target = value;
-            value.setTargetOfJob(this.memory.id);
-            current = value;
         }
         return current;
     },
