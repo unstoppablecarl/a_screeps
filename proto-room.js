@@ -17,7 +17,7 @@ Room.prototype.act = function() {
     }
 
     jobManager.update();
-    jobManager.allocate();
+    // jobManager.allocate();
 
 
     // if (Game.time % 20 === 0) {
