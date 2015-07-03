@@ -24,7 +24,6 @@ var job_harvest = {
     act: function(creep, job){
         var target;
 
-        creep.say(job.type());
         if(job){
             target = job.target();
         }
