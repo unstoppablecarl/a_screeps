@@ -6,3 +6,4 @@ require('proto-energy');
 require('proto-structure');
 require('proto-source');
 require('proto-room-position');
+require('proto-construction-site');
