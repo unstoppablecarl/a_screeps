@@ -7,24 +7,27 @@ var Job = function Job(room, memory) {
     this.room = room;
     // keep ref to task memory memory object
     this.memory = {};
+
+    var source = memory.source;
+    var target = memory.target;
+
+    memory.settings = memory.settings || {};
+
+    this.memory = memory;
+
     if(!memory){
         throw new Error('zcvx');
     }
-    if(memory.source && memory.source.id){
-        var source = Game.getObjectById(memory.source.id);
+    if(source && source.id){
+        this.memory.source = Game.getObjectById(source.id);
         this.source(source);
     }
 
-    if(memory.target && memory.target.id){
-        var target = Game.getObjectById(memory.target.id);
+    if(target && target.id){
         this.target(target);
     }
 
-    this.memory = memory;
-    this.memory.settings = this.memory.settings || {};
 };
-
-
 
 Job.prototype = {
     constructor: Job,
@@ -46,52 +49,87 @@ Job.prototype = {
     },
     source: function(value) {
         var current;
-        if(this.memory.source && this.memory.source.id){
+        if(
+            this.memory &&
+            this.memory.source &&
+            this.memory.source.id
+        ){
             current = Game.getObjectById(this.memory.source.id);
         }
 
-        if(current && current.jobId() !== this.id()){
-            console.log('x');
-        }
+        // if(current && current.jobId() !== this.id()){
+        //     console.log('x');
+        // }
 
-        if(value !== undefined){
-            var currentJob;
-            // if(current){
-            //     currentJob = current.job();
-            // }
-            this.memory.source = value;
-            if(value && value.jobId === undefined){
-                value = Game.getObjectById(value.id);
-            }
+        // set new value
+        // if(value !== undefined){
 
-            // if(currentJob && currentJob.id() !== this.id()){
-            //     currentJob.end();
-            // }
 
-            if(value && value.jobId){
-                value.jobId(this.memory.id);
-            }
-            current = value;
-        }
+
+        //     // make sure value is a creep object
+        //     if(value && value.jobId === undefined){
+        //         value = Game.getObjectById(value.id);
+        //     }
+
+        //     if(!value){
+        //         return;
+        //     }
+
+        //     var prevJob = value.job();
+
+        //     if(
+        //         prevJob &&
+        //         prevJob.memory &&
+        //         prevJob.memory.id !== this.memory.id
+        //     ){
+        //         prevJob.end();
+        //     }
+
+        //     if(
+        //         current &&
+        //         current.clearJob
+        //     ){
+        //         current.clearJob();
+        //     }
+
+        //     this.memory.source = value;
+
+        //     value.jobId(this.memory.id);
+
+        //     current = value;
+        // }
         return current;
     },
 
     target: function(value) {
         var current;
-        if(this.memory.target && this.memory.target.id){
+
+        if(
+            this.memory &&
+            this.memory.target &&
+            this.memory.target.id
+        ){
             current = Game.getObjectById(this.memory.target.id);
         }
+
+        // set new value
         if(value !== undefined){
-            if(current){
-                current.removeTargetOfJob(this.memory.id);
-            }
-            this.memory.target = value;
+
+            // make sure value is a creep object
             if(value && value.setTargetOfJob === undefined){
                 value = Game.getObjectById(value.id);
             }
-            if(value && value.setTargetOfJob){
-                value.setTargetOfJob(this.memory.id);
+
+            if(!value){
+                return;
             }
+
+            if(current){
+                current.removeTargetOfJob(this.memory.id);
+            }
+
+            this.memory.target = value;
+            value.setTargetOfJob(this.memory.id);
             current = value;
         }
         return current;
@@ -213,6 +251,10 @@ Job.prototype = {
         }
 
         return true;
+    },
+
+    toString: function(){
+        return ['Job#' + this.id(), this.type(), this.source(), this.target()].join(' ');
     },
 };
 
