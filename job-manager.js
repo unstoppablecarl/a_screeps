@@ -460,7 +460,7 @@ JobManager.prototype = {
         // var buildJobs = this.getBuildJobs();
         var upgradeJobs = this.getUpgradeJobs();
         // var guardJobs = this.getGuardJobs();
-        // var energyDeliverJobs = this.getEnergyDeliverJobs();
+        var energyDeliverJobs = this.getEnergyDeliverJobs();
 
         // deturmine creeps that really need to be spawned
 
@@ -472,7 +472,7 @@ JobManager.prototype = {
             // buildJobs,
             upgradeJobs
             // guardJobs,
-            // energyDeliverJobs
+            energyDeliverJobs
          // attack / defend
         );
         // console.log('harvestJobs', JSON.stringify(harvestJobs));
