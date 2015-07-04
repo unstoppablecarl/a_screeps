@@ -259,7 +259,7 @@ JobManager.prototype = {
             priority = 0.4;
 
             if(target){
-                var damage = 1 - (target.hits / target.hitsLeft);
+                var damage = 1 - (target.hits / target.hitsMax);
                 var repairPriority = this.room.repairPriority(target.structureType);
                 // average
                 var repairJobPriority = (damage + repairPriority) / 2;

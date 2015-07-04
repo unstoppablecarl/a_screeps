@@ -23,10 +23,6 @@ require('proto-all'); Game.rooms.sim.populationReport();
 
 require('proto-all');  Game.rooms.sim.roleCountMax('tech', 5);
 
-require('proto-all'); console.log(Game.rooms.sim.roads(function(road){
-        console.log('road.hitsLeft', road.hitsLeft, road.hits);
-            return road.hitsLeft < road.hits;
-        }).length);
 
 Game.flags.Idle1.memory.role = 'idle';
 Game.flags.Idle1.memory.idleCreepMax = 7;
