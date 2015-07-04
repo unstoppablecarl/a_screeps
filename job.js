@@ -225,6 +225,11 @@ Job.prototype = {
         return true;
     },
 
+
+    age: function(){
+        return Game.time - this.memory.created_at;
+    },
+
     toString: function(){
         return [
             '[Job#' + this.id(),

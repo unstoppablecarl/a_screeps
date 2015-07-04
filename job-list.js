@@ -24,6 +24,8 @@ JobList.prototype = {
 
     _cached: {},
 
+    maxPendingJobAge: 100,
+
     getObjectById: Game.getObjectById || function(){},
 
     getActive: function(filter){
@@ -95,13 +97,23 @@ JobList.prototype = {
         return this.memory.job_targets;
     },
 
+
     // cleanup invalid jobs
     cleanup: function(){
         var jobs = this.all();
         for (var i = 0; i < jobs.length; i++) {
             var job = jobs[i];
-            if(!job.valid()){
+            if(
+                (!job.valid()) ||
+                (!job.active() && job.age() >= this.maxJobAge)
+            ){
                 job.end();
+            }
+        }
+        var jobTargets = this.jobTargets();
+        for (var key in jobTargets){
+            if(!this.getObjectById(key)){
+                delete jobTargets[key];
             }
         }
     },

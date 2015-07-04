@@ -19,11 +19,18 @@ JobManager.prototype = {
             return !creep.idle() && creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
         });
 
-        return creeps.map(function(creep) {
+
+        return creeps.filter(function(creep){
+            var role = creep.role();
+
+
+        }).map(function(creep) {
+            var job = creep.job();
             return {
-                role: creep.role(),
-                type: 'replace',
-                target: creep,
+                target: job.target(),
+                type: job.type(),
+                role: job.role(),
+                settings: job.settings(),
             };
         });
     },
