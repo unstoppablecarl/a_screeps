@@ -6,6 +6,12 @@ var job_energy_deliver = {
     start: false,
     act: function(creep, job) {
         var target = job.target();
+
+
+        if(creep.energy === 0){
+            job.end();
+        }
+
         if(!target){
             job.end();
             return;
