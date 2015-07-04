@@ -593,6 +593,7 @@ JobManager.prototype = {
         var str = table(this.reportData(jobs));
         if(str){
             console.log(str);
+            console.log('-');
         }
     },
 
