@@ -19,11 +19,12 @@ JobManager.prototype = {
             return !creep.idle() && creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
         });
 
+        var room = this.room;
         return creeps.filter(function(creep){
             var role = creep.role();
 
-            var roleCount = this.room.roleCount(role);
-            var roleCountMax = this.room.roleCountMax(role);
+            var roleCount = room.roleCount(role);
+            var roleCountMax = room.roleCountMax(role);
 
             if(roleCount >= roleCountMax){
                 return false;
