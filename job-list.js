@@ -105,7 +105,7 @@ JobList.prototype = {
             var job = jobs[i];
             if(
                 (!job.valid()) ||
-                (!job.active() && job.age() >= this.maxJobAge)
+                (!job.active() && job.age() >= this.maxPendingJobAge)
             ){
                 job.end();
             }
