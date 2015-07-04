@@ -20,34 +20,12 @@ var roles_meta = {
             var body = creepType.bodies[i];
             var cost = this.getBodyCost(body);
 
-            console.log('b', body, cost);
             if(cost <= maxCost && maxMatchCost <= cost){
                 maxMatchCost = cost;
                 maxMatchBody = body;
             }
         }
         return maxMatchBody;
-    },
-
-    getBodyWithCost: function(type, maxCost){
-        var creepType = this.roles[type];
-        var maxMatchCost = 0;
-        var maxMatchBody;
-        for (var i = 0; i < creepType.bodies.length; i++) {
-            var body = creepType.bodies[i];
-            var cost = this.getBodyCost(body);
-
-            if(cost < maxCost && maxMatchCost < cost){
-                maxMatchCost = cost;
-                maxMatchBody = body;
-            }
-        }
-        if(maxMatchBody){
-            return {
-                body: maxMatchBody,
-                cost: maxMatchCost,
-            };
-        }
     },
 
     roles: {
