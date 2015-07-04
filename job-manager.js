@@ -19,8 +19,6 @@ JobManager.prototype = {
             return !creep.idle() && creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
         });
 
-
-
         return creeps.filter(function(creep){
             var role = creep.role();
 

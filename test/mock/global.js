@@ -193,6 +193,7 @@ module.exports = function(reset) {
         this.y = y;
         this.roomName = roomName;
     };
+    global.ConstructionSite = function(){};
     global.Source = function() {};
     global.Spawn = function() {};
     global.Structure = function() {};

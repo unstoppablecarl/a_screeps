@@ -2,8 +2,9 @@ require('proto-creep');
 require('proto-flag');
 require('proto-room');
 require('proto-spawn');
-require('proto-energy');
-require('proto-structure');
-require('proto-source');
 require('proto-room-position');
-require('proto-construction-site');
+
+require('mixin-job-target')(Structure.prototype);
+require('mixin-job-target')(Source.prototype);
+require('mixin-job-target')(Energy.prototype);
+require('mixin-job-target')(ConstructionSite.prototype);
