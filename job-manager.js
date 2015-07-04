@@ -27,7 +27,7 @@ JobManager.prototype = {
             var roleCount = this.room.roleCount(role);
             var roleCountMax = this.room.roleCountMax(role);
 
-            if(){
+            if(roleCount >= roleCountMax){
                 return false;
             }
 
