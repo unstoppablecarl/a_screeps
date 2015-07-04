@@ -102,7 +102,7 @@ JobManager.prototype = {
                 type: 'repair',
                 target: structure,
             };
-        }, this);
+        });
     },
 
     getBuildJobs: function() {
@@ -118,7 +118,7 @@ JobManager.prototype = {
                 target: site,
             };
 
-        }, this);
+        });
     },
 
     getUpgradeJobs: function() {
@@ -127,10 +127,10 @@ JobManager.prototype = {
             return [];
         }
         return [{
-                role: 'upgrader',
-                type: 'upgrade_room_controller',
-                target: controller,
-            }];
+            role: 'upgrader',
+            type: 'upgrade_room_controller',
+            target: controller,
+        }];
 
     },
 
