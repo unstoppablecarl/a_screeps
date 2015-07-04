@@ -38,19 +38,6 @@ Room.prototype.buildPriority = function(structure, priority) {
     return buildPriority[structure] || 0;
 };
 
-
-// the minimum percentage of room energy there must be to get energy for a job
-Room.prototype.minJobEnergyRatio = function(ratio) {
-    if (ratio !== void 0) {
-        this.memory.job_min_energy_ratio = ratio;
-    }
-    var r = this.memory.job_min_energy_ratio;
-    if (!r) {
-        this.memory.job_min_energy_ratio = 0.5;
-    }
-    return this.memory.job_min_energy_ratio;
-};
-
 // the maximum percentage of room energy that can be used to spawn a creep
 Room.prototype.maxCreepSpawnEnergyRatio = function(max) {
     if (max !== void 0) {
