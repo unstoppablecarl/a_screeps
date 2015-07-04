@@ -215,7 +215,6 @@ JobManager.prototype = {
             priority = 0.6;
 
             if(target){
-                console.log('EN', target.energy / target.energyCapacity);
                 priority += (1 - (target.energy / target.energyCapacity)) * 0.1;
             }
 
