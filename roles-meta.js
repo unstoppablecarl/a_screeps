@@ -115,6 +115,11 @@ var roles_meta = {
             bodies: [
                 [
                     CARRY,
+                    WORK, WORK,
+                    MOVE
+                ],
+                [
+                    CARRY,
                     WORK, WORK, WORK,
                     MOVE
                 ],
