@@ -524,7 +524,7 @@ JobManager.prototype = {
 
     allocate: function(){
 
-        // this.allocateEnergyStoreJobs();
+        this.allocateEnergyStoreJobs();
 
         // @todo or get from cache
 
