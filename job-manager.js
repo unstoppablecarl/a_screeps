@@ -20,9 +20,16 @@ JobManager.prototype = {
         });
 
 
+
         return creeps.filter(function(creep){
             var role = creep.role();
 
+            var roleCount = this.room.roleCount(role);
+            var roleCountMax = this.room.roleCountMax(role);
+
+            if(){
+                return false;
+            }
 
         }).map(function(creep) {
             var job = creep.job();
@@ -130,31 +137,20 @@ JobManager.prototype = {
 
     getEnergyDeliverJobs: function() {
 
-        var jobs = [];
-        var minJobEnergyRatio = this.room.minJobEnergyRatio();
-        var energyPercent = this.room.extensionEnergy() / this.room.extensionEnergyCapacity();
-        if(minJobEnergyRatio > energyPercent){
-
-            // @TODO push split into multiple jobs
-            jobs.push({
-                role: 'carrier',
-                type: 'energy_deliver',
-                target: this.room,
-            });
-        }
-
-        var creeps = this.room.creeps(function(creep){
+        return this.room.creeps(function(creep){
             var role = creep.role();
-            return (role === 'tech' || role === 'upgrader') && creep.energy < creep.energyCapacity && !creep.isTargetOfJobType('energy_deliver');
-        });
-
-        return creeps.map(function(creep){
+            return (
+                (role === 'tech' || role === 'upgrader') &&
+                creep.energy < creep.energyCapacity &&
+                !creep.isTargetOfJobType('energy_deliver')
+            );
+        }).map(function(creep){
             return {
                 role: 'carrier',
                 type: 'energy_deliver',
                 target: creep,
             };
-        }, this);
+        });
     },
 
     getEnergyCollectJobs: function() {
