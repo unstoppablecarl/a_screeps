@@ -580,7 +580,7 @@ JobManager.prototype = {
             });
         });
 
-        jobData = _.sortBy(jobData, 'prior');
+        jobData = _.sortBy(jobData, 'prior').reverse();
         return jobData;
     },
 
