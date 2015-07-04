@@ -2,19 +2,31 @@ require('proto-all'); console.log(Game.flags.Flag1.source().targetOfJobs().lengt
 
 require('proto-all'); Game.rooms.sim.jobManager().allocate();
 
+require('proto-all'); Game.rooms.sim.populationReport();
+
+
 require('proto-all');
 console.log(
     JSON.stringify(
         Game.rooms.sim.jobManager().report()
         )
     );
-
+require('proto-all'); Game.rooms.sim.creeps().forEach(function(creep){
+    if(!creep.role()){
+        creep.role('carrier');
+    }
+});
 
 require('proto-all'); Game.rooms.sim.constructionSites();
 
 require('proto-all'); Game.rooms.sim.populationReport();
 
-require('proto-all');  Game.rooms.sim.roleCountMax('carrier', 8);
+require('proto-all');  Game.rooms.sim.roleCountMax('tech', 5);
+
+require('proto-all'); console.log(Game.rooms.sim.roads(function(road){
+        console.log('road.hitsLeft', road.hitsLeft, road.hits);
+            return road.hitsLeft < road.hits;
+        }).length);
 
 Game.flags.Idle1.memory.role = 'idle';
 Game.flags.Idle1.memory.idleCreepMax = 7;
@@ -23,7 +35,13 @@ Game.flags.Idle2.memory.role = 'idle';
 Game.flags.Idle2.memory.idleCreepMax = 7;
 
 Game.flags.Flag1.memory.role = 'source';
-Game.flags.Flag1.memory.harvester_count_max = 1;
+Game.flags.Flag1.memory.harvester_count_max = 2;
 
 Game.flags.Flag2.memory.role = 'source';
-Game.flags.Flag2.memory.harvester_count_max = 1;
+Game.flags.Flag2.memory.harvester_count_max = 2;
+
+Game.flags.Flag3.memory.role = 'source';
+Game.flags.Flag3.memory.harvester_count_max = 2;
+
+Game.flags.Flag4.memory.role = 'source';
+Game.flags.Flag4.memory.harvester_count_max = 2;

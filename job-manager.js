@@ -88,11 +88,11 @@ JobManager.prototype = {
     getRepairJobs: function() {
 
         var structures = this.room.structures(function(s){
-            return s.hits < s.hitsLeft && !s.isTargetOfJobType('repair');
+            return s.hits < s.hitsMax && !s.isTargetOfJobType('repair');
         });
 
         var roads = this.room.roads(function(road){
-            return road.hitsLeft < road.hits && !road.isTargetOfJobType('repair');
+            return road.hits < road.hitsMax && !road.isTargetOfJobType('repair');
         });
 
         structures = structures.concat(roads);
