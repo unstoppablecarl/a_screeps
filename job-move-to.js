@@ -3,17 +3,17 @@
 var job_move_to = {
     name: 'move_to',
     start: false,
-    act: function(creep){
-        var target = creep.taskTarget();
+    act: function(creep, job){
+        var target = job.target();
         if(target){
             creep.moveTo(target);
-            var settings = creep.taskSettings();
+            var settings = job.settings();
             var distance = settings.target_precision || 2;
             if(creep.pos.inRangeTo(target, distance)){
-                creep.endTask();
+                job.end();
             }
         } else {
-            this.cancelTask();
+            job.end();
         }
     },
     cancel: false,

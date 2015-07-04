@@ -87,12 +87,30 @@ JobManager.prototype = {
 
     getRepairJobs: function() {
 
+        var room = this.room;
         var structures = this.room.structures(function(s){
-            return s.hits < s.hitsMax && !s.isTargetOfJobType('repair');
+
+            if(s.hits < s.hitsMax && !s.isTargetOfJobType('repair')){
+
+                var type = s.structureType;
+                var threshold = room.repairStartThreshold(type);
+                var damagePercent = s.hits / s.hitsMax;
+
+                return damagePercent < threshold;
+            }
+            return false;
         });
 
         var roads = this.room.roads(function(road){
-            return road.hits < road.hitsMax && !road.isTargetOfJobType('repair');
+            if(road.hits < road.hitsMax && !road.isTargetOfJobType('repair')){
+                var type = road.structureType;
+                var threshold = room.repairStartThreshold(type);
+                var damagePercent = road.hits / road.hitsMax;
+
+                return damagePercent < threshold;
+            }
+
+            return false;
         });
 
         structures = structures.concat(roads);

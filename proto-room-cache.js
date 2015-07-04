@@ -25,3 +25,27 @@ Room.prototype.getIdleFlags = function(forceRefresh){
     }
     return this._idle_flags;
 };
+
+
+Room.prototype.getGuardFlagIds = function(forceRefresh){
+
+    if(forceRefresh || this.memory.guard_flag_ids === undefined){
+        this.memory.guard_flags_ids = this.flags(function(flag){
+            return flag.role() === 'guard';
+        }).map(function(flag){
+            return flag.id;
+        });
+        this._guard_flags = undefined;
+    }
+    return this.memory.guard_flags_ids;
+};
+
+Room.prototype.getGuardFlags = function(forceRefresh){
+    if(forceRefresh || this._guard_flags === undefined){
+        var flagIds = this.getIdleFlagIds(forceRefresh);
+        this._guard_flags = flagIds.map(function(id){
+            return Game.getObjectById(id);
+        });
+    }
+    return this._guard_flags;
+};

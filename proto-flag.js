@@ -9,8 +9,6 @@ Flag.prototype.role = function(role) {
     return this.memory.role;
 };
 
-
-
 // guard
 Flag.prototype.guardMax = function(value) {
     if(this.memory.role !== 'guard'){

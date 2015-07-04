@@ -19,6 +19,26 @@ Room.prototype.repairPriority = function(structure, priority) {
     return repairPriority[structure] || 0;
 };
 
+var defaultRepairStartThreshold = {};
+defaultRepairStartThreshold[STRUCTURE_EXTENSION] = 0.8;
+defaultRepairStartThreshold[STRUCTURE_ROAD] = 0.5;
+defaultRepairStartThreshold[STRUCTURE_LINK] = 0.8;
+defaultRepairStartThreshold[STRUCTURE_RAMPART] = 0.95;
+defaultRepairStartThreshold[STRUCTURE_WALL] = 0.95;
+
+// the percent damage a structure must have to begin repairs
+Room.prototype.repairStartThreshold = function(structure, threshold) {
+    if (!this.memory.repair_start_threshold) {
+        this.memory.repair_start_threshold = defaultRepairStartThreshold;
+    }
+
+    var repairStartThreshold = this.memory.repair_start_threshold;
+    if (threshold !== void 0) {
+        repairStartThreshold[structure] = threshold;
+    }
+    return repairStartThreshold[structure] || 1;
+};
+
 var defaultBuildPriority = {};
 defaultBuildPriority[STRUCTURE_EXTENSION] = 0.95;
 defaultBuildPriority[STRUCTURE_ROAD] = 0.9;
