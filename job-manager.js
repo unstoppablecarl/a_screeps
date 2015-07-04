@@ -215,7 +215,7 @@ JobManager.prototype = {
             priority = 0.6;
 
             if(target){
-                priority += (target.energy / target.energyCapacity) * 0.1;
+                priority += (1 - (target.energy / target.energyCapacity)) * 0.1;
             }
 
         }

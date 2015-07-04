@@ -7,7 +7,6 @@ var job_energy_deliver = {
     act: function(creep, job) {
         var target = job.target();
 
-
         if(creep.energy === 0){
             job.end();
         }
