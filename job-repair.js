@@ -3,16 +3,21 @@
 var job_repair = {
     name: 'repair',
     start: false,
-    act: function(creep){
-        var target = creep.taskTarget();
+    act: function(creep, job){
+        var target = job.target();
         if(target){
             creep.moveTo(target);
-            creep.repair(target);
+
+            var result = creep.repair(target);
+            if(result === ERR_NOT_IN_RANGE){
+                creep.moveTo(target);
+            }
+
             if(target.hits === target.hitsMax){
-                creep.endTask();
+                job.end();
             }
         } else {
-            creep.cancelTask();
+            job.end();
         }
     },
     cancel: false,

@@ -11,6 +11,7 @@ var roles = {
 require('mixin-job-target')(Creep.prototype);
 
 Creep.prototype.act = function() {
+    var mem = this.memory;
     var role = this.role();
     var roleHandler = roles[role];
     if(!roleHandler){
@@ -49,12 +50,13 @@ Creep.prototype.act = function() {
 
     } else {
 
-        if(this.memory.tics_without_job === undefined){
-            this.memory.tics_without_job = 0;
-        }
-        this.memory.tics_without_job++;
 
-        if(this.memory.tics_without_job > 5){
+        if(mem.tics_without_job === undefined){
+            mem.tics_without_job = 0;
+        }
+        mem.tics_without_job++;
+
+        if(mem.tics_without_job > 5){
             var idleFlag = this.pos.findClosestIdleFlag(role);
             if(idleFlag){
                 var newJob = this.room.jobList().add({
@@ -66,6 +68,16 @@ Creep.prototype.act = function() {
                 newJob.start();
             }
         }
+    }
+
+    if(mem.tics_without_energy === undefined){
+        mem.tics_without_energy = 0;
+    }
+
+    if(this.energy === 0){
+        mem.tics_without_energy++;
+    } else {
+        mem.tics_without_energy = 0;
     }
 
 };

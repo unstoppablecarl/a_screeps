@@ -463,7 +463,7 @@ JobManager.prototype = {
         var replacementJobs = this.getReplacementJobs();
         var harvestJobs = this.getHarvestJobs();
         var energyCollectJobs = this.getEnergyCollectJobs();
-        // var repairJobs = this.getRepairJobs();
+        var repairJobs = this.getRepairJobs();
         var buildJobs = this.getBuildJobs();
         var upgradeJobs = this.getUpgradeJobs();
         // var guardJobs = this.getGuardJobs();
@@ -475,7 +475,7 @@ JobManager.prototype = {
             replacementJobs,
             harvestJobs,
             energyCollectJobs,
-            // repairJobs,
+            repairJobs,
             buildJobs,
             upgradeJobs,
             // guardJobs,
@@ -579,6 +579,8 @@ JobManager.prototype = {
                 target: job.target(),
             });
         });
+
+        jobData = _.sortBy(jobData, 'prior');
         return jobData;
     },
 
