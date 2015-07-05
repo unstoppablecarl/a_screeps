@@ -21,7 +21,7 @@ JobManager.prototype = {
                 return false;
             }
 
-            return creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
+            return creep.ticksToLive < threshold && !creep.replaced() && !creep.isTargetOfJobType('replace');
         });
 
         var room = this.room;
@@ -615,6 +615,10 @@ JobManager.prototype = {
         }
     },
 
+    // // make sure there are not too many harvesters at one source
+    // auditHarvesters: function(){
+
+    // },
 };
 
 

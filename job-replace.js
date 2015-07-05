@@ -8,9 +8,21 @@ var job_replace = {
     act: function(creep, job){
 
         var target = job.target();
+        if(!target){
+            job.end();
+            return;
+        }
+
+        target.replaced(true);
+
         var targetJob = target.job();
+        if(!targetJob){
+            job.end();
+            return;
+        }
 
         if(targetJob){
+
             job.end();
             var newJob = creep.room.jobList().add({
                 source: creep,

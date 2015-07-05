@@ -122,6 +122,14 @@ Creep.prototype.clearJob = function() {
     this.memory.source_of_job_id = undefined;
 };
 
+// if this creep has been replaced because it is about to die
+Creep.prototype.replaced = function(replaced) {
+    if (replaced !== void 0) {
+        this.memory.replaced = replaced;
+    }
+    return this.memory.replaced;
+};
+
 
 // harvesters
 Creep.prototype.energySourceId = function(id) {
