@@ -14,10 +14,17 @@ JobManager.prototype = {
 
         // @TODO base threshold on distance from spawn
         var threshold = this.room.creepReplaceThreshold();
-
+        console.log('threshold', threshold);
         // @TODO exclude unused, something more advanced than just checking idle
         var creeps = this.room.creeps(function(creep) {
-            return !creep.idle() && creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
+
+            if(creep.idle()){
+                return false;
+            }
+            console.log('creep.ticksToLive', creep.ticksToLive);
+            console.log('threshold', threshold);
+
+            return creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
         });
 
         var room = this.room;
