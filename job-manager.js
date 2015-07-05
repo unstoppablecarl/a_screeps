@@ -37,11 +37,10 @@ JobManager.prototype = {
             return roleCount < roleCountMax;
 
         }).map(function(creep) {
-            var job = creep.job();
             return {
                 target: creep,
                 type: 'replace',
-                role: job.role(),
+                role: creep.role()
             };
         });
     },
@@ -550,13 +549,6 @@ JobManager.prototype = {
 
         // @todo or get from cache
 
-        // if(this.room.sources().length <= this.room.roleCount('harvester')){
-        //     this.room.jobList().add({
-        //         type: 'energy_collect',
-        //         role: 'carrier',
-        //     });
-        // }
-
         var pending = this.room.jobList().getPending();
 
         for (var i = 0; i < pending.length; i++) {
@@ -566,9 +558,9 @@ JobManager.prototype = {
 
             allocated = this.allocateJobToExisting(job);
 
-            if(!allocated){
-                allocated = this.allocateJobToSpawn(job);
-            }
+            // if(!allocated){
+            //     allocated = this.allocateJobToSpawn(job);
+            // }
         }
 
         var idleCreeps = this.room.creeps(function(creep){
