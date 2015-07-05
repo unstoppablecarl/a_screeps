@@ -98,42 +98,42 @@ describe('Creep', function() {
             assert(creep.idle() === true);
         });
 
-        it('creep.energySourceId()', function() {
-            var creep = new Creep();
+        // it('creep.energySourceId()', function() {
+        //     var creep = new Creep();
 
-            assert.deepEqual(undefined, creep.energySourceId());
+        //     assert.deepEqual(undefined, creep.energySourceId());
 
-            creep.energySourceId(1);
-            assert.deepEqual(1, creep.energySourceId());
+        //     creep.energySourceId(1);
+        //     assert.deepEqual(1, creep.energySourceId());
 
-            creep.energySourceId(false);
-            assert.deepEqual(false, creep.energySourceId());
-
-
-        });
-
-        it('creep.energySource()', function() {
+        //     creep.energySourceId(false);
+        //     assert.deepEqual(false, creep.energySourceId());
 
 
-            var creep = new Creep();
+        // });
 
-            var prev = Game.getObjectById;
+        // it('creep.energySource()', function() {
 
-            Game.getObjectById = function(id){
-                if(id){
-                    return 'obj#' + id;
-                }
-            }
-            assert.deepEqual(undefined, creep.energySource());
 
-            creep.energySourceId(1);
-            assert.deepEqual('obj#1', creep.energySource());
+        //     var creep = new Creep();
 
-            // creep.energySourceId(false);
-            // assert(creep.energySourceId() === false);
+        //     var prev = Game.getObjectById;
 
-            Game.getObjectById = prev;
-        });
+        //     Game.getObjectById = function(id){
+        //         if(id){
+        //             return 'obj#' + id;
+        //         }
+        //     }
+        //     assert.deepEqual(undefined, creep.energySource());
+
+        //     creep.energySourceId(1);
+        //     assert.deepEqual('obj#1', creep.energySource());
+
+        //     // creep.energySourceId(false);
+        //     // assert(creep.energySourceId() === false);
+
+        //     Game.getObjectById = prev;
+        // });
     });
 
 });

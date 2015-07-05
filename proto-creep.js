@@ -7,17 +7,13 @@ require('mixin-job-target')(Creep.prototype);
 Creep.prototype.act = function() {
     var mem = this.memory;
     var role = this.role();
-    var roleHandler = roles[role];
-    if(!roleHandler){
-        console.log("ERRROR role handler not found for role: " + role, this);
-        return;
-    }
+    // var roleHandler = roles[role];
+    // if(!roleHandler){
+    //     console.log("ERRROR role handler not found for role: " + role, this);
+    //     return;
+    // }
     var job = this.job();
     if (mem.pending_creation){
-        if(roleHandler.init) {
-            roleHandler.init(this);
-        }
-
         if(job && job.sourcePendingCreation()){
             job.source(this);
             job.sourcePendingCreation(false);
@@ -27,25 +23,18 @@ Creep.prototype.act = function() {
         mem.pending_creation = undefined;
         mem.pending_creation_body = undefined;
     }
-    if (roleHandler.act) {
-        roleHandler.act(this);
-    }
+    // if (roleHandler.act) {
+    //     roleHandler.act(this);
+    // }
 
     if (job) {
-           // this.say(job.type());
         this.memory.tics_without_job = 0;
         var jobHandler = job.handler();
-
-        if(!jobHandler){
-
-            console.log(job);
-        }
         if(jobHandler.act){
             jobHandler.act(this, job);
         }
 
     } else {
-
 
         if(mem.tics_without_job === undefined){
             mem.tics_without_job = 0;
@@ -55,13 +44,13 @@ Creep.prototype.act = function() {
         if(mem.tics_without_job > 5){
             var idleFlag = this.pos.findClosestIdleFlag(role);
             if(idleFlag){
-                var newJob = this.room.jobList().add({
+                this.room.jobList().add({
                     type: 'idle',
                     role: role,
                     source: this,
                     target: idleFlag
-                });
-                newJob.start();
+                })
+                .start();
             }
         }
     }
@@ -124,18 +113,17 @@ Creep.prototype.replaced = function(replaced) {
     return this.memory.replaced;
 };
 
+// // harvesters
+// Creep.prototype.energySourceId = function(id) {
+//     if (id !== void 0) {
+//         this.memory.energy_sorce_id = id;
+//     }
+//     return this.memory.energy_sorce_id;
+// };
 
-// harvesters
-Creep.prototype.energySourceId = function(id) {
-    if (id !== void 0) {
-        this.memory.energy_sorce_id = id;
-    }
-    return this.memory.energy_sorce_id;
-};
-
-Creep.prototype.energySource = function(obj) {
-    if (obj !== void 0) {
-        this.energySourceId(obj.id);
-    }
-    return Game.getObjectById(this.energySourceId());
-};
+// Creep.prototype.energySource = function(obj) {
+//     if (obj !== void 0) {
+//         this.energySourceId(obj.id);
+//     }
+//     return Game.getObjectById(this.energySourceId());
+// };

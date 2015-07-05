@@ -224,13 +224,9 @@ Job.prototype = {
 
         var source = this.source();
         var target = this.target();
-        var handler = this.handler();
 
         if(source){
             source.clearJob();
-            if(handler.end){
-                handler.end(this.source());
-            }
         }
 
         if(target){
@@ -241,15 +237,17 @@ Job.prototype = {
     },
 
     valid: function(){
-        // active without target
-        if(!this.target()){
-            return false;
+        if(this.active()){
+            // active without target
+            if(!this.target()){
+                return false;
+            }
+            // active without source;
+            if(this.active() && !this.sourcePendingCreation() && !this.source()){
+                return false;
+            }
         }
 
-        // active without source;
-        if(this.active() && !this.sourcePendingCreation() && !this.source()){
-            return false;
-        }
         return true;
     },
 

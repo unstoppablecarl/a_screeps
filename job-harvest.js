@@ -35,7 +35,7 @@ var job_harvest = {
 
             result = creep.harvest(source);
             if (result !== OK) {
-                if (ERR_NOT_IN_RANGE) {
+                if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 } else {
                     job.end();
@@ -69,7 +69,7 @@ var job_harvest = {
 
                 result = creep.transferEnergy(storeTarget);
                 if (result !== OK) {
-                    if (ERR_NOT_IN_RANGE) {
+                    if (result === ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
                     } else {
                         job.end();

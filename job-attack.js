@@ -12,7 +12,7 @@ var job_attack = {
         if(target){
             var result = creep.attack(target);
             if(result !== OK){
-                if(ERR_NOT_IN_RANGE){
+                if(result === ERR_NOT_IN_RANGE){
                     creep.moveTo(target);
                 } else {
                     job.end();

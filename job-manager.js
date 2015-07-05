@@ -579,8 +579,6 @@ JobManager.prototype = {
 
         this.allocateEnergyStoreJobs();
 
-        // @todo or get from cache
-
         var pending = this.room.jobList().getPending();
 
         for (var i = 0; i < pending.length; i++) {
@@ -594,12 +592,6 @@ JobManager.prototype = {
                 allocated = this.allocateJobToSpawn(job);
             }
         }
-
-        var idleCreeps = this.room.creeps(function(creep){
-            // do not check creep.idle() only check for creeps with no job
-            return !creep.job();
-        });
-
     },
 
     update: function(){
@@ -608,44 +600,8 @@ JobManager.prototype = {
         var list = this.room.jobList();
         list.addMultiple(newJobs);
         this.prioritizeJobs(list.all());
-
-        this.report();
-    },
-    reportData: function(jobs) {
-        var jobData = [];
-        _.each(jobs, function(job){
-
-            if(job.type() === 'energy_collect'){
-                return;
-            }
-            var target;
-            var pos;
-            jobData.push({
-                id: job.id(),
-                role: job.role(),
-                type: job.type(),
-                prior: job.priority(),
-                source: job.source(),
-                target: job.target(),
-            });
-        });
-
-        jobData = _.sortBy(jobData, 'prior').reverse();
-        return jobData;
     },
 
-    report: function() {
-        var jobs = this.room.jobList().getPending();
-        if(!jobs.length){
-            return;
-        }
-        var table = require('util').table;
-        var str = table(this.reportData(jobs));
-        if(str){
-            console.log(str);
-            console.log('-');
-        }
-    },
 };
 
 

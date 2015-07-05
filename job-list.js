@@ -51,9 +51,7 @@ JobList.prototype = {
     get: function(id){
         if(!this._cached[id]){
             var jobData = this.memory.jobs[id];
-            // jobData = this._initjobData(jobData);
             if(!jobData){
-                // this.remove(id);
                 return false;
             }
             this._cached[id] = new Job(this.room, jobData);
@@ -103,7 +101,7 @@ JobList.prototype = {
         for (var i = 0; i < jobs.length; i++) {
             var job = jobs[i];
             if(
-                (!job.valid()) ||
+                !job.valid() ||
                 (!job.active() && job.age() >= this.maxPendingJobAge)
             ){
                 job.end();
@@ -114,6 +112,42 @@ JobList.prototype = {
             if(!this.getObjectById(key)){
                 delete jobTargets[key];
             }
+        }
+    },
+
+    reportData: function(jobs) {
+        var jobData = [];
+        _.each(jobs, function(job){
+
+            if(job.type() === 'energy_collect'){
+                return;
+            }
+            var target;
+            var pos;
+            jobData.push({
+                id: job.id(),
+                role: job.role(),
+                type: job.type(),
+                prior: job.priority(),
+                source: job.source(),
+                target: job.target(),
+            });
+        });
+
+        jobData = _.sortBy(jobData, 'prior').reverse();
+        return jobData;
+    },
+
+    report: function() {
+        var jobs = this.room.jobList().getPending();
+        if(!jobs.length){
+            return;
+        }
+        var table = require('util').table;
+        var str = table(this.reportData(jobs));
+        if(str){
+            console.log(str);
+            console.log('-');
         }
     },
 };

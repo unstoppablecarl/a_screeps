@@ -30,7 +30,7 @@ var job_energy_store = {
 
         var result = creep.transferEnergy(target);
         if(result !== OK){
-            if(ERR_NOT_IN_RANGE){
+            if(result === ERR_NOT_IN_RANGE){
                 creep.moveTo(target);
             } else {
                 job.end();

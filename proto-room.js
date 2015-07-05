@@ -12,12 +12,14 @@ Room.prototype.act = function() {
     var jobManager = this.jobManager();
     var jobList = this.jobList();
 
+    jobManager.update();
+    jobManager.allocate();
+
+    jobList.report();
+
     if (Game.time % 5 === 0) {
         jobList.cleanup();
     }
-
-    jobManager.update();
-    jobManager.allocate();
 
 };
 
