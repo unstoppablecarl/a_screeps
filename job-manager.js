@@ -66,12 +66,12 @@ JobManager.prototype = {
                 }
             });
 
-            console.log(flag);
-            console.log('allocatedCreepCount', allocatedCreepCount);
-            console.log('havesterCountMax', havesterCountMax);
-            console.log('allocatedHarvestWork', allocatedHarvestWork);
+            // console.log(flag);
+            // console.log('allocatedCreepCount', allocatedCreepCount);
+            // console.log('havesterCountMax', havesterCountMax);
+            // console.log('allocatedHarvestWork', allocatedHarvestWork);
 
-            console.log(allocatedCreepCount < havesterCountMax, allocatedHarvestWork < 5);
+            // console.log(allocatedCreepCount < havesterCountMax, allocatedHarvestWork < 5);
 
 
             // max 5 work body parts allocated
@@ -558,9 +558,9 @@ JobManager.prototype = {
 
             allocated = this.allocateJobToExisting(job);
 
-            // if(!allocated){
-            //     allocated = this.allocateJobToSpawn(job);
-            // }
+            if(!allocated){
+                allocated = this.allocateJobToSpawn(job);
+            }
         }
 
         var idleCreeps = this.room.creeps(function(creep){
