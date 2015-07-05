@@ -289,6 +289,16 @@ JobManager.prototype = {
         else if(type === 'guard'){
 
             priority = 0.7;
+            if(target){
+                var guardBasePriority = target.guardPriority();
+                if(guardBasePriority){
+                    priority = guardBasePriority;
+                }
+                var guardCount = target.guardCount();
+                var guardMax = target.guardMax();
+                var guardPriority = 1 - (guardCount / guardMax);
+                priority += guardPriority * 0.1;
+            }
 
         }
         else if(type === 'upgrade_room_controller'){

@@ -23,11 +23,26 @@ Flag.prototype.guardMax = function(value) {
 };
 
 Flag.prototype.guardCount = function() {
+    if(this.memory.role !== 'guard'){
+        return false;
+    }
     var jobs = this.targetOfJobs(function(job){
         return job.source();
     });
     return jobs.length;
 };
+
+// overrides base priority (0-1) for this flag only
+Flag.prototype.guardPriority = function(priority) {
+    if(this.memory.role !== 'guard'){
+        return false;
+    }
+    if (priority !== void 0) {
+        this.memory.guard_priority = priority;
+    }
+    return this.memory.guard_priority;
+};
+
 
 
 // source
