@@ -8,6 +8,7 @@ var job_replace = {
         var targetJob = target.job();
 
         if(targetJob){
+            job.end();
             var newJob = creep.room.jobList().add({
                 source: creep,
                 target: targetJob.target(),
