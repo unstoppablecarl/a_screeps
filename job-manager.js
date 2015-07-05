@@ -56,15 +56,34 @@ JobManager.prototype = {
             if(!source){
                 return false;
             }
+
             var allocatedHarvestWork = 0;
             var allocatedCreepCount = 0;
             var havesterCountMax = flag.havesterCountMax();
+
+            var maxedWorkCreep;
+            var nonMaxedCreepJobs;
             var jobs = source.targetOfJobs().map(function(job){
                 if(job && job.type() === 'harvest'){
-                    allocatedHarvestWork += job.sourceActiveBodyparts(WORK);
+
+                    var sourceWorkCount = job.sourceActiveBodyparts(WORK);
+
+                    if(sourceWorkCount === 5){
+                        maxedWorkCreep = sourceWorkCount;
+                    } else {
+                        nonMaxedCreepJobs.push(job);
+                    }
+                    allocatedHarvestWork += sourceWorkCount;
                     allocatedCreepCount++;
                 }
             });
+
+            // if maxed work creep, dismiss other harvesters
+            if(maxedWorkCreep){
+                nonMaxedCreepJobs.forEach(function(job){
+                    job.end();
+                });
+            }
 
             // console.log(flag);
             // console.log('allocatedCreepCount', allocatedCreepCount);
@@ -83,6 +102,9 @@ JobManager.prototype = {
                 target: flag.source(),
             };
         });
+
+
+
     },
 
     getRepairJobs: function() {

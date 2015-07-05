@@ -41,3 +41,13 @@ Game.flags.Flag3.memory.harvester_count_max = 2;
 
 Game.flags.Flag4.memory.role = 'source';
 Game.flags.Flag4.memory.harvester_count_max = 2;
+
+
+
+
+
+Game.flags.Guard1.memory.role = 'guard';
+Game.flags.Guard1.memory.guard_max = 2;
+
+Game.flags.Guard2.memory.role = 'guard';
+Game.flags.Guard2.memory.guard_max = 2;
