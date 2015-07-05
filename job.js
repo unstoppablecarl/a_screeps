@@ -237,15 +237,13 @@ Job.prototype = {
     },
 
     valid: function(){
-        if(this.active()){
-            // active without target
-            if(!this.target()){
-                return false;
-            }
-            // active without source;
-            if(this.active() && !this.sourcePendingCreation() && !this.source()){
-                return false;
-            }
+        // without target
+        if(!this.target()){
+            return false;
+        }
+        // active without source
+        if(this.active() && !this.sourcePendingCreation() && !this.source()){
+            return false;
         }
 
         return true;
