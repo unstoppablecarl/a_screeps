@@ -202,7 +202,7 @@ JobManager.prototype = {
         return flags.map(function(flag){
             return {
                 role: 'guard',
-                type: 'guard',
+                type: 'move_to',
                 target: flag,
             };
         });
