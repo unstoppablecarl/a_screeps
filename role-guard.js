@@ -1,8 +1,6 @@
 'use strict';
 
 var role_guard = {
-    init: false,
-
     act: function(creep, job) {
         if(creep.idle()){
             var target;
