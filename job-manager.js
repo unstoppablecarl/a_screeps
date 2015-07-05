@@ -62,7 +62,7 @@ JobManager.prototype = {
             var havesterCountMax = flag.havesterCountMax();
 
             var maxedWorkCreep;
-            var nonMaxedCreepJobs;
+            var nonMaxedCreepJobs = [];
             var jobs = source.targetOfJobs().map(function(job){
                 if(job && job.type() === 'harvest'){
 
