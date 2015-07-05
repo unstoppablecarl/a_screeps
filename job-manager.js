@@ -590,6 +590,10 @@ JobManager.prototype = {
     reportData: function(jobs) {
         var jobData = [];
         _.each(jobs, function(job){
+
+            if(job.type() === 'energy_collect'){
+                return;
+            }
             var target;
             var pos;
             jobData.push({
