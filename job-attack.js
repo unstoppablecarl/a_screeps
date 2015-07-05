@@ -3,11 +3,11 @@
 var job_attack = {
     name: 'attack',
     start: false,
-    act: function(creep){
-        var target = creep.taskTarget();
+    act: function(creep, job){
+        var target = job.target();
 
         if(!target){
-            creep.endTask();
+            job.end();
         }
 
         if(target){

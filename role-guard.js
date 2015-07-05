@@ -14,11 +14,14 @@ var role_guard = {
             }
 
             if(target){
-                creep.startTask('attack', {
-                    target_id: target.id
+                var newJob = creep.room.jobList().add({
+                    type: 'attack',
+                    role: 'guard',
+                    source: creep,
+                    target: target
                 });
-            } else {
-                creep.startTask('guard');
+
+                newJob.start();
             }
         }
     },
