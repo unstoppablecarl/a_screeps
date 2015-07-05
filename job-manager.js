@@ -209,7 +209,6 @@ JobManager.prototype = {
 
     getGuardJobs: function() {
         var jobs = [];
-
         var flags = this.room.flags(function(flag){
 
             if(flag.role() !== 'guard'){
