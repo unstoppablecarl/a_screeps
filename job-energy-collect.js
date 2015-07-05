@@ -45,6 +45,7 @@ var job_energy_collect = {
             result = creep.pickup(target);
         } else {
             job.end();
+            return;
         }
 
         if(result !== OK){
