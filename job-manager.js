@@ -615,6 +615,43 @@ JobManager.prototype = {
         this.prioritizeJobs(list.all());
     },
 
+    auditHarvesters: function(){
+        var sources = this.room.flags(function(flag){
+            if(flag.role() !== 'source'){
+                return false;
+            }
+
+            var source = flag.source();
+
+            if(!source){
+                return false;
+            }
+            return true;
+        }).map(function(flag){
+            return flag.source();
+        });
+
+        _.each(sources, function(source){
+
+            var jobs = source.targetOfJobs(function(job){
+                return job && job.type() === 'harvest';
+            });
+
+            var matchJob = _.find(jobs, function(job){
+                var sourceWorkCount = job.sourceActiveBodyparts(WORK);
+                return sourceWorkCount === 5;
+            });
+
+            if(matchJob){
+                _.each(jobs, function(job){
+                    if(job !== matchJob){
+                        job.end();
+                    }
+                });
+            }
+        });
+    }
+
 };
 
 

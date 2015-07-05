@@ -16,8 +16,11 @@ Room.prototype.act = function() {
     jobManager.allocate();
 
     jobList.report();
+            jobManager.auditHarvesters();
+
 
     if (Game.time % 5 === 0) {
+
         jobList.cleanup();
     }
 
