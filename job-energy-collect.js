@@ -41,11 +41,8 @@ var job_energy_collect = {
         var result;
         if(target.transferEnergy){
             result = target.transferEnergy(creep);
-        } else if(target.pickup) {
+        } else{
             result = creep.pickup(target);
-        } else {
-            job.end();
-            return;
         }
 
         if(result !== OK){
