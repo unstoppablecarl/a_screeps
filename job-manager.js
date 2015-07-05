@@ -37,6 +37,7 @@ JobManager.prototype = {
             var roleCount = room.roleCount(role);
             var roleCountMax = room.roleCountMax(role);
 
+            console.log('xxx', roleCount, roleCountMax, roleCount < roleCountMax);
             return roleCount < roleCountMax;
 
         }).map(function(creep) {
