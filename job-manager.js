@@ -498,6 +498,8 @@ JobManager.prototype = {
             energyDeliverJobs
          // attack / defend
         );
+
+        console.log('replacementJobs', JSON.stringify(replacementJobs));
         // console.log('harvestJobs', JSON.stringify(harvestJobs));
         // console.log('energyCollectJobs', JSON.stringify(energyCollectJobs));
         // console.log('repairJobs', JSON.stringify(repairJobs));
