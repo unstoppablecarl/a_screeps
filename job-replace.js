@@ -2,7 +2,10 @@
 
 var job_replace = {
     name: 'replace',
-    start: function(creep, job){
+    start: false,
+
+    // use act so that code executes when creep is first created
+    act: function(creep, job){
 
         var target = job.target();
         var targetJob = target.job();
@@ -19,7 +22,6 @@ var job_replace = {
             newJob.start();
         }
     },
-    act: false,
     cancel: false,
     end: false,
 };
