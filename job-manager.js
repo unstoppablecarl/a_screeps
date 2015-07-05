@@ -33,9 +33,12 @@ JobManager.prototype = {
         // assume all replacement jobs will trigger spawning of a new creep
         return creeps.filter(function(creep){
             var role = creep.role();
+            var roleCountMax = room.roleCountMax(role);
+            if(!_.isNumber(roleCountMax)){
+                return true;
+            }
 
             var roleCount = room.roleCount(role);
-            var roleCountMax = room.roleCountMax(role);
 
             console.log('xxx', role, roleCount, roleCountMax, roleCount < roleCountMax);
             return roleCount < roleCountMax;
