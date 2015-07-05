@@ -19,10 +19,6 @@ Room.prototype.act = function() {
     jobManager.update();
     jobManager.allocate();
 
-
-    // if (Game.time % 20 === 0) {
-    //     this.updateExtensionCount();
-    // }
 };
 
 Room.prototype.isRoom = true;

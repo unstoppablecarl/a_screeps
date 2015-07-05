@@ -11,6 +11,7 @@ JobManager.prototype = {
 
 
     getReplacementJobs: function() {
+
         // @TODO base threshold on distance from spawn
         var threshold = this.room.creepReplaceThreshold();
 
@@ -20,6 +21,7 @@ JobManager.prototype = {
         });
 
         var room = this.room;
+        // assume all replacement jobs will trigger spawning of a new creep
         return creeps.filter(function(creep){
             var role = creep.role();
 
@@ -33,10 +35,9 @@ JobManager.prototype = {
         }).map(function(creep) {
             var job = creep.job();
             return {
-                target: job.target(),
-                type: job.type(),
+                target: creep,
+                type: 'replace',
                 role: job.role(),
-                settings: job.settings(),
             };
         });
     },
@@ -323,7 +324,7 @@ JobManager.prototype = {
             idleCreepsByRole[role].push(creep);
         });
 
-        if(type === 'replacement'){
+        if(type === 'replace'){
 
             var replaceRole = job.role;
             creeps = idleCreepsByRole[replaceRole];
