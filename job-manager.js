@@ -57,13 +57,7 @@ JobManager.prototype = {
             var havesterCountMax = flag.havesterCountMax();
             var jobs = source.targetOfJobs().map(function(job){
                 if(job && job.type() === 'harvest'){
-                    var source = job.source();
-                    if(source){
-                        allocatedHarvestWork += source.getActiveBodyparts(WORK);
-
-                    } else {
-                        allocatedHarvestWork++;
-                    }
+                    allocatedHarvestWork += job.sourceActiveBodyparts(WORK);
                     allocatedCreepCount++;
                 }
             });
@@ -456,6 +450,7 @@ JobManager.prototype = {
         if(result){
             console.log('spawn allocating', job.role(), job.type(), body, maxCreepCost, result);
             job.sourcePendingCreation(true);
+            job.sourcePendingCreationBody(body);
             job.active(true);
         }
 

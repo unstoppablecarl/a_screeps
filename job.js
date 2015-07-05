@@ -148,6 +148,37 @@ Job.prototype = {
         return this.memory.source_pending_creation;
     },
 
+    sourcePendingCreationBody: function(value){
+        if(value !== undefined){
+            if(!value){
+                // set undefined to remove from memory
+                value = undefined;
+            }
+            this.memory.source_pending_creation_body = value;
+        }
+        return this.memory.source_pending_creation_body;
+    },
+
+    // able to check body parts of current or pending source creep
+    sourceActiveBodyparts: function(part){
+        var source = this.source();
+
+        if(source){
+            return source.getActiveBodyparts(part);
+        }
+        else if(this.sourcePendingCreation()){
+            var body = this.sourcePendingCreationBody();
+            return body.reduce(function(total, currentPart) {
+                if(currentPart === part){
+                    return total + 1;
+                }
+                return total;
+            }, 0);
+        }
+
+        return false;
+    },
+
     start: function(){
         var source = this.source();
         var handler = this.handler();
