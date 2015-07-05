@@ -440,6 +440,8 @@ JobManager.prototype = {
         //     }
         // }
 
+
+
         var roleCount = this.room.roleCount(role);
         var roleCountMax = this.room.roleCountMax(role);
 
@@ -447,10 +449,16 @@ JobManager.prototype = {
             return false;
         }
 
+        if(role === 'carrier'){
+            target = job.target();
+            if(target.energy < this.room.energyPileThresholdSpawn()){
+                return false;
+            }
+        }
+
         // if there are no harvesters spawn whatever type of harvester possible
-        if(role === 'harvester'){
-            var harvesterCount = this.room.roleCount('harvester');
-            if(!harvesterCount){
+        else if(role === 'harvester'){
+            if(!roleCount){
                 maxCreepCost = this.room.extensionEnergy() + spawn.energy;
             }
         }
@@ -593,7 +601,7 @@ JobManager.prototype = {
 
             allocated = this.allocateJobToExisting(job);
 
-            if(!allocated && !job.existing_only){
+            if(!allocated){
                 allocated = this.allocateJobToSpawn(job);
             }
         }
