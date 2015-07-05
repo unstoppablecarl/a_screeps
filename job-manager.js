@@ -9,26 +9,21 @@ var JobManager = function JobManager(room) {
 JobManager.prototype = {
     constructor: JobManager,
 
-
     getReplacementJobs: function() {
 
         // @TODO base threshold on distance from spawn
         var threshold = this.room.creepReplaceThreshold();
-        // console.log('threshold', threshold);
+
         // @TODO exclude unused, something more advanced than just checking idle
         var creeps = this.room.creeps(function(creep) {
 
             if(creep.idle()){
                 return false;
             }
-            // console.log('creep.ticksToLive', creep.ticksToLive);
-            // console.log('threshold', threshold);
-            // console.log('!creep.isTargetOfJobType(replace)', !creep.isTargetOfJobType('replace'));
 
             return creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
         });
 
-        console.log('creeps', creeps);
         var room = this.room;
         // assume all replacement jobs will trigger spawning of a new creep
         return creeps.filter(function(creep){
@@ -39,8 +34,6 @@ JobManager.prototype = {
             }
 
             var roleCount = room.roleCount(role);
-
-            console.log('xxx', role, roleCount, roleCountMax, roleCount < roleCountMax);
             return roleCount < roleCountMax;
 
         }).map(function(creep) {
@@ -510,7 +503,7 @@ JobManager.prototype = {
          // attack / defend
         );
 
-        console.log('replacementJobs', JSON.stringify(replacementJobs));
+        // console.log('replacementJobs', JSON.stringify(replacementJobs));
         // console.log('harvestJobs', JSON.stringify(harvestJobs));
         // console.log('energyCollectJobs', JSON.stringify(energyCollectJobs));
         // console.log('repairJobs', JSON.stringify(repairJobs));
