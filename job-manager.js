@@ -220,7 +220,7 @@ JobManager.prototype = {
 
             return guardCount < guardMax;
         });
-
+        console.log('zz');
         return flags.map(function(flag){
             return {
                 role: 'guard',
