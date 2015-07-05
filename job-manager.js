@@ -73,6 +73,8 @@ JobManager.prototype = {
             console.log('havesterCountMax', havesterCountMax);
             console.log('allocatedHarvestWork', allocatedHarvestWork);
 
+            console.log(allocatedCreepCount < havesterCountMax, allocatedHarvestWork < 5);
+
 
             // max 5 work body parts allocated
             return allocatedCreepCount < havesterCountMax && allocatedHarvestWork < 5;
