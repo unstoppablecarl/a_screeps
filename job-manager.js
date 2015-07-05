@@ -219,7 +219,6 @@ JobManager.prototype = {
 
             return guardCount < guardMax;
         });
-        console.log('zz');
         return flags.map(function(flag){
             return {
                 role: 'guard',
@@ -390,6 +389,9 @@ JobManager.prototype = {
         else if(type === 'upgrade_room_controller'){
 
             creeps = idleCreepsByRole.upgrader;
+        }
+        else if(type === 'guard'){
+            creeps = idleCreepsByRole.guard;
         }
 
         if(!creeps || !creeps.length){
