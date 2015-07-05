@@ -16,7 +16,6 @@ var job_energy_store = {
 
         return target;
     },
-    start: false,
     act: function(creep, job){
         if(creep.energy === 0){
             job.end();
@@ -28,17 +27,16 @@ var job_energy_store = {
             job.end();
             return;
         }
-        else {
-            creep.moveTo(target);
-            var result = creep.transferEnergy(target);
-            if(result === OK){
+
+        var result = creep.transferEnergy(target);
+        if(result !== OK){
+            if(ERR_NOT_IN_RANGE){
+                creep.moveTo(target);
+            } else {
                 job.end();
-                return;
             }
         }
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_energy_store;

@@ -187,14 +187,11 @@ Job.prototype = {
             console.log('ERROR trying to start task without source');
         }
 
-        if(handler.start){
-            handler.start(source);
-        }
         source.say(this.type());
         this.active(true);
     },
 
-    // set as inactive, unset source, leave target
+    // set as inactive, unset source, leave target, so job can be reassigned
     // cancel: function() {
     //     var type = this.type();
     //     if(type === 'energy_collect'){

@@ -8,18 +8,7 @@ var job_energy_collect = {
         var settings = job.settings() || {};
 
         if (!target || target.energy === 0) {
-            var targets = [];
-            if(!settings.spawns_only){
-                 var energyPiles = creep.room.energyPiles();
-                 targets = targets.concat(energyPiles);
-            }
-
-            if(!settings.energy_piles_only){
-                // var spawns = creep.room.spawns(function(spawn) {
-                //     return spawn.energy > 0;
-                // });
-                // targets = targets.concat(spawns);
-            }
+            var targets = creep.room.energyPiles();
 
             if(targets && targets.length){
                 if(targets.length === 1){
@@ -35,7 +24,6 @@ var job_energy_collect = {
         }
         return target;
     },
-    start: false,
     act: function(creep, job) {
 
         // got energy from somewhere; target or a distributor
@@ -50,21 +38,24 @@ var job_energy_collect = {
             return;
         }
 
-        creep.moveTo(target);
-
+        var result;
         if(target.transferEnergy){
-            var r = target.transferEnergy(creep);
-            console.log('r', r);
+            result = target.transferEnergy(creep);
+        } else if(target.pickup) {
+            result = creep.pickup(target);
         } else {
-            var p = creep.pickup(target);
-            if(p === OK){
+            job.end();
+        }
+
+        if(result !== OK){
+            if(ERR_NOT_IN_RANGE){
+                creep.moveTo(target);
+            } else {
                 job.end();
             }
         }
 
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_energy_collect;

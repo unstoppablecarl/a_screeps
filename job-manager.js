@@ -29,6 +29,7 @@ JobManager.prototype = {
         return creeps.filter(function(creep){
             var role = creep.role();
             var roleCountMax = room.roleCountMax(role);
+            // unlimited if not set
             if(!_.isNumber(roleCountMax)){
                 return true;
             }
@@ -192,6 +193,7 @@ JobManager.prototype = {
         });
     },
 
+    // primarily to trigger the creation of new carrier creeps as carrier creeps collect automatically
     getEnergyCollectJobs: function() {
         var minEnergySpawn = this.room.energyPileThresholdSpawn();
 
@@ -240,23 +242,6 @@ JobManager.prototype = {
             priority = 1;
 
         }
-        // else if(type === 'energy_store'){
-
-        //     priority = 0.8;
-        //     if(target){
-        //         priority += (target.energy / target.energyCapacity) * 0.1;
-        //     }
-
-        // }
-        else if(type === 'energy_deliver'){
-
-            priority = 0.6;
-
-            if(target){
-                priority += (1 - (target.energy / target.energyCapacity)) * 0.1;
-            }
-
-        }
         else if(type === 'energy_collect'){
 
             priority = 0.9;
@@ -268,13 +253,32 @@ JobManager.prototype = {
             }
 
         }
-        else if(type === 'replace'){
+        else if(type === 'attack'){
+
+            priority = 0.8;
+
+        }
+        else if(type === 'guard'){
+
+            priority = 0.7;
+            if(target){
+                var guardBasePriority = target.guardPriority();
+                if(guardBasePriority){
+                    priority = guardBasePriority;
+                }
+                var guardCount = target.guardCount();
+                var guardMax = target.guardMax();
+                var guardPriority = 1 - (guardCount / guardMax);
+                priority += guardPriority * 0.1;
+            }
+
+        }
+        else if(type === 'energy_deliver'){
+
+            priority = 0.6;
 
             if(target){
-                var targetJob = target.job();
-                if(targetJob){
-                    priority = this.getBaseJobPriority(targetJob);
-                }
+                priority += (1 - (target.energy / target.energyCapacity)) * 0.1;
             }
 
         }
@@ -294,6 +298,7 @@ JobManager.prototype = {
         }
         else if(type === 'repair'){
 
+            // @TODO higher priority to repair rampart when under attack
             priority = 0.4;
 
             if(target){
@@ -306,24 +311,19 @@ JobManager.prototype = {
             }
 
         }
-        else if(type === 'guard'){
-
-            priority = 0.7;
-            if(target){
-                var guardBasePriority = target.guardPriority();
-                if(guardBasePriority){
-                    priority = guardBasePriority;
-                }
-                var guardCount = target.guardCount();
-                var guardMax = target.guardMax();
-                var guardPriority = 1 - (guardCount / guardMax);
-                priority += guardPriority * 0.1;
-            }
-
-        }
         else if(type === 'upgrade_room_controller'){
 
             priority = 0.1;
+
+        }
+        else if(type === 'replace'){
+
+            if(target){
+                var targetJob = target.job();
+                if(targetJob){
+                    priority = this.getBaseJobPriority(targetJob);
+                }
+            }
 
         }
 
@@ -416,7 +416,6 @@ JobManager.prototype = {
     },
 
     allocateJobToSpawn: function(job) {
-// console.log('allocateJobToSpawn');
         var spawns = this.room.availableSpawns();
         if(!spawns|| !spawns.length){
             return false;

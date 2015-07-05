@@ -2,7 +2,6 @@
 
 var job_guard = {
     name: 'move_to',
-    start: false,
     act: function(creep, job){
         var target = job.target();
         if(target){
@@ -36,8 +35,6 @@ var job_guard = {
             newJob.start();
         }
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_guard;

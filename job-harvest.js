@@ -2,18 +2,16 @@
 
 var job_harvest = {
     name: 'harvest',
-    start: false,
-
-    _getStoreTarget: function(creep, job){
+    _getStoreTarget: function(creep, job) {
         var settings = job.settings();
         var target;
-        if(settings && settings.store_energy_id){
+        if (settings && settings.store_energy_id) {
             target = Game.getObjectById(settings.store_energy_id);
         }
 
-        if(!target || target.energy === target.energyCapacity){
+        if (!target || target.energy === target.energyCapacity) {
             target = creep.pos.findClosestEnergyStore();
-            if(target){
+            if (target) {
                 settings.store_energy_id = target.id;
             }
         }
@@ -21,45 +19,66 @@ var job_harvest = {
         return target;
     },
 
-    act: function(creep, job){
-        var target;
+    act: function(creep, job) {
+        var target = job.target();
 
-        if(job){
-            target = job.target();
+        if (!target) {
+            job.end();
+            return;
         }
 
-        if(target){
+        var result;
+        var source = job.target();
+        var energyFull = creep.energy === creep.energyCapacity;
 
-            var source = job.target();
+        if (!energyFull) {
 
-            if(creep.energy === creep.energyCapacity){
-
-
-                if(creep.room.roleCount('carrier') || creep.room.roomEnergy() === creep.room.roomEnergyCapacity()){
-                    creep.dropEnergy();
-                } else {
-                    var storeTarget = this._getStoreTarget(creep, job);
-                    if(storeTarget){
-                        creep.moveTo(storeTarget);
-                        creep.transferEnergy(storeTarget);
-                    } else {
-
-                        job.end();
-                        return;
-                    }
-                }
-            } else {
-                var result = creep.harvest(source);
-                if(result === ERR_NOT_IN_RANGE){
+            result = creep.harvest(source);
+            if (result !== OK) {
+                if (ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
+                } else {
+                    job.end();
                 }
             }
-        } else {
-            job.end();
+
+            return;
+        }
+
+        // energy is full
+        else {
+
+            // room has carriers
+            // or room energy is full and cannot store more
+            if (
+                creep.room.roleCount('carrier') ||
+                creep.room.roomEnergy() === creep.room.roomEnergyCapacity()
+            ) {
+                creep.dropEnergy();
+
+            }
+
+            // store energy
+            else {
+
+                var storeTarget = this._getStoreTarget(creep, job);
+                if (!storeTarget) {
+                    job.end();
+                    return;
+                }
+
+                result = creep.transferEnergy(storeTarget);
+                if (result !== OK) {
+                    if (ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    } else {
+                        job.end();
+                    }
+                }
+
+            }
         }
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_harvest;

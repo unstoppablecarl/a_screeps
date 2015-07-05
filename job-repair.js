@@ -2,7 +2,6 @@
 
 var job_repair = {
     name: 'repair',
-    start: false,
     act: function(creep, job){
         var target = job.target();
         if(target){
@@ -20,8 +19,6 @@ var job_repair = {
             job.end();
         }
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_repair;

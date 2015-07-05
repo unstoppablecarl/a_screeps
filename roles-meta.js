@@ -137,6 +137,14 @@ var roles_meta = {
                     CARRY, CARRY,
                     MOVE, MOVE
                 ],
+                [
+                    CARRY, CARRY,
+                    MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY,
+                    MOVE, MOVE, MOVE
+                ],
             ]
         },
         guard: {

@@ -2,7 +2,6 @@
 
 var task = {
     name: 'upgrade_room_controller',
-    start: false,
     _findTarget: function(creep, job){
         var target = job.target();
         if(!target){
@@ -25,7 +24,6 @@ var task = {
             creep.upgradeController(target);
         }
     },
-    cancel: false,
 };
 
 module.exports = task;

@@ -2,8 +2,6 @@
 
 var job_idle = {
     name: 'energy_collect',
-
-    start: false,
     act: function(creep, job) {
 
         var target = job.target();
@@ -15,8 +13,6 @@ var job_idle = {
 
         creep.moveTo(target);
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_idle;

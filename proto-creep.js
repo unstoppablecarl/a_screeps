@@ -1,12 +1,6 @@
 'use strict';
 
-var roles = {
-    carrier: require('role-carrier'),
-    guard: require('role-guard'),
-    harvester: require('role-harvester'),
-    tech: require('role-tech'),
-    upgrader: require('role-upgrader'),
-};
+var roles = require('roles');
 
 require('mixin-job-target')(Creep.prototype);
 

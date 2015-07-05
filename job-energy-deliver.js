@@ -3,13 +3,14 @@
 // bring energy to creep
 var job_energy_deliver = {
     name: 'energy_deliver',
-    start: false,
     act: function(creep, job) {
-        var target = job.target();
 
         if(creep.energy === 0){
             job.end();
+            return;
         }
+
+        var target = job.target();
 
         if(!target){
             job.end();
@@ -21,15 +22,16 @@ var job_energy_deliver = {
                 job.end();
                 return;
             }
-            creep.moveTo(target);
             var result = creep.transferEnergy(target);
-            if (result === OK) {
-                job.end();
+            if(result !== OK){
+                if(ERR_NOT_IN_RANGE){
+                    creep.moveTo(target);
+                } else {
+                    job.end();
+                }
             }
         }
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_energy_deliver;

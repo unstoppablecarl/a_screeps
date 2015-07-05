@@ -2,7 +2,6 @@
 
 var job_attack = {
     name: 'attack',
-    start: false,
     act: function(creep, job){
         var target = job.target();
 
@@ -11,12 +10,16 @@ var job_attack = {
         }
 
         if(target){
-            creep.moveTo(target);
-            creep.attack(target);
+            var result = creep.attack(target);
+            if(result !== OK){
+                if(ERR_NOT_IN_RANGE){
+                    creep.moveTo(target);
+                } else {
+                    job.end();
+                }
+            }
         }
     },
-    cancel: false,
-    end: false,
 };
 
 module.exports = job_attack;

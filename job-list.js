@@ -97,7 +97,6 @@ JobList.prototype = {
         return this.memory.job_targets;
     },
 
-
     // cleanup invalid jobs
     cleanup: function(){
         var jobs = this.all();

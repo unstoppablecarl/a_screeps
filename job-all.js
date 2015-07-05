@@ -6,13 +6,13 @@ var jobs = {
     energy_collect: require('job-energy-collect'),
     energy_deliver: require('job-energy-deliver'),
     energy_store: require('job-energy-store'),
+    guard: require('job-guard'),
     harvest: require('job-harvest'),
+    idle: require('job-idle'),
     move_to: require('job-move-to'),
     repair: require('job-repair'),
-    upgrade_room_controller: require('job-upgrade-room-controller'),
-    idle: require('job-idle'),
     replace: require('job-replace'),
-    guard: require('job-guard'),
+    upgrade_room_controller: require('job-upgrade-room-controller'),
 };
 
 module.exports = jobs;
