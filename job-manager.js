@@ -201,10 +201,15 @@ JobManager.prototype = {
             // one job per pile over the limit or with no collectors assigned
             return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
         }).map(function(pile){
+
+
+
+            var existing_only = pile.energy < 1500;
             return {
                 role: 'carrier',
                 type: 'energy_collect',
                 target: pile,
+                existing_only: existing_only,
             };
         });
     },
@@ -588,7 +593,7 @@ JobManager.prototype = {
 
             allocated = this.allocateJobToExisting(job);
 
-            if(!allocated){
+            if(!allocated && !job.existing_only){
                 allocated = this.allocateJobToSpawn(job);
             }
         }
