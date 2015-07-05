@@ -582,8 +582,8 @@ JobManager.prototype = {
                     role: 'carrier',
                     type: 'energy_store',
                     source: creep,
-                    target: 'nearest energy dropoff'
-                });
+                    target: this.room
+                }).start();
             }
         }
     },
