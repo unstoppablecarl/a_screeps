@@ -218,7 +218,7 @@ JobManager.prototype = {
             var guardMax = flag.guardMax();
             var guardCount = flag.guardCount();
 
-            return guardCount < guardMax && !flag.isTargetOfJobType('guard');
+            return guardCount < guardMax;
         });
 
         return flags.map(function(flag){
