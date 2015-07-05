@@ -585,7 +585,7 @@ JobManager.prototype = {
         list.addMultiple(newJobs);
         this.prioritizeJobs(list.all());
 
-        // this.report();
+        this.report();
     },
     reportData: function(jobs) {
         var jobData = [];
