@@ -196,7 +196,7 @@ JobManager.prototype = {
             var guardMax = flag.guardMax();
             var guardCount = flag.guardCount();
 
-            return guardCount < guardMax;
+            return guardCount < guardMax && !flag.isTargetOfJobType('move_to');
         });
 
         return flags.map(function(flag){
