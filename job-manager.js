@@ -23,6 +23,7 @@ JobManager.prototype = {
             }
             console.log('creep.ticksToLive', creep.ticksToLive);
             console.log('threshold', threshold);
+            console.log('!creep.isTargetOfJobType(replace)', !creep.isTargetOfJobType('replace'));
 
             return creep.ticksToLive < threshold && !creep.isTargetOfJobType('replace');
         });
