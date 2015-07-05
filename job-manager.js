@@ -236,6 +236,39 @@ JobManager.prototype = {
 
     },
 
+    getAttackJobs: function() {
+
+        var hostileCreeps = this.room.find(FIND_HOSTILE_CREEPS);
+        if(!hostileCreeps.length){
+            return [];
+        }
+
+        var jobs = [];
+        var room = this.room;
+        var guardFlags = this.room.flags(function(flag){
+            return flag.role() === 'guard';
+        }).forEach(function(flag){
+            var range = flag.guardRadius();
+            var targets = flag.pos.findInRange(FIND_HOSTILE_CREEPS, range);
+            var guards = flag.guards();
+
+            guards.forEach(function(guard){
+
+                var target = guard.pos.findClosest(targets, {
+                    filter: function(target){
+                        return !target.isTargetOfJobType('attack');
+                    }
+                });
+                room.jobList().add({
+                    type: 'attack',
+                    role: 'guard',
+                    source: guard,
+                    target: target,
+                }).start();
+            });
+        });
+    },
+
     getBaseJobPriority: function(job){
         var type = job.type();
         var target = job.target();

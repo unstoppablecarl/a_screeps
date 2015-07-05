@@ -18,8 +18,11 @@ Room.prototype.act = function() {
     jobList.report();
 
     if (Game.time % 5 === 0) {
-        jobManager.auditHarvesters();
         jobList.cleanup();
+    }
+
+    if (Game.time % 20 === 0) {
+        jobManager.auditHarvesters();
     }
 
 };

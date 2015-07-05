@@ -35,6 +35,32 @@ Flag.prototype.guardCount = function() {
     return jobs.length;
 };
 
+Flag.prototype.guardRadius = function(value) {
+    if(this.memory.role !== 'guard'){
+        return false;
+    }
+    if (value !== undefined) {
+        this.memory.guard_radius = value;
+    } else if(this.memory.guard_radius === undefined){
+        this.memory.guard_radius = 10;
+    }
+    return this.memory.guard_max;
+};
+
+Flag.prototype.guards = function() {
+    if(this.memory.role !== 'guard'){
+        return false;
+    }
+    return this.targetOfJobs(function(job){
+        if(job){
+            return job.type() === 'guard' && job.source();
+        }
+        return false;
+    }).map(function(job){
+        return job.source();
+    });
+};
+
 // overrides base priority (0-1) for this flag only
 Flag.prototype.guardPriority = function(priority) {
     if(this.memory.role !== 'guard'){
