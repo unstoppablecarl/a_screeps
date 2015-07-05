@@ -615,6 +615,8 @@ JobManager.prototype = {
         this.prioritizeJobs(list.all());
     },
 
+    // if a source has a harvester with 5 work parts
+    // dismiss all other harvesters at that source
     auditHarvesters: function(){
         var sources = this.room.flags(function(flag){
             if(flag.role() !== 'source'){
