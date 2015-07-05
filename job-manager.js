@@ -450,8 +450,7 @@ JobManager.prototype = {
             return false;
         }
 
-        if(role === 'carrier' && type === 'energy_collect'){
-            console.log('jo', job);
+        if(role === 'carrier' && type === 'energy_collect' && target){
             if(target.energy < this.room.energyPileThresholdSpawn()){
                 return false;
             }
