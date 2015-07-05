@@ -426,7 +426,8 @@ JobManager.prototype = {
             return false;
         }
         var role = job.role();
-        var target;
+        var type = job.type();
+        var target = job.target();
         var maxCreepCost;
         var spawn = spawns[0];
         // order spawns by closest
@@ -449,8 +450,7 @@ JobManager.prototype = {
             return false;
         }
 
-        if(role === 'carrier'){
-            target = job.target();
+        if(role === 'carrier' && type === 'energy_collect'){
             if(target.energy < this.room.energyPileThresholdSpawn()){
                 return false;
             }
