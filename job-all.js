@@ -12,6 +12,7 @@ var jobs = {
     upgrade_room_controller: require('job-upgrade-room-controller'),
     idle: require('job-idle'),
     replace: require('job-replace'),
+    guard: require('job-guard'),
 };
 
 module.exports = jobs;

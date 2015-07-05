@@ -218,13 +218,13 @@ JobManager.prototype = {
             var guardMax = flag.guardMax();
             var guardCount = flag.guardCount();
 
-            return guardCount < guardMax && !flag.isTargetOfJobType('move_to');
+            return guardCount < guardMax && !flag.isTargetOfJobType('guard');
         });
 
         return flags.map(function(flag){
             return {
                 role: 'guard',
-                type: 'move_to',
+                type: 'guard',
                 target: flag,
             };
         });
