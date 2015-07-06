@@ -9,6 +9,9 @@ Creep.prototype.act = function() {
     var role = this.role();
     var job = this.job();
 
+    if(this.attackedLastTick()){
+        this.say('owch');
+    }
     if (mem.pending_creation) {
         if (job && job.sourcePendingCreation()){
             job.source(this);
