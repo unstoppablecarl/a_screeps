@@ -7,6 +7,7 @@ var roles = {
     tech: {},
     upgrader: {},
     healer: {},
+    rampart_defender: {}
 };
 
 module.exports = roles;

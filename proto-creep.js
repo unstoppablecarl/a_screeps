@@ -9,9 +9,10 @@ Creep.prototype.act = function() {
     var role = this.role();
     var job = this.job();
 
-    if(this.attackedLastTick()){
+    if(this.hurtLastTick()){
         this.say('owch');
     }
+
     if (mem.pending_creation) {
         if (job && job.sourcePendingCreation()){
             job.source(this);
@@ -118,13 +119,26 @@ Creep.prototype.adjacentHostiles = function(filter) {
     var left = pos.x - 1;
     var right = pos.y + 1;
 
-    var result = this.room.lookForAtArea(FIND_HOSTILE_CREEPS, top, left, bottom, right);
-    if(filter){
-        result = result.filter(filter);
+    var result = this.room.lookForAtArea('creep', top, left, bottom, right);
+
+    var targets = [];
+
+    for(var x in result){
+        var row = result[x];
+        for(var y in row){
+            var target = row[y];
+            if(target){
+                targets.push(target);
+            }
+        }
     }
-    return result;
+
+    if(filter){
+        targets = targets.filter(filter);
+    }
+    return targets;
 };
 
-Creep.prototype.attackedLastTick = function(){
+Creep.prototype.hurtLastTick = function(){
     return this.hits < this.memory.prev_hits;
 };
