@@ -7,7 +7,7 @@ var job_move_to_flag = {
         if(target){
             var result = creep.moveTo(target);
 
-
+            console.log('result' , result);
 
             var settings = job.settings();
             if(result === ERR_NO_PATH){
