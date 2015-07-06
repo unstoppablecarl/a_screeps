@@ -261,6 +261,18 @@ JobManager.prototype = {
         });
     },
 
+    getDefendRampartJobs: function(){
+        return this.room.flags(function(flag){
+            return flag.role() === 'defend_rampart' && !flag.isTargetOfJobType('defend_rampart');
+        }).map(function(flag){
+            return {
+                role: 'defend_rampart',
+                type: 'defend_rampart',
+                target: flag,
+            };
+        });
+    },
+
     getBaseJobPriority: function(job){
         var type = job.type();
         var target = job.target();
@@ -289,6 +301,21 @@ JobManager.prototype = {
 
         }
         else if(type === 'guard'){
+
+            priority = 0.7;
+            if(target){
+                var guardBasePriority = target.guardPriority();
+                if(guardBasePriority){
+                    priority = guardBasePriority;
+                }
+                var guardCount = target.guardCount();
+                var guardMax = target.guardMax();
+                var guardPriority = 1 - (guardCount / guardMax);
+                priority += guardPriority * 0.1;
+            }
+
+        }
+        else if(type === 'defend_rampart'){
 
             priority = 0.7;
             if(target){
@@ -467,7 +494,6 @@ JobManager.prototype = {
         // }
 
 
-
         var roleCount = this.room.roleCount(role);
         var roleCountMax = this.room.roleCountMax(role);
 
@@ -613,10 +639,9 @@ JobManager.prototype = {
         }
     },
 
-    allocateDefendJobs: function() {
 
-        var hostileCreeps = this.room.find(FIND_HOSTILE_CREEPS);
-        if(!hostileCreeps.length){
+    allocateDefendJobs: function() {
+        if(!this.room.containsHostiles()){
             return [];
         }
 

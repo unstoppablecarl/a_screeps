@@ -7,13 +7,18 @@ var job_attack = {
 
         if(!target){
             job.end();
+            return;
         }
 
-        // var adjacentHostiles = creep.adjacentHostiles();
-        // if(adjacentHostiles.length){
-        //     target = _.min(adjacentHostiles, 'hits');
-        //     job.target(target);
-        // }
+        // if hurt by non-target while en-route to target fight back
+        if(!creep.pos.isNearTo(target) && creep.hurtLastTick()){
+            var adjacentHostiles = creep.adjacentHostiles();
+            if(adjacentHostiles.length){
+                target = _.min(adjacentHostiles, 'hits');
+                creep.attack(target);
+                return;
+            }
+        }
 
         if(target){
             var result = creep.attack(target);

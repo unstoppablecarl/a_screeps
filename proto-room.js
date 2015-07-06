@@ -217,6 +217,14 @@ Room.prototype.energyPiles = function(){
     });
 };
 
+Room.prototype.containsHostiles = function(){
+    if(this.contains_hostiles === undefined){
+        var hostileCreeps = this.find(FIND_HOSTILE_CREEPS);
+        this.contains_hostiles = !!hostileCreeps.length;
+    }
+
+    return this.contains_hostiles;
+};
 
 
 

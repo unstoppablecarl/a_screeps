@@ -7,10 +7,10 @@ var job_guard = {
     act: function(creep, job){
         var defendTarget = job.target();
         if(!defendTarget){
-
             job.end();
             return;
         }
+
         var settings = job.settings();
         var followDistance = settings.target_follow_distance || 5;
         var hostileRange = settings.hostile_range || 10;

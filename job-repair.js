@@ -10,17 +10,20 @@ var job_repair = {
             return;
         }
 
-        if(target){
-
-            var result = creep.repair(target);
+        var result = creep.repair(target);
+        if(result !== OK){
             if(result === ERR_NOT_IN_RANGE){
                 creep.moveTo(target);
-            }
-
-            if(target.hits === target.hitsMax){
+            } else {
                 job.end();
+                return;
             }
         }
+
+        if(target.hits === target.hitsMax){
+            job.end();
+        }
+
     },
 };
 

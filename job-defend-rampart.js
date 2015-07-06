@@ -7,6 +7,7 @@ var job_defend_rampart = {
 
         if(!target){
             job.end();
+            return;
         }
 
         var atTargetPos = (
@@ -19,22 +20,15 @@ var job_defend_rampart = {
             return;
         }
 
+        if(!creep.room.containsHostiles()){
+            return;
+        }
+
         var adjacentHostiles = creep.adjacentHostiles();
         if(adjacentHostiles.length){
             target = _.min(adjacentHostiles, 'hits');
             creep.attack(target);
             return;
-        }
-
-        if(target){
-            var result = creep.build(target);
-            if(result !== OK){
-                if(result === ERR_NOT_IN_RANGE){
-                    creep.moveTo(target);
-                } else {
-                    job.end();
-                }
-            }
         }
     },
 };

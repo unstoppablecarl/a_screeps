@@ -1,6 +1,6 @@
 'use strict';
 
-// move to a flag creep is assigned to standby
+// move to a flag creep then standby
 var job_move_to_flag = {
     name: 'move_to_flag',
     act: function(creep, job){

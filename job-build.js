@@ -7,18 +7,18 @@ var job_build = {
 
         if(!target){
             job.end();
+            return;
         }
 
-        if(target){
-            var result = creep.build(target);
-            if(result !== OK){
-                if(result === ERR_NOT_IN_RANGE){
-                    creep.moveTo(target);
-                } else {
-                    job.end();
-                }
+        var result = creep.build(target);
+        if(result !== OK){
+            if(result === ERR_NOT_IN_RANGE){
+                creep.moveTo(target);
+            } else {
+                job.end();
             }
         }
+
     },
 };
 
