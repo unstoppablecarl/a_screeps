@@ -54,7 +54,8 @@ Flag.prototype.guards = function() {
     }
     return this.targetOfJobs(function(job){
         if(job){
-            return job.type() === 'guard' && job.source();
+            var type = job.type();
+            return (type === 'move_to_flag' || type === 'standby') && job.source();
         }
         return false;
     }).map(function(job){
