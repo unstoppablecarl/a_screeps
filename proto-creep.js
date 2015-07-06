@@ -127,7 +127,8 @@ Creep.prototype.adjacentHostiles = function(filter) {
         var row = result[x];
         for(var y in row){
             var target = row[y];
-            if(target){
+            if(target && !target.my){
+
                 targets.push(target);
             }
         }
