@@ -38,6 +38,8 @@ var job_move_to_flag = {
 
         if(atPrevPos){
             settings.no_path_count++;
+        } else {
+            settings.no_path_count = 0;
         }
 
         if(
