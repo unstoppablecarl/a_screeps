@@ -28,7 +28,7 @@ Flag.prototype.guardCount = function() {
     }
     var jobs = this.targetOfJobs(function(job){
         if(job){
-            return job.type() === 'guard';
+            return job.type() === 'move_to_flag';
         }
         return false;
     });
