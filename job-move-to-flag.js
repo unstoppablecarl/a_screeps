@@ -6,23 +6,29 @@ var job_move_to_flag = {
         var target = job.target();
         if(target){
             var result = creep.moveTo(target);
-
-            console.log('result' , result);
-
             var settings = job.settings();
-            if(result === ERR_NO_PATH){
-                if(settings.no_path_count === undefined){
-                    settings.no_path_count = 0;
-                }
-                settings.no_path_count++;
 
-            } else {
+            if(settings.prev_pos === undefined){
+                settings.prev_pos = {
+                    x: null,
+                    y: null
+                };
+            }
+            if(settings.no_path_count === undefined){
                 settings.no_path_count = 0;
             }
-            console.log('settings.no_path_count', settings.no_path_count);
+
+            var atPrevPos = creep.pos.x === settings.prev_pos.x && creep.pos.y === settings.prev_pos.y;
+            var atTargetPos = creep.pos.x === target.pos.x && creep.pos.y === target.pos.y;
+
+            if(atPrevPos){
+                settings.no_path_count++;
+            }
+
             if(
                 settings.no_path_count > 3 ||
-                (creep.pos.x === target.pos.x && creep.pos.y === target.pos.y)
+                atTargetPos ||
+                creep.pos.getRangeTo(target) < 5
             ){
                 creep.room.jobList().add({
                     type: 'standby',
@@ -31,6 +37,10 @@ var job_move_to_flag = {
                     target: target
                 }).start();
             }
+
+            settings.prev_pos.x = creep.pos.x;
+            settings.prev_pos.y = creep.pos.y;
+
         } else {
             job.end();
         }
