@@ -12,14 +12,25 @@ var targetOfJobIds = function() {
 // get jobs this object is the target of
 var targetOfJobs = function(filter) {
 
+    var jobs = [];
     var ids = this.targetOfJobIds();
-    var result = ids.map(function(id) {
-        return this.room.jobList().get(id);
-    }, this);
-    if (filter) {
-        result = result.filter(filter);
+    for(var i = jobs.length - 1; i >= 0; i--){
+        var id = ids[i];
+        var job = this.room.jobList().get(id);
+
+        if(job){
+            jobs.push(job);
+        }
+        // cleanup invalid
+        else {
+            ids.splice(1, i);
+        }
     }
-    return result;
+
+    if (filter) {
+        jobs = jobs.filter(filter);
+    }
+    return jobs;
 };
 
 // add a job id this object is the target of
