@@ -421,7 +421,7 @@ JobManager.prototype = {
 
             creeps = idleCreepsByRole.upgrader;
         }
-        else if(type === 'guard'){
+        else if(type === 'move_to_flag'){
             creeps = idleCreepsByRole.guard;
         }
 
