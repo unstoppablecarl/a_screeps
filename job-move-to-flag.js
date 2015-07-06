@@ -19,7 +19,7 @@ var job_move_to_flag = {
             } else {
                 settings.no_path_count = 0;
             }
-
+            console.log('settings.no_path_count', settings.no_path_count);
             if(
                 settings.no_path_count > 3 ||
                 (creep.pos.x === target.pos.x && creep.pos.y === target.pos.y)

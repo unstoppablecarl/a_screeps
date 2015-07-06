@@ -28,7 +28,8 @@ Flag.prototype.guardCount = function() {
     }
     var jobs = this.targetOfJobs(function(job){
         if(job){
-            return job.type() === 'move_to_flag';
+            var type = job.type();
+            return type === 'move_to_flag' || type === 'standby';
         }
         return false;
     });
