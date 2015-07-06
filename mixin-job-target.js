@@ -14,9 +14,10 @@ var targetOfJobs = function(filter) {
 
     var jobs = [];
     var ids = this.targetOfJobIds();
+    var jobList = this.room.jobList();
     for(var i = jobs.length - 1; i >= 0; i--){
         var id = ids[i];
-        var job = this.room.jobList().get(id);
+        var job = jobList.get(id);
 
         if(job){
             jobs.push(job);
