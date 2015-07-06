@@ -16,13 +16,16 @@ var task = {
     act: function(creep, job){
         var target = this._findTarget(creep, job);
         if(!target){
-            creep.cancelTask();
+            job.cancel();
         }
 
-        if(target){
+        var result = creep.repair(target);
+        if(result === ERR_NOT_IN_RANGE){
             creep.moveTo(target);
-            creep.upgradeController(target);
+        } else {
+            job.end();
         }
+
     },
 };
 

@@ -43,6 +43,7 @@ Job.prototype = {
     role: function() {
         return this.memory.role;
     },
+
     source: function(value) {
         var current;
         if(

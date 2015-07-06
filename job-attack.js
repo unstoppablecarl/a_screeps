@@ -9,6 +9,12 @@ var job_attack = {
             job.end();
         }
 
+        // var adjacentHostiles = creep.adjacentHostiles();
+        // if(adjacentHostiles.length){
+        //     target = _.min(adjacentHostiles, 'hits');
+        //     job.target(target);
+        // }
+
         if(target){
             var result = creep.attack(target);
             if(result !== OK){

@@ -8,6 +8,7 @@ Creep.prototype.act = function() {
     var mem = this.memory;
     var role = this.role();
     var job = this.job();
+
     if (mem.pending_creation) {
         if (job && job.sourcePendingCreation()){
             job.source(this);
@@ -20,33 +21,34 @@ Creep.prototype.act = function() {
     }
 
     if (job) {
-        this.memory.tics_without_job = 0;
+        mem.ticks_without_job = 0;
         var jobHandler = job.handler();
         if(jobHandler.act){
             jobHandler.act(this, job);
         }
     }
-
     else {
-
-        if(mem.tics_without_job === undefined){
-            mem.tics_without_job = 0;
+        if(mem.ticks_without_job === undefined){
+            mem.ticks_without_job = 0;
         }
-        mem.tics_without_job++;
+        mem.ticks_without_job++;
+    }
 
-        if(mem.tics_without_job > 5){
-            var idleFlag = this.pos.findClosestIdleFlag(role);
-            if(idleFlag){
-                this.room.jobList().add({
-                    type: 'idle',
-                    role: role,
-                    source: this,
-                    target: idleFlag
-                })
-                .start();
-            }
+
+    if(mem.ticks_without_job > 5){
+        var idleFlag = this.pos.findClosestIdleFlag(role);
+        if(idleFlag){
+            this.room.jobList().add({
+                type: 'idle',
+                role: role,
+                source: this,
+                target: idleFlag
+            })
+            .start();
         }
     }
+
+    mem.prev_hits = this.hits;
 
     // if(mem.tics_without_energy === undefined){
     //     mem.tics_without_energy = 0;
@@ -106,11 +108,20 @@ Creep.prototype.replaced = function(replaced) {
     return this.memory.replaced;
 };
 
-// if this creep is at or close enough to its assigned flag
-Creep.prototype.atFlag = function(value) {
-    if (value !== void 0) {
-        this.memory.at_flag = value;
+Creep.prototype.adjacentHostiles = function(filter) {
+    var pos = this.pos;
+    var top = pos.y - 1;
+    var bottom = pos.y + 1;
+    var left = pos.x - 1;
+    var right = pos.y + 1;
+
+    var result = this.room.lookForAtArea(FIND_HOSTILE_CREEPS, top, left, bottom, right);
+    if(filter){
+        result = result.filter(filter);
     }
-    return this.memory.at_flag;
+    return result;
 };
 
+Creep.prototype.attackedLastTick = function(){
+    return this.hits < this.memory.prev_hits;
+};

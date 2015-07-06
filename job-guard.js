@@ -1,40 +1,40 @@
 'use strict';
 
+// follow and protect a target
+// not optimized for stationary targets see job-move-to-flag.js
 var job_guard = {
     name: 'guard',
     act: function(creep, job){
-        var target = job.target();
-        if(target){
-            creep.moveTo(target);
-            var settings = job.settings();
-            var distance = settings.target_precision || 2;
-            // if(creep.pos.inRangeTo(target, distance)){
-            //     this.watch(creep, job);
-            // }
-        } else {
+        var defendTarget = job.target();
+        if(!defendTarget){
+
             job.end();
+            return;
         }
-    },
-    // watch: function(creep, job){
-    //     var target;
-    //     var range = creep.memory.hostile_range || 10;
-    //     var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);
+        var settings = job.settings();
+        var followDistance = settings.target_follow_distance || 5;
+        var hostileRange = settings.hostile_range || 10;
 
-    //     if (targets.length) {
-    //         target = creep.pos.findClosest(targets);
-    //     }
+        if(creep.pos.inRangeTo(defendTarget, followDistance)){
 
-    //     if(target){
-    //         var newJob = creep.room.jobList().add({
-    //             type: 'attack',
-    //             role: 'guard',
-    //             source: creep,
-    //             target: target
-    //         });
+            var targets = defendTarget.pos.findInRange(FIND_HOSTILE_CREEPS, hostileRange);
 
-    //         newJob.start();
-    //     }
-    // },
+            if (targets.length) {
+               var target = creep.pos.findClosest(targets);
+                if(target){
+                    creep.room.jobList().add({
+                        type: 'attack',
+                        role: 'guard',
+                        source: creep,
+                        target: target
+                    }).start();
+                }
+            }
+
+        } else {
+            creep.moveTo(defendTarget);
+        }
+    }
 };
 
 module.exports = job_guard;

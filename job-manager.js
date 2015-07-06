@@ -233,7 +233,6 @@ JobManager.prototype = {
                 target: flag,
             };
         });
-
     },
 
     getHealerStandbyJobs: function() {
@@ -614,7 +613,7 @@ JobManager.prototype = {
         }
     },
 
-    allocateAttackJobs: function() {
+    allocateDefendJobs: function() {
 
         var hostileCreeps = this.room.find(FIND_HOSTILE_CREEPS);
         if(!hostileCreeps.length){
@@ -631,17 +630,22 @@ JobManager.prototype = {
             var guards = flag.guards();
 
             guards.forEach(function(guard){
-
                 var target = guard.pos.findClosest(targets, {
                     filter: function(target){
                         return !target.isTargetOfJobType('attack');
                     }
                 });
+                if(!target){
+                    target = guard.pos.findClosest(targets);
+                }
                 room.jobList().add({
                     type: 'attack',
                     role: 'guard',
                     source: guard,
                     target: target,
+                    settings: {
+                        defending_flag: flag
+                    }
                 }).start();
             });
         });
@@ -650,7 +654,7 @@ JobManager.prototype = {
     allocate: function(){
 
         this.allocateEnergyStoreJobs();
-        this.allocateAttackJobs();
+        this.allocateDefendJobs();
 
         var pending = this.room.jobList().getPending();
 
