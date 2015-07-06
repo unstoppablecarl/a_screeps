@@ -224,7 +224,6 @@ JobManager.prototype = {
             var guardMax = flag.guardMax();
             var guardCount = flag.guardCount();
 
-            console.log('g', guardCount);
             return guardCount < guardMax;
         });
         return flags.map(function(flag){
