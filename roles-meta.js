@@ -145,6 +145,10 @@ var roles_meta = {
                     CARRY, CARRY, CARRY,
                     MOVE, MOVE, MOVE
                 ],
+                [
+                    CARRY, CARRY, CARRY,
+                    MOVE, MOVE, MOVE, MOVE
+                ],
             ]
         },
         guard: {
@@ -155,19 +159,33 @@ var roles_meta = {
                     MOVE, MOVE
                 ],
                 [
-                    TOUGH,
+                    TOUGH, TOUGH,
                     ATTACK, ATTACK,
                     MOVE, MOVE
                 ],
                 [
-                    TOUGH,
+                    TOUGH, TOUGH,
                     ATTACK, ATTACK,
                     MOVE, MOVE, MOVE
                 ],
                 [
-                    TOUGH,
+                    TOUGH, TOUGH,
                     ATTACK, ATTACK, ATTACK,
                     MOVE, MOVE, MOVE
+                ],
+            ]
+        },
+        healer: {
+            bodies: [
+                [
+                    TOUGH,
+                    HEAL,
+                    MOVE
+                ],
+                [
+                    TOUGH,
+                    HEAL,
+                    MOVE, MOVE
                 ],
             ]
         },

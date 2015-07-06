@@ -6,9 +6,6 @@ require('proto-all');
 // var cpu = require('cpu');
 
 // cpu.start('all');
-//
-//
-
 
 // var room = Game.rooms[''];
 
@@ -20,8 +17,7 @@ if(room){
     room.act();
 }
 
-
-
+// cleanup dead creeps from memory
 if (Game.time % 5 === 0) {
     for (var k in Memory.creeps) {
         var memCreep = Memory.creeps[k];

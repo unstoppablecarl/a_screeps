@@ -7,14 +7,9 @@ require('mixin-job-target')(Creep.prototype);
 Creep.prototype.act = function() {
     var mem = this.memory;
     var role = this.role();
-    // var roleHandler = roles[role];
-    // if(!roleHandler){
-    //     console.log("ERRROR role handler not found for role: " + role, this);
-    //     return;
-    // }
     var job = this.job();
-    if (mem.pending_creation){
-        if(job && job.sourcePendingCreation()){
+    if (mem.pending_creation) {
+        if (job && job.sourcePendingCreation()){
             job.source(this);
             job.sourcePendingCreation(false);
             job.sourcePendingCreationBody(false);
@@ -23,9 +18,6 @@ Creep.prototype.act = function() {
         mem.pending_creation = undefined;
         mem.pending_creation_body = undefined;
     }
-    // if (roleHandler.act) {
-    //     roleHandler.act(this);
-    // }
 
     if (job) {
         this.memory.tics_without_job = 0;
@@ -33,8 +25,9 @@ Creep.prototype.act = function() {
         if(jobHandler.act){
             jobHandler.act(this, job);
         }
+    }
 
-    } else {
+    else {
 
         if(mem.tics_without_job === undefined){
             mem.tics_without_job = 0;
@@ -55,15 +48,15 @@ Creep.prototype.act = function() {
         }
     }
 
-    if(mem.tics_without_energy === undefined){
-        mem.tics_without_energy = 0;
-    }
+    // if(mem.tics_without_energy === undefined){
+    //     mem.tics_without_energy = 0;
+    // }
 
-    if(this.energy === 0){
-        mem.tics_without_energy++;
-    } else {
-        mem.tics_without_energy = 0;
-    }
+    // if(this.energy === 0){
+    //     mem.tics_without_energy++;
+    // } else {
+    //     mem.tics_without_energy = 0;
+    // }
 
 };
 
@@ -113,17 +106,11 @@ Creep.prototype.replaced = function(replaced) {
     return this.memory.replaced;
 };
 
-// // harvesters
-// Creep.prototype.energySourceId = function(id) {
-//     if (id !== void 0) {
-//         this.memory.energy_sorce_id = id;
-//     }
-//     return this.memory.energy_sorce_id;
-// };
+// if this creep is at or close enough to its assigned flag
+Creep.prototype.atFlag = function(value) {
+    if (value !== void 0) {
+        this.memory.at_flag = value;
+    }
+    return this.memory.at_flag;
+};
 
-// Creep.prototype.energySource = function(obj) {
-//     if (obj !== void 0) {
-//         this.energySourceId(obj.id);
-//     }
-//     return Game.getObjectById(this.energySourceId());
-// };

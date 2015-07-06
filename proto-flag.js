@@ -44,7 +44,7 @@ Flag.prototype.guardRadius = function(value) {
     } else if(this.memory.guard_radius === undefined){
         this.memory.guard_radius = 10;
     }
-    return this.memory.guard_max;
+    return this.memory.guard_radius;
 };
 
 Flag.prototype.guards = function() {
@@ -89,7 +89,6 @@ Flag.prototype.sourceId = function(id) {
     }
     return this.memory.source_id;
 };
-
 
 Flag.prototype.source = function(source) {
     if(this.memory.role !== 'source'){
@@ -161,5 +160,46 @@ Flag.prototype.getCreepIdleSlots = function() {
 
     return 0;
 
+};
+
+
+// healer flag
+
+Flag.prototype.healerMax = function(value) {
+    if(this.memory.role !== 'healer'){
+        return false;
+    }
+    if (value !== undefined) {
+        this.memory.healer_max = value;
+    } else if(this.memory.healer_max === undefined){
+        this.memory.healer_max = 3;
+    }
+    return this.memory.healer_max;
+};
+
+Flag.prototype.healerCount = function() {
+    if(this.memory.role !== 'healer'){
+        return false;
+    }
+    var jobs = this.targetOfJobs(function(job){
+        if(job){
+            return job.type() === 'healer';
+        }
+        return false;
+    });
+    return jobs.length;
+};
+
+// heal targets within radius
+Flag.prototype.healerRadius = function(value) {
+    if(this.memory.role !== 'healer'){
+        return false;
+    }
+    if (value !== undefined) {
+        this.memory.healer_radius = value;
+    } else if(this.memory.healer_radius === undefined){
+        this.memory.healer_radius = 10;
+    }
+    return this.memory.healer_max;
 };
 

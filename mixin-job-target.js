@@ -9,6 +9,7 @@ var targetOfJobIds = function() {
     return jobTargets[this.id];
 };
 
+// get jobs this object is the target of
 var targetOfJobs = function(filter) {
 
     var ids = this.targetOfJobIds();
@@ -21,6 +22,7 @@ var targetOfJobs = function(filter) {
     return result;
 };
 
+// add a job id this object is the target of
 var setTargetOfJob = function(jobId) {
     var jobIds = this.targetOfJobIds();
     // prevent duplicates
@@ -29,6 +31,7 @@ var setTargetOfJob = function(jobId) {
     }
 };
 
+// remove a job id this object is the target of
 var removeTargetOfJob = function(jobId) {
     var jobIds = this.targetOfJobIds();
 
@@ -38,11 +41,13 @@ var removeTargetOfJob = function(jobId) {
     }
 };
 
+// check if object is the target of job id
 var isTargetOfJobId = function(jobId) {
     var jobTargets = this.room.jobTargets();
     return jobTargets.indexOf(jobId) !== -1;
 };
 
+// check if object is the target of job with type
 var isTargetOfJobType = function(type) {
     var ids = this.targetOfJobIds();
     for(var i = ids.length - 1; i >= 0; i--){
@@ -52,7 +57,9 @@ var isTargetOfJobType = function(type) {
             if (job.type() === type) {
                 return true;
             }
-        } else {
+        }
+        // cleanup invalid jobs
+        else {
             ids.splice(1, i);
         }
     }
@@ -60,6 +67,7 @@ var isTargetOfJobType = function(type) {
     return false;
 };
 
+// get the number of jobs object is the target of with type
 var targetOfJobTypeCount = function(type) {
     var ids = this.targetOfJobIds();
     var count = 0;
@@ -70,7 +78,9 @@ var targetOfJobTypeCount = function(type) {
             if (job.type() === type) {
                 count++;
             }
-        } else {
+        }
+        // cleanup invalid jobs
+        else {
             ids.splice(1, i);
         }
     }

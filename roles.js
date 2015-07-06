@@ -6,6 +6,7 @@ var roles = {
     harvester: {},
     tech: {},
     upgrader: {},
+    healer: {},
 };
 
 module.exports = roles;
