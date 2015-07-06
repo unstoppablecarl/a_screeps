@@ -41,9 +41,11 @@ var job_move_to_flag = {
         }
 
         if(
-            settings.no_path_count > 3 ||
             atTargetPos ||
-            creep.pos.getRangeTo(target) < 5
+            (
+                settings.no_path_count > 3 &&
+                creep.pos.getRangeTo(target) < 5
+            )
         ){
             creep.room.jobList().add({
                 type: 'standby',
