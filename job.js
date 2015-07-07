@@ -3,9 +3,14 @@
 var jobHandlers = require('job-all');
 
 var Job = function Job(room, memory) {
-
+    /**
+     * memory.type required
+     * memory.role required
+     * memory.target required
+     *
+     */
     this.room = room;
-    // keep ref to task memory memory object
+
     var source = memory.source;
     var target = memory.target;
 
@@ -14,6 +19,7 @@ var Job = function Job(room, memory) {
 
     memory.settings = memory.settings || {};
 
+    // keep ref to task memory memory object
     this.memory = memory;
 
     if(source && source.id){
@@ -23,6 +29,8 @@ var Job = function Job(room, memory) {
     if(target && target.id){
         this.target(target);
     }
+
+    this._handler = jobHandlers[memory.type];
 
 };
 
@@ -117,11 +125,15 @@ Job.prototype = {
     },
 
     handler: function() {
-        return jobHandlers[this.memory.type];
+        return this._handler;
     },
 
     settings: function() {
         return this.memory.settings;
+    },
+
+    allocationSettings: function(){
+        return this.memory.allocation_settings;
     },
 
     priority: function(value) {
@@ -180,12 +192,14 @@ Job.prototype = {
         return false;
     },
 
+    // start this job and set references
     start: function(){
         var source = this.source();
         var handler = this.handler();
 
         if(!source){
             console.log('ERROR trying to start task without source');
+            return;
         }
 
         source.say(this.type());
@@ -221,6 +235,7 @@ Job.prototype = {
     //     this.active(false);
     // },
 
+    // end this job and remove it and references
     end: function() {
 
         var source = this.source();
@@ -237,6 +252,7 @@ Job.prototype = {
         this.room.jobList().remove(this.memory.id);
     },
 
+    // check if this job is valid or should be removed
     valid: function(){
         // without target
         if(!this.target()){
@@ -250,6 +266,7 @@ Job.prototype = {
         return true;
     },
 
+    // how many game ticks since this job was created
     age: function(){
         return Game.time - this.memory.created_at;
     },

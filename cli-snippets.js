@@ -22,6 +22,7 @@ require('proto-all'); Game.rooms.sim.constructionSites();
 require('proto-all'); Game.rooms.sim.populationReport();
 
 require('proto-all');  Game.rooms.sim.roleCountMax('tech', 5);
+require('proto-all');  Game.rooms.sim.roleCountMax('carrier', 5);
 
 
 Game.flags.Idle1.memory.role = 'idle';

@@ -4,9 +4,7 @@
 // but manning its assigned flag/destination
 var job_standby = {
     name: 'standby',
-    act: function(creep, job) {
-
-    },
+    act: false,
 };
 
 module.exports = job_standby;

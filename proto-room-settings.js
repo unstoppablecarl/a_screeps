@@ -1,12 +1,13 @@
 'use strict';
 
 var defaultRepairPriority = {};
-defaultRepairPriority[STRUCTURE_EXTENSION] = 0.95;
-defaultRepairPriority[STRUCTURE_ROAD] = 0.9;
-defaultRepairPriority[STRUCTURE_LINK] = 0.8;
-defaultRepairPriority[STRUCTURE_RAMPART] = 0.6;
-defaultRepairPriority[STRUCTURE_WALL] = 0.5;
+defaultRepairPriority[STRUCTURE_RAMPART] = 0.9;
+defaultRepairPriority[STRUCTURE_EXTENSION] = 0.8;
+defaultRepairPriority[STRUCTURE_LINK] = 0.7;
+defaultRepairPriority[STRUCTURE_WALL] = 0.6;
+defaultRepairPriority[STRUCTURE_ROAD] = 0.5;
 
+// priority of repairing structures (0-1)
 Room.prototype.repairPriority = function(structure, priority) {
     if (!this.memory.repair_priority) {
         this.memory.repair_priority = defaultRepairPriority;
@@ -26,7 +27,7 @@ defaultRepairStartThreshold[STRUCTURE_LINK] = 0.8;
 defaultRepairStartThreshold[STRUCTURE_RAMPART] = 0.95;
 defaultRepairStartThreshold[STRUCTURE_WALL] = 0.95;
 
-// the percent damage a structure must have to begin repairs
+// the percent hp a structure must have less than to begin repairs
 Room.prototype.repairStartThreshold = function(structure, threshold) {
     if (!this.memory.repair_start_threshold) {
         this.memory.repair_start_threshold = defaultRepairStartThreshold;

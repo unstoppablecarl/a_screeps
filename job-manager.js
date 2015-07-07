@@ -117,9 +117,9 @@ JobManager.prototype = {
 
                 var type = s.structureType;
                 var threshold = room.repairStartThreshold(type);
-                var damagePercent = s.hits / s.hitsMax;
+                var hitPercent = s.hits / s.hitsMax;
 
-                return damagePercent < threshold;
+                return hitPercent < threshold;
             }
             return false;
         });
@@ -128,9 +128,9 @@ JobManager.prototype = {
             if(road.hits < road.hitsMax && !road.isTargetOfJobType('repair')){
                 var type = road.structureType;
                 var threshold = room.repairStartThreshold(type);
-                var damagePercent = road.hits / road.hitsMax;
+                var hitPercent = road.hits / road.hitsMax;
 
-                return damagePercent < threshold;
+                return hitPercent < threshold;
             }
 
             return false;
@@ -164,9 +164,13 @@ JobManager.prototype = {
 
     getUpgradeJobs: function() {
         var controller = this.room.controller;
-        if(!controller || controller.isTargetOfJobType('upgrade_room_controller')){
+        if(!controller){
             return [];
         }
+
+        var roleMax = this.room.roleMax('upgrader');
+
+         || controller.isTargetOfJobType('upgrade_room_controller')
         return [{
             role: 'upgrader',
             type: 'upgrade_room_controller',

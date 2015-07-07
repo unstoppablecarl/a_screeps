@@ -1,6 +1,6 @@
 'use strict';
 
-var task = {
+var job_upgrade_room_controller = {
     name: 'upgrade_room_controller',
     act: function(creep, job){
         var target = job.target();
@@ -29,4 +29,4 @@ var task = {
     },
 };
 
-module.exports = task;
+module.exports = job_upgrade_room_controller;
