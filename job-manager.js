@@ -9,35 +9,44 @@ var JobManager = function JobManager(room) {
 JobManager.prototype = {
     constructor: JobManager,
 
+    getCarrierCountMax: function(){
+
+        var total = 2;
+
+        this.room.flags(function(flag){
+            return flag.role() === 'source';
+        }).forEach(function(flag){
+            total += flag.carrierCountMax();
+        });
+
+        this.room.creeps(function(creep){
+            return !creep.idle() && creep.role() === 'tech';
+        });
+    },
+
     getReplacementJobs: function() {
 
         // @TODO base threshold on distance from spawn
         var threshold = this.room.creepReplaceThreshold();
 
-        // @TODO exclude unused, something more advanced than just checking idle
+        // @TODO exclude unused
+        // something more advanced than just checking .idle() ?
         var creeps = this.room.creeps(function(creep) {
 
             if(creep.idle()){
                 return false;
             }
 
-            return creep.ticksToLive < threshold && !creep.replaced() && !creep.isTargetOfJobType('replace');
+            return (
+                creep.ticksToLive < threshold && // close enough to death to be replaced
+                !creep.replaced() && // already been replaced
+                !creep.isTargetOfJobType('replace') // already assigned a replace job
+            );
         });
 
         var room = this.room;
-        // assume all replacement jobs will trigger spawning of a new creep
-        return creeps.filter(function(creep){
-            var role = creep.role();
-            var roleCountMax = room.roleCountMax(role);
-            // unlimited if not set
-            if(!_.isNumber(roleCountMax)){
-                return true;
-            }
 
-            var roleCount = room.roleCount(role);
-            return roleCount < roleCountMax;
-
-        }).map(function(creep) {
+        return creeps.map(function(creep) {
             return {
                 target: creep,
                 type: 'replace',
@@ -60,7 +69,7 @@ JobManager.prototype = {
 
             var allocatedHarvestWork = 0;
             var allocatedCreepCount = 0;
-            var havesterCountMax = flag.havesterCountMax();
+            var harvesterCountMax = flag.harvesterCountMax();
 
             var maxedWorkCreep;
             var nonMaxedCreepJobs = [];
@@ -88,14 +97,14 @@ JobManager.prototype = {
 
             // console.log(flag);
             // console.log('allocatedCreepCount', allocatedCreepCount);
-            // console.log('havesterCountMax', havesterCountMax);
+            // console.log('harvesterCountMax', harvesterCountMax);
             // console.log('allocatedHarvestWork', allocatedHarvestWork);
 
-            // console.log(allocatedCreepCount < havesterCountMax, allocatedHarvestWork < 5);
+            // console.log(allocatedCreepCount < harvesterCountMax, allocatedHarvestWork < 5);
 
 
             // max 5 work body parts allocated
-            return allocatedCreepCount < havesterCountMax && allocatedHarvestWork < 5;
+            return allocatedCreepCount < harvesterCountMax && allocatedHarvestWork < 5;
         }).map(function(flag){
             return {
                 role: 'harvester',
@@ -170,7 +179,7 @@ JobManager.prototype = {
 
         var roleMax = this.room.roleMax('upgrader');
 
-         || controller.isTargetOfJobType('upgrade_room_controller')
+         // || controller.isTargetOfJobType('upgrade_room_controller')
         return [{
             role: 'upgrader',
             type: 'upgrade_room_controller',
@@ -201,7 +210,12 @@ JobManager.prototype = {
     getEnergyCollectJobs: function() {
         var minEnergySpawn = this.room.energyPileThresholdMin();
 
-        return this.room.energyPiles().filter(function(pile){
+        var energyPiles = this.room.energyPiles();
+        var carrierCount = this.room.roleCount('carrier');
+        if(carrierCount > energyPiles.length){
+
+        }
+        return energyPiles.filter(function(pile){
             // one job per pile over the limit or with no collectors assigned
             return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
         }).map(function(pile){
@@ -477,7 +491,7 @@ JobManager.prototype = {
 
     allocateJobToSpawn: function(job) {
         var spawns = this.room.availableSpawns();
-        if(!spawns|| !spawns.length){
+        if(!spawns || !spawns.length){
             return false;
         }
         var role = job.role();
@@ -485,6 +499,7 @@ JobManager.prototype = {
         var target = job.target();
         var maxCreepCost;
         var spawn = spawns[0];
+        var room = this.room;
         // order spawns by closest
         // un tested
         // if(spawns.length > 1){
@@ -496,18 +511,24 @@ JobManager.prototype = {
         //     }
         // }
 
+        var roleCountFilter;
 
-        var roleCount = this.room.roleCount(role);
-        var roleCountMax = this.room.roleCountMax(role);
-
-        if(roleCount >= roleCountMax){
-            return false;
+        if(type === 'replace'){
+            var creepReplaceThreshold = this.room.creepReplaceThreshold();
+            // exclude creeps being replaced from count when getting count
+            roleCountFilter = function(creep){
+                return (
+                    creep.ticksToLive > creepReplaceThreshold && // not close enough to death to be replaced
+                    !creep.replaced() && // not already been replaced
+                    !creep.isTargetOfJobType('replace') // not already assigned a replace job
+                );
+            };
         }
 
-        if(role === 'carrier' && type === 'energy_collect' && target){
-            if(target.energy < this.room.energyPileThresholdSpawn()){
-                return false;
-            }
+        var roleCount = this.room.roleCount(role, roleCountFilter);
+        var roleCountMax = this.room.roleCountMax(role);
+        if(roleCount >= roleCountMax){
+            return false;
         }
 
         // if there are no harvesters spawn whatever type of harvester possible
@@ -536,10 +557,7 @@ JobManager.prototype = {
             return;
         }
 
-         var result = spawn.spawnCreep(body, memory);
-        // console.log('spawn creep', result, body, memory);
-
-        // var result = spawn.canCreateCreep(body, memory);
+        var result = spawn.spawnCreep(body, memory);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
             result === ERR_NAME_EXISTS ||
@@ -745,7 +763,6 @@ JobManager.prototype = {
             }
         });
     }
-
 };
 
 

@@ -22,6 +22,7 @@ Flag.prototype.guardMax = function(value) {
     return this.memory.guard_max;
 };
 
+// number of guards assigned to this flag
 Flag.prototype.guardCount = function() {
     if(this.memory.role !== 'guard'){
         return false;
@@ -36,6 +37,7 @@ Flag.prototype.guardCount = function() {
     return jobs.length;
 };
 
+// radius from flag to attack enemies within
 Flag.prototype.guardRadius = function(value) {
     if(this.memory.role !== 'guard'){
         return false;
@@ -48,6 +50,7 @@ Flag.prototype.guardRadius = function(value) {
     return this.memory.guard_radius;
 };
 
+// get an array of assigned guards
 Flag.prototype.guards = function() {
     if(this.memory.role !== 'guard'){
         return false;
@@ -63,7 +66,7 @@ Flag.prototype.guards = function() {
     });
 };
 
-// overrides base priority (0-1) for this flag only
+// overrides base job priority (0-1) for this flag only
 Flag.prototype.guardPriority = function(priority) {
     if(this.memory.role !== 'guard'){
         return false;
@@ -73,8 +76,6 @@ Flag.prototype.guardPriority = function(priority) {
     }
     return this.memory.guard_priority;
 };
-
-
 
 // source
 Flag.prototype.sourceId = function(id) {
@@ -102,7 +103,8 @@ Flag.prototype.source = function(source) {
     return Game.getObjectById(this.sourceId());
 };
 
-Flag.prototype.havesterCountMax = function(value) {
+// the max number of harvesters that can be assigned to this source
+Flag.prototype.harvesterCountMax = function(value) {
     if(this.memory.role !== 'source'){
         return false;
     }
@@ -113,6 +115,19 @@ Flag.prototype.havesterCountMax = function(value) {
         this.memory.harvester_count_max = value;
     }
     return this.memory.harvester_count_max;
+};
+
+Flag.prototype.carrierCountMax = function(value) {
+    if(this.memory.role !== 'source'){
+        return false;
+    }
+    if(this.memory.carrier_count_max === undefined){
+        this.memory.carrier_count_max = 3;
+    }
+    if (value !== undefined) {
+        this.memory.carrier_count_max = value;
+    }
+    return this.memory.carrier_count_max;
 };
 
 
@@ -164,7 +179,6 @@ Flag.prototype.getCreepIdleSlots = function() {
 
 };
 
-
 // healer flag
 
 Flag.prototype.healerMax = function(value) {
@@ -179,6 +193,7 @@ Flag.prototype.healerMax = function(value) {
     return this.memory.healer_max;
 };
 
+// current number of healers at this flag
 Flag.prototype.healerCount = function() {
     if(this.memory.role !== 'healer'){
         return false;
@@ -204,4 +219,15 @@ Flag.prototype.healerRadius = function(value) {
     }
     return this.memory.healer_max;
 };
+
+// generic replacement ???
+// Flag.prototype.creepRole = function(role){};
+// Flag.prototype.creeps = function(filter){};
+// Flag.prototype.creepCount = function(){};
+// Flag.prototype.creepMax = function(value){};
+//
+// Flag.prototype.priority = function(value){};
+
+// // heal / attack range
+// Flag.prototype.activeRadius = function(role){};
 

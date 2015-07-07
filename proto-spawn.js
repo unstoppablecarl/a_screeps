@@ -16,7 +16,6 @@ Spawn.prototype.spawnCreep = function(body, memory) {
         if(result === ERR_NOT_ENOUGH_ENERGY){
             // do nothing
             return result;
-            // result = 'ERR_NOT_ENOUGH_ENERGY';
         }
         else if(result === ERR_NOT_OWNER){
             error = 'ERR_NOT_OWNER';
@@ -45,9 +44,8 @@ Spawn.prototype.isBusy = function(value){
     if(this.spawning !== null){
         return true;
     }
-    if (value !== void 0) {
+    if (value !== undefined) {
         this.busy = value;
     }
     return this.busy;
-
 };

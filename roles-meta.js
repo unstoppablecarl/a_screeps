@@ -28,6 +28,18 @@ var roles_meta = {
         return maxMatchBody;
     },
 
+
+/*
+part costs
+MOVE:           50
+WORK:           100
+CARRY:          50
+ATTACK:         80
+RANGED_ATTACK:  150
+HEAL:           200
+TOUGH:          10
+
+ */
     roles: {
         harvester: {
             bodies: [

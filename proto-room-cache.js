@@ -2,9 +2,7 @@
 
 // functions starting with 'get' are cached values with a forceRefresh param
 
-
 Room.prototype.getIdleFlagIds = function(forceRefresh){
-
     if(forceRefresh || this.memory.idle_flag_ids === undefined){
         this.memory.idle_flags_ids = this.flags(function(flag){
             return flag.role() === 'idle';
@@ -25,7 +23,6 @@ Room.prototype.getIdleFlags = function(forceRefresh){
     }
     return this._idle_flags;
 };
-
 
 Room.prototype.getGuardFlagIds = function(forceRefresh){
 
