@@ -42,6 +42,7 @@ TOUGH:          10
  */
     roles: {
         harvester: {
+            needs_energy_delivered: false,
             bodies: [
                 [
                     CARRY,
@@ -72,6 +73,7 @@ TOUGH:          10
             ]
         },
         upgrader: {
+            needs_energy_delivered: false,
             bodies: [
                 [
                     CARRY,
@@ -84,24 +86,37 @@ TOUGH:          10
                     MOVE
                 ],
                 [
-                    CARRY,
+                    CARRY, CARRY,
+                    WORK, WORK,
+                    MOVE
+                ],
+                [
+                    CARRY, CARRY,
                     WORK, WORK, WORK,
                     MOVE
                 ],
-                // [
-                //     CARRY,
-                //     WORK, WORK, WORK, WORK,
-                //     MOVE
-                // ],
 
-                // [
-                //     CARRY,
-                //     WORK, WORK, WORK, WORK, WORK,
-                //     MOVE
-                // ],
+                [
+                    CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK,
+                    MOVE
+                ],
+
+                [
+                    CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK,
+                    MOVE
+                ],
+
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK,
+                    MOVE
+                ],
             ]
         },
         tech: {
+            needs_energy_delivered: true,
             bodies: [
                 [
                     CARRY,
@@ -136,6 +151,7 @@ TOUGH:          10
             ]
         },
         carrier: {
+            needs_energy_delivered: false,
             bodies: [
                 [
                     CARRY,
@@ -164,6 +180,7 @@ TOUGH:          10
             ]
         },
         guard: {
+            needs_energy_delivered: false,
             bodies: [
                 [
                     TOUGH,
@@ -188,6 +205,7 @@ TOUGH:          10
             ]
         },
         healer: {
+            needs_energy_delivered: true,
             bodies: [
                 [
                     TOUGH,
@@ -201,6 +219,27 @@ TOUGH:          10
                 ],
             ]
         },
+        rampart_defender: {
+            needs_energy_delivered: false,
+            bodies: [
+                [
+                    MOVE,
+                    ATTACK, ATTACK,
+                ],
+                [
+                    MOVE,
+                    ATTACK, ATTACK, ATTACK,
+                ],
+                [
+                    MOVE,
+                    ATTACK, ATTACK, ATTACK, ATTACK,
+                ],
+                [
+                    MOVE, MOVE,
+                    ATTACK, ATTACK, ATTACK, ATTACK, ATTACK,
+                ],
+            ]
+        }
     },
 };
 

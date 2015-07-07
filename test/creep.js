@@ -65,8 +65,18 @@ describe('Creep', function() {
             creep.memory.source_of_job_id = 99;
             creep.clearJob();
             assert.deepEqual(undefined, creep.memory.source_of_job_id);
+        });
 
+        it('creep.replaced()', function() {
+            var creep = new Creep();
 
+            assert.deepEqual(undefined, creep.replaced());
+
+            creep.replaced(true);
+            assert.deepEqual(true, creep.replaced());
+
+            creep.replaced(false);
+            assert.deepEqual(undefined, creep.replaced());
         });
 
         it('creep.idle()', function() {
@@ -98,42 +108,38 @@ describe('Creep', function() {
             assert(creep.idle() === true);
         });
 
-        // it('creep.energySourceId()', function() {
-        //     var creep = new Creep();
+        it('creep.roleNeedsEnergy()', function() {
+            var creep = new Creep();
 
-        //     assert.deepEqual(undefined, creep.energySourceId());
+            creep.role('harvester');
+            assert.deepEqual(false, creep.roleNeedsEnergy());
 
-        //     creep.energySourceId(1);
-        //     assert.deepEqual(1, creep.energySourceId());
-
-        //     creep.energySourceId(false);
-        //     assert.deepEqual(false, creep.energySourceId());
+            creep.role('tech');
+            assert.deepEqual(true, creep.roleNeedsEnergy());
 
 
-        // });
+            creep.role('xyz');
+            assert.deepEqual(undefined, creep.roleNeedsEnergy());
 
-        // it('creep.energySource()', function() {
+        });
+
+        it('creep.hurtLastTick()', function() {
+            var creep = new Creep();
 
 
-        //     var creep = new Creep();
+            creep.hits = 5;
+            creep.memory.prev_hits = 4;
+            assert.deepEqual(false, creep.hurtLastTick());
 
-        //     var prev = Game.getObjectById;
+            creep.hits = 5;
+            creep.memory.prev_hits = 5;
+            assert.deepEqual(false, creep.hurtLastTick());
 
-        //     Game.getObjectById = function(id){
-        //         if(id){
-        //             return 'obj#' + id;
-        //         }
-        //     }
-        //     assert.deepEqual(undefined, creep.energySource());
+            creep.hits = 5;
+            creep.memory.prev_hits = 6;
+            assert.deepEqual(true, creep.hurtLastTick());
+        });
 
-        //     creep.energySourceId(1);
-        //     assert.deepEqual('obj#1', creep.energySource());
-
-        //     // creep.energySourceId(false);
-        //     // assert(creep.energySourceId() === false);
-
-        //     Game.getObjectById = prev;
-        // });
     });
 
 });

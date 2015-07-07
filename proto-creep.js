@@ -1,6 +1,6 @@
 'use strict';
 
-var roles = require('roles');
+var rolesMeta = require('roles-meta');
 
 require('mixin-job-target')(Creep.prototype);
 
@@ -73,6 +73,14 @@ Creep.prototype.role = function(role) {
     return this.memory.role;
 };
 
+// if this creep's role needs energy delivered
+Creep.prototype.roleNeedsEnergy = function(){
+    var role = this.role();
+    if(rolesMeta.roles[role] !== undefined){
+        return rolesMeta.roles[role].needs_energy_delivered;
+    }
+};
+
 Creep.prototype.idle = function() {
     var job = this.job();
     var type;
@@ -106,7 +114,11 @@ Creep.prototype.clearJob = function() {
 
 // if this creep has been replaced because it is about to die
 Creep.prototype.replaced = function(replaced) {
-    if (replaced !== void 0) {
+    if (replaced !== undefined) {
+        // remove to save memory
+        if(!replaced){
+            replaced = undefined;
+        }
         this.memory.replaced = replaced;
     }
     return this.memory.replaced;

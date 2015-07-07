@@ -20,7 +20,7 @@ JobManager.prototype = {
         });
 
         this.room.creeps(function(creep){
-            return !creep.idle() && creep.role() === 'tech';
+            return !creep.idle() && creep.roleNeedsEnergy();
         });
     },
 
