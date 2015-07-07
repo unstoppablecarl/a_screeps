@@ -36,8 +36,8 @@ var Job = function Job(room, memory) {
 
 Job.prototype = {
     constructor: Job,
-
     // added to ease unit testing
+    Game: Game || {},
     getObjectById: Game.getObjectById || function(){},
 
     id: function(){
@@ -52,6 +52,7 @@ Job.prototype = {
         return this.memory.role;
     },
 
+    // source should only ever be set once
     source: function(value) {
         var current;
         if(
@@ -63,6 +64,13 @@ Job.prototype = {
         }
 
         if(value !== undefined){
+
+            if(current){
+                console.log('ERROR: job source can only be set once', current, value);
+                throw new Error('a');
+                return false;
+            }
+
             // make sure value is a creep object
             if(value.jobId === undefined){
                 value = this.getObjectById(value.id);
@@ -261,7 +269,7 @@ Job.prototype = {
 
     // how many game ticks since this job was created
     age: function(){
-        return Game.time - this.memory.created_at;
+        return this.Game.time - this.memory.created_at;
     },
 
     toString: function(){
