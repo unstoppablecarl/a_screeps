@@ -59,20 +59,7 @@ Room.prototype.buildPriority = function(structure, priority) {
     return buildPriority[structure] || 0;
 };
 
-// the maximum percentage of room energy that can be used to spawn a creep
-Room.prototype.maxCreepSpawnEnergyRatio = function(max) {
-    if (max !== void 0) {
-        this.memory.max_creep_spawn_energy_ratio = max;
-    }
-    var r = this.memory.max_creep_spawn_energy_ratio;
-    if (!r) {
-        this.memory.max_creep_spawn_energy_ratio = 0.5;
-    }
-    return this.memory.max_creep_spawn_energy_ratio;
-};
-
-
-// if creep.ticksToLive <= threshold it will be replaced
+// if creep.ticksToLive <= threshold it will be replaced (if eligible)
 Room.prototype.creepReplaceThreshold = function(value) {
     if (value !== void 0) {
         this.memory.creep_replace_threshold = value;
@@ -82,8 +69,7 @@ Room.prototype.creepReplaceThreshold = function(value) {
     return this.memory.creep_replace_threshold;
 };
 
-
-// min energy a pile must have to be considered
+// min energy a pile must have to be considered for collection
 Room.prototype.energyPileThresholdMin = function(value) {
     if (value !== void 0) {
         this.memory.energy_pile_threshold_min = value;
@@ -91,7 +77,7 @@ Room.prototype.energyPileThresholdMin = function(value) {
     return this.memory.energy_pile_threshold_min || 50;
 };
 
-// the size of an energy pile required to prompt spawning another collector
+// the size of an energy pile required to prompt spawning another carrier
 Room.prototype.energyPileThresholdSpawn = function(value) {
     if (value !== void 0) {
         this.memory.energy_pile_threshold_spawn = value;
@@ -99,7 +85,7 @@ Room.prototype.energyPileThresholdSpawn = function(value) {
     return this.memory.energy_pile_threshold_spawn || 1500;
 };
 
-// the max number of creeps with given role in this room
+// the hard max number of creeps with given role allowed in this room
 Room.prototype.roleCountMax = function(role, max) {
     if (this.memory.role_count_max === undefined) {
         this.memory.role_count_max = {};

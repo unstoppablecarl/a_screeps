@@ -124,18 +124,37 @@ Job.prototype = {
         return current;
     },
 
+    // the handler of the job
     handler: function() {
         return this._handler;
     },
 
+    // general settings for job
     settings: function() {
         return this.memory.settings;
     },
 
+    // settings related to how this job can be allocated
     allocationSettings: function(){
+        /*
+        {
+            allocate_to: null,
+                // string|mixed
+                // if === 'spawn' job can only be allocated to spawn new creep
+                // if === 'existing' job can only be allocated to existing creeps
+                // if any other value will try to allocate to existing then to spawn new creep
+
+            harvester_work_parts_needed: null,
+                // number of harvester work parts needed for all harvesters at a source to add up to 5
+                // (the max productivity possible at one source)
+                // only used for 'harvest' type
+
+        }
+        */
         return this.memory.allocation_settings;
     },
 
+    // this job's priority on a scale from 0 to 1 where 1 is the highest priority
     priority: function(value) {
         if(value !== undefined){
             this.memory.priority = value;
@@ -143,6 +162,7 @@ Job.prototype = {
         return this.memory.priority;
     },
 
+    // if this job is actively being performed or pending allocation
     active: function(value){
         if(value !== undefined){
             this.memory.active = value;
@@ -150,6 +170,7 @@ Job.prototype = {
         return this.memory.active;
     },
 
+    // if the source of this job is being created
     sourcePendingCreation: function(value){
         if(value !== undefined){
             if(!value){
@@ -161,6 +182,7 @@ Job.prototype = {
         return this.memory.source_pending_creation;
     },
 
+    // the body of the source pending creation
     sourcePendingCreationBody: function(value){
         if(value !== undefined){
             if(!value){
@@ -205,35 +227,6 @@ Job.prototype = {
         source.say(this.type());
         this.active(true);
     },
-
-    // set as inactive, unset source, leave target, so job can be reassigned
-    // cancel: function() {
-    //     var type = this.type();
-    //     if(type === 'energy_collect'){
-    //         throw new Error('foo');
-    //     }
-    //     if(type === 'idle'){
-    //         console.log('type idle');
-    //         this.end();
-    //         return;
-    //     }
-    //     var jobId = this.memory.id;
-    //     var source = this.source();
-    //     var target = this.target();
-    //     var handler = this.handler();
-
-
-    //     if(source){
-    //         source.clearJob();
-
-    //         if(handler.cancel){
-    //             handler.cancel(source);
-    //         }
-    //     }
-
-    //     this.memory.source = undefined;
-    //     this.active(false);
-    // },
 
     // end this job and remove it and references
     end: function() {
@@ -284,8 +277,5 @@ Job.prototype = {
         ].join(' ');
     },
 };
-
-
-
 
 module.exports = Job;

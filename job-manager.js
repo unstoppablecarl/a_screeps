@@ -199,16 +199,15 @@ JobManager.prototype = {
 
     // primarily to trigger the creation of new carrier creeps as carrier creeps collect automatically
     getEnergyCollectJobs: function() {
-        var minEnergySpawn = this.room.energyPileThresholdSpawn();
+        var minEnergySpawn = this.room.energyPileThresholdMin();
 
         return this.room.energyPiles().filter(function(pile){
             // one job per pile over the limit or with no collectors assigned
             return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
         }).map(function(pile){
 
-
-
-            var existing_only = pile.energy < 1500;
+            // var existing_only = pile.energy < minEnergySpawn;
+            var existing_only = true;
             return {
                 role: 'carrier',
                 type: 'energy_collect',
