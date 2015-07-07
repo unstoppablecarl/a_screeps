@@ -74,7 +74,11 @@ Job.prototype = {
                 return false;
             }
 
-            if(current && current.id && current.id !== value.id){
+            if(
+                current &&
+                current.id &&
+                current.id !== value.id
+            ){
                 console.log('ERROR: job source can only be set once', current, value);
                 return false;
             }
@@ -115,8 +119,8 @@ Job.prototype = {
                 value = this.getObjectById(value.id);
             }
 
-            if(!value || (current && current.id === value.id)){
-                return;
+            if(!value || (current && current.id && current.id === value.id)){
+                return current;
             } else {
                 if(current){
                     current.removeTargetOfJob(this.memory.id);
@@ -126,7 +130,6 @@ Job.prototype = {
                 value.setTargetOfJob(this.memory.id);
                 current = value;
             }
-
 
         }
         return current;

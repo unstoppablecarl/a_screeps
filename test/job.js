@@ -207,8 +207,26 @@ describe('Job', function() {
             job.active(true);
             job.sourcePendingCreation(true);
 
+            job.getObjectById = function(id){
+                return {
+                    id: id,
+                    jobId: function(){},
+                    job: function(){
+                        return {};
+                    },
+                    setTargetOfJob: function(){},
+                    removeTargetOfJob: function(){},
+                };
+            };
+
+            job.target({id: 99});
+            job.sourcePendingCreation(false);
             assert.deepEqual(false, job.valid(), 'invalid when acive and !sourcePendingCreation && !source');
 
+            job.source({id: 22});
+            job.target({id: 99});
+            job.sourcePendingCreation(false);
+            assert.deepEqual(true, job.valid());
         });
 
 
@@ -243,18 +261,7 @@ describe('Job', function() {
         });
 
 
-        it('setting diferent source multiple times', function(){
-            var room = {};
-            var memory = {
-                id: 'JOB_ID',
-                source: {
-                    id: 22
-                }
-            };
-            var job = new Job(room, memory);
-            assert.deepEqual(false, job.source({id: 11}));
-            assert.deepEqual(undefined, job.source());
-        });
+
 
         describe('no prevJob', function() {
             var room = {};
@@ -267,11 +274,21 @@ describe('Job', function() {
                 }
             };
 
+            var sourceObj2 = {
+                id: 22,
+                job: function() {},
+                jobId: function(id) {
+                }
+            };
+
             before(function() {
                 jobId = undefined;
                 Job.prototype.getObjectById = function(id) {
                     if (id === 11) {
                         return sourceObj;
+                    }
+                    else if(id === 22){
+                        return sourceObj2;
                     }
                 };
             });
@@ -322,6 +339,20 @@ describe('Job', function() {
                 assert.deepEqual(jobId, job.id());
                 assert.deepEqual(sourceObj, job.source());
 
+            });
+
+            it('setting diferent source multiple times', function(){
+                var memory = {
+                    id: 'JOB_ID',
+                    source: {
+                        id: 11
+                    }
+                };
+
+                var job = new Job(room, memory);
+
+                assert.deepEqual(false, job.source({id: 22}));
+                // assert.deepEqual(sourceObj, job.source());
             });
 
         });
@@ -417,23 +448,36 @@ describe('Job', function() {
         });
 
         var room = {};
-            var jobId;
-            var targetObj = {
-                id: 11,
-                job: function() {},
-                jobId: function(id) {
-                    jobId = id;
+        var setTargetOfJobId;
+        var removeTargetOfJobId;
+        var targetObj = {
+            id: 11,
+            setTargetOfJob: function(id){
+                setTargetOfJobId = id;
+            },
+        };
+
+        var targetObj2 = {
+            id: 22,
+            setTargetOfJob: function(id){
+            },
+            removeTargetOfJob: function(id){
+                removeTargetOfJobId = id;
+            }
+        };
+
+        before(function() {
+            setTargetOfJobId = undefined;
+            removeTargetOfJobId = undefined;
+            Job.prototype.getObjectById = function(id) {
+                if (id === 11) {
+                    return targetObj;
+                }
+                else if(id === 22){
+                    return targetObj2;
                 }
             };
-
-            before(function() {
-                jobId = undefined;
-                Job.prototype.getObjectById = function(id) {
-                    if (id === 11) {
-                        return targetObj;
-                    }
-                };
-            });
+        });
 
 
         it('create not found', function() {
@@ -457,34 +501,91 @@ describe('Job', function() {
             assert.deepEqual(undefined, job.target());
         });
 
-        it('create with memory', function() {
+
+        describe('no prev target of job', function(){
 
             var room = {};
-            var memory = {
-                id: 'JOB_ID',
-                target: {
-                    id: 11,
-                }
-            };
-            var job = new Job(room, memory);
-            assert.deepEqual(targetObj, job.target());
+
+            it('create with memory', function() {
+                var memory = {
+                    id: 'JOB_ID',
+                    target: {
+                        id: 11,
+                    }
+                };
+                var job = new Job(room, memory);
+                assert.deepEqual(targetObj, job.target());
+                assert.deepEqual(setTargetOfJobId, job.id());
+
+            });
+
+            it('create with instance', function() {
+
+                var memory = {
+                    id: 'JOB_ID',
+                    target: targetObj
+                };
+                var job = new Job(room, memory);
+                assert.deepEqual(targetObj, job.target());
+                assert.deepEqual(setTargetOfJobId, job.id());
+            });
+
+
+            it('set with memory', function() {
+
+                var memory = {
+                    id: 'JOB_ID',
+                };
+
+                var job = new Job(room, memory);
+                assert.deepEqual(targetObj, job.target({id: 11}));
+                assert.deepEqual(targetObj, job.target());
+                assert.deepEqual(setTargetOfJobId, job.id());
+
+            });
+
+            it('set with instance', function() {
+
+                var memory = {
+                    id: 'JOB_ID',
+                };
+
+                var job = new Job(room, memory);
+                assert.deepEqual(targetObj, job.target(targetObj));
+                assert.deepEqual(targetObj, job.target());
+                assert.deepEqual(setTargetOfJobId, job.id());
+
+            });
+
+            it('set same multiple times', function() {
+
+                var memory = {
+                    id: 'JOB_ID',
+                    target: targetObj
+                };
+
+                var job = new Job(room, memory);
+                assert.deepEqual(targetObj, job.target(targetObj));
+                assert.deepEqual(targetObj, job.target());
+                assert.deepEqual(setTargetOfJobId, job.id());
+            });
 
         });
 
-        it('create with instance', function() {
+        describe('prev target of job', function(){
 
+            it('set new target', function() {
 
-        });
+                var memory = {
+                    id: 'JOB_ID',
+                    target: targetObj2
+                };
 
-
-        it('set with memory', function() {
-
-
-        });
-
-        it('set with instance', function() {
-
-
+                var job = new Job(room, memory);
+                assert.deepEqual(targetObj, job.target(targetObj));
+                assert.deepEqual(targetObj, job.target());
+                assert.deepEqual(job.id(), removeTargetOfJobId);
+            });
         });
     });
 
