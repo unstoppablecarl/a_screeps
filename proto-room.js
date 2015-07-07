@@ -219,14 +219,29 @@ Room.prototype.energyPiles = function(){
     });
 };
 
-Room.prototype.containsHostiles = function(){
-    if(this.contains_hostiles === undefined){
-        var hostileCreeps = this.find(FIND_HOSTILE_CREEPS);
-        this.contains_hostiles = !!hostileCreeps.length;
+Room.prototype.hostiles = function(){
+    if(this._hostiles === undefined){
+        this._hostiles = this.find(FIND_HOSTILE_CREEPS);
     }
 
-    return this.contains_hostiles;
+    return this._hostiles;
 };
 
+Room.prototype.containsHostiles = function(){
+    return !!this.hostiles().length;
+};
+
+Room.prototype.reportHostiles = function(){
+    var count = {};
+    this.hostiles().filter(function(i) {
+        if(i.owner.username !== 'Source Keeper') {
+            count[i.owner.username] = count[i.owner.username] || 0;
+            count[i.owner.username]++;
+        }
+    });
+    for(var user in count) {
+        Game.notify(count[user] + ' enemies spotted: user ' + user + ' in room ' + this.name);
+    }
+};
 
 
