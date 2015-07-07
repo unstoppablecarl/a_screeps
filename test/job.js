@@ -605,12 +605,21 @@ describe('Job', function() {
             job: function() {},
             jobId: function() {},
             getActiveBodyparts: function(part){
+                console.log('getActiveBodyparts', part);
                 if(part === 'foo'){
                     return 3;
                 }
             }
         };
         var room = {};
+
+        before(function() {
+            Job.prototype.getObjectById = function(id) {
+                if (id === 11) {
+                    return sourceObj;
+                }
+            };
+        });
 
         it('none set', function() {
 
@@ -632,10 +641,25 @@ describe('Job', function() {
 
             var job = new Job(room, memory);
 
-            assert.deepEqual(targetObj, job.target(targetObj));
-            assert.deepEqual(targetObj, job.target());
-            assert.deepEqual(job.id(), removeTargetOfJobId);
+            assert.deepEqual(3, job.sourceActiveBodyparts('foo'));
+
         });
+
+        it('pending creation', function() {
+
+            var memory = {
+                id: 'JOB_ID',
+                source_pending_creation: true,
+                source_pending_creation_body: ['foo', 'bar', 'foo', 'foo', 'foo'],
+            };
+
+            var job = new Job(room, memory);
+
+            assert.deepEqual(4, job.sourceActiveBodyparts('foo'));
+
+
+        });
+
 
     });
 
