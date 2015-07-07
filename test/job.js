@@ -242,6 +242,20 @@ describe('Job', function() {
             assert.deepEqual(undefined, job.source());
         });
 
+
+        it('setting diferent source multiple times', function(){
+            var room = {};
+            var memory = {
+                id: 'JOB_ID',
+                source: {
+                    id: 22
+                }
+            };
+            var job = new Job(room, memory);
+            assert.deepEqual(false, job.source({id: 11}));
+            assert.deepEqual(undefined, job.source());
+        });
+
         describe('no prevJob', function() {
             var room = {};
             var jobId;
@@ -392,6 +406,7 @@ describe('Job', function() {
                 assert.deepEqual(sourceObj, job.source());
                 assert.deepEqual(true, prevJobEnded);
             });
+
         });
     });
 
