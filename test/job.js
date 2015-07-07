@@ -370,12 +370,13 @@ describe('Job', function() {
                 assert.deepEqual(true, prevJobEnded);
 
             });
+
             it('setting with memory', function(){
                 var memory = {
                     id: 'JOB_ID',
                 };
                 var job = new Job(room, memory);
-                assert.deepEqual(sourceObj, job.source({id: 11});
+                assert.deepEqual(sourceObj, job.source({id: 11}));
                 assert.deepEqual(jobId, job.id());
                 assert.deepEqual(sourceObj, job.source());
                 assert.deepEqual(true, prevJobEnded);
@@ -384,11 +385,9 @@ describe('Job', function() {
             it('setting with instance', function(){
                 var memory = {
                     id: 'JOB_ID',
-                    source: sourceObj
                 };
                 var job = new Job(room, memory);
-                job.source(sourceObj);
-
+                assert.deepEqual(sourceObj, job.source(sourceObj));
                 assert.deepEqual(jobId, job.id());
                 assert.deepEqual(sourceObj, job.source());
                 assert.deepEqual(true, prevJobEnded);

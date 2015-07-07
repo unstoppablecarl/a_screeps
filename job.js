@@ -65,17 +65,17 @@ Job.prototype = {
 
         if(value !== undefined){
 
-            if(current){
-                console.log('ERROR: job source can only be set once', current, value);
-                throw new Error('a');
-                return false;
-            }
 
             // make sure value is a creep object
             if(value.jobId === undefined){
                 value = this.getObjectById(value.id);
             }
             if(!value){
+                return false;
+            }
+
+            if(current && current.id && current.id !== value.id){
+                console.log('ERROR: job source can only be set once', current, value);
                 return false;
             }
 
