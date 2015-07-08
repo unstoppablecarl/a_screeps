@@ -78,7 +78,7 @@ var blockedTile = function(list) {
 };
 
 // counts tiles adjacent to position that are not blocked by terrain or structures
-RoomPosition.prototype.countEmptyTilesAround = function(blockedTileFunc) {
+RoomPosition.prototype.emptyAdjacentTileCount = function(blockedTileFunc) {
     if(blockedTileFunc === undefined){
         blockedTileFunc = blockedTile;
     }
