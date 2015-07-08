@@ -63,14 +63,19 @@ JobManager.prototype = {
 
     allocate: function(){
 
-        this.preAllocateEnergyStoreJobs();
-        this.preAllocateDefendJobs();
+        var idleCreepsByRole = this.getIdleCreepsByRole();
 
         var jobList = this.room.jobList();
         var pending = jobList.getPending();
         pending =  jobList.sortByPriority(pending);
 
-        var idleCreepsByRole = this.getIdleCreepsByRole();
+        var energyCollectJobs = pending.filter(function(job){
+            return job.type() === 'energy_collect';
+        });
+
+        this.preAllocateEnergyCollectJobs(energyCollectJobs, idleCreepsByRole);
+        this.preAllocateEnergyStoreJobs(idleCreepsByRole);
+        this.preAllocateDefendJobs();
 
         for (var i = 0; i < pending.length; i++) {
             var job = pending[i];
@@ -338,13 +343,84 @@ JobManager.prototype = {
         return result;
     },
 
-    preAllocateEnergyStoreJobs: function(){
+    preAllocateEnergyCollectJobs: function(jobs, idleCreepsByRole){
+        if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
+            return;
+        }
+
+        var creeps = idleCreepsByRole.carrier.filter(function(creep){
+            return creep.energy < creep.energyCapacity;
+        });
+
+        var minEnergyPile = this.room.energyPileThresholdMin();
+        var energyPiles = this.room.energyPiles();
+
+        return jobs.filter(function(job){
+
+            var collectionNeeded = job.getAllocationSetting('energy_collection_needed');
+            // if(!collectionNeeded){
+            //     return false;
+            // }
+
+            var pile = job.target();
+
+            // @TODO make sure this is the correct sort direction
+            var creeps = _.orderBy(creeps, function(creep){
+                return pile.pos.getRangeTo(creep);
+            });
+
+            creeps.forEach(function(creep){
+
+                if(collectionNeeded > 0){
+
+                    var collectableAmount = creep.energyCapacity - creep.energy;
+
+                    collectionNeeded -= collectableAmount;
+                    var priority = 0.9;
+
+                    if(pile){
+                        // move one decimal over
+                        // assume energy pile will never be more than 100000 energy
+                        priority += (pile.energy / 100000) * 0.1;
+                    }
+
+                    var index = idleCreepsByRole.carrier.indexOf(creep);
+                    idleCreepsByRole.carrier.splice(index, 1);
+
+                    this.room.jobList().add({
+                        role: 'carrier',
+                        type: 'energy_collect',
+                        source: creep,
+                        target: pile,
+                        priority: priority
+                    }).start();
+                }
+            });
+
+            if(collectionNeeded <= 0){
+                job.end();
+                return false;
+            }
+
+            var aSettings = job.allocationSettings() || {};
+            aSettings.energy_collection_needed = collectionNeeded;
+            job.allocationSettings(aSettings);
+
+            return true;
+        });
+    },
+
+    preAllocateEnergyStoreJobs: function(idleCreepsByRole){
+
+        if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
+            return;
+        }
         // fill room energy first
         // split energy jobs by energy amount
         var energyStoreAmount = this.room.roomEnergyCapacity() - this.room.roomEnergy();
         if(energyStoreAmount){
-            var creeps = this.room.creeps(function(creep){
-                return creep.role() === 'carrier' && creep.energy;
+            var creeps = idleCreepsByRole.carrier.filter(function(creep){
+                return creep.energy;
             });
 
             // allocate energy store tasks to creeps until full
@@ -357,11 +433,15 @@ JobManager.prototype = {
                 energyStoreAmount -= creep.energy;
                 // allocate creep to energy_store
 
+                var index = idleCreepsByRole.carrier.indexOf(creep);
+                idleCreepsByRole.carrier.splice(index, 1);
+
                 this.room.jobList().add({
                     role: 'carrier',
                     type: 'energy_store',
                     source: creep,
-                    target: this.room
+                    target: this.room,
+                    priority: 0.8,
                 }).start();
             }
         }

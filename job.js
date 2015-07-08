@@ -162,9 +162,23 @@ Job.prototype = {
 
             max_creep_cost: null,
                 // the max energy to spend on creating a creep for this job
+
+            energy_collection_needed: null,
+                // the energy that needs to be collected from an energy pile
         }
         */
         return this.memory.allocation_settings;
+    },
+
+    getAllocationSetting: function(key, defaultValue){
+        if(
+            this.memory.allocation_settings &&
+            this.memory.allocation_settings[key]
+        ){
+          return this.memory.allocation_settings[key];
+        } else {
+            return defaultValue;
+        }
     },
 
     // this job's priority on a scale from 0 to 1 where 1 is the highest priority

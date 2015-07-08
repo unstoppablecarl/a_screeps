@@ -55,32 +55,58 @@ var job_energy_collect = {
 
     },
 
+    // return only 1 job per energy pile
+    // to be broken into smaller jobs later
     getJobs: function(room) {
         var minEnergyPile = room.energyPileThresholdMin();
         var energyPiles = room.energyPiles();
 
-        return energyPiles.filter(function(pile){
-            // include energy piles already target of collect jobs
-            // correct number of carriers will be allocated / limited later
-            return pile.energy > minEnergyPile && !pile.isTargetOfJobType('energy_collect');
-        }).map(function(pile){
+        var jobs = [];
+
+        energyPiles.forEach(function(pile){
+
+            if(pile.energy < minEnergyPile){
+                return;
+            }
+
+            var energyToBeCollected = pile.targetOfJobs(function(job){
+                return (
+                    job.type() === 'energy_collect' &&
+                    job.source()
+                );
+            }).reduce(function(total, job){
+                var source = job.source();
+                return total + (source.energyCapacity - source.energy);
+            }, 0);
+
+            if(energyToBeCollected >= pile.energy){
+                return;
+            }
+
+            var energyCollectionNeeded = pile.energy - energyToBeCollected;
 
             var priority = 0.9;
 
             if(pile){
                 // move one decimal over
                 // assume energy pile will never be more than 100000 energy
-                priority += (pile.energy / 100000) * 0.1;
+                priority += (energyCollectionNeeded / 100000) * 0.1;
             }
 
-            return {
+            jobs.push({
                 role: 'carrier',
                 type: 'energy_collect',
                 target: pile,
-                priority: priority
-            };
+                priority: priority,
+                allocation_settings: {
+                    energy_collection_needed: energyCollectionNeeded
+                }
+            });
+
         });
-    },
+
+        return jobs;
+    }
 
 };
 

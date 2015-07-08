@@ -33,6 +33,8 @@ var job_energy_deliver = {
         }
     },
 
+    // return only 1 job per creep to deliver to,
+    // to be broken into smaller jobs later
     getJobs: function(room) {
 
         var jobs = [];
@@ -49,19 +51,16 @@ var job_energy_deliver = {
 
             var energyNeeded = creep.energyCapacity - creep.energy;
             var energyToBeDelivered = creep.targetOfJobs(function(job){
-
                 return (
                     job.type() === 'energy_deliver' &&
                     job.source()
                 );
-
             }).reduce(function(total, job){
 
                 return total + job.source().energy;
-
             }, 0);
 
-            energyNeeded -= energyToBeDelivered;
+            var energyDeliveryNeeded = energyNeeded - energyToBeDelivered;
 
             var priority = 0.6;
             priority += (1 - (creep.energy / creep.energyCapacity)) * 0.1;
@@ -72,7 +71,7 @@ var job_energy_deliver = {
                 target: creep,
                 priority: priority,
                 allocation_settings: {
-                    energy_needed: energyNeeded
+                    energy_delivery_needed: energyDeliveryNeeded
                 }
             });
         });

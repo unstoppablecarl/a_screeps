@@ -24,7 +24,7 @@ var targetOfJobs = function(filter) {
         }
         // cleanup invalid
         else {
-            ids.splice(1, i);
+            ids.splice(i, 1);
         }
     }
 
@@ -49,7 +49,7 @@ var removeTargetOfJob = function(jobId) {
 
     var index = jobIds.indexOf(jobId);
     if (index !== -1) {
-        jobIds.splice(1, index);
+        jobIds.splice(index, 1);
     }
 };
 
@@ -72,7 +72,7 @@ var isTargetOfJobType = function(type) {
         }
         // cleanup invalid jobs
         else {
-            ids.splice(1, i);
+            ids.splice(i, 1);
         }
     }
 
@@ -93,7 +93,7 @@ var targetOfJobTypeCount = function(type) {
         }
         // cleanup invalid jobs
         else {
-            ids.splice(1, i);
+            ids.splice(i, 1);
         }
     }
     return count;
