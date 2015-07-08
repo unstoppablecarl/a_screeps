@@ -21,7 +21,6 @@ Creep.prototype.act = function() {
             job.start();
         }
         mem.pending_creation = undefined;
-        mem.pending_creation_body = undefined;
     }
 
     if (job) {
@@ -37,7 +36,6 @@ Creep.prototype.act = function() {
         }
         mem.ticks_without_job++;
     }
-
 
     if(mem.ticks_without_job > 5){
         var idleFlag = this.pos.findClosestIdleFlag(role);

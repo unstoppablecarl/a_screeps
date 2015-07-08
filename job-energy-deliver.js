@@ -35,26 +35,49 @@ var job_energy_deliver = {
 
     getJobs: function(room) {
 
-        return room.creeps(function(creep){
+        var jobs = [];
+
+        room.creeps().forEach(function(creep){
             var role = creep.role();
-            return (
-                creep.roleNeedsEnergy() &&
-                creep.energy < creep.energyCapacity &&
-                // @TODO allocate multiple to same destination based on energy capacity vs assigned to be delivered
-                !creep.isTargetOfJobType('energy_deliver')
-            );
-        }).map(function(creep){
+
+            if(
+                !creep.roleNeedsEnergy() ||
+                creep.energy === creep.energyCapacity
+            ){
+                return;
+            }
+
+            var energyNeeded = creep.energyCapacity - creep.energy;
+            var energyToBeDelivered = creep.targetOfJobs(function(job){
+
+                return (
+                    job.type() === 'energy_deliver' &&
+                    job.source()
+                );
+
+            }).reduce(function(total, job){
+
+                return total + job.source().energy;
+
+            }, 0);
+
+            energyNeeded -= energyToBeDelivered;
 
             var priority = 0.6;
             priority += (1 - (creep.energy / creep.energyCapacity)) * 0.1;
 
-            return {
+            jobs.push({
                 role: 'carrier',
                 type: 'energy_deliver',
                 target: creep,
                 priority: priority,
-            };
+                allocation_settings: {
+                    energy_needed: energyNeeded
+                }
+            });
         });
+
+        return jobs;
     },
 };
 

@@ -14,7 +14,23 @@ if(room){
     _.each(room.creeps(), function(creep) {
         creep.act();
     });
-    room.act();
+
+    var jobManager = room.jobManager();
+    var jobList = room.jobList();
+
+    jobManager.update();
+    jobManager.allocate();
+    jobList.report();
+
+    if (Game.time % 5 === 0) {
+        jobList.cleanup();
+    }
+
+    if (Game.time % 20 === 0) {
+        jobManager.auditHarvesters();
+    }
+
+    room.reportHostiles();
 }
 
 // cleanup dead creeps from memory

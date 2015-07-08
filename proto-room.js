@@ -9,21 +9,7 @@ var JobManager = require('job-manager');
 
 Room.prototype.act = function() {
 
-    var jobManager = this.jobManager();
-    var jobList = this.jobList();
 
-    // jobManager.update();
-    // jobManager.allocate();
-
-    // jobList.report();
-
-    // if (Game.time % 5 === 0) {
-    //     jobList.cleanup();
-    // }
-
-    // if (Game.time % 20 === 0) {
-    //     jobManager.auditHarvesters();
-    // }
 
 };
 

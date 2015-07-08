@@ -21,32 +21,33 @@ var job_build = {
 
     },
     getJobs: function() {
+        var jobs = [];
+
         // @TODO assign multiple builders to single site if space permits
-        var sites = this.room.constructionSites(function(site){
+        var sites = this.room.constructionSites().forEach(function(site){
+            var currentCount = site.isTargetOfJobTypeCount('build');
+            var adjacentTiles = site.pos.adjacentEmptyTileCount();
+            if(currentCount < adjacentTiles){
+                var priority = 0.5;
 
-            return !site.isTargetOfJobType('build');
-        });
-
-        return sites.map(function(site){
-
-            var priority = 0.5;
-
-            if(site){
+                var allocationRatio = 1 - (currentCount / adjacentTiles);
                 var progress = site.progress / site.progressTotal;
                 var buildPriority = this.room.buildPriority(site.structureType);
                 // average
-                var buildJobPriority = (progress + buildPriority) / 2;
+                var buildJobPriority = (progress + buildPriority + allocationRatio) / 3;
                 // move one decimal over
                 priority += buildJobPriority * 0.1;
-            }
 
-            return {
-                role: 'tech',
-                type: 'build',
-                target: site,
-                priority: priority
-            };
+                jobs.push({
+                    role: 'tech',
+                    type: 'build',
+                    target: site,
+                    priority: priority
+                });
+            }
         });
+
+        return jobs;
     },
 };
 
