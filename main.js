@@ -18,9 +18,9 @@ if(room){
     var jobManager = room.jobManager();
     var jobList = room.jobList();
 
-    jobManager.update();
-    jobManager.allocate();
-    jobList.report();
+    // jobManager.update();
+    // jobManager.allocate();
+    // jobList.report();
 
     if (Game.time % 5 === 0) {
         jobList.cleanup();
@@ -30,7 +30,7 @@ if(room){
         jobManager.auditHarvesters();
     }
 
-    room.reportHostiles();
+    // room.reportHostiles();
 }
 
 // cleanup dead creeps from memory

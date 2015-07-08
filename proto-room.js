@@ -6,13 +6,6 @@ require('proto-room-cache');
 var JobList = require('job-list');
 var JobManager = require('job-manager');
 
-
-Room.prototype.act = function() {
-
-
-
-};
-
 Room.prototype.isRoom = true;
 
 Room.prototype.jobList = function() {
