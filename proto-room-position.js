@@ -57,7 +57,7 @@ var blockedTile = function(list) {
             tile.type === 'terrain' &&
             tile.terrain === 'wall'
         ) {
-            console.log('wall');
+            console.log(' - wall');
             return true;
         }
 
@@ -68,15 +68,16 @@ var blockedTile = function(list) {
             }
             else if(tile.structure.structureType === STRUCTURE_RAMPART){
                 if(!tile.structure.my){
-                    console.log('rampart');
+                    console.log(' - rampart');
                     return true;
                 }
             } else {
-                console.log('other structure');
+                console.log(' - other structure');
                 return false;
             }
         }
     }
+    console.log(' - clear');
     return false;
 };
 
