@@ -34,8 +34,8 @@ JobManager.prototype = {
         var energyDeliver = handlers.energy_deliver.getJobs(room);
         jobs = jobs.concat(energyDeliver);
 
-        var energyStore = handlers.energy_store.getJobs(room);
-        jobs = jobs.concat(energyStore);
+        // var energyStore = handlers.energy_store.getJobs(room);
+        // jobs = jobs.concat(energyStore);
 
         // var guard = handlers.guard.getJobs(room);
         // jobs = jobs.concat(guard);
@@ -85,7 +85,7 @@ JobManager.prototype = {
             var allocated;
 
             if(!allocateTo || allocateTo === 'existing'){
-                allocated = this.allocateJobToExisting(job);
+                allocated = this.allocateJobToExisting(job, idleCreepsByRole);
             }
 
             if(!allocated && (!allocateTo || allocateTo === 'spawn') && this.canAllocateJobToSpawn(job)){
