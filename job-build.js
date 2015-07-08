@@ -28,10 +28,23 @@ var job_build = {
         });
 
         return sites.map(function(site){
+
+            var priority = 0.5;
+
+            if(site){
+                var progress = site.progress / site.progressTotal;
+                var buildPriority = this.room.buildPriority(site.structureType);
+                // average
+                var buildJobPriority = (progress + buildPriority) / 2;
+                // move one decimal over
+                priority += buildJobPriority * 0.1;
+            }
+
             return {
                 role: 'tech',
                 type: 'build',
                 target: site,
+                priority: priority
             };
         });
     },

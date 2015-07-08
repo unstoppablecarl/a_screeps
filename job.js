@@ -160,6 +160,8 @@ Job.prototype = {
                 // (the max productivity possible at one source)
                 // only used for 'harvest' type
 
+            max_creep_cost: null,
+                // the max energy to spend on creating a creep for this job
         }
         */
         return this.memory.allocation_settings;

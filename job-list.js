@@ -38,6 +38,13 @@ JobList.prototype = {
             return !job.active() && job.type() !== 'idle' && (!filter || filter(job));
         });
     },
+
+    sortByPriority: function(jobs){
+        return _.sortByOrder(jobs, [function(job){
+            return job.priority();
+        }], [false]);
+    },
+
     all: function(filter){
         var out = [];
         for(var id in this.memory.jobs){

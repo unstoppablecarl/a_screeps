@@ -27,6 +27,30 @@ var job_upgrade_room_controller = {
         }
 
     },
+
+
+    getJobs: function(room) {
+        var controller = room.controller;
+        if(!controller){
+            return [];
+        }
+
+        var roleMax = room.roleCountMax('upgrader');
+
+        if(!roleMax){
+            var adjacentTiles = controller.pos.adjacentEmptyTileCount();
+            roleMax = room.roleCountMax('upgrader', adjacentTiles);
+        }
+
+        if(controller.targetOfJobTypeCount('upgrade_room_controller') < roleMax){
+            return [{
+                role: 'upgrader',
+                type: 'upgrade_room_controller',
+                target: controller,
+                priority: 0.1,
+            }];
+        }
+    },
 };
 
 module.exports = job_upgrade_room_controller;

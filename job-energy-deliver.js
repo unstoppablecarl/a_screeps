@@ -32,6 +32,30 @@ var job_energy_deliver = {
             }
         }
     },
+
+    getJobs: function(room) {
+
+        return room.creeps(function(creep){
+            var role = creep.role();
+            return (
+                creep.roleNeedsEnergy() &&
+                creep.energy < creep.energyCapacity &&
+                // @TODO allocate multiple to same destination based on energy capacity vs assigned to be delivered
+                !creep.isTargetOfJobType('energy_deliver')
+            );
+        }).map(function(creep){
+
+            var priority = 0.6;
+            priority += (1 - (creep.energy / creep.energyCapacity)) * 0.1;
+
+            return {
+                role: 'carrier',
+                type: 'energy_deliver',
+                target: creep,
+                priority: priority,
+            };
+        });
+    },
 };
 
 module.exports = job_energy_deliver;

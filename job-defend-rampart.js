@@ -30,6 +30,23 @@ var job_defend_rampart = {
             creep.attack(target);
             return;
         }
+
+        // @TODO check if rampart is destroyed and move to adjacent ramparts
+    },
+    getJobs: function(room){
+        return room.flags(function(flag){
+            return (
+                flag.role() === 'defend_rampart' &&
+                !flag.isTargetOfJobType('defend_rampart')
+            );
+        }).map(function(flag){
+            return {
+                role: 'defend_rampart',
+                type: 'defend_rampart',
+                target: flag,
+                priority: 0.7
+            };
+        });
     },
 };
 

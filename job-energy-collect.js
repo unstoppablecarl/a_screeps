@@ -54,6 +54,34 @@ var job_energy_collect = {
         }
 
     },
+
+    getJobs: function(room) {
+        var minEnergyPile = room.energyPileThresholdMin();
+        var energyPiles = room.energyPiles();
+
+        return energyPiles.filter(function(pile){
+            // include energy piles already target of collect jobs
+            // correct number of carriers will be allocated / limited later
+            return pile.energy > minEnergyPile;
+        }).map(function(pile){
+
+            var priority = 0.9;
+
+            if(pile){
+                // move one decimal over
+                // assume energy pile will never be more than 100000 energy
+                priority += (pile.energy / 100000) * 0.1;
+            }
+
+            return {
+                role: 'carrier',
+                type: 'energy_collect',
+                target: pile,
+                priority: priority
+            };
+        });
+    },
+
 };
 
 module.exports = job_energy_collect;
