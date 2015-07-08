@@ -93,20 +93,21 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(blockedTileFunc) {
     var spaces = 0;
 
     // top left
+    console.log('top left');
     if (!blockedTileFunc(tiles[y - 1][x - 1])) spaces++;
-    // top
+    console.log('top');
     if (!blockedTileFunc(tiles[y - 1][x]))     spaces++;
-    // top right
+    console.log('top right');
     if (!blockedTileFunc(tiles[y - 1][x + 1])) spaces++;
-    // left
+    console.log('left');
     if (!blockedTileFunc(tiles[y][x - 1]))     spaces++;
-    // right
+    console.log('right');
     if (!blockedTileFunc(tiles[y][x + 1]))     spaces++;
-    // bottom left
+    console.log('bottom left');
     if (!blockedTileFunc(tiles[y + 1][x - 1])) spaces++;
-    // bottom
+    console.log('bottom');
     if (!blockedTileFunc(tiles[y + 1][x]))     spaces++;
-    // bottom right
+    console.log('bottom right');
     if (!blockedTileFunc(tiles[y + 1][x + 1])) spaces++;
 
     return spaces;
