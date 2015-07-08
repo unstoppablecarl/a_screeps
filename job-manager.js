@@ -20,42 +20,42 @@ JobManager.prototype = {
     getJobs: function() {
         var handlers = jobHandlers;
         var jobs = [];
-
+        var room = this.room;
         // var attack = jobHandlers.attack.getJobs();
-        var build = handlers.build.getJobs();
+        var build = handlers.build.getJobs(room);
         jobs = jobs.concat(build);
 
-        var defendRampart = handlers.defend_rampart.getJobs();
+        var defendRampart = handlers.defend_rampart.getJobs(room);
         jobs = jobs.concat(defendRampart);
 
-        var energyCollect = handlers.energy_collect.getJobs();
+        var energyCollect = handlers.energy_collect.getJobs(room);
         jobs = jobs.concat(energyCollect);
 
-        var energyDeliver = handlers.energy_deliver.getJobs();
+        var energyDeliver = handlers.energy_deliver.getJobs(room);
         jobs = jobs.concat(energyDeliver);
 
-        var energyStore = handlers.energy_store.getJobs();
+        var energyStore = handlers.energy_store.getJobs(room);
         jobs = jobs.concat(energyStore);
 
-        // var guard = handlers.guard.getJobs();
+        // var guard = handlers.guard.getJobs(room);
         // jobs = jobs.concat(guard);
 
-        var harvest = handlers.harvest.getJobs();
+        var harvest = handlers.harvest.getJobs(room);
         jobs = jobs.concat(harvest);
 
-        // var moveToFlag = handlers.move_to_flag.getJobs();
+        // var moveToFlag = handlers.move_to_flag.getJobs(room);
         // jobs = jobs.concat(moveToFlag);
 
-        var repair = handlers.repair.getJobs();
+        var repair = handlers.repair.getJobs(room);
         jobs = jobs.concat(repair);
 
-        var replace = handlers.replace.getJobs();
+        var replace = handlers.replace.getJobs(room);
         jobs = jobs.concat(replace);
 
-        var standby = handlers.standby.getJobs();
+        var standby = handlers.standby.getJobs(room);
         jobs = jobs.concat(standby);
 
-        var upgrade = handlers.upgrade_room_controller.getJobs();
+        var upgrade = handlers.upgrade_room_controller.getJobs(room);
         jobs = jobs.concat(upgrade);
 
         return jobs;
