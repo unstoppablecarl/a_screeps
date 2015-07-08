@@ -62,7 +62,7 @@ var job_energy_collect = {
         return energyPiles.filter(function(pile){
             // include energy piles already target of collect jobs
             // correct number of carriers will be allocated / limited later
-            return pile.energy > minEnergyPile;
+            return pile.energy > minEnergyPile && !pile.isTargetOfJobType('energy_collect');
         }).map(function(pile){
 
             var priority = 0.9;
