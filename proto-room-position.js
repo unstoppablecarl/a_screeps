@@ -57,27 +57,30 @@ var blockedTile = function(list) {
             tile.type === 'terrain' &&
             tile.terrain === 'wall'
         ) {
-            console.log(' - wall');
             return true;
         }
 
         if(tile.type ==='structure'){
 
+            // road
             if(tile.structure.structureType === STRUCTURE_ROAD){
                 continue;
             }
-            else if(tile.structure.structureType === STRUCTURE_RAMPART){
-                if(!tile.structure.my){
-                    console.log(' - rampart');
-                    return true;
-                }
-            } else {
-                console.log(' - other structure');
-                return false;
+            // enemy rampart
+            else if(
+                tile.structure.structureType === STRUCTURE_RAMPART &&
+                !tile.structure.my
+            ){
+                return true;
+            }
+            // any other structure
+            else {
+
+                return true;
             }
         }
     }
-    console.log(' - clear');
+
     return false;
 };
 
