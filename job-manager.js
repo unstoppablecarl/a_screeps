@@ -243,6 +243,10 @@ JobManager.prototype = {
             roleCountMax = this.room.roleCountMax(role);
         }
 
+        if(!_.isNumber(roleCountMax)){
+            return true;
+        }
+
         if(type === 'replace'){
             var creepReplaceThreshold = this.room.creepReplaceThreshold();
             // exclude creeps being replaced from count when getting count
