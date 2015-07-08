@@ -19,157 +19,27 @@ JobManager.prototype = {
             total += flag.carrierCountMax();
         });
 
-        this.room.creeps(function(creep){
-            return !creep.idle() && creep.roleNeedsEnergy();
-        });
-    },
-
-    getReplacementJobs: function() {
-
-        // @TODO base threshold on distance from spawn
-        var threshold = this.room.creepReplaceThreshold();
-
-        // @TODO exclude unused
-        // something more advanced than just checking .idle() ?
-        var creeps = this.room.creeps(function(creep) {
-
-            if(creep.idle()){
-                return false;
-            }
-
+        var creepCount = this.room.creeps(function(creep){
             return (
-                creep.ticksToLive < threshold && // close enough to death to be replaced
-                !creep.replaced() && // already been replaced
-                !creep.isTargetOfJobType('replace') // already assigned a replace job
+                !creep.idle() &&
+                creep.roleNeedsEnergy() &&
+                !creep.replaced()
             );
-        });
+        }).length;
 
-        var room = this.room;
+        total += Math.floor(creepCount * 1.5);
 
-        return creeps.map(function(creep) {
-            return {
-                target: creep,
-                type: 'replace',
-                role: creep.role()
-            };
-        });
+        var roleMax = this.room.roleCountMax('carrier');
+
+        if(total > roleMax){
+            total = roleMax;
+        }
+        return total;
     },
 
-    getHarvestJobs: function() {
-        return this.room.flags(function(flag){
-            if(flag.role() !== 'source'){
-                return false;
-            }
-
-            var source = flag.source();
-
-            if(!source){
-                return false;
-            }
-
-            var allocatedHarvestWork = 0;
-            var allocatedCreepCount = 0;
-            var harvesterCountMax = flag.harvesterCountMax();
-
-            var maxedWorkCreep;
-            var nonMaxedCreepJobs = [];
-            var jobs = source.targetOfJobs().map(function(job){
-                if(job && job.type() === 'harvest'){
-
-                    var sourceWorkCount = job.sourceActiveBodyparts(WORK);
-
-                    if(sourceWorkCount === 5){
-                        maxedWorkCreep = sourceWorkCount;
-                    } else {
-                        nonMaxedCreepJobs.push(job);
-                    }
-                    allocatedHarvestWork += sourceWorkCount;
-                    allocatedCreepCount++;
-                }
-            });
-
-            // if maxed work creep, dismiss other harvesters
-            if(maxedWorkCreep){
-                nonMaxedCreepJobs.forEach(function(job){
-                    job.end();
-                });
-            }
-
-            // console.log(flag);
-            // console.log('allocatedCreepCount', allocatedCreepCount);
-            // console.log('harvesterCountMax', harvesterCountMax);
-            // console.log('allocatedHarvestWork', allocatedHarvestWork);
-
-            // console.log(allocatedCreepCount < harvesterCountMax, allocatedHarvestWork < 5);
-
-
-            // max 5 work body parts allocated
-            return allocatedCreepCount < harvesterCountMax && allocatedHarvestWork < 5;
-        }).map(function(flag){
-            return {
-                role: 'harvester',
-                type: 'harvest',
-                target: flag.source(),
-            };
-        });
 
 
 
-    },
-
-    getRepairJobs: function() {
-
-        var room = this.room;
-        var structures = this.room.structures(function(s){
-
-            if(s.hits < s.hitsMax && !s.isTargetOfJobType('repair')){
-
-                var type = s.structureType;
-                var threshold = room.repairStartThreshold(type);
-                var hitPercent = s.hits / s.hitsMax;
-
-                return hitPercent < threshold;
-            }
-            return false;
-        });
-
-        var roads = this.room.roads(function(road){
-            if(road.hits < road.hitsMax && !road.isTargetOfJobType('repair')){
-                var type = road.structureType;
-                var threshold = room.repairStartThreshold(type);
-                var hitPercent = road.hits / road.hitsMax;
-
-                return hitPercent < threshold;
-            }
-
-            return false;
-        });
-
-        structures = structures.concat(roads);
-        return structures.map(function(structure){
-            return {
-                role: 'tech',
-                type: 'repair',
-                target: structure,
-            };
-        });
-    },
-
-    getBuildJobs: function() {
-        // @TODO asign idle builders to sites that already have a builder
-        var sites = this.room.constructionSites(function(site){
-            return !site.isTargetOfJobType('build');
-        });
-
-        return sites.map(function(site){
-            return {
-                role: 'tech',
-                type: 'build',
-                target: site,
-            };
-
-        });
-    },
 
     getUpgradeJobs: function() {
         var controller = this.room.controller;
@@ -177,15 +47,15 @@ JobManager.prototype = {
             return [];
         }
 
-        var roleMax = this.room.roleMax('upgrader');
+        var roleMax = this.room.roleCountMax('upgrader') || 1;
 
-         // || controller.isTargetOfJobType('upgrade_room_controller')
-        return [{
-            role: 'upgrader',
-            type: 'upgrade_room_controller',
-            target: controller,
-        }];
-
+        if(controller.targetOfJobTypeCount('upgrade_room_controller') < roleMax){
+            return [{
+                role: 'upgrader',
+                type: 'upgrade_room_controller',
+                target: controller,
+            }];
+        }
     },
 
     getEnergyDeliverJobs: function() {
@@ -193,8 +63,9 @@ JobManager.prototype = {
         return this.room.creeps(function(creep){
             var role = creep.role();
             return (
-                (role === 'tech' || role === 'upgrader') &&
+                creep.roleNeedsEnergy() &&
                 creep.energy < creep.energyCapacity &&
+                // @TODO allocate multiple to same destination based on energy capacity vs assigned to be delivered
                 !creep.isTargetOfJobType('energy_deliver')
             );
         }).map(function(creep){
@@ -206,34 +77,25 @@ JobManager.prototype = {
         });
     },
 
-    // primarily to trigger the creation of new carrier creeps as carrier creeps collect automatically
     getEnergyCollectJobs: function() {
-        var minEnergySpawn = this.room.energyPileThresholdMin();
-
+        var minEnergyPile = this.room.energyPileThresholdMin();
         var energyPiles = this.room.energyPiles();
-        var carrierCount = this.room.roleCount('carrier');
-        if(carrierCount > energyPiles.length){
 
-        }
         return energyPiles.filter(function(pile){
-            // one job per pile over the limit or with no collectors assigned
-            return (pile.energy > minEnergySpawn) || !pile.isTargetOfJobType('energy_collect');
+            // include energy piles already target of collect jobs
+            // correct number of carriers will be allocated later
+            return pile.energy > minEnergyPile;
         }).map(function(pile){
-
-            // var existing_only = pile.energy < minEnergySpawn;
-            var existing_only = true;
             return {
                 role: 'carrier',
                 type: 'energy_collect',
                 target: pile,
-                existing_only: existing_only,
             };
         });
     },
 
     getGuardStandbyJobs: function() {
-        var jobs = [];
-        var flags = this.room.flags(function(flag){
+        return this.room.flags(function(flag){
 
             if(flag.role() !== 'guard'){
                 return false;
@@ -242,8 +104,7 @@ JobManager.prototype = {
             var guardCount = flag.guardCount();
 
             return guardCount < guardMax;
-        });
-        return flags.map(function(flag){
+        }).map(function(flag){
             return {
                 role: 'guard',
                 type: 'move_to_flag',
@@ -253,7 +114,7 @@ JobManager.prototype = {
     },
 
     getHealerStandbyJobs: function() {
-        var flags = this.room.flags(function(flag){
+        return this.room.flags(function(flag){
 
             if(flag.role() !== 'healer'){
                 return false;
@@ -262,8 +123,7 @@ JobManager.prototype = {
             var healerCount = flag.healerCount();
 
             return healerCount < healerMax;
-        });
-        return flags.map(function(flag){
+        }).map(function(flag){
             return {
                 role: 'healer',
                 type: 'move_to_flag',
@@ -280,7 +140,10 @@ JobManager.prototype = {
 
     getDefendRampartJobs: function(){
         return this.room.flags(function(flag){
-            return flag.role() === 'defend_rampart' && !flag.isTargetOfJobType('defend_rampart');
+            return (
+                flag.role() === 'defend_rampart' &&
+                !flag.isTargetOfJobType('defend_rampart')
+            );
         }).map(function(flag){
             return {
                 role: 'defend_rampart',

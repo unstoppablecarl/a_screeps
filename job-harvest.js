@@ -79,6 +79,66 @@ var job_harvest = {
             }
         }
     },
+
+    getJobs: function(room){
+        return room.flags(function(flag){
+            if(flag.role() !== 'source'){
+                return false;
+            }
+
+            var source = flag.source();
+
+            if(!source){
+                return false;
+            }
+
+            var allocatedHarvestWork = 0;
+            var allocatedCreepCount = 0;
+            var harvesterCountMax = flag.harvesterCountMax();
+
+            var maxedWorkCreep;
+            var nonMaxedCreepJobs = [];
+            var jobs = source.targetOfJobs().map(function(job){
+                if(job && job.type() === 'harvest'){
+
+                    var sourceWorkCount = job.sourceActiveBodyparts(WORK);
+
+                    if(sourceWorkCount === 5){
+                        maxedWorkCreep = sourceWorkCount;
+                    } else {
+                        nonMaxedCreepJobs.push(job);
+                    }
+                    allocatedHarvestWork += sourceWorkCount;
+                    allocatedCreepCount++;
+                }
+            });
+
+            // if maxed work creep, dismiss other harvesters
+            if(maxedWorkCreep){
+                nonMaxedCreepJobs.forEach(function(job){
+                    job.end();
+                });
+            }
+
+            // console.log(flag);
+            // console.log('allocatedCreepCount', allocatedCreepCount);
+            // console.log('harvesterCountMax', harvesterCountMax);
+            // console.log('allocatedHarvestWork', allocatedHarvestWork);
+
+            // console.log(allocatedCreepCount < harvesterCountMax, allocatedHarvestWork < 5);
+
+
+            // max 5 work body parts allocated
+            return allocatedCreepCount < harvesterCountMax && allocatedHarvestWork < 5;
+        }).map(function(flag){
+            return {
+                role: 'harvester',
+                type: 'harvest',
+                target: flag.source(),
+                priority: 1,
+            };
+        });
+    },
 };
 
 module.exports = job_harvest;

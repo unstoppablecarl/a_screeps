@@ -20,6 +20,21 @@ var job_build = {
         }
 
     },
+    getJobs: function() {
+        // @TODO assign multiple builders to single site if space permits
+        var sites = this.room.constructionSites(function(site){
+
+            return !site.isTargetOfJobType('build');
+        });
+
+        return sites.map(function(site){
+            return {
+                role: 'tech',
+                type: 'build',
+                target: site,
+            };
+        });
+    },
 };
 
 module.exports = job_build;

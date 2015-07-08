@@ -48,3 +48,63 @@ RoomPosition.prototype.findClosestEnergyStore = function(){
     var targets = spawns.concat(extensions);
     return this.findClosest(targets);
 };
+
+var blockedTile = function(list) {
+    for(var i = list.length - 1; i >= 0; i--){
+        var tile = list[i];
+        var type = list[i].type;
+        if (
+            tile.type === 'terrain' &&
+            tile.terrain === 'wall'
+        ) {
+            return true;
+        }
+
+        if(tile.type ==='structure'){
+
+            if(tile.structure.structureType === STRUCTURE_ROAD){
+                continue;
+            }
+            else if(tile.structure.structureType === STRUCTURE_RAMPART){
+                if(!tile.structure.my){
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+    return false;
+};
+
+// counts tiles adjacent to position that are not blocked by terrain or structures
+RoomPosition.prototype.countEmptyTilesAround = function(blockedTileFunc) {
+    if(blockedTileFunc === undefined){
+        blockedTileFunc = blockedTile;
+    }
+
+    var x = this.x;
+    var y = this.y;
+    var room = Game.rooms[this.roomName];
+    var tiles = room.lookAtArea(y - 1, x - 1, y + 1, x + 1);
+    var spaces = 0;
+
+    // top left
+    if (!blockedTileFunc(tiles[y - 1][x - 1])) spaces++;
+    // top
+    if (!blockedTileFunc(tiles[y - 1][x]))     spaces++;
+    // top right
+    if (!blockedTileFunc(tiles[y - 1][x + 1])) spaces++;
+    // left
+    if (!blockedTileFunc(tiles[y][x - 1]))     spaces++;
+    // right
+    if (!blockedTileFunc(tiles[y][x + 1]))     spaces++;
+    // bottom left
+    if (!blockedTileFunc(tiles[y + 1][x - 1])) spaces++;
+    // bottom
+    if (!blockedTileFunc(tiles[y + 1][x]))     spaces++;
+    // bottom right
+    if (!blockedTileFunc(tiles[y + 1][x + 1])) spaces++;
+
+    return spaces;
+};
