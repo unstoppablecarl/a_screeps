@@ -58,6 +58,8 @@ JobManager.prototype = {
         var upgrade = handlers.upgrade_room_controller.getJobs(room);
         jobs = jobs.concat(upgrade);
 
+
+
         jobs.forEach(function(job){
             if(!job){
                 console.log("!");
