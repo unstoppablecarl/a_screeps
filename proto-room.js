@@ -184,6 +184,7 @@ Room.prototype.roleCount = function(role){
                 this.roleCounts[creepRole] = 0;
             }
         }
+
     }
     return this.roleCounts[role] || 0;
 };
