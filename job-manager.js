@@ -589,7 +589,7 @@ JobManager.prototype = {
             );
         }).length;
 
-        total += Math.floor(creepCount * 1.5);
+        total += creepCount;
 
         var roleMax = this.room.roleCountMax('carrier');
 

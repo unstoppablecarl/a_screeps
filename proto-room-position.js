@@ -102,7 +102,7 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(blockedTileFunc) {
     if (!blockedTileFunc(tiles[y - 1][x]))     spaces++;
     // top right'
     if (!blockedTileFunc(tiles[y - 1][x + 1])) spaces++;
-    console.log('left', spaces);
+    // left
     if (!blockedTileFunc(tiles[y][x - 1]))     spaces++;
     // right'
     if (!blockedTileFunc(tiles[y][x + 1]))     spaces++;

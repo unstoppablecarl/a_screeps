@@ -27,8 +27,8 @@ var job_build = {
             var currentCount = site.targetOfJobTypeCount('build');
             var adjacentTiles = site.pos.adjacentEmptyTileCount();
 
-            if(adjacentTiles > 3){
-                adjacentTiles = 3;
+            if(adjacentTiles > 2){
+                adjacentTiles = 2;
             }
 
             if(currentCount >= adjacentTiles){
