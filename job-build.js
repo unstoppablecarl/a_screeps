@@ -12,7 +12,10 @@ var job_build = {
 
         var result = creep.build(target);
         if(result !== OK){
-            if(result === ERR_NOT_IN_RANGE){
+            if(
+                result === ERR_NOT_IN_RANGE ||
+                result === ERR_NOT_ENOUGH_ENERGY
+            ){
                 creep.moveTo(target);
             } else {
                 job.end();
