@@ -183,6 +183,7 @@ Room.prototype.roleCount = function(role){
             if(!this.roleCounts[creepRole]){
                 this.roleCounts[creepRole] = 0;
             }
+            this.roleCounts[creepRole]++;
         }
 
     }
