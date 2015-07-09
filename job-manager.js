@@ -424,6 +424,10 @@ JobManager.prototype = {
             return;
         }
 
+        jobs = jobs.filter(function(job){
+            return job.type() === 'energy_deliver';
+        });
+
         var creeps = idleCreepsByRole.carrier.filter(function(creep){
             return creep.energy > 0;
         });
