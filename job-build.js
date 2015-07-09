@@ -55,7 +55,6 @@ var job_build = {
                     target: site,
                     priority: priority
                 });
-
             }
 
         });

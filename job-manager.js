@@ -69,11 +69,9 @@ JobManager.prototype = {
         var pending = jobList.getPending();
         pending =  jobList.sortByPriority(pending);
 
-        var energyCollectJobs = pending.filter(function(job){
-            return job.type() === 'energy_collect';
-        });
+        pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
+        pending = this.preAllocateEnergyDeliverJobs(pending, idleCreepsByRole);
 
-        this.preAllocateEnergyCollectJobs(energyCollectJobs, idleCreepsByRole);
         this.preAllocateEnergyStoreJobs(idleCreepsByRole);
         this.preAllocateDefendJobs();
 
@@ -350,6 +348,11 @@ JobManager.prototype = {
     },
 
     preAllocateEnergyCollectJobs: function(jobs, idleCreepsByRole){
+
+        jobs = jobs.filter(function(job){
+            return job.type() === 'energy_collect';
+        });
+
         if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
             return;
         }
@@ -410,6 +413,66 @@ JobManager.prototype = {
 
             var aSettings = job.allocationSettings() || {};
             aSettings.energy_collection_needed = collectionNeeded;
+            job.allocationSettings(aSettings);
+
+            return true;
+        });
+    },
+
+    preAllocateEnergyDeliverJobs: function(jobs, idleCreepsByRole){
+        if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
+            return;
+        }
+
+        var creeps = idleCreepsByRole.carrier.filter(function(creep){
+            return creep.energy > 0;
+        });
+
+        var minEnergyPile = this.room.energyPileThresholdMin();
+        var energyPiles = this.room.energyPiles();
+
+        return jobs.filter(function(job){
+
+            var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
+            // if(!collectionNeeded){
+            //     return false;
+            // }
+
+            var target = job.target();
+
+            // @TODO make sure this is the correct sort direction
+            var creeps = _.sortBy(creeps, function(creep){
+                return target.pos.getRangeTo(creep);
+            });
+
+            creeps.forEach(function(creep){
+
+                if(deliveryNeeded > 0){
+
+                    var deliverableAmount = creep.energy;
+
+                    deliveryNeeded -= deliverableAmount;
+
+                    var index = idleCreepsByRole.carrier.indexOf(creep);
+                    idleCreepsByRole.carrier.splice(index, 1);
+
+                    this.room.jobList().add({
+                        role: 'carrier',
+                        type: 'energy_deliver',
+                        source: creep,
+                        target: target,
+                        priority: job.priority()
+                    }).start();
+                }
+            });
+
+            if(deliveryNeeded <= 0){
+                job.end();
+                return false;
+            }
+
+            var aSettings = job.allocationSettings() || {};
+            aSettings.energy_delivery_needed = deliveryNeeded;
             job.allocationSettings(aSettings);
 
             return true;

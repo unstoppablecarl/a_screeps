@@ -44,7 +44,8 @@ var job_energy_deliver = {
 
             if(
                 !creep.roleNeedsEnergy() ||
-                creep.energy === creep.energyCapacity
+                creep.energy === creep.energyCapacity ||
+                creep.isTargetOfJobType('energy_deliver')
             ){
                 return;
             }
