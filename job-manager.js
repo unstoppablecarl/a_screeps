@@ -327,7 +327,7 @@ JobManager.prototype = {
             role: role,
             source_of_job_id: job.id()
         };
-        console.log('maxCreepCost', maxCreepCost);
+
         var body = rolesMeta.getBody(role, maxCreepCost);
         if(!body){
             console.log('no affordable body', role, maxCreepCost);
