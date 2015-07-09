@@ -349,12 +349,19 @@ JobManager.prototype = {
 
     preAllocateEnergyCollectJobs: function(jobs, idleCreepsByRole){
 
-        jobs = jobs.filter(function(job){
+        if(
+            !idleCreepsByRole.carrier ||
+            !idleCreepsByRole.carrier.length
+        ){
+            return jobs;
+        }
+
+        var collectJobs = jobs.filter(function(job){
             return job.type() === 'energy_collect';
         });
 
-        if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
-            return;
+        if(!collectJobs.length){
+            return jobs;
         }
 
         var creeps = idleCreepsByRole.carrier.filter(function(creep){
@@ -364,7 +371,7 @@ JobManager.prototype = {
         var minEnergyPile = this.room.energyPileThresholdMin();
         var energyPiles = this.room.energyPiles();
 
-        return jobs.filter(function(job){
+        collectJobs.forEach(function(job){
 
             var collectionNeeded = job.getAllocationSetting('energy_collection_needed');
             // if(!collectionNeeded){
@@ -408,43 +415,50 @@ JobManager.prototype = {
 
             if(collectionNeeded <= 0){
                 job.end();
-                return false;
+                var ind = jobs.indexOf(job);
+                jobs.splice(ind, 1);
+
+                return jobs;
             }
 
             var aSettings = job.allocationSettings() || {};
             aSettings.energy_collection_needed = collectionNeeded;
             job.allocationSettings(aSettings);
-
-            return true;
         });
+
+        return jobs;
     },
 
     preAllocateEnergyDeliverJobs: function(jobs, idleCreepsByRole){
-        if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
-            return;
+
+        if(
+            !idleCreepsByRole.carrier ||
+            !idleCreepsByRole.carrier.length
+        ){
+            return jobs;
         }
 
-        jobs = jobs.filter(function(job){
+        var deliverJobs = jobs.filter(function(job){
             return job.type() === 'energy_deliver';
         });
+
+        if(!deliverJobs.length){
+            return jobs;
+        }
 
         var creeps = idleCreepsByRole.carrier.filter(function(creep){
             return creep.energy > 0;
         });
 
-        var minEnergyPile = this.room.energyPileThresholdMin();
-        var energyPiles = this.room.energyPiles();
+        if(!creeps.length){
+            return jobs;
+        }
 
-        return jobs.filter(function(job){
+        deliverJobs.forEach(function(job){
 
             var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
-            // if(!collectionNeeded){
-            //     return false;
-            // }
-
             var target = job.target();
 
-            // @TODO make sure this is the correct sort direction
             var creeps = _.sortBy(creeps, function(creep){
                 return target.pos.getRangeTo(creep);
             });
@@ -472,15 +486,17 @@ JobManager.prototype = {
 
             if(deliveryNeeded <= 0){
                 job.end();
-                return false;
+                var ind = jobs.indexOf(job);
+                jobs.splice(ind, 1);
+                return jobs;
             }
 
             var aSettings = job.allocationSettings() || {};
             aSettings.energy_delivery_needed = deliveryNeeded;
             job.allocationSettings(aSettings);
-
-            return true;
         });
+
+        return jobs;
     },
 
     preAllocateEnergyStoreJobs: function(idleCreepsByRole){
