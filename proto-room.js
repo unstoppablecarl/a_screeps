@@ -173,7 +173,7 @@ Room.prototype.ildeCreeps = function(role){
     });
 };
 
-Room.prototype.roleCount = function(role, filter){
+Room.prototype.roleCount = function(role){
     if(this.roleCounts === undefined){
         this.roleCounts = {};
         var creeps = this.creeps();
@@ -183,12 +183,9 @@ Room.prototype.roleCount = function(role, filter){
             if(!this.roleCounts[creepRole]){
                 this.roleCounts[creepRole] = 0;
             }
-            if(filter === undefined || filter(creep)){
-                this.roleCounts[creepRole]++;
-            }
         }
     }
-    return this.roleCounts[role];
+    return this.roleCounts[role] || 0;
 };
 
 Room.prototype.energyPiles = function(){

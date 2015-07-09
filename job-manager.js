@@ -255,16 +255,19 @@ JobManager.prototype = {
         if(type === 'replace'){
             var creepReplaceThreshold = this.room.creepReplaceThreshold();
             // exclude creeps being replaced from count when getting count
-            roleCountFilter = function(creep){
+            var creeps = this.room.creeps(function(creep){
                 return (
                     creep.ticksToLive > creepReplaceThreshold && // not close enough to death to be replaced
                     !creep.replaced() && // not already been replaced
                     !creep.isTargetOfJobType('replace') // not already assigned a replace job
                 );
-            };
+            });
+
+            roleCount = creeps.length;
+        } else {
+             roleCount = this.room.roleCount(role);
         }
 
-        roleCount = this.room.roleCount(role, roleCountFilter);
         return roleCount < roleCountMax;
     },
 
