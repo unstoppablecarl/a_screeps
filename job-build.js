@@ -25,7 +25,7 @@ var job_build = {
 
         // @TODO assign multiple builders to single site if space permits
         var sites = room.constructionSites().forEach(function(site){
-            var currentCount = site.isTargetOfJobTypeCount('build');
+            var currentCount = site.targetOfJobTypeCount('build');
             var adjacentTiles = site.pos.adjacentEmptyTileCount();
             if(currentCount < adjacentTiles){
                 var priority = 0.5;
