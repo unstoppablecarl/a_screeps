@@ -138,6 +138,7 @@ JobList.prototype = {
                 prior: job.priority(),
                 source: job.source(),
                 target: job.target(),
+                allocate: JSON.stringify(job.allocationSettings()),
             });
         });
 
