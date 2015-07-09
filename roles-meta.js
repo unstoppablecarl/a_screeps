@@ -73,7 +73,7 @@ TOUGH:          10
             ]
         },
         upgrader: {
-            needs_energy_delivered: false,
+            needs_energy_delivered: true,
             bodies: [
                 [
                     CARRY,
