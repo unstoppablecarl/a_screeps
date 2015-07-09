@@ -50,6 +50,7 @@ var job_upgrade_room_controller = {
                 priority: 0.1,
             }];
         }
+        return [];
     },
 };
 
