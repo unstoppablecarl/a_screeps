@@ -23,20 +23,31 @@ var job_build = {
     getJobs: function(room) {
         var jobs = [];
 
-        // @TODO assign multiple builders to single site if space permits
         var sites = room.constructionSites().forEach(function(site){
             var currentCount = site.targetOfJobTypeCount('build');
             var adjacentTiles = site.pos.adjacentEmptyTileCount();
-            if(currentCount < adjacentTiles){
-                var priority = 0.5;
 
-                var allocationRatio = 1 - (currentCount / adjacentTiles);
-                var progress = site.progress / site.progressTotal;
-                var buildPriority = room.buildPriority(site.structureType);
-                // average
-                var buildJobPriority = (progress + buildPriority + allocationRatio) / 3;
-                // move one decimal over
-                priority += buildJobPriority * 0.1;
+            if(adjacentTiles > 3){
+                adjacentTiles = 3;
+            }
+
+            if(currentCount >= adjacentTiles){
+                return;
+            }
+
+            var priority = 0.5;
+
+            var allocationRatio = 1 - (currentCount / adjacentTiles);
+            var progress = site.progress / site.progressTotal;
+            var buildPriority = room.buildPriority(site.structureType);
+            // average
+            var buildJobPriority = (progress + buildPriority + allocationRatio) / 3;
+            // move one decimal over
+            priority += buildJobPriority * 0.1;
+
+            var jobsToAdd = adjacentTiles - currentCount;
+
+            for (var i = 0; i < jobsToAdd; i++) {
 
                 jobs.push({
                     role: 'tech',
@@ -44,7 +55,9 @@ var job_build = {
                     target: site,
                     priority: priority
                 });
+
             }
+
         });
 
         return jobs;
