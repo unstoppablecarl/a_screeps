@@ -91,20 +91,12 @@ var job_build = {
             }
         });
 
-        var table = require('util').table;
-        var str = table(jobs);
-            console.log('@-');
-            console.log(str);
-
         if(buildJobLimit !== false){
             jobs = _.sortBy(jobs, function(job){
                 return job.priority;
             }).reverse().slice(0, buildJobLimit);
         }
 
-         var str = table(jobs);
-            console.log('@-');
-            console.log(str);
         return jobs;
     },
 };
