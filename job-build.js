@@ -50,6 +50,8 @@ var job_build = {
             buildJobLimit = maxBuildJobs - activeBuildJobs;
         }
 
+        consol
+
         var jobs = [];
 
         var sites = room.constructionSites().forEach(function(site){
@@ -92,7 +94,7 @@ var job_build = {
         if(buildJobLimit !== false){
             jobs = _.sortBy(jobs, function(job){
                 return job.priority;
-            }).reverse().slice(0, buildJobLimit - 1);
+            }).reverse().slice(0, buildJobLimit);
         }
         return jobs;
     },
