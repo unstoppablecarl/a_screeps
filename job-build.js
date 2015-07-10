@@ -50,8 +50,6 @@ var job_build = {
             buildJobLimit = maxBuildJobs - activeBuildJobs;
         }
 
-        consol
-
         var jobs = [];
 
         var sites = room.constructionSites().forEach(function(site){
