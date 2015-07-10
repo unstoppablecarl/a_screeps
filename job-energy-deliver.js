@@ -17,20 +17,34 @@ var job_energy_deliver = {
             return;
         }
 
-        if (target) {
-            if (target.energy === target.energyCapacity) {
-                job.end();
-                return;
-            }
-            var result = creep.transferEnergy(target);
-            if(result !== OK){
-                if(result === ERR_NOT_IN_RANGE){
-                    creep.moveTo(target);
-                } else {
-                    job.end();
-                }
-            }
+        if (target.energy === target.energyCapacity) {
+            job.end();
+            return;
         }
+
+        var move = creep.moveTo(target);
+        // @TODO check ERR_NO_PATH
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
+        }
+
+        var action = creep.transferEnergy(target);
+        var actionOK = (
+            action === OK ||
+            action === ERR_NOT_IN_RANGE
+        );
+
+        if(!actionOK){
+            job.end();
+        }
+
     },
 
     // return only 1 job per creep to deliver to,
@@ -53,13 +67,16 @@ var job_energy_deliver = {
 
             var energyNeeded = creep.energyCapacity - creep.energy;
             var energyToBeDelivered = creep.targetOfJobs(function(job){
+
                 return (
                     job.type() === 'energy_deliver' &&
                     job.source()
                 );
+
             }).reduce(function(total, job){
 
                 return total + job.source().energy;
+
             }, 0);
 
             var energyDeliveryNeeded = energyNeeded - energyToBeDelivered;
@@ -67,9 +84,10 @@ var job_energy_deliver = {
             var priority = 0.6;
             var energyPriority = (1 - (creep.energy / creep.energyCapacity));
             var jobPriority = creep.job().priority();
+
             // average
             // move one decimal place
-            priority += ((energyPriority + jobPriority) / 2) * 0.1;
+            priority += ((energyPriority + jobPriority + jobPriority) / 3) * 0.1;
 
             jobs.push({
                 role: 'carrier',

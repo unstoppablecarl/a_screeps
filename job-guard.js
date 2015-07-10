@@ -32,7 +32,18 @@ var job_guard = {
             }
 
         } else {
-            creep.moveTo(defendTarget);
+            var move = creep.moveTo(defendTarget);
+            // @TODO check ERR_NO_PATH
+            var moveOK = (
+                move === OK ||
+                move === ERR_TIRED ||
+                move === ERR_NO_PATH
+            );
+
+            if(!moveOK){
+                job.end();
+                return;
+            }
         }
     }
 };

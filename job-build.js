@@ -10,19 +10,31 @@ var job_build = {
             return;
         }
 
-        var result = creep.build(target);
-        if(result !== OK){
-            if(
-                result === ERR_NOT_IN_RANGE ||
-                result === ERR_NOT_ENOUGH_ENERGY
-            ){
-                creep.moveTo(target);
-            } else {
-                job.end();
-            }
+        var move = creep.moveTo(target);
+
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
         }
 
+        var action = creep.build(target);
+        var actionOK = (
+            action === OK ||
+            action === ERR_NOT_IN_RANGE ||
+            action === ERR_NOT_ENOUGH_ENERGY
+        );
+
+        if(!actionOK){
+            job.end();
+        }
     },
+
     getJobs: function(room) {
         var jobs = [];
 
@@ -43,6 +55,7 @@ var job_build = {
             var allocationRatio = 1 - (currentCount / adjacentTiles);
             var progress = site.progress / site.progressTotal;
             var buildPriority = room.buildPriority(site.structureType);
+
             // average
             var buildJobPriority = (progress + buildPriority + allocationRatio) / 3;
             // move one decimal over

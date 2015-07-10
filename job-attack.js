@@ -10,7 +10,7 @@ var job_attack = {
             return;
         }
 
-        // if hurt by non-target while en-route to target fight back
+        // if hurt by non-target while en-route to target, fight back
         if(!creep.pos.isNearTo(target) && creep.hurtLastTick()){
             var adjacentHostiles = creep.adjacentHostiles();
             if(adjacentHostiles.length){
@@ -20,14 +20,30 @@ var job_attack = {
             }
         }
 
+
         if(target){
-            var result = creep.attack(target);
-            if(result !== OK){
-                if(result === ERR_NOT_IN_RANGE){
-                    creep.moveTo(target);
-                } else {
-                    job.end();
-                }
+
+            var move = creep.moveTo(target);
+
+            var moveOK = (
+                move === OK ||
+                move === ERR_TIRED ||
+                move === ERR_NO_PATH
+            );
+
+            if(!moveOK){
+                job.end();
+                return;
+            }
+
+            var action = creep.attack(target);
+            var actionOK = (
+                action === OK ||
+                action === ERR_NOT_IN_RANGE
+            );
+
+            if(!actionOK){
+                job.end();
             }
         }
     },

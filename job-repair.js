@@ -10,17 +10,28 @@ var job_repair = {
             return;
         }
 
-        var result = creep.repair(target);
-        if(result !== OK){
-            if(
-                result === ERR_NOT_IN_RANGE ||
-                result === ERR_NOT_ENOUGH_ENERGY
-            ){
-                creep.moveTo(target);
-            } else {
-                job.end();
-                return;
-            }
+        var move = creep.moveTo(target);
+
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
+        }
+
+        var action = creep.repair(target);
+        var actionOK = (
+            action === OK ||
+            action === ERR_NOT_IN_RANGE ||
+            action === ERR_NOT_ENOUGH_ENERGY
+        );
+
+        if(!actionOK){
+            job.end();
         }
 
         if(target.hits === target.hitsMax){
@@ -58,7 +69,7 @@ var job_repair = {
         structures = structures.concat(roads);
         return structures.map(function(structure){
 
-            var priority = 0.4;
+            var priority = 0.6;
 
             // higher priority to repair rampart when under attack
             if(room.containsHostiles()){

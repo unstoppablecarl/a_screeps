@@ -16,20 +16,29 @@ var job_upgrade_room_controller = {
             return;
         }
 
-        var result = creep.upgradeController(target);
-        if(result !== OK){
+        var move = creep.moveTo(target);
 
-            if(
-                result === ERR_NOT_IN_RANGE ||
-                result === ERR_NOT_ENOUGH_ENERGY
-            ){
-                creep.moveTo(target);
-            } else {
-                job.end();
-                return;
-            }
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
         }
 
+        var action = creep.upgradeController(target);
+        var actionOK = (
+            action === OK ||
+            action === ERR_NOT_IN_RANGE ||
+            action === ERR_NOT_ENOUGH_ENERGY
+        );
+
+        if(!actionOK){
+            job.end();
+        }
     },
 
 

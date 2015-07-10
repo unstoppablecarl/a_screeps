@@ -26,20 +26,36 @@ var job_harvest = {
             job.end();
             return;
         }
-
-        var result;
-        var source = job.target();
+        var action;
+        var actionOK;
+        var move;
+        var moveOK;
         var energyFull = creep.energy === creep.energyCapacity;
 
         if (!energyFull) {
 
-            result = creep.harvest(source);
-            if (result !== OK) {
-                if (result === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
-                } else {
-                    job.end();
-                }
+            move = creep.moveTo(target);
+            // @TODO check ERR_NO_PATH
+            moveOK = (
+                move === OK ||
+                move === ERR_TIRED ||
+                move === ERR_NO_PATH
+            );
+
+            if(!moveOK){
+                job.end();
+                return;
+            }
+
+            action = creep.harvest(target);
+            actionOK = (
+                action === OK ||
+                action === ERR_NOT_IN_RANGE ||
+                action === ERR_NOT_ENOUGH_ENERGY
+            );
+
+            if (!actionOK){
+                job.end();
             }
 
             return;
@@ -55,11 +71,12 @@ var job_harvest = {
                 creep.room.roomEnergy() === creep.room.roomEnergyCapacity()
             ) {
                 creep.dropEnergy();
-
+                return;
             }
 
             // store energy
             else {
+
 
                 var storeTarget = this._getStoreTarget(creep, job);
                 if (!storeTarget) {
@@ -67,13 +84,27 @@ var job_harvest = {
                     return;
                 }
 
-                result = creep.transferEnergy(storeTarget);
-                if (result !== OK) {
-                    if (result === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(storeTarget);
-                    } else {
-                        job.end();
-                    }
+                move = creep.moveTo(storeTarget);
+                // @TODO check ERR_NO_PATH
+                moveOK = (
+                    move === OK ||
+                    move === ERR_TIRED ||
+                    move === ERR_NO_PATH
+                );
+
+                if(!moveOK){
+                    job.end();
+                    return;
+                }
+
+                action = creep.transferEnergy(storeTarget);
+                actionOK = (
+                    action === OK ||
+                    action === ERR_NOT_IN_RANGE
+                );
+
+                if(!actionOK){
+                    job.end();
                 }
 
             }

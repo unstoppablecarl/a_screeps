@@ -16,7 +16,17 @@ var job_defend_rampart = {
         );
 
         if(!atTargetPos){
-            creep.moveTo(target);
+            var move = creep.moveTo(target);
+
+            var moveOK = (
+                move === OK ||
+                move === ERR_TIRED ||
+                move === ERR_NO_PATH
+            );
+            if(!moveOK){
+                job.end();
+                return;
+            }
             return;
         }
 

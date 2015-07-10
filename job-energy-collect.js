@@ -38,21 +38,34 @@ var job_energy_collect = {
             return;
         }
 
-        var result;
+        var move = creep.moveTo(target);
+        // @TODO check ERR_NO_PATH
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
+        }
+
+        var action;
         if(target.transferEnergy){
-            result = target.transferEnergy(creep);
+            action = target.transferEnergy(creep);
         } else{
-            result = creep.pickup(target);
+            action = creep.pickup(target);
         }
 
-        if(result !== OK){
-            if(result === ERR_NOT_IN_RANGE){
-                creep.moveTo(target);
-            } else {
-                job.end();
-            }
-        }
+        var actionOK = (
+            action === OK ||
+            action === ERR_NOT_IN_RANGE
+        );
 
+        if(!actionOK){
+            job.end();
+        }
     },
 
     // return only 1 job per energy pile

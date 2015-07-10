@@ -12,7 +12,18 @@ var job_move_to_flag = {
             return;
         }
 
-        var result = creep.moveTo(target);
+        var move = creep.moveTo(target);
+        // @TODO check ERR_NO_PATH
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
+        }
         var settings = job.settings();
 
         if(settings.prev_pos === undefined){

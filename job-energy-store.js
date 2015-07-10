@@ -7,7 +7,11 @@ var job_energy_store = {
 
         var target = job.target();
 
-        if(!target || target.energy === target.energyCapacity || target.isRoom){
+        if(
+            !target ||
+            target.energy === target.energyCapacity ||
+            target.isRoom
+        ){
             target = creep.pos.findClosestEnergyStore();
             if(target){
                 job.target(target);
@@ -28,13 +32,27 @@ var job_energy_store = {
             return;
         }
 
-        var result = creep.transferEnergy(target);
-        if(result !== OK){
-            if(result === ERR_NOT_IN_RANGE){
-                creep.moveTo(target);
-            } else {
-                job.end();
-            }
+        var move = creep.moveTo(target);
+        // @TODO check ERR_NO_PATH
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
+        }
+
+        var action = creep.transferEnergy(target);
+        var actionOK = (
+            action === OK ||
+            action === ERR_NOT_IN_RANGE
+        );
+
+        if(!actionOK){
+            job.end();
         }
     },
 };
