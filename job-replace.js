@@ -12,24 +12,24 @@ var job_replace = {
         }
         target.replaced(true);
 
-        var targetJob = target.job();
-        if(!targetJob){
-            job.end();
-            return;
-        }
+        // var targetJob = target.job();
+        // if(!targetJob){
+        //     job.end();
+        //     return;
+        // }
 
-        if(targetJob){
+        // if(targetJob){
 
-            job.end();
-            creep.room.jobList().add({
-                source: creep,
-                target: targetJob.target(),
-                type: targetJob.type(),
-                role: targetJob.role(),
-                settings: targetJob.settings(),
-            }).start();
-            return;
-        }
+        //     job.end();
+        //     creep.room.jobList().add({
+        //         source: creep,
+        //         target: targetJob.target(),
+        //         type: targetJob.type(),
+        //         role: targetJob.role(),
+        //         settings: targetJob.settings(),
+        //     }).start();
+        //     return;
+        // }
 
         job.end();
     },
