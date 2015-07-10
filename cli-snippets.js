@@ -21,12 +21,14 @@ require('proto-all'); Game.rooms.sim.constructionSites();
 
 require('proto-all'); Game.rooms.sim.populationReport();
 require('proto-all'); console.log(Game.rooms.sim.jobManager().getCarrierCountMax());
-require('proto-all'); Game.rooms.sim.joblist().report(function(job){
+require('proto-all'); Game.rooms.sim.jobList().report(Game.rooms.sim.jobList().all().filter(function(job){
+    return job.type() === 'build';
+}));
 
-});
 
+// init room
 
-require('proto-all');  Game.rooms.sim.roleCountMax('tech', 5);
+require('proto-all');  Game.rooms.sim.roleCountMax('tech', 6);
 require('proto-all');  Game.rooms.sim.roleCountMax('carrier', 5);
 require('proto-all');  Game.rooms.sim.jobCountMax('build', 3);
 
