@@ -40,7 +40,7 @@ var job_build = {
         var maxBuildJobs = room.jobCountMax('build');
 
         if(_.isNumber(maxBuildJobs)){
-            var activeBuildJobs = room.jobList().getActive(function(job){
+            var activeBuildJobs = room.jobList().all(function(job){
                 return job.type() === 'build';
             }).length;
 
@@ -88,6 +88,10 @@ var job_build = {
             }
         });
 
+         var table = require('util').table;
+        var str = table(jobs);
+            console.log('@-');
+            console.log(str);
 
         if(buildJobLimit !== false){
             jobs = _.sortBy(jobs, function(job){
