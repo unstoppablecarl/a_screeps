@@ -96,18 +96,18 @@ TOUGH:          10
                     MOVE
                 ],
                 [
-                    CARRY, CARRY, CARRY,
-                    WORK, WORK, WORK,
+                    CARRY, CARRY,
+                    WORK, WORK, WORK, WORK,
                     MOVE
                 ],
                 [
-                    CARRY, CARRY, CARRY,
-                    WORK, WORK, WORK, WORK,
+                    CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK,
                     MOVE
                 ],
 
                 [
-                    CARRY, CARRY, CARRY, CARRY,
+                    CARRY, CARRY, CARRY,
                     WORK, WORK, WORK, WORK,
                     MOVE
                 ],
