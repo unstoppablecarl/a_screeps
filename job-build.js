@@ -74,7 +74,7 @@ var job_build = {
             var buildPriority = room.buildPriority(site.structureType);
 
             // average
-            var buildJobPriority = (progress + buildPriority + allocationRatio) / 3;
+            var buildJobPriority = (progress + buildPriority) / 2;
             // move one decimal over
             priority += buildJobPriority * 0.1;
 
