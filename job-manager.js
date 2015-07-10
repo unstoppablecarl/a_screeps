@@ -26,16 +26,9 @@ JobManager.prototype = {
         //
         //
 
-        var activeBuildJobs = this.room.jobList().getActive(function(job){
-            return job.type() === 'build';
-        }).length;
+        var build = handlers.build.getJobs(room);
+        jobs = jobs.concat(build);
 
-        var maxBuildJobs = this.room.jobCountMax('build');
-        if(activeBuildJobs < maxBuildJobs) {
-            var buildJobLimit = maxBuildJobs - activeBuildJobs;
-            var build = handlers.build.getJobs(room, buildJobLimit);
-            jobs = jobs.concat(build);
-        }
 
         var defendRampart = handlers.defend_rampart.getJobs(room);
         jobs = jobs.concat(defendRampart);
