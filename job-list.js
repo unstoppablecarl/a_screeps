@@ -146,14 +146,12 @@ JobList.prototype = {
         return jobData;
     },
 
-    report: function(filter) {
-        var jobs = this.room.jobList().getPending();
+    report: function(jobs) {
+        jobs = jobs || this.room.jobList().getPending();
         if(!jobs.length){
             return;
         }
-        if(filter){
-            jobs = jobs.filter(filter);
-        }
+
         var table = require('util').table;
         var str = table(this.reportData(jobs));
         if(str){

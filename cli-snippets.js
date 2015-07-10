@@ -12,17 +12,23 @@ console.log(
         )
     );
 require('proto-all'); Game.rooms.sim.creeps().forEach(function(creep){
-    if(!creep.role()){
-        creep.role('carrier');
+    if(creep.role() === 'tech'){
+        console.log(creep.name);
     }
 });
 
 require('proto-all'); Game.rooms.sim.constructionSites();
 
 require('proto-all'); Game.rooms.sim.populationReport();
+require('proto-all'); console.log(Game.rooms.sim.jobManager().getCarrierCountMax());
+require('proto-all'); Game.rooms.sim.joblist().report(function(job){
+
+});
+
 
 require('proto-all');  Game.rooms.sim.roleCountMax('tech', 5);
 require('proto-all');  Game.rooms.sim.roleCountMax('carrier', 5);
+require('proto-all');  Game.rooms.sim.jobCountMax('build', 3);
 
 
 Game.flags.Idle1.memory.role = 'idle';
