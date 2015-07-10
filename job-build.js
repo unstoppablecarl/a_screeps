@@ -36,6 +36,20 @@ var job_build = {
     },
 
     getJobs: function(room) {
+        var buildJobLimit = false;
+        var maxBuildJobs = room.jobCountMax('build');
+
+        if(_.isNumber(maxBuildJobs)){
+            var activeBuildJobs = room.jobList().getActive(function(job){
+                return job.type() === 'build';
+            }).length;
+
+            if(activeBuildJobs >= maxBuildJobs) {
+                return [];
+            }
+            buildJobLimit = maxBuildJobs - activeBuildJobs;
+        }
+
         var jobs = [];
 
         var sites = room.constructionSites().forEach(function(site){
@@ -74,12 +88,11 @@ var job_build = {
             }
         });
 
-        var maxBuildJobs = room.jobCountMax('build');
 
-        if(_.isNumber(maxBuildJobs)){
+        if(buildJobLimit !== false){
             jobs = _.sortBy(jobs, function(job){
                 return job.priority;
-            }).reverse().slice(0, maxBuildJobs - 1);
+            }).reverse().slice(0, buildJobLimit - 1);
         }
         return jobs;
     },

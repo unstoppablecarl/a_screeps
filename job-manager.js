@@ -23,12 +23,19 @@ JobManager.prototype = {
         var room = this.room;
         var max;
         // var attack = jobHandlers.attack.getJobs();
-        var build = handlers.build.getJobs(room);
-        max = this.room.jobCountMax('build');
-        if(build.length > max){
+        //
+        //
 
+        var activeBuildJobs = this.room.jobList().getActive(function(job){
+            return job.type() === 'build';
+        }).length;
+
+        var maxBuildJobs = this.room.jobCountMax('build');
+        if(activeBuildJobs < maxBuildJobs) {
+            var buildJobLimit = maxBuildJobs - activeBuildJobs;
+            var build = handlers.build.getJobs(room, buildJobLimit);
+            jobs = jobs.concat(build);
         }
-        jobs = jobs.concat(build);
 
         var defendRampart = handlers.defend_rampart.getJobs(room);
         jobs = jobs.concat(defendRampart);
