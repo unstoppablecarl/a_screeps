@@ -37,7 +37,7 @@ Creep.prototype.act = function() {
         mem.ticks_without_job++;
     }
 
-    if(mem.ticks_without_job > 5){
+    if(mem.ticks_without_job > 2){
         var idleFlag = this.pos.findClosestIdleFlag(role);
         if(idleFlag){
             this.room.jobList().add({
