@@ -1,6 +1,10 @@
 require('proto-all'); console.log(Game.flags.Flag1.source().targetOfJobs().length);
 
-require('proto-all'); Game.rooms.sim.jobManager().allocate();
+require('proto-all');
+var target = Game.rooms.sim.extensions()[0];
+Game.rooms.sim.jobList().add({source: Game.creeps.Jon, target: target, type: 'attack', role: 'guard'});
+
+Game.creeps.Jon.suicide();
 
 require('proto-all'); Game.rooms.sim.populationReport();
 
@@ -60,3 +64,8 @@ Game.flags.Guard1.memory.guard_max = 2;
 
 Game.flags.Guard2.memory.role = 'guard';
 Game.flags.Guard2.memory.guard_max = 2;
+
+
+
+Game.flags.Guard1.memory.role = 'defend_rampart';
+Game.flags.Guard1.memory.guard_max = 2;
