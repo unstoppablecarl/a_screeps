@@ -78,7 +78,7 @@ var job_build = {
 
         if(_.isNumber(maxBuildJobs)){
             jobs = _.sortBy(jobs, function(job){
-                return job.priority();
+                return job.priority;
             }).reverse().slice(0, maxBuildJobs - 1);
         }
         return jobs;
