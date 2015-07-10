@@ -42,8 +42,8 @@ var job_build = {
             var currentCount = site.targetOfJobTypeCount('build');
             var adjacentTiles = site.pos.adjacentEmptyTileCount();
 
-            if(adjacentTiles > 2){
-                adjacentTiles = 2;
+            if(adjacentTiles > 3){
+                adjacentTiles = 3;
             }
 
             if(currentCount >= adjacentTiles){
@@ -72,9 +72,15 @@ var job_build = {
                     priority: priority
                 });
             }
-
         });
 
+        var maxBuildJobs = room.jobCountMax('build');
+
+        if(_.isNumber(maxBuildJobs)){
+            jobs = _.sortBy(jobs, function(job){
+                return job.priority();
+            }).reverse().slice(0, maxBuildJobs - 1);
+        }
         return jobs;
     },
 };

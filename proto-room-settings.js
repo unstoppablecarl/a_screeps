@@ -96,3 +96,18 @@ Room.prototype.roleCountMax = function(role, max) {
     }
     return roleCountMax[role];
 };
+
+// the hard max number of jobs of a given type allowed in this room
+Room.prototype.jobCountMax = function(type, max) {
+    if (this.memory.job_count_max === undefined) {
+        this.memory.job_count_max = {};
+    }
+    var jobCountMax = this.memory.job_count_max;
+    if (max !== undefined) {
+        jobCountMax[type] = max;
+    }
+    return jobCountMax[type];
+};
+
+
+

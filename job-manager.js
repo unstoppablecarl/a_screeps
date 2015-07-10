@@ -21,8 +21,13 @@ JobManager.prototype = {
         var handlers = jobHandlers;
         var jobs = [];
         var room = this.room;
+        var max;
         // var attack = jobHandlers.attack.getJobs();
         var build = handlers.build.getJobs(room);
+        max = this.room.jobCountMax('build');
+        if(build.length > max){
+
+        }
         jobs = jobs.concat(build);
 
         var defendRampart = handlers.defend_rampart.getJobs(room);
@@ -58,13 +63,6 @@ JobManager.prototype = {
         var upgrade = handlers.upgrade_room_controller.getJobs(room);
         jobs = jobs.concat(upgrade);
 
-
-
-        jobs.forEach(function(job){
-            if(!job){
-                console.log("!");
-            }
-        });
 
         return jobs;
     },
