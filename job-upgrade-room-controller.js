@@ -50,9 +50,13 @@ var job_upgrade_room_controller = {
 
         var roleMax = room.roleCountMax('upgrader');
 
-        if(!roleMax){
+        if(!_.isNumber(roleMax)){
             var adjacentTiles = controller.pos.adjacentEmptyTileCount();
             roleMax = room.roleCountMax('upgrader', adjacentTiles);
+        }
+
+        if(!roleMax){
+            return [];
         }
 
         if(controller.targetOfJobTypeCount('upgrade_room_controller') < roleMax){
