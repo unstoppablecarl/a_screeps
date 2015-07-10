@@ -229,7 +229,7 @@ JobManager.prototype = {
 
         var index = originalArr.indexOf(creep);
         if(index !== -1){
-            originalArr.splice(1, index);
+            originalArr.splice(index, 1);
         }
 
         job.source(creep);

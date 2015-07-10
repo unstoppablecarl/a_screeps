@@ -88,7 +88,7 @@ var job_build = {
             }
         });
 
-         var table = require('util').table;
+        var table = require('util').table;
         var str = table(jobs);
             console.log('@-');
             console.log(str);
