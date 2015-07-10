@@ -98,6 +98,10 @@ var job_build = {
                 return job.priority;
             }).reverse().slice(0, buildJobLimit);
         }
+
+         var str = table(jobs);
+            console.log('@-');
+            console.log(str);
         return jobs;
     },
 };
