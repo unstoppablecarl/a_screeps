@@ -589,15 +589,15 @@ JobManager.prototype = {
             total += flag.carrierCountMax();
         });
 
-        var creepCount = this.room.creeps(function(creep){
-            return (
-                !creep.idle() &&
-                creep.roleNeedsEnergy() &&
-                !creep.replaced()
-            );
-        }).length;
+        // var creepCount = this.room.creeps(function(creep){
+        //     return (
+        //         !creep.idle() &&
+        //         creep.roleNeedsEnergy() &&
+        //         !creep.replaced()
+        //     );
+        // }).length;
 
-        total += creepCount;
+        // total += creepCount;
 
         var roleMax = this.room.roleCountMax('carrier');
 
