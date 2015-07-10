@@ -75,8 +75,8 @@ JobManager.prototype = {
         var pending = jobList.getPending();
         pending =  jobList.sortByPriority(pending);
 
-        pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
         pending = this.preAllocateEnergyDeliverJobs(pending, idleCreepsByRole);
+        pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
 
         this.preAllocateEnergyStoreJobs(idleCreepsByRole);
         this.preAllocateDefendJobs();
