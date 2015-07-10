@@ -225,10 +225,11 @@ JobManager.prototype = {
         } else {
             creep = creeps[0];
         }
+        var originalArr = idleCreepsByRole[job.role()];
 
-        var index = creeps.indexOf(creep);
+        var index = originalArr.indexOf(creep);
         if(index !== -1){
-            creeps.splice(1, index);
+            originalArr.splice(1, index);
         }
 
         job.source(creep);
