@@ -7,9 +7,9 @@ require('proto-all');
 
 // cpu.start('all');
 
-// var room = Game.rooms[''];
+var room = Game.rooms['W15N4'];
 
-var room = Game.rooms.sim;
+// var room = Game.rooms.sim;
 if(room){
     _.each(room.creeps(), function(creep) {
         creep.act();
@@ -30,7 +30,7 @@ if(room){
         jobManager.auditHarvesters();
     }
 
-    // room.reportHostiles();
+    room.reportHostiles();
 }
 
 // cleanup dead creeps from memory
