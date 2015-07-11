@@ -21,6 +21,7 @@ var job_move_to_flag = {
         );
 
         if(!moveOK){
+            console.log('!moveOK end', move);
             job.end();
             return;
         }
