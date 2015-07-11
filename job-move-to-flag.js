@@ -47,7 +47,7 @@ var job_move_to_flag = {
             creep.pos.y === target.pos.y
         );
 
-        if(atPrevPos){
+        if(atPrevPos && move !== ERR_TIRED){
             settings.no_path_count++;
         } else {
             settings.no_path_count = 0;

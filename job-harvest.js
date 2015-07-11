@@ -112,6 +112,8 @@ var job_harvest = {
     },
 
     getJobs: function(room){
+
+        // @TODO better allocate the correct number of work parts to a source
         return room.flags(function(flag){
             if(flag.role() !== 'source'){
                 return false;
