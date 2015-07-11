@@ -559,6 +559,11 @@ JobManager.prototype = {
             var targets = flag.pos.findInRange(FIND_HOSTILE_CREEPS, range);
             var guards = flag.guards();
 
+
+            if(!targets.length){
+                return;
+            }
+
             guards.forEach(function(guard){
                 var target = guard.pos.findClosest(targets, {
                     filter: function(target){
