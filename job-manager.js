@@ -470,7 +470,9 @@ JobManager.prototype = {
                 return target.pos.getRangeTo(creep);
             });
 
-            creeps.forEach(function(creep){
+            for(var i = creeps.length - 1; i >= 0; i--){
+                var creep = creeps[i];
+
 
                 if(deliveryNeeded > 0){
 
@@ -480,6 +482,7 @@ JobManager.prototype = {
 
                     var index = idleCreepsByRole.carrier.indexOf(creep);
                     idleCreepsByRole.carrier.splice(index, 1);
+                    creeps.splice(i, 1);
 
                     this.room.jobList().add({
                         role: 'carrier',
@@ -489,7 +492,7 @@ JobManager.prototype = {
                         priority: job.priority()
                     }).start();
                 }
-            });
+            }
 
             if(deliveryNeeded <= 0){
                 job.end();
