@@ -250,7 +250,7 @@ Job.prototype = {
         var handler = this.handler();
 
         if(!source){
-            console.log('ERROR trying to start task without source');
+            console.log('ERROR trying to start job without source', this);
             return;
         }
 
