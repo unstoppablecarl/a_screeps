@@ -63,6 +63,9 @@ Job.prototype = {
             current = this.getObjectById(this.memory.source.id);
         }
 
+        if(value === null){
+            throw new Error('foo');
+        }
         if(value !== undefined){
 
 
