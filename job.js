@@ -64,7 +64,7 @@ Job.prototype = {
         }
 
         if(value === null){
-            throw new Error('foo');
+            return;
         }
         if(value !== undefined){
 
