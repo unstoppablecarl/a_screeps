@@ -247,10 +247,20 @@ Job.prototype = {
     // start this job and set references
     start: function(){
         var source = this.source();
+        var target = this.target();
+
         var handler = this.handler();
 
         if(!source){
             console.log('ERROR trying to start job without source', this);
+
+        }
+        if(!target){
+            console.log('ERROR trying to start job without target', this);
+
+        }
+
+        if(!target || !source){
             return;
         }
 

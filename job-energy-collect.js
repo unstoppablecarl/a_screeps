@@ -39,7 +39,7 @@ var job_energy_collect = {
         }
 
         var move = creep.moveTo(target);
-        // @TODO check ERR_NO_PATH
+
         var moveOK = (
             move === OK ||
             move === ERR_TIRED ||

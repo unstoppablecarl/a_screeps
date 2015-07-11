@@ -35,7 +35,7 @@ var job_harvest = {
         if (!energyFull) {
 
             move = creep.moveTo(target);
-            // @TODO check ERR_NO_PATH
+
             moveOK = (
                 move === OK ||
                 move === ERR_TIRED ||
@@ -85,7 +85,7 @@ var job_harvest = {
                 }
 
                 move = creep.moveTo(storeTarget);
-                // @TODO check ERR_NO_PATH
+
                 moveOK = (
                     move === OK ||
                     move === ERR_TIRED ||

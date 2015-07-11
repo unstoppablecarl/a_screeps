@@ -6,7 +6,8 @@ Game.rooms.sim.jobList().add({source: Game.creeps.Jon, target: target, type: 'at
 
 Game.creeps.Jon.suicide();
 
-require('proto-all'); Game.rooms.sim.populationReport();
+require('proto-all'); Game.rooms['W15N4'].populationReport();
+require('proto-all'); console.log(Game.rooms['W15N4'].jobManager().getCarrierCountMax());
 
 
 require('proto-all');
@@ -67,5 +68,5 @@ Game.flags.Guard2.memory.guard_max = 2;
 
 
 
-Game.flags.Guard1.memory.role = 'defend_rampart';
+Game.flags.R1.memory.role = 'defend_rampart';
 Game.flags.Guard1.memory.guard_max = 2;

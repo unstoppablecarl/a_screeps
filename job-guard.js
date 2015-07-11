@@ -33,7 +33,7 @@ var job_guard = {
 
         } else {
             var move = creep.moveTo(defendTarget);
-            // @TODO check ERR_NO_PATH
+
             var moveOK = (
                 move === OK ||
                 move === ERR_TIRED ||
