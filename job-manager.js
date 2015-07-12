@@ -379,6 +379,7 @@ JobManager.prototype = {
         var minEnergyPile = this.room.energyPileThresholdMin();
         var energyPiles = this.room.energyPiles();
 
+        var room = this.room;
         collectJobs.forEach(function(job){
 
             var collectionNeeded = job.getAllocationSetting('energy_collection_needed');
@@ -410,8 +411,9 @@ JobManager.prototype = {
 
                     var index = idleCreepsByRole.carrier.indexOf(creep);
                     idleCreepsByRole.carrier.splice(index, 1);
-
-                    this.room.jobList().add({
+                    var ind = creeps.indexOf(creep);
+                    creeps.splice(ind, 1);
+                    room.jobList().add({
                         role: 'carrier',
                         type: 'energy_collect',
                         source: creep,
