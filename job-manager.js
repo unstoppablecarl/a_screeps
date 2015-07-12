@@ -466,55 +466,43 @@ JobManager.prototype = {
             return jobs;
         }
 
-
         creeps.forEach(function(creep){
-            var deliverableAmount = creep.energy;
-
-
-        });
-
-
-
-        deliverJobs.forEach(function(job){
-
-            var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
-            var target = job.target();
-
-            var creeps = _.sortBy(creeps, function(creep){
-                return target.pos.getRangeTo(creep);
-            }).reverse();
-
-            for(var i = creeps.length - 1; i >= 0; i--){
-                var creep = creeps[i];
-
-                if(deliveryNeeded > 0){
-
-                    var deliverableAmount = creep.energy;
-
-                    deliveryNeeded -= deliverableAmount;
-
-                    idleCreepsByRole.carrier.remove(creep);
-                    creeps.remove(creep);
-
-                    this.room.jobList().add({
-                        role: 'carrier',
-                        type: 'energy_deliver',
-                        source: creep,
-                        target: target,
-                        priority: job.priority()
-                    }).start();
-                }
+            if(!deliverJobs.length){
+                return;
             }
+
+            var jobsByTargetId = {};
+            var targets = deliverJobs.map(function(job){
+                jobsByTargetId[job.target.id] = job;
+                return job.target();
+            });
+
+            var target = creep.pos.findClosestByRange(targets);
+
+            var job = jobsByTargetId[target.id];
+            var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
+            var deliverableAmount = creep.energy;
+            deliveryNeeded -= deliverableAmount;
+
+            this.room.jobList().add({
+                role: 'carrier',
+                type: 'energy_deliver',
+                source: creep,
+                target: target,
+                priority: job.priority()
+            }).start();
 
             if(deliveryNeeded <= 0){
                 job.end();
+                deliverJobs.remove(job);
                 jobs.remove(job);
-                return jobs;
+
+            } else {
+                var aSettings = job.allocationSettings() || {};
+                aSettings.energy_delivery_needed = deliveryNeeded;
+                job.allocationSettings(aSettings);
             }
 
-            var aSettings = job.allocationSettings() || {};
-            aSettings.energy_delivery_needed = deliveryNeeded;
-            job.allocationSettings(aSettings);
         });
 
         return jobs;
