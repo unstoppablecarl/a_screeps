@@ -480,28 +480,28 @@ JobManager.prototype = {
             var target = creep.pos.findClosestByRange(targets);
 
             var job = jobsByTargetId[target.id];
-            var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
-            var deliverableAmount = creep.energy;
-            deliveryNeeded -= deliverableAmount;
+            // var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
+            // var deliverableAmount = creep.energy;
+            // deliveryNeeded -= deliverableAmount;
 
-            this.room.jobList().add({
-                role: 'carrier',
-                type: 'energy_deliver',
-                source: creep,
-                target: target,
-                priority: job.priority()
-            }).start();
+            // this.room.jobList().add({
+            //     role: 'carrier',
+            //     type: 'energy_deliver',
+            //     source: creep,
+            //     target: target,
+            //     priority: job.priority()
+            // }).start();
 
-            if(deliveryNeeded <= 0){
-                job.end();
-                deliverJobs.remove(job);
-                jobs.remove(job);
+            // if(deliveryNeeded <= 0){
+            //     job.end();
+            //     deliverJobs.remove(job);
+            //     jobs.remove(job);
 
-            } else {
-                var aSettings = job.allocationSettings() || {};
-                aSettings.energy_delivery_needed = deliveryNeeded;
-                job.allocationSettings(aSettings);
-            }
+            // } else {
+            //     var aSettings = job.allocationSettings() || {};
+            //     aSettings.energy_delivery_needed = deliveryNeeded;
+            //     job.allocationSettings(aSettings);
+            // }
 
         });
 
