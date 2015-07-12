@@ -78,9 +78,9 @@ var job_energy_collect = {
 
         energyPiles.forEach(function(pile){
 
-            // if(pile.isTargetOfJobType('energy_collect')){
-            //     return;
-            // }
+            if(pile.isTargetOfJobType('energy_collect')){
+                return;
+            }
 
             if(pile.energy < minEnergyPile){
                 return;
