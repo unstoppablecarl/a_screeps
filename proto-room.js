@@ -89,6 +89,15 @@ Room.prototype.roads = function(filter){
     return finder(this, FIND_STRUCTURES, {structureType: STRUCTURE_ROAD});
 };
 
+Room.prototype.walls = function(filter){
+    if(filter){
+        return finder(this, FIND_STRUCTURES, function(s){
+            return s.structureType === STRUCTURE_WALL && filter(s);
+        });
+    }
+    return finder(this, FIND_STRUCTURES, {structureType: STRUCTURE_WALL});
+};
+
 Room.prototype.extensions = function(filter) {
     return this.structures(function(s){
         return s.structureType === STRUCTURE_EXTENSION && (!filter || filter(s));

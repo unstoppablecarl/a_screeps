@@ -51,7 +51,6 @@ var job_repair = {
                 var type = s.structureType;
                 var threshold = room.repairStartThreshold(type);
                 var hitPercent = s.hits / s.hitsMax;
-
                 return hitPercent < threshold;
             }
             return false;
@@ -69,7 +68,20 @@ var job_repair = {
             return false;
         });
 
-        structures = structures.concat(roads);
+        var walls = room.walls(function(wall){
+            if(wall.hits < wall.hitsMax && !wall.isTargetOfJobType('repair')){
+                var type = wall.structureType;
+                var threshold = room.repairStartThreshold(type);
+                var hitPercent = wall.hits / wall.hitsMax;
+
+                return hitPercent < threshold;
+            }
+
+            return false;
+        });
+
+        structures = structures.concat(roads, walls);
+
         return structures.map(function(structure){
 
             var priority = 0.6;
