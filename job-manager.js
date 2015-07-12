@@ -495,6 +495,8 @@ JobManager.prototype = {
             if(deliveryNeeded <= 0){
                 job.end();
 
+
+
                 var index1 = deliverJobs.indexOf(job);
 
                 if(index1 !== -1){
