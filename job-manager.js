@@ -69,6 +69,8 @@ JobManager.prototype = {
 
     allocate: function(){
 
+
+        // @TODO allocate harvesters to locations, loop over harvesters then find nearest location
         var idleCreepsByRole = this.getIdleCreepsByRole();
 
         var jobList = this.room.jobList();

@@ -54,20 +54,20 @@ var job_move_to_flag = {
             settings.no_path_count = 0;
         }
 
-        if(
-            atTargetPos ||
-            (
-                settings.no_path_count > 3 &&
-                creep.pos.getRangeTo(target) < 5
-            )
-        ){
-            creep.room.jobList().add({
-                type: 'standby',
-                role: creep.role(),
-                source: creep,
-                target: target
-            }).start();
-        }
+        // if(
+        //     atTargetPos ||
+        //     (
+        //         settings.no_path_count > 3 &&
+        //         creep.pos.getRangeTo(target) < 5
+        //     )
+        // ){
+        //     creep.room.jobList().add({
+        //         type: 'standby',
+        //         role: creep.role(),
+        //         source: creep,
+        //         target: target
+        //     }).start();
+        // }
 
         settings.prev_pos.x = creep.pos.x;
         settings.prev_pos.y = creep.pos.y;
