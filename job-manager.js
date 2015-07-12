@@ -494,8 +494,17 @@ JobManager.prototype = {
 
             if(deliveryNeeded <= 0){
                 job.end();
-                deliverJobs.remove(job);
-                jobs.remove(job);
+
+                var index1 = deliverJobs.indexOf(job);
+
+                if(index1 !== -1){
+                    deliverJobs.splice(index1, 1);
+                }
+
+                var index2 = jobs.indexOf(job);
+                if(index2 !== -1) {
+                    jobs.splice(index2, 1);
+                }
 
             } else {
                 var aSettings = job.allocationSettings() || {};
