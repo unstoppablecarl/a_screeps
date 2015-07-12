@@ -540,6 +540,8 @@ JobManager.prototype = {
                 var index = idleCreepsByRole.carrier.indexOf(creep);
                 idleCreepsByRole.carrier.splice(index, 1);
                 creeps.splice(i, 1);
+
+                console.log('this.room', this.room);
                 this.room.jobList().add({
                     role: 'carrier',
                     type: 'energy_store',
