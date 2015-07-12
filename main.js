@@ -30,7 +30,7 @@ if(room){
         jobManager.auditHarvesters();
     }
 
-    // room.reportHostiles();
+    room.reportHostiles();
 }
 
 // cleanup dead creeps from memory
