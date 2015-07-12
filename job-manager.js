@@ -466,6 +466,15 @@ JobManager.prototype = {
             return jobs;
         }
 
+
+        creeps.forEach(function(creep){
+            var deliverableAmount = creep.energy;
+
+
+        });
+
+
+
         deliverJobs.forEach(function(job){
 
             var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
@@ -473,11 +482,10 @@ JobManager.prototype = {
 
             var creeps = _.sortBy(creeps, function(creep){
                 return target.pos.getRangeTo(creep);
-            });
+            }).reverse();
 
             for(var i = creeps.length - 1; i >= 0; i--){
                 var creep = creeps[i];
-
 
                 if(deliveryNeeded > 0){
 
@@ -485,9 +493,8 @@ JobManager.prototype = {
 
                     deliveryNeeded -= deliverableAmount;
 
-                    var index = idleCreepsByRole.carrier.indexOf(creep);
-                    idleCreepsByRole.carrier.splice(index, 1);
-                    creeps.splice(i, 1);
+                    idleCreepsByRole.carrier.remove(creep);
+                    creeps.remove(creep);
 
                     this.room.jobList().add({
                         role: 'carrier',
@@ -501,8 +508,7 @@ JobManager.prototype = {
 
             if(deliveryNeeded <= 0){
                 job.end();
-                var ind = jobs.indexOf(job);
-                jobs.splice(ind, 1);
+                jobs.remove(job);
                 return jobs;
             }
 
@@ -516,6 +522,7 @@ JobManager.prototype = {
 
     preAllocateEnergyStoreJobs: function(idleCreepsByRole){
 
+        // @TODO allocate more intellegently to specific energy drop off
         if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
             return;
         }
@@ -527,7 +534,7 @@ JobManager.prototype = {
                 return creep.energy;
             });
 
-            var piles = creep.room.energyPiles();
+            var piles = this.room.energyPiles();
 
             // allocate energy store tasks to creeps until full
             for(var i = creeps.length - 1; i >= 0; i--){
