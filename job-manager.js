@@ -527,6 +527,8 @@ JobManager.prototype = {
                 return creep.energy;
             });
 
+            var piles = creep.room.energyPiles();
+
             // allocate energy store tasks to creeps until full
             for(var i = creeps.length - 1; i >= 0; i--){
                 if(energyStoreAmount <= 0){
@@ -541,12 +543,16 @@ JobManager.prototype = {
                 idleCreepsByRole.carrier.splice(index, 1);
                 creeps.splice(i, 1);
 
-                console.log('this.room', this.room);
+                var target = creep.pos.findClosestEnergyStore();
+
+                if(!target){
+                    return;
+                }
                 this.room.jobList().add({
                     role: 'carrier',
                     type: 'energy_store',
                     source: creep,
-                    target: this.room,
+                    target: target,
                     priority: 0.8,
                 }).start();
             }
