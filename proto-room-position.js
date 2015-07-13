@@ -1,42 +1,28 @@
 'use strict';
 
 
-RoomPosition.prototype.findClosestIdleFlag = function(role){
-
+RoomPosition.prototype.findClosestIdleFlag = function(creep){
+    var role = creep.role();
     var room = Game.rooms[this.roomName];
     var flags = room.getIdleFlags();
 
     flags = _.sortBy(flags, function(flag){
-        return flag.idlePriority();
+
+        var priority = flag.idlePriority();
+        if(flag.idleCreepRole()){
+            priority += 100;
+        }
+        return priority;
     }).reverse();
 
-    var roleFlags = [];
-    var anyRoleFlags = [];
-
-    for (var i = 0; i < flags.length; i++) {
-        var flag = flags[i];
-
-        var idleRole = flag.idleCreepRole();
-        var idleSlots = flag.getCreepIdleSlots();
-        if(
-            (idleRole === role || !idleRole) &&
-            idleSlots === true || idleSlots > 0
-        ){
-            if(idleRole === role){
-                roleFlags.push(flag);
-            } else {
-                anyRoleFlags.push(flag);
-            }
-        }
-    }
+    var roleFlags = flags.filter(function(flag){
+        return flag.idleCreepValid(creep);
+    });
 
     if(roleFlags.length){
         return this.findClosest(roleFlags);
     }
 
-    if(anyRoleFlags.length){
-        return this.findClosest(anyRoleFlags);
-    }
     return false;
 };
 

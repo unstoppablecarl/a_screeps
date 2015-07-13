@@ -155,6 +155,17 @@ Flag.prototype.idleCreepRole = function(role) {
     return this.memory.idle_creep_role;
 };
 
+// if the creep's enegy must be full or empty to idle at this flag
+Flag.prototype.idleCreepExcludeEnergyFull = function(value) {
+    if(this.memory.role !== 'idle'){
+        return false;
+    }
+    if (value !== undefined) {
+        this.memory.idle_creep_exclude_energy_full = value;
+    }
+    return this.memory.idle_creep_exclude_energy_full;
+};
+
 // max number to idle
 Flag.prototype.idleCreepMax = function(value) {
     if(this.memory.role !== 'idle'){
@@ -166,9 +177,8 @@ Flag.prototype.idleCreepMax = function(value) {
     return this.memory.idle_creep_max;
 };
 
-
 // max number to idle
-Flag.prototype.getCreepIdleSlots = function() {
+Flag.prototype.idleCreepSlots = function() {
     if(this.memory.role !== 'idle'){
         return false;
     }
@@ -186,7 +196,40 @@ Flag.prototype.getCreepIdleSlots = function() {
     }
 
     return 0;
+};
 
+// checks if creep can idle at this flag
+Flag.prototype.idleCreepValid = function(creep){
+
+    var idleRole = this.idleCreepRole();
+    if(
+        !idleRole ||
+        idleRole === creep.role()
+    ){
+        return false;
+    }
+
+    var idleSlots = this.getCreepIdleSlots();
+    if(
+        idleSlots !== true &&
+        (
+            idleSlots === false ||
+            idleSlots < 1
+        )
+    ){
+        return false;
+    }
+
+    var idleCreepExcludeEnergyFull = this.idleCreepExcludeEnergyFull();
+
+    if(
+        idleCreepExcludeEnergyFull &&
+        creep.energy === creep.energyCapacity
+    ){
+        return false;
+    }
+
+    return true;
 };
 
 // healer flag
