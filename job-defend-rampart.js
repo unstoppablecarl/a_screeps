@@ -33,10 +33,10 @@ var job_defend_rampart = {
             return;
         }
 
-        var isRanged = creep.getActiveBodyParts(RANGED_ATTACK);
+        var isRanged = creep.getActiveBodyparts(RANGED_ATTACK);
         var isMelee = false;
         if(!isRanged){
-            isMelee = creep.getActiveBodyParts(ATTACK);
+            isMelee = creep.getActiveBodyparts(ATTACK);
         }
 
         var range;
