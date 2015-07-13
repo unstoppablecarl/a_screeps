@@ -137,7 +137,10 @@ Creep.prototype.adjacentHostiles = function(filter) {
         var row = result[x];
         for(var y in row){
             var target = row[y];
-            if(target && !target.my){
+            if(
+                target &&
+                !target.my
+            ){
 
                 targets.push(target);
             }
@@ -149,6 +152,7 @@ Creep.prototype.adjacentHostiles = function(filter) {
     }
     return targets;
 };
+
 
 Creep.prototype.hurtLastTick = function(){
     return this.hits < this.memory.prev_hits;

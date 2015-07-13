@@ -18,9 +18,6 @@ if(room){
     var jobManager = room.jobManager();
     var jobList = room.jobList();
 
-    jobManager.update();
-    jobManager.allocate();
-    jobList.report();
 
     if (Game.time % 5 === 0) {
         jobList.cleanup();
@@ -29,6 +26,11 @@ if(room){
     if (Game.time % 20 === 0) {
         jobManager.auditHarvesters();
     }
+
+
+    jobManager.update();
+    jobManager.allocate();
+    jobList.report();
 
     room.reportHostiles();
 }

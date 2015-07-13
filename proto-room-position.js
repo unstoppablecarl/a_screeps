@@ -105,3 +105,20 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(blockedTileFunc) {
 
     return spaces;
 };
+
+RoomPosition.prototype.findHostileTarget = function(range){
+    // ranged attack distance
+    range = range || 3;
+
+    var targets = this.findInRange(FIND_HOSTILE_CREEPS, range);
+
+    if(targets.length){
+        targets = _.sortBy(targets, function(target){
+            return target.hits;
+        });
+
+        return targets[0];
+    }
+
+    return false;
+};

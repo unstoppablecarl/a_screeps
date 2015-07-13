@@ -11,32 +11,51 @@ var job_attack = {
         }
 
         // if hurt by non-target while en-route to target, fight back
-        if(!creep.pos.isNearTo(target) && creep.hurtLastTick()){
-            var adjacentHostiles = creep.adjacentHostiles();
-            if(adjacentHostiles.length){
-                target = _.min(adjacentHostiles, 'hits');
-                creep.attack(target);
-                return;
-            }
-        }
+        // if(!creep.pos.isNearTo(target) && creep.hurtLastTick()){
+        //     var adjacentHostiles = creep.adjacentHostiles();
+        //     if(adjacentHostiles.length){
+        //         target = _.min(adjacentHostiles, 'hits');
+        //         creep.attack(target);
+        //         return;
+        //     }
+        // }
 
 
         if(target){
 
-            var move = creep.moveTo(target);
+            var isRanged = creep.getActiveBodyParts(RANGED_ATTACK);
 
-            var moveOK = (
-                move === OK ||
-                move === ERR_TIRED ||
-                move === ERR_NO_PATH
-            );
+            var isMelee = false;
 
-            if(!moveOK){
-                job.end();
-                return;
+            if(!isRanged){
+                isMelee = creep.getActiveBodyParts(ATTACK);
             }
 
-            var action = creep.attack(target);
+            if(
+                !isRanged ||
+                creep.pos.getRangeTo(target) > 3
+            ){
+                var move = creep.moveTo(target);
+
+                var moveOK = (
+                    move === OK ||
+                    move === ERR_TIRED ||
+                    move === ERR_NO_PATH
+                );
+
+                if(!moveOK){
+                    job.end();
+                    return;
+                }
+            }
+
+            var action;
+            if(isRanged){
+                action = creep.rangedAttack(target);
+            } else {
+                action = creep.attack(target);
+            }
+
             var actionOK = (
                 action === OK ||
                 action === ERR_NOT_IN_RANGE
