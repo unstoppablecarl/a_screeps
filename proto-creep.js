@@ -153,7 +153,17 @@ Creep.prototype.adjacentHostiles = function(filter) {
     return targets;
 };
 
-
 Creep.prototype.hurtLastTick = function(){
     return this.hits < this.memory.prev_hits;
 };
+
+Creep.prototype.attackDamage = function(){
+    var parts = this.getActiveBodyParts(ATTACK);
+    return parts * ATTACK_POWER;
+};
+
+Creep.prototype.rangedAttackDamage = function(){
+    var parts = this.getActiveBodyParts(RANGED_ATTACK);
+    return parts * RANGED_ATTACK_POWER;
+};
+

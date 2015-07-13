@@ -33,29 +33,43 @@ var job_defend_rampart = {
             return;
         }
 
-        var isRanged = creep.getActiveBodyparts(RANGED_ATTACK);
-        var isMelee = false;
-        if(!isRanged){
-            isMelee = creep.getActiveBodyparts(ATTACK);
-        }
+        var rangedDamage = creep.rangedAttackDamage();
+        var meleeDamage = creep.attackDamage();
+        var attackIsMelee = meleeDamage > rangedDamage;
 
-        var range;
-        if(isRanged){
+        var range = 1;
+
+        if(rangedDamage){
             range = 3;
-        }
-        else {
-            range = 1;
         }
 
         var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);
         var target = _.min(targets, 'hits');
 
-        var action;
-        if(isRanged){
-            creep.rangedAttack(target);
-        } else {
-            creep.attack(target);
+        if(!target){
+            return;
         }
+
+        var targetRange = creep.pos.getRangeTo(target);
+        var action;
+
+        if(
+            attackIsMelee &&
+            targetRange === 1
+        ){
+            action = creep.attack(target);
+        }
+        else if(
+            rangedDamage &&
+            targetRange <= 3
+        ){
+            action = creep.rangedAttack(target);
+        }
+
+        var actionOK = (
+            action === OK ||
+            action === ERR_NOT_IN_RANGE
+        );
     },
     getJobs: function(room){
         return room.flags()

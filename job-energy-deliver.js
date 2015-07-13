@@ -17,7 +17,13 @@ var job_energy_deliver = {
             return;
         }
 
-        if (target.energy === target.energyCapacity) {
+
+        var targetJob = target.job();
+
+        if(!targetJob){
+
+        // }
+        // if (target.energy === target.energyCapacity) {
             job.end();
             return;
         }

@@ -23,17 +23,18 @@ var job_attack = {
 
         if(target){
 
-            var isRanged = creep.getActiveBodyParts(RANGED_ATTACK);
+            var rangedDamage = creep.rangedAttackDamage();
+            var meleeDamage = creep.attackDamage();
+            var targetRange = creep.pos.getRangeTo(target);
 
-            var isMelee = false;
-
-            if(!isRanged){
-                isMelee = creep.getActiveBodyParts(ATTACK);
-            }
+            var attackIsMelee = meleeDamage > rangedDamage;
 
             if(
-                !isRanged ||
-                creep.pos.getRangeTo(target) > 3
+                attackIsMelee ||
+                (
+                    !attackIsMelee &&
+                    targetRange > 3
+                )
             ){
                 var move = creep.moveTo(target);
 
@@ -47,13 +48,22 @@ var job_attack = {
                     job.end();
                     return;
                 }
+                return;
             }
 
             var action;
-            if(isRanged){
-                action = creep.rangedAttack(target);
-            } else {
+
+            if(
+                attackIsMelee &&
+                targetRange === 1
+            ){
                 action = creep.attack(target);
+            }
+            else if(
+                rangedDamage &&
+                targetRange <= 3
+            ){
+                action = creep.rangedAttack(target);
             }
 
             var actionOK = (
