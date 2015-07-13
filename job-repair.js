@@ -68,6 +68,23 @@ var job_repair = {
             return false;
         });
 
+
+        var repairWallsTo = 10000;
+        var wallFlags = room.flags().filter(function(flag){
+            return flag.role() === 'wall_repair';
+        });
+
+        wallFlags.forEach(function(flag){
+            var range = flag.memory.wall_repair_range || 2;
+            var walls = flag.findInRange(FIND_STRUCTURES, range).filter(function(s){
+                return s.structureType === STRUCTURE_WALL && s.hits < repairWallsTo;
+            });
+
+            walls.forEach(function(wall){
+                structures.push(wall);
+            });
+        });
+
         // var walls = room.walls(function(wall){
         //     if(wall.hits < wall.hitsMax && !wall.isTargetOfJobType('repair')){
         //         var type = wall.structureType;
