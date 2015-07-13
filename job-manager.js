@@ -459,7 +459,7 @@ JobManager.prototype = {
         }
 
         var deliverJobs = jobs.filter(function(job){
-            return job.type() === 'energy_deliver';
+            return job.type() === 'energy_deliver' && job.target();
         });
 
         if(!deliverJobs.length){
