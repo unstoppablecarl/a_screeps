@@ -688,7 +688,8 @@ JobManager.prototype = {
                     }
                     return (
                         !jobSource.replaced() &&
-                        !jobSource.isTargetOfJobType('replace') // already assigned a replace job
+                        !jobSource.isTargetOfJobType('replace') && // already assigned a replace job
+                        source.pos.getRangeTo(jobSource) < 5
                     );
                 }
                 return false;
@@ -696,13 +697,11 @@ JobManager.prototype = {
 
             var matchJob = _.find(jobs, function(job){
                 var jobSource = job.source();
-                if(
-                    job.active() &&
+
+                return (
                     jobSource &&
-                    source.pos.getRangeTo(jobSource) < 5
-                ){
-                    return jobSource.getActiveBodyparts(WORK) === 5;
-                }
+                    jobSource.getActiveBodyparts(WORK) === 5
+                );
             });
 
             if(matchJob){
