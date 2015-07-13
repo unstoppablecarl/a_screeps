@@ -10,6 +10,15 @@ var job_repair = {
             return;
         }
 
+        if(
+            target &&
+            target.structureType === STRUCTURE_WALL &&
+            target.hits > 100000
+        ){
+            job.end();
+            return;
+        }
+
         // do not stand on top of target
         if(!creep.pos.isNearTo(target)){
             var move = creep.moveTo(target);
@@ -77,7 +86,11 @@ var job_repair = {
         wallFlags.forEach(function(flag){
             var range = flag.memory.wall_repair_range || 2;
             var walls = flag.pos.findInRange(FIND_STRUCTURES, range).filter(function(s){
-                return s.structureType === STRUCTURE_WALL && s.hits < repairWallsTo && !s.isTargetOfJobType('repair');
+                return (
+                    s.structureType === STRUCTURE_WALL &&
+                    s.hits < repairWallsTo &&
+                    !s.isTargetOfJobType('repair')
+                );
             });
 
             walls.forEach(function(wall){
