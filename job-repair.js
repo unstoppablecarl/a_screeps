@@ -77,7 +77,7 @@ var job_repair = {
         wallFlags.forEach(function(flag){
             var range = flag.memory.wall_repair_range || 2;
             var walls = flag.pos.findInRange(FIND_STRUCTURES, range).filter(function(s){
-                return s.structureType === STRUCTURE_WALL && s.hits < repairWallsTo;
+                return s.structureType === STRUCTURE_WALL && s.hits < repairWallsTo && !s.isTargetOfJobType('repair');
             });
 
             walls.forEach(function(wall){
