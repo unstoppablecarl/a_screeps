@@ -19,9 +19,7 @@ var job_energy_deliver = {
 
 
         var targetJob = target.job();
-
         if(!targetJob){
-
         // }
         // if (target.energy === target.energyCapacity) {
             job.end();
