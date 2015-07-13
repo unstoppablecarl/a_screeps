@@ -54,23 +54,26 @@ var job_repair = {
 
     getJobs: function(room){
         var structures = room.structures(function(s){
-            if(s.hits < s.hitsMax && !s.isTargetOfJobType('repair')){
-
-                var currentCount = s.targetOfJobTypeCount('repair');
-                var adjacentTiles = 1;
+            if(s.hits < s.hitsMax){
 
                 var repairAmount = s.hitsMax - s.hits;
                 if(repairAmount > 10000){
-                    adjacentTiles = s.pos.adjacentEmptyTileCount();
+                    var adjacentTiles = s.pos.adjacentEmptyTileCount();
 
                     if(adjacentTiles > 3){
                         adjacentTiles = 3;
                     }
+
+                    var currentCount = s.targetOfJobTypeCount('repair');
+                    if(currentCount >= adjacentTiles){
+                        return false;
+                    }
+                } else {
+                     if(s.isTargetOfJobType('repair')){
+                        return false;
+                     }
                 }
 
-                if(currentCount >= adjacentTiles){
-                    return false;
-                }
                 var type = s.structureType;
                 var threshold = room.repairStartThreshold(type);
                 var hitPercent = s.hits / s.hitsMax;
