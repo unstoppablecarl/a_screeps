@@ -243,7 +243,7 @@ JobManager.prototype = {
         return true;
     },
 
-    canAllocateJobToSpawn: function(job){
+    canAllocateJobToSpawn: function(job, idleCreepsByRole){
         var role = job.role();
         var type = job.type();
         var roleCountMax;
@@ -251,6 +251,14 @@ JobManager.prototype = {
         var roleCountFilter;
 
         if(role === 'carrier'){
+
+            if(
+                idleCreepsByRole.carrier &&
+                idleCreepsByRole.carrier.length
+            ){
+                return false;
+            }
+
             roleCountMax = this.getCarrierCountMax();
         } else {
             roleCountMax = this.room.roleCountMax(role);
