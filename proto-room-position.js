@@ -8,7 +8,7 @@ RoomPosition.prototype.findClosestIdleFlag = function(creep){
 
     flags = _.sortBy(flags, function(flag){
 
-        var priority = flag.idlePriority();
+        var priority = flag.idlePriority() || 0;
         if(flag.idleCreepRole()){
             priority += 100;
         }
