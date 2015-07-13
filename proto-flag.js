@@ -203,8 +203,8 @@ Flag.prototype.idleCreepValid = function(creep){
 
     var idleRole = this.idleCreepRole();
     if(
-        !idleRole ||
-        idleRole === creep.role()
+        idleRole &&
+        idleRole !== creep.role()
     ){
         return false;
     }
