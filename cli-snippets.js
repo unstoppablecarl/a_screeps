@@ -44,15 +44,8 @@ require('proto-all');  Game.rooms.sim.jobCountMax('build', 3);
 
 
 require('proto-all');
-var r = Game.rooms['W15N4'].flags()
-            .filter(function(flag){
-                return (
-                    flag.role() === 'rampart' &&
-                    !flag.isTargetOfJobType('defend_rampart')
-                );
-            });
+var r = Game.rooms['W15N4'].containsHostiles();
             console.log('r', r);
-
 
 
 Game.flags.Idle1.memory.role = 'idle';

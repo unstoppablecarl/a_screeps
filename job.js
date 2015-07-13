@@ -74,6 +74,7 @@ Job.prototype = {
                 value = this.getObjectById(value.id);
             }
             if(!value){
+                console.log('ERROR: trying to set invalid source', value);
                 return false;
             }
 

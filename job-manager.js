@@ -579,7 +579,7 @@ JobManager.prototype = {
                 var target = creep.pos.findClosestEnergyStore();
 
                 if(!target){
-                    return;
+                    continue;
                 }
                 this.room.jobList().add({
                     role: 'carrier',
