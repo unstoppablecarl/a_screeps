@@ -119,7 +119,6 @@ var job_energy_collect = {
                     energy_collection_needed: energyCollectionNeeded
                 }
             });
-
         });
 
         return jobs;

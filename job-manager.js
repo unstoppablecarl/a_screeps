@@ -492,6 +492,9 @@ JobManager.prototype = {
                 return target;
             });
 
+            if(!targets.length){
+                return;
+            }
             var target = creep.pos.findClosestByRange(targets);
 
             var job = jobsByTargetId[target.id];
