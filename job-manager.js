@@ -211,8 +211,16 @@ JobManager.prototype = {
 
             // prevent creeps from replacing themselves
             if(creeps && creeps.length){
+                var replaceThreshold = this.room.creepReplaceThreshold();
+
                 creeps = creeps.filter(function(creep){
-                    return creep !== target;
+
+                    return (
+                            creep !== target &&
+                            creep.ticksToLive < replaceThreshold && // close enough to death to be replaced
+                            !creep.replaced() && // already been replaced
+                            !creep.isTargetOfJobType('replace') // already assigned a replace job
+                        );
                 });
             }
 
