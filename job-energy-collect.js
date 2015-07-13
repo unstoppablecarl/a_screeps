@@ -146,7 +146,7 @@ var job_energy_collect = {
                     target: creep,
                     priority: priority,
                     allocation_settings: {
-                        energy_collection_needed: creep.energyCapacity
+                        energy_collection_needed: 100
                     }
                 });
             });
