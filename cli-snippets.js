@@ -10,7 +10,7 @@ require('proto-all'); Game.rooms['W15N4'].populationReport();
 require('proto-all'); console.log(Game.rooms['W15N4'].jobManager().getCarrierCountMax());
 
 
-require('proto-all');
+require('proto-all'); console.log('x ' + Game.flags.Idle3.idleCreepSlots());
 console.log(
     JSON.stringify(
         Game.rooms.sim.jobManager().report()
@@ -31,11 +31,28 @@ require('proto-all'); Game.rooms.sim.jobList().report(Game.rooms.sim.jobList().a
 }));
 
 
+
+Game.flags.Idle5.memory.role = 'idle';
+Game.flags.Idle5.memory.idle_creep_max = 7;
+
+
 // init room
 
 require('proto-all');  Game.rooms.sim.roleCountMax('tech', 6);
 require('proto-all');  Game.rooms.sim.roleCountMax('carrier', 5);
 require('proto-all');  Game.rooms.sim.jobCountMax('build', 3);
+
+
+require('proto-all');
+var r = Game.rooms['W15N4'].flags()
+            .filter(function(flag){
+                return (
+                    flag.role() === 'rampart' &&
+                    !flag.isTargetOfJobType('defend_rampart')
+                );
+            });
+            console.log('r', r);
+
 
 
 Game.flags.Idle1.memory.role = 'idle';
@@ -61,11 +78,14 @@ Game.flags.Flag4.memory.harvester_count_max = 2;
 
 
 Game.flags.Guard1.memory.role = 'guard';
-Game.flags.Guard1.memory.guard_max = 2;
+Game.flags.Guard1.memory.guard_max = 3;
 
 Game.flags.Guard2.memory.role = 'guard';
-Game.flags.Guard2.memory.guard_max = 2;
+Game.flags.Guard2.memory.guard_max = 3;
 
+
+Game.flags.Guard3.memory.role = 'guard';
+Game.flags.Guard3.memory.guard_max = 3;
 
 
 Game.flags.R1.memory.role = 'defend_rampart';
