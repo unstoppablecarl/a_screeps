@@ -3,20 +3,20 @@
 var job_defend_rampart = {
     name: 'defend_rampart',
     act: function(creep, job){
-        var target = job.target();
+        var rampart = job.target();
 
-        if(!target){
+        if(!rampart){
             job.end();
             return;
         }
 
         var atTargetPos = (
-            creep.pos.x === target.pos.x &&
-            creep.pos.y === target.pos.y
+            creep.pos.x === rampart.pos.x &&
+            creep.pos.y === rampart.pos.y
         );
 
         if(!atTargetPos){
-            var move = creep.moveTo(target);
+            var move = creep.moveTo(rampart);
 
             var moveOK = (
                 move === OK ||
@@ -25,7 +25,6 @@ var job_defend_rampart = {
             );
             if(!moveOK){
                 job.end();
-                return;
             }
             return;
         }
@@ -34,19 +33,34 @@ var job_defend_rampart = {
             return;
         }
 
-        var adjacentHostiles = creep.adjacentHostiles();
-        if(adjacentHostiles.length){
-            target = _.min(adjacentHostiles, 'hits');
-            creep.attack(target);
-            return;
+        var isRanged = creep.getActiveBodyParts(RANGED_ATTACK);
+        var isMelee = false;
+        if(!isRanged){
+            isMelee = creep.getActiveBodyParts(ATTACK);
         }
 
-        // @TODO check if rampart is destroyed and move to adjacent ramparts
+        var range;
+        if(isRanged){
+            range = 3;
+        }
+        else {
+            range = 1;
+        }
+
+        var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);
+        var target = _.min(targets, 'hits');
+
+        var action;
+        if(isRanged){
+            creep.rangedAttack(target);
+        } else {
+            creep.attack(target);
+        }
     },
     getJobs: function(room){
         return room.flags(function(flag){
             return (
-                flag.role() === 'rampart_defender' &&
+                flag.role() === 'rampart' &&
                 !flag.isTargetOfJobType('defend_rampart')
             );
         }).map(function(flag){
