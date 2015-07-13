@@ -10,12 +10,18 @@ var job_energy_collect = {
         if (!target || target.energy === 0) {
             var targets = creep.room.energyPiles();
 
-            if(targets && targets.length){
-                if(targets.length === 1){
-                    target = targets[0];
-                } else {
-                    target = creep.pos.findClosest(targets);
-                }
+            if(!targets || !targets.length){
+                targets = creep.pos.findInRange(FIND_MY_CREEPS, 5, {
+                    filter: function(creep){
+                        return creep.role() === 'harvester';
+                    }
+                });
+            }
+
+            if(targets.length === 1){
+                target = targets[0];
+            } else {
+                target = creep.pos.findClosestByRange(targets);
             }
 
             if (target) {
