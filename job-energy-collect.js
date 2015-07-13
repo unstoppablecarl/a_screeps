@@ -10,16 +10,12 @@ var job_energy_collect = {
         if(
             target &&
             target.role &&
-            target.role() !== 'harvester'
+            target.role() === 'harvester'
         ) {
             return target;
         }
 
         if (!target || target.energy === 0){
-
-
-
-
             var targets = creep.pos.findInRange(FIND_MY_CREEPS, 5, {
                 filter: function(creep){
                     return creep.role() === 'harvester';
