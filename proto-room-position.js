@@ -15,12 +15,14 @@ RoomPosition.prototype.findClosestIdleFlag = function(creep){
         return priority;
     }).reverse();
 
+    console.log('flags', flags);
     var roleFlags = flags.filter(function(flag){
         return flag.idleCreepValid(creep);
     });
 
     if(roleFlags.length){
-        return this.findClosest(roleFlags);
+        return roleFlags[0];
+        // return this.findClosest(roleFlags);
     }
 
     return false;
