@@ -68,7 +68,7 @@ var job_energy_collect = {
         // look for dropped harvester energy
         var energy = target.pos.lookFor('energy');
         if(energy !== undefined){
-            if(Object.isArray(energy)){
+            if(_.isArray(energy)){
                 target = energy[0];
             } else{
                 target = energy;
