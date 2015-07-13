@@ -128,6 +128,29 @@ var job_energy_collect = {
             });
         });
 
+        var harvesters = room.creeps()
+            .forEach(function(creep){
+                if(
+                    !creep.idle() &&
+                    creep.role() === 'harvester' &&
+                    !creep.isTargetOfJobType('energy_collect')
+                ){
+                    return;
+                }
+
+                var priority = 0.9;
+
+                jobs.push({
+                    role: 'carrier',
+                    type: 'energy_collect',
+                    target: creep,
+                    priority: priority,
+                    allocation_settings: {
+                        energy_collection_needed: creep.energyCapacity
+                    }
+                });
+            });
+
         return jobs;
     }
 
