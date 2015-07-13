@@ -209,7 +209,7 @@ Flag.prototype.idleCreepValid = function(creep){
         return false;
     }
 
-    var idleSlots = this.getCreepIdleSlots();
+    var idleSlots = this.idleCreepSlots();
     if(
         idleSlots !== true &&
         (
