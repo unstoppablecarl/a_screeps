@@ -472,9 +472,16 @@ JobManager.prototype = {
             }
 
             var jobsByTargetId = {};
-            var targets = deliverJobs.map(function(job){
-                jobsByTargetId[job.target().id] = job;
+            var targets = deliverJobs.filter(function(job){
                 return job.target();
+            }).map(function(job){
+                var target = job.target();
+                var id = target.id;
+                if(id){
+                    jobsByTargetId[id] = job;
+
+                }
+                return target;
             });
 
             var target = creep.pos.findClosestByRange(targets);
