@@ -685,8 +685,14 @@ JobManager.prototype = {
             });
 
             var matchJob = _.find(jobs, function(job){
-                var sourceWorkCount = job.sourceActiveBodyparts(WORK);
-                return sourceWorkCount === 5;
+                var jobSource = job.source();
+                if(
+                    job.active() &&
+                    jobSource &&
+                    source.pos.getRangeTo(jobSource) < 5
+                ){
+                    return jobSource.getActiveBodyparts(WORK) === 5;
+                }
             });
 
             if(matchJob){
