@@ -33,6 +33,8 @@ JobManager.prototype = {
         var defendRampart = handlers.defend_rampart.getJobs(room);
         jobs = jobs.concat(defendRampart);
 
+        console.log('defendRampart', defendRampart);
+
         var energyCollect = handlers.energy_collect.getJobs(room);
         jobs = jobs.concat(energyCollect);
 

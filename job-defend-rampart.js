@@ -58,19 +58,21 @@ var job_defend_rampart = {
         }
     },
     getJobs: function(room){
-        return room.flags(function(flag){
-            return (
-                flag.role() === 'rampart' &&
-                !flag.isTargetOfJobType('defend_rampart')
-            );
-        }).map(function(flag){
-            return {
-                role: 'rampart_defender',
-                type: 'defend_rampart',
-                target: flag,
-                priority: 0.7
-            };
-        });
+        return room.flags()
+            .filter(function(flag){
+                return (
+                    flag.role() === 'rampart' &&
+                    !flag.isTargetOfJobType('defend_rampart')
+                );
+            })
+            .map(function(flag){
+                return {
+                    role: 'rampart_defender',
+                    type: 'defend_rampart',
+                    target: flag,
+                    priority: 0.7
+                };
+            });
     },
 };
 
