@@ -6,6 +6,8 @@ RoomPosition.prototype.findClosestIdleFlag = function(role){
     var room = Game.rooms[this.roomName];
     var flags = room.getIdleFlags();
 
+
+
     var roleFlags = [];
     var anyRoleFlags = [];
 
@@ -13,10 +15,10 @@ RoomPosition.prototype.findClosestIdleFlag = function(role){
         var flag = flags[i];
 
         var idleRole = flag.idleCreepRole();
-
+        var idleSlots = flag.getCreepIdleSlots();
         if(
             (idleRole === role || !idleRole) &&
-            flag.getCreepIdleSlots()
+            idleSlots === true || idleSlots > 0
         ){
             if(idleRole === role){
                 roleFlags.push(flag);
