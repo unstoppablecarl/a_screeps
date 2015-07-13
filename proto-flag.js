@@ -133,10 +133,20 @@ Flag.prototype.carrierCountMax = function(value) {
 
 // idle
 
+Flag.prototype.idlePriority = function(value) {
+    if(this.memory.role !== 'idle'){
+        return false;
+    }
+    if (value !== undefined) {
+        this.memory.idle_priority = value;
+    }
+    return this.memory.idle_priority || 0;
+};
+
 // type of creeps to idle at this flag
 // if not set any creep type can idle here
 Flag.prototype.idleCreepRole = function(role) {
-    if(this.memory.idle_creep_role !== 'idle'){
+    if(this.memory.role !== 'idle'){
         return false;
     }
     if (role !== undefined) {

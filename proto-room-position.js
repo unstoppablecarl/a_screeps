@@ -6,7 +6,9 @@ RoomPosition.prototype.findClosestIdleFlag = function(role){
     var room = Game.rooms[this.roomName];
     var flags = room.getIdleFlags();
 
-
+    flags = _.sortBy(flags, function(flag){
+        return flag.idlePriority();
+    }).reverse();
 
     var roleFlags = [];
     var anyRoleFlags = [];
