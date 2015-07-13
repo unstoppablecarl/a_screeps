@@ -261,15 +261,15 @@ TOUGH:          10
                 ],
                 [
                     MOVE,
-                    ATTACK, ATTACK, ATTACK,
+                    RANGED_ATTACK, RANGED_ATTACK,
                 ],
                 [
                     MOVE,
-                    ATTACK, ATTACK, ATTACK, ATTACK,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
                 ],
                 [
                     MOVE, MOVE,
-                    ATTACK, ATTACK, ATTACK, ATTACK, ATTACK,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
                 ],
             ]
         }
