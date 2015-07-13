@@ -146,6 +146,22 @@ TOUGH:          10
                     WORK, WORK, WORK,
                     MOVE, MOVE, MOVE
                 ],
+
+                [
+                    CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE
+                ],
             ]
         },
         carrier: {
