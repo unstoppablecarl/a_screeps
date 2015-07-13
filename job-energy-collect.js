@@ -65,6 +65,16 @@ var job_energy_collect = {
             return;
         }
 
+        // look for dropped harvester energy
+        var energy = target.pos.lookFor('energy');
+        if(energy !== undefined){
+            if(Object.isArray(energy)){
+                target = energy[0];
+            } else{
+                target = energy;
+            }
+        }
+
         var action;
         if(target.transferEnergy){
             action = target.transferEnergy(creep);
