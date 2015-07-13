@@ -209,6 +209,13 @@ JobManager.prototype = {
             var replaceRole = job.role();
             creeps = idleCreepsByRole[replaceRole];
 
+            // prevent creeps from replacing themselves
+            if(creeps && creeps.length){
+                creeps = creeps.filter(function(creep){
+                    return creep !== target;
+                });
+            }
+
         }
         // else if(type === 'standby'){
 
