@@ -681,7 +681,17 @@ JobManager.prototype = {
         _.each(sources, function(source){
 
             var jobs = source.targetOfJobs(function(job){
-                return job && job.type() === 'harvest';
+                if(job && job.type() === 'harvest'){
+                    var jobSource = job.source();
+                    if(!jobSource){
+                        return false;
+                    }
+                    return (
+                        !jobSource.replaced() &&
+                        !jobSource.isTargetOfJobType('replace') // already assigned a replace job
+                    );
+                }
+                return false;
             });
 
             var matchJob = _.find(jobs, function(job){
