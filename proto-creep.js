@@ -158,12 +158,12 @@ Creep.prototype.hurtLastTick = function(){
 };
 
 Creep.prototype.attackDamage = function(){
-    var parts = this.getActiveBodyParts(ATTACK);
+    var parts = this.getActiveBodyparts(ATTACK);
     return parts * ATTACK_POWER;
 };
 
 Creep.prototype.rangedAttackDamage = function(){
-    var parts = this.getActiveBodyParts(RANGED_ATTACK);
+    var parts = this.getActiveBodyparts(RANGED_ATTACK);
     return parts * RANGED_ATTACK_POWER;
 };
 
