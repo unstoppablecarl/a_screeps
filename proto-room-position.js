@@ -6,8 +6,11 @@ RoomPosition.prototype.findClosestIdleFlag = function(creep){
     var room = Game.rooms[this.roomName];
     var flags = room.getIdleFlags();
 
-    flags = _.sortBy(flags, function(flag){
+    flags = flags.filter(function(flag){
+        return flag.idleCreepValid(creep);
+    });
 
+    flags = _.sortBy(flags, function(flag){
         var priority = flag.idlePriority() || 0;
         if(flag.idleCreepRole()){
             priority += 100;
@@ -15,14 +18,8 @@ RoomPosition.prototype.findClosestIdleFlag = function(creep){
         return priority;
     }).reverse();
 
-    console.log('flags', flags);
-    var roleFlags = flags.filter(function(flag){
-        return flag.idleCreepValid(creep);
-    });
-
-    if(roleFlags.length){
-        return roleFlags[0];
-        // return this.findClosest(roleFlags);
+    if(flags.length){
+        return flags[0];
     }
 
     return false;
