@@ -196,12 +196,12 @@ TOUGH:          10
                 ],
                 [
                     TOUGH, TOUGH,
-                    ATTACK, ATTACK,
+                    RANGED_ATTACK, RANGED_ATTACK,
                     MOVE, MOVE, MOVE
                 ],
                 [
                     TOUGH, TOUGH,
-                    ATTACK, ATTACK, ATTACK,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
                     MOVE, MOVE, MOVE
                 ],
             ]
