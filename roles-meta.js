@@ -261,11 +261,11 @@ TOUGH:          10
             bodies: [
                 [
                     MOVE,
-                    ATTACK, ATTACK,
+                    ATTACK, ATTACK
                 ],
                 [
                     MOVE,
-                    RANGED_ATTACK, RANGED_ATTACK,
+                    RANGED_ATTACK, RANGED_ATTACK
                 ],
                 [
                     MOVE,
@@ -273,7 +273,15 @@ TOUGH:          10
                 ],
                 [
                     MOVE, MOVE,
-                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
+                ],
+                [
+                    MOVE, MOVE,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
+                ],
+                [
+                    MOVE, MOVE,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
                 ],
             ]
         }
