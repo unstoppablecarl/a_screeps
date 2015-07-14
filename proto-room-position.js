@@ -44,7 +44,7 @@ RoomPosition.prototype.findClosestEnergyStore = function(){
                 creep.energyCapacity &&
                 creep.energy !== creep.energyCapacity &&
                 !(
-                    creep.role() === 'harvester' &&
+                    creep.role() === 'carrier' &&
                     creep.job() &&
                     creep.job().type() === 'energy_store'
                 )
