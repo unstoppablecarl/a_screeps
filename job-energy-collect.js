@@ -118,6 +118,7 @@ var job_energy_collect = {
         );
 
         if(!actionOK){
+            console.log('z', action);
             job.end();
         }
     },
