@@ -69,9 +69,9 @@ var job_repair = {
                         return false;
                     }
                 } else {
-                     if(s.isTargetOfJobType('repair')){
+                    if(s.isTargetOfJobType('repair')){
                         return false;
-                     }
+                    }
                 }
 
                 var type = s.structureType;
