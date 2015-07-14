@@ -147,7 +147,7 @@ JobList.prototype = {
     },
 
     report: function(jobs) {
-        jobs = jobs || this.room.jobList().getPending();
+        jobs = jobs || this.room.jobList().getActive();
         if(!jobs.length){
             return;
         }
