@@ -407,8 +407,12 @@ JobManager.prototype = {
 
         // if no carriers
         if(!this.room.roleCount('carrier')){
-            creeps = idleCreepsByRole.tech.filter(function(creep){
-                return creep.energy < creep.energyCapacity;
+            creeps = this.room.creeps().filter(function(creep){
+
+                return (
+                    creep.role() === 'tech' &&
+                    creep.energy < creep.energyCapacity
+                );
             });
         }
 
