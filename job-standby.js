@@ -33,7 +33,6 @@ var job_standby = {
                     var guardPriority = 1 - (guardCount / guardMax);
                     priority += guardPriority * 0.1;
 
-
                     jobs.push({
                         role: 'guard',
                         type: 'move_to_flag',

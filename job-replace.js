@@ -21,14 +21,16 @@ var job_replace = {
         if(targetJob){
             var newJobTarget = targetJob.target();
             if(newJobTarget){
-                job.end();
-                creep.room.jobList().add({
+                var newJob = creep.room.jobList().add({
                     source: creep,
                     target: newJobTarget,
                     type: targetJob.type(),
                     role: targetJob.role(),
                     settings: targetJob.settings(),
-                }).start();
+                });
+
+                newJob.start();
+                newJob.act();
             }
 
             return;

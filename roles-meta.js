@@ -118,8 +118,8 @@ TOUGH:          10
 
                 [
                     CARRY, CARRY, CARRY,
-                    WORK, WORK, WORK, WORK,
-                    MOVE
+                    WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE
                 ],
             ]
         },

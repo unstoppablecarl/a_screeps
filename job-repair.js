@@ -91,7 +91,10 @@ var job_repair = {
         });
 
         var roads = room.roads(function(road){
-            if(road.hits < road.hitsMax && !road.isTargetOfJobType('repair')){
+            if(
+                road.hits < road.hitsMax &&
+                !road.isTargetOfJobType('repair')
+            ){
                 var type = road.structureType;
                 var threshold = room.repairStartThreshold(type);
                 var hitPercent = road.hits / road.hitsMax;
@@ -103,25 +106,25 @@ var job_repair = {
         });
 
 
-        var repairWallsTo = 10000;
-        var wallFlags = room.flags().filter(function(flag){
-            return flag.role() === 'wall_repair';
-        });
+        // var repairWallsTo = 10000;
+        // var wallFlags = room.flags().filter(function(flag){
+        //     return flag.role() === 'wall_repair';
+        // });
 
-        wallFlags.forEach(function(flag){
-            var range = flag.memory.wall_repair_range || 2;
-            var walls = flag.pos.findInRange(FIND_STRUCTURES, range).filter(function(s){
-                return (
-                    s.structureType === STRUCTURE_WALL &&
-                    s.hits < repairWallsTo &&
-                    !s.isTargetOfJobType('repair')
-                );
-            });
+        // wallFlags.forEach(function(flag){
+        //     var range = flag.memory.wall_repair_range || 2;
+        //     var walls = flag.pos.findInRange(FIND_STRUCTURES, range).filter(function(s){
+        //         return (
+        //             s.structureType === STRUCTURE_WALL &&
+        //             s.hits < repairWallsTo &&
+        //             !s.isTargetOfJobType('repair')
+        //         );
+        //     });
 
-            walls.forEach(function(wall){
-                structures.push(wall);
-            });
-        });
+        //     walls.forEach(function(wall){
+        //         structures.push(wall);
+        //     });
+        // });
 
         // var walls = room.walls(function(wall){
         //     if(wall.hits < wall.hitsMax && !wall.isTargetOfJobType('repair')){
