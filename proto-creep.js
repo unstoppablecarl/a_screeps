@@ -172,3 +172,7 @@ Creep.prototype.rangedAttackDamage = function(){
     return parts * (RANGED_ATTACK_POWER || 10);
 };
 
+Creep.prototype.toString = function(){
+    return '[creep ' + this.name + ': ' + this.role() + ']';
+};
+
