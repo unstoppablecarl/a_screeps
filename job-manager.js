@@ -71,7 +71,7 @@ JobManager.prototype = {
         room.flags().filter(function(flag){
             return flag.role() === 'destroy_structure';
         }).forEach(function(flag){
-            var structure = flag.pos.lookFor(structure);
+            var structure = flag.pos.lookFor('structure');
             if(structure){
                 console.log('s', structure);
                 jobs.push({
