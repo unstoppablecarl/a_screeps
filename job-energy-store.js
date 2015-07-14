@@ -15,7 +15,7 @@ var job_energy_store = {
             // prevent carriers passing energy back and forth
             (
                 target.isCreep &&
-                target.role() === 'harvester' &&
+                target.role() === 'carrier' &&
                 target.job() &&
                 target.job().type() === 'energy_store'
             )
