@@ -29,7 +29,7 @@ var job_heal = {
 
     getJobs: function(room){
 
-        var creeps = room.creeps()
+        return room.creeps()
             .filter(function(creep){
                 return creep.hits < creep.hitsMax;
             })
