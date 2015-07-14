@@ -72,7 +72,6 @@ JobManager.prototype = {
             return flag.role() === 'destroy_structure';
         }).forEach(function(flag){
             var structure = flag.pos.lookFor('structure');
-            console.log('z', structure, structure.targetOfJobTypeCount('attack'));
             if(
                 structure &&
                 structure.targetOfJobTypeCount('attack') < 3
@@ -88,8 +87,6 @@ JobManager.prototype = {
                 });
             }
         });
-
-
 
         return jobs;
     },
@@ -165,9 +162,6 @@ JobManager.prototype = {
             return false;
         }
 
-        if(type === 'attack'){
-            console.log('a', job);
-        }
         var allocationSettings = job.allocationSettings();
         // all creeps valid for job
         var creeps;
@@ -208,6 +202,11 @@ JobManager.prototype = {
 
         // }
         else if(type === 'guard'){
+
+            creeps = idleCreepsByRole.guard;
+        }
+
+        else if(type === 'attack'){
 
             creeps = idleCreepsByRole.guard;
         }
