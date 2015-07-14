@@ -1,6 +1,6 @@
 'use strict';
 require('proto-all');
-console.log(Game.creeps.Alice.job());
+console.log(Game.creeps.Isaac.job());
 // return;
 
 // var cpu = require('cpu');
