@@ -20,7 +20,6 @@ var job_energy_deliver = {
 
         var targetJob = target.job();
         if(!targetJob){
-            console.log('zxc');
         // }
         // if (target.energy === target.energyCapacity) {
             job.end();
@@ -36,7 +35,6 @@ var job_energy_deliver = {
         );
 
         if(!moveOK){
-            console.log('move, zxc');
             job.end();
             return;
         }
@@ -44,11 +42,11 @@ var job_energy_deliver = {
         var action = creep.transferEnergy(target);
         var actionOK = (
             action === OK ||
-            action === ERR_NOT_IN_RANGE
+            action === ERR_NOT_IN_RANGE ||
+            action === ERR_FULL // refil until target is done with job
         );
 
         if(!actionOK){
-            console.log('action, zxc');
             job.end();
         }
 
