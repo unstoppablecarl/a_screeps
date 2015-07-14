@@ -165,6 +165,9 @@ JobManager.prototype = {
             return false;
         }
 
+        if(type === 'attack'){
+            console.log('a', job);
+        }
         var allocationSettings = job.allocationSettings();
         // all creeps valid for job
         var creeps;
