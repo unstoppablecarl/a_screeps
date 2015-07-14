@@ -4,6 +4,8 @@ var rolesMeta = require('roles-meta');
 
 require('mixin-job-target')(Creep.prototype);
 
+Creep.prototype.isCreep = true;
+
 Creep.prototype.act = function() {
     var mem = this.memory;
     var role = this.role();

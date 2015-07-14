@@ -73,7 +73,6 @@ var job_energy_collect = {
         var target = this._getTarget(creep, job);
 
         if (!target) {
-            console.log('asd');
             job.end();
             return;
         }
@@ -89,7 +88,6 @@ var job_energy_collect = {
             );
 
             if(!moveOK){
-                console.log('xxx');
                 job.end();
                 return;
             }
@@ -98,11 +96,13 @@ var job_energy_collect = {
         // look for dropped harvester energy
         var energy = target.pos.lookFor('energy');
         if(energy !== undefined){
+            var energyTarget;
             if(_.isArray(energy)){
-                target = energy[0];
+                energyTarget = energy[0];
             } else{
-                target = energy;
+                energyTarget = energy;
             }
+            creep.pickup(energyTarget);
         }
 
         var action;
@@ -114,11 +114,16 @@ var job_energy_collect = {
 
         var actionOK = (
             action === OK ||
-            action === ERR_NOT_IN_RANGE
+            action === ERR_NOT_IN_RANGE ||
+            // if getting energy from harvester
+            // it is ok if the harvester has no energy
+            (
+                target.isCreep &&
+                action === ERR_NOT_ENOUGH_ENERGY
+            )
         );
 
         if(!actionOK){
-            console.log('z', action);
             job.end();
         }
     },
