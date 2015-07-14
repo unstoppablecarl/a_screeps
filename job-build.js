@@ -1,6 +1,5 @@
 'use strict';
 
-var job_energy_collect = require('job-energy-collect');
 var job_helpers = require('job-helpers');
 
 var job_build = {
@@ -14,18 +13,8 @@ var job_build = {
         }
 
         if(creep.energy === 0){
-            // get own energy in case of emergency
-            if(
-                !creep.isTargetOfJobType('energy_deliver', true) &&
-                !creep.room.idleCreeps('carrier').length
-            ){
-                job_energy_collect.startEnergyCollect(creep);
-                return true;
-            }
-
-            // meet delivery
-            if(job_helpers.meetEnergyCarrier(creep, job)){
-                return true;
+            if(job_helpers.findEnergy(creep, job)){
+                return;
             }
         }
 

@@ -21,13 +21,10 @@ var job_repair = {
             }
         }
 
-        if(
-            creep.energy === 0
-        ){
+        if(creep.energy === 0){
             if(job_helpers.findEnergy(creep, job)){
                 return;
             }
-            return;
         }
 
         // do not stand on top of target
