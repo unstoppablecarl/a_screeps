@@ -26,6 +26,19 @@ var job_heal = {
             return;
         }
 
+        var move = creep.moveTo(target);
+
+        var moveOK = (
+            move === OK ||
+            move === ERR_TIRED ||
+            move === ERR_NO_PATH
+        );
+
+        if(!moveOK){
+            job.end();
+            return;
+        }
+
         var action = creep.heal(target);
         var actionOK = (
             action === OK ||
