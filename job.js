@@ -74,7 +74,7 @@ Job.prototype = {
                 value = this.getObjectById(value.id);
             }
             if(!value){
-                console.log('ERROR: trying to set invalid source', value);
+                console.log('ERROR: trying to set invalid source', value, (new Error('stack').stack));
                 return false;
             }
 
@@ -83,7 +83,7 @@ Job.prototype = {
                 current.id &&
                 current.id !== value.id
             ){
-                console.log('ERROR: job source can only be set once', current, value);
+                console.log('ERROR: job source can only be set once', current, value, (new Error('stack').stack));
                 return false;
             }
 

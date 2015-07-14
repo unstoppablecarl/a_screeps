@@ -67,6 +67,23 @@ JobManager.prototype = {
         jobs = jobs.concat(upgrade);
 
 
+        var d = room.flags().filter(function(flag){
+            return flag.role() === 'destroy_structure';
+        }).forEach(function(flag){
+            var structure = flag.pos.lookFor(structure);
+            if(structure){
+                return {
+                    type: 'attack',
+                    role: 'guard',
+                    target: structure,
+                    priority: 1
+                };
+            }
+            console.log('s', structure);
+        });
+        jobs = jobs.concat(d);
+
+
         return jobs;
     },
 
