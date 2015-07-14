@@ -267,6 +267,7 @@ JobManager.prototype = {
 
         if(role === 'carrier'){
 
+            // do not create more carriers if there are idle carriers
             if(
                 idleCreepsByRole.carrier &&
                 idleCreepsByRole.carrier.length
@@ -434,10 +435,18 @@ JobManager.prototype = {
                         priority += (pile.energy / 100000) * 0.1;
                     }
 
+                    // remove from idleCreepsByRole
                     var index = idleCreepsByRole.carrier.indexOf(creep);
-                    idleCreepsByRole.carrier.splice(index, 1);
+                    if(index !== -1){
+                        idleCreepsByRole.carrier.splice(index, 1);
+                    }
+
+                    // remove from creeps
                     var ind = creeps.indexOf(creep);
-                    creeps.splice(ind, 1);
+                    if(ind !== -1){
+                        creeps.splice(ind, 1);
+                    }
+
                     room.jobList().add({
                         role: 'carrier',
                         type: 'energy_collect',

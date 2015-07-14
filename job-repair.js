@@ -19,6 +19,16 @@ var job_repair = {
             return;
         }
 
+        if(
+            target &&
+            target.structureType === STRUCTURE_RAMPART &&
+            target.hits > 50000
+        ){
+            job.end();
+            return;
+        }
+
+
         // do not stand on top of target
         if(!creep.pos.isNearTo(target)){
             var move = creep.moveTo(target);
