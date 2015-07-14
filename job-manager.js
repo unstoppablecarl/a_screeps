@@ -72,6 +72,7 @@ JobManager.prototype = {
             return flag.role() === 'destroy_structure';
         }).forEach(function(flag){
             var structure = flag.pos.lookFor('structure');
+            console.log('z', structure, structure.targetOfJobTypeCount('attack'));
             if(
                 structure &&
                 structure.targetOfJobTypeCount('attack') < 3
