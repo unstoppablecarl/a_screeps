@@ -251,14 +251,25 @@ TOUGH:          10
             needs_energy_delivered: true,
             bodies: [
                 [
-                    TOUGH,
                     HEAL,
                     MOVE
                 ],
                 [
-                    TOUGH,
-                    HEAL,
+                    HEAL, HEAL,
+                    MOVE
+                ],
+                [
+                    HEAL, HEAL,
                     MOVE, MOVE
+                ],
+
+                [
+                    HEAL, HEAL, HEAL,
+                    MOVE, MOVE
+                ],
+                [
+                    HEAL, HEAL, HEAL,
+                    MOVE, MOVE, MOVE
                 ],
             ]
         },

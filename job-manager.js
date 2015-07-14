@@ -48,6 +48,9 @@ JobManager.prototype = {
         var harvest = handlers.harvest.getJobs(room);
         jobs = jobs.concat(harvest);
 
+        var heal = handlers.heal.getJobs(room);
+        jobs = jobs.concat(heal);
+
         // var moveToFlag = handlers.move_to_flag.getJobs(room);
         // jobs = jobs.concat(moveToFlag);
 
