@@ -1,62 +1,95 @@
 'use strict';
 
-var defaultRepairPriority = {};
-defaultRepairPriority[STRUCTURE_RAMPART] = 0.9;
-defaultRepairPriority[STRUCTURE_EXTENSION] = 0.8;
-defaultRepairPriority[STRUCTURE_LINK] = 0.7;
-defaultRepairPriority[STRUCTURE_WALL] = 0.6;
-defaultRepairPriority[STRUCTURE_ROAD] = 0.5;
+var defaults = {};
+
+defaults[STRUCTURE_EXTENSION] = {
+    build_priority: 0.95,
+    repair_priority: 0.8,
+    repair_start: 0.8,
+    repair_end: 1,
+};
+
+defaults[STRUCTURE_ROAD] = {
+    build_priority: 0.9,
+    repair_priority: 0.5,
+    repair_start: 0.5,
+    repair_end: 1,
+};
+
+defaults[STRUCTURE_LINK] = {
+    build_priority: 0.8,
+    repair_priority: 0.7,
+    repair_start: 0.95,
+    repair_end: 1,
+};
+
+defaults[STRUCTURE_RAMPART] = {
+    build_priority: 0.8,
+    repair_priority: 0.9,
+    repair_start: 0.9,
+    repair_end: 1,
+};
+
+defaults[STRUCTURE_WALL] = {
+    build_priority: 0.8,
+    repair_priority: 0.6,
+    repair_start: 0.1,
+    repair_end: 0.1,
+};
+
+defaults[STRUCTURE_SPAWN] = {
+    build_priority: 0.5,
+    repair_priority: 0.9,
+    repair_start: 0.95,
+    repair_end: 1,
+};
+
+Room.prototype.structureSettings = function(structure){
+    if (this.memory.structure_settings === undefined) {
+        this.memory.structure_settings = defaults;
+    }
+    if(structure !== undefined){
+        return this.memory.structure_settings[structure];
+    }
+    return this.memory.structure_settings;
+};
 
 // priority of repairing structures (0-1)
-Room.prototype.repairPriority = function(structure, priority) {
-    if (!this.memory.repair_priority) {
-        this.memory.repair_priority = defaultRepairPriority;
+Room.prototype.repairPriority = function(structure, value) {
+    var settings = this.structureSettings(structure);
+    if (value !== undefined) {
+        settings.repair_priority = value;
     }
-
-    var repairPriority = this.memory.repair_priority;
-    if (priority !== void 0) {
-        repairPriority[structure] = priority;
-    }
-    return repairPriority[structure] || 0;
+    return settings.repair_priority;
 };
 
-var defaultRepairStartThreshold = {};
-defaultRepairStartThreshold[STRUCTURE_EXTENSION] = 0.8;
-defaultRepairStartThreshold[STRUCTURE_ROAD] = 0.5;
-defaultRepairStartThreshold[STRUCTURE_LINK] = 0.8;
-defaultRepairStartThreshold[STRUCTURE_RAMPART] = 0.95;
-defaultRepairStartThreshold[STRUCTURE_WALL] = 0.95;
-
-// the percent hp a structure must have less than to begin repairs
-Room.prototype.repairStartThreshold = function(structure, threshold) {
-    if (!this.memory.repair_start_threshold) {
-        this.memory.repair_start_threshold = defaultRepairStartThreshold;
+// the percent hp a structure must have less than to begin repairs (0-1)
+Room.prototype.repairStartThreshold = function(structure, value) {
+    var settings = this.structureSettings(structure);
+    if (value !== undefined) {
+        settings.repair_start = value;
     }
-
-    var repairStartThreshold = this.memory.repair_start_threshold;
-    if (threshold !== void 0) {
-        repairStartThreshold[structure] = threshold;
-    }
-    return repairStartThreshold[structure] || 1;
+    return settings.repair_start;
 };
 
-var defaultBuildPriority = {};
-defaultBuildPriority[STRUCTURE_EXTENSION] = 0.95;
-defaultBuildPriority[STRUCTURE_ROAD] = 0.9;
-defaultBuildPriority[STRUCTURE_LINK] = 0.8;
-defaultBuildPriority[STRUCTURE_RAMPART] = 0.6;
-defaultBuildPriority[STRUCTURE_WALL] = 0.5;
 
-Room.prototype.buildPriority = function(structure, priority) {
-    if (!this.memory.repair_priority) {
-        this.memory.repair_priority = defaultBuildPriority;
+// the percent hp a structure must have greater than to end repairs (0-1)
+Room.prototype.repairEndThreshold = function(structure, value) {
+    var settings = this.structureSettings(structure);
+    if (value !== undefined) {
+        settings.repair_end = value;
     }
+    return settings.repair_end;
+};
 
-    var buildPriority = this.memory.repair_priority;
-    if (priority !== void 0) {
-        buildPriority[structure] = priority;
+// build priority (0-1)
+Room.prototype.buildPriority = function(structure, value) {
+
+    var settings = this.structureSettings(structure);
+    if (value !== undefined) {
+        settings.build_priority = value;
     }
-    return buildPriority[structure] || 0;
+    return settings.build_priority;
 };
 
 // if creep.ticksToLive <= threshold it will be replaced (if eligible)
@@ -78,12 +111,12 @@ Room.prototype.energyPileThresholdMin = function(value) {
 };
 
 // the size of an energy pile required to prompt spawning another carrier
-Room.prototype.energyPileThresholdSpawn = function(value) {
-    if (value !== void 0) {
-        this.memory.energy_pile_threshold_spawn = value;
-    }
-    return this.memory.energy_pile_threshold_spawn || 1500;
-};
+// Room.prototype.energyPileThresholdSpawn = function(value) {
+//     if (value !== void 0) {
+//         this.memory.energy_pile_threshold_spawn = value;
+//     }
+//     return this.memory.energy_pile_threshold_spawn || 1500;
+// };
 
 // the hard max number of creeps with given role allowed in this room
 Room.prototype.roleCountMax = function(role, max) {
@@ -97,7 +130,8 @@ Room.prototype.roleCountMax = function(role, max) {
     return roleCountMax[role];
 };
 
-// the hard max number of jobs of a given type allowed in this room
+// the hard max number of jobs of a given type
+// allowed to be allocated at one time in this room
 Room.prototype.jobCountMax = function(type, max) {
     if (this.memory.job_count_max === undefined) {
         this.memory.job_count_max = {};

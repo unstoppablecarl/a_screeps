@@ -273,14 +273,37 @@ Flag.prototype.healerRadius = function(value) {
     return this.memory.healer_max;
 };
 
-// generic replacement ???
-// Flag.prototype.creepRole = function(role){};
-// Flag.prototype.creeps = function(filter){};
+// the role of the flag, determines behavior of assigned creeps
+// Flag.prototype.role = function(roles){};
+//
+// creep roles that can be assigned to this flag
+// Flag.prototype.creepRoles = function(roles){};
+//
+// array of creep roles that cannot be assigned to this flag
+// Flag.prototype.creepRolesExcluded = function(roles){};
+//
+// array of creeps assigned to flag
+// Flag.prototype.creeps = function(){};
+//
+// total creeps assigned to flag
 // Flag.prototype.creepCount = function(){};
+//
+// max creeps that can be assigned to flag
+// if not set returns sum of creepRoleMax roles
 // Flag.prototype.creepMax = function(value){};
 //
+// max creeps of given role assigned to flag
+// Flag.prototype.creepRoleMax = function(role, value){};
+//
+// priority of the flag when deciding what flag to assign a creep to
 // Flag.prototype.priority = function(value){};
-
-// // heal / attack range
+//
+// the affected radius of the flag (heal, attack, etc)
 // Flag.prototype.activeRadius = function(role){};
+//
+// if true creeps should never be spawned for the purpose of assigning to this flag
+// Flag.prototype.allocateOnly = function(value){}
+//
+// settings specific to the flag's role
+// Flag.prototype.settings = function(settings){}
 

@@ -254,14 +254,13 @@ Job.prototype = {
 
         if(!source){
             console.log('ERROR trying to start job without source', this);
-
         }
         if(!target){
             console.log('ERROR trying to start job without target', this);
-
         }
 
         if(!target || !source){
+            console.log('-', (new Error('stack')).stack);
             return;
         }
 
