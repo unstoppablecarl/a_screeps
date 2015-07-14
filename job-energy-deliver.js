@@ -36,6 +36,7 @@ var job_energy_deliver = {
         );
 
         if(!moveOK){
+            console.log('move, zxc');
             job.end();
             return;
         }
