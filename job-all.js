@@ -14,6 +14,7 @@ var jobs = {
     repair: require('job-repair'),
     replace: require('job-replace'),
     standby: require('job-standby'),
+    heal: require('job-heal'),
     upgrade_room_controller: require('job-upgrade-room-controller'),
 };
 
