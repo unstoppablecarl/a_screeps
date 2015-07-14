@@ -72,13 +72,18 @@ JobManager.prototype = {
             return flag.role() === 'destroy_structure';
         }).forEach(function(flag){
             var structure = flag.pos.lookFor('structure');
-            if(structure && !structure.isTargetOfJobType('attack')){
-                console.log('s', structure);
+            if(
+                structure
+
+            ){
                 jobs.push({
                     type: 'attack',
                     role: 'guard',
                     target: structure,
-                    priority: 1
+                    priority: 1,
+                    allocation_settings: {
+                        allocate_to: 'existing'
+                    }
                 });
             }
         });
