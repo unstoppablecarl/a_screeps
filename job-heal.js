@@ -54,7 +54,27 @@ var job_heal = {
                 };
 
             });
-    }
+    },
+
+    getJobPriority: function(job){
+        return this.getPriority(job.room, job.target());
+    },
+
+    getPriority: function(room, target){
+
+        var priority = 0.7;
+
+        if(room.containsHostiles()){
+            priority = 0.8;
+        }
+
+        var damage = 1 - (target.hits / target.hitsMax);
+
+        // move one decimal over
+        priority += damage * 0.1;
+
+        return priority;
+    },
 };
 
 module.exports = job_heal;
