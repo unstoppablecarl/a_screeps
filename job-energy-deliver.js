@@ -48,6 +48,7 @@ var job_energy_deliver = {
         );
 
         if(!actionOK){
+            console.log('action, zxc');
             job.end();
         }
 
