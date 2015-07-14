@@ -71,7 +71,7 @@ var job_energy_deliver = {
                     console.log('adsfadfsadsfdfsa');
                     console.log('creep.idle()', creep.idle());
                     console.log('creep.energy === creep.energyCapacity', creep.energy === creep.energyCapacity);
-                    console.log('creep.isTargetOfJobType('energy_deliver')', creep.isTargetOfJobType('energy_deliver'));
+                    console.log('creep.isTargetOfJobType(energy_deliver)', creep.isTargetOfJobType('energy_deliver'));
 
                 }
 
