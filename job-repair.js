@@ -80,6 +80,7 @@ var job_repair = {
     },
 
     _startEnergyCollect: function(creep, job){
+        console.log('_startEnergyCollect', creep);
         var targets = creep.room.energyPiles();
         var target;
 
