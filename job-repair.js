@@ -1,5 +1,7 @@
 'use strict';
 
+var job_energy_collect = require('job-energy-collect');
+
 var job_repair = {
     name: 'repair',
     act: function(creep, job){
@@ -9,24 +11,6 @@ var job_repair = {
             job.end();
             return;
         }
-
-        // if(
-        //     target &&
-        //     target.structureType === STRUCTURE_WALL &&
-        //     target.hits > 100000
-        // ){
-        //     job.end();
-        //     return;
-        // }
-
-        // if(
-        //     target &&
-        //     target.structureType === STRUCTURE_RAMPART &&
-        //     target.hits > 50000
-        // ){
-        //     job.end();
-        //     return;
-        // }
 
         var repairEnd = creep.room.repairEndThreshold(target.structureType);
         if(repairEnd){
@@ -42,7 +26,7 @@ var job_repair = {
             !creep.isTargetOfJobType('energy_deliver', true) &&
             !creep.room.idleCreeps('carrier').length
         ){
-            this._startEnergyCollect(creep, job);
+            job_energy_collect.startEnergyCollect(creep);
             return;
         }
 
@@ -75,28 +59,6 @@ var job_repair = {
 
         if(target.hits === target.hitsMax){
             job.end();
-        }
-
-    },
-
-    _startEnergyCollect: function(creep, job){
-        console.log('_startEnergyCollect', creep);
-        var targets = creep.room.energyPiles();
-        var target;
-
-        if(targets.length === 1){
-            target = targets[0];
-        } else {
-            target = creep.pos.findClosestByRange(targets);
-        }
-        if(target){
-            job.end();
-            creep.room.jobList().add({
-                type: 'energy_collect',
-                role: 'tech',
-                source: creep,
-                target: target
-            }).start();
         }
 
     },

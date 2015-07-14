@@ -1,5 +1,8 @@
 'use strict';
 
+var job_energy_collect = require('job-energy-collect');
+
+
 var job_build = {
     name: 'build',
     act: function(creep, job){
@@ -24,6 +27,15 @@ var job_build = {
                 job.end();
                 return;
             }
+        }
+
+        if(
+            creep.energy === 0 &&
+            !creep.isTargetOfJobType('energy_deliver', true) &&
+            !creep.room.idleCreeps('carrier').length
+        ){
+            job_energy_collect.startEnergyCollect(creep);
+            return;
         }
 
         var action = creep.build(target);

@@ -37,9 +37,24 @@ Flag.prototype.creepRolesExcluded = function(arr) {
     return this.memory.creep_roles_excluded;
 };
 
+// if true exclude creeps with full energy from being assigned to this flag
+Flag.prototype.excludeCreepEnergyFull = function(value) {
+    if (value !== undefined) {
+        this.memory.exclude_creep_energy_full = value;
+    }
+    return this.memory.exclude_creep_energy_full;
+};
+
+// if true exclude creeps with no energy from being assigned to this flag
+Flag.prototype.excludeCreepEnergyEmpty = function(value) {
+    if (value !== undefined) {
+        this.memory.exclude_creep_energy_empty = value;
+    }
+    return this.memory.exclude_creep_energy_empty;
+};
+
 // check if the creep role can be assigned to this flag
 Flag.prototype.creepRoleValid = function(role) {
-    var creepRoles = this.creepRoles();
     var excludedRoles = this.creepRolesExcluded();
 
     if(
@@ -50,6 +65,8 @@ Flag.prototype.creepRoleValid = function(role) {
         return false;
     }
 
+    var creepRoles = this.creepRoles();
+
     if(
         creepRoles &&
         creepRoles.length &&
@@ -57,6 +74,31 @@ Flag.prototype.creepRoleValid = function(role) {
     ){
         return false;
     }
+
+    return true;
+};
+
+// check if creep can be assigned to this flag
+Flag.prototype.creepValid = function(creep) {
+    var role = creep.role();
+    if(!this.creepRoleValid(role)){
+        return false;
+    }
+
+    if(
+        this.excludeCreepEnergyFull() &&
+        creep.energy === creep.energyCapacity
+    ){
+        return false;
+    }
+
+    if(
+        this.excludeCreepEnergyEmpty() &&
+        creep.energy === 0
+    ){
+        return false;
+    }
+
     return true;
 };
 
