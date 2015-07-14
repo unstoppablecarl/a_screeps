@@ -89,6 +89,7 @@ var job_energy_collect = {
             );
 
             if(!moveOK){
+                console.log('xxx');
                 job.end();
                 return;
             }
