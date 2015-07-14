@@ -336,7 +336,10 @@ JobManager.prototype = {
 
 
         // if there are no harvesters spawn whatever type of harvester possible
-        if(role === 'harvester'){
+        if(
+            role === 'harvester' ||
+            role === 'carrier'
+        ){
             var roleCount = this.room.roleCount(role);
             if(!roleCount){
                 maxCreepCost = this.room.extensionEnergy() + spawn.energy;
@@ -408,7 +411,6 @@ JobManager.prototype = {
         // if no carriers
         if(!this.room.roleCount('carrier')){
             creeps = this.room.creeps().filter(function(creep){
-
                 return (
                     creep.role() === 'tech' &&
                     creep.energy < creep.energyCapacity
