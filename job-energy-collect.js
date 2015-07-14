@@ -31,7 +31,8 @@ var job_energy_collect = {
         if(
             target &&
             target.role &&
-            target.role() === 'harvester'
+            target.role() === 'harvester' &&
+            target.job()
         ) {
             return target;
         }
