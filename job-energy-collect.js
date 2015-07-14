@@ -3,8 +3,6 @@
 var job_energy_collect = {
     name: 'energy_collect',
 
-
-
     _getTarget: function(creep, job) {
 
         var target = job.target();
@@ -12,9 +10,9 @@ var job_energy_collect = {
 
         if(
             target &&
-            target.role &&
+            target.isCreep &&
             target.role() === 'harvester' &&
-            target.job()
+            !target.idle()
         ) {
             return target;
         }
@@ -23,22 +21,23 @@ var job_energy_collect = {
             !target ||
             target.energy === 0
         ){
-            var targets = creep.pos.findInRange(FIND_MY_CREEPS, 5, {
-                filter: function(creep){
-                    return (
-                        creep.role() === 'harvester' &&
-                        !creep.isTargetOfJobType('energy_collect')
-                    );
-                }
+            var targets = creep.room.creeps(function(creep){
+                return (
+                    creep.role() === 'harvester' &&
+                    !creep.idle() &&
+                    creep.targetOfJobTypeCount('energy_collect') < 2
+                );
             });
 
-            if(!targets || !targets.length){
-                targets = creep.room.energyPiles();
-            }
+            targets = targets.concat(creep.room.energyPiles());
 
-            if(targets.length === 1){
+            if(!targets.length){
+                return false;
+            }
+            else if(targets.length === 1){
                 target = targets[0];
-            } else {
+            }
+            else {
                 target = creep.pos.findClosestByRange(targets);
             }
 
@@ -79,21 +78,25 @@ var job_energy_collect = {
         }
 
         // look for dropped harvester energy
-        var energy = target.pos.lookFor('energy');
-        if(energy !== undefined){
-            var energyTarget;
-            if(_.isArray(energy)){
-                energyTarget = energy[0];
-            } else{
-                energyTarget = energy;
+        if(target.isCreep){
+            var energy = target.pos.lookFor('energy');
+            if(energy !== undefined){
+                var energyTarget;
+                if(_.isArray(energy)){
+                    energyTarget = energy[0];
+                }
+                else{
+                    energyTarget = energy;
+                }
+                creep.pickup(energyTarget);
             }
-            creep.pickup(energyTarget);
         }
 
         var action;
         if(target.transferEnergy){
             action = target.transferEnergy(creep);
-        } else{
+        }
+        else {
             action = creep.pickup(target);
         }
 
@@ -166,14 +169,14 @@ var job_energy_collect = {
         });
 
         var harvesters = room.creeps()
+            .filter(function(creep){
+                return (
+                    creep.role() === 'harvester' &&
+                    !creep.idle() &&
+                    !creep.isTargetOfJobType('energy_collect')
+                );
+            })
             .forEach(function(creep){
-                if(
-                    creep.idle() ||
-                    creep.role() !== 'harvester' ||
-                    creep.isTargetOfJobType('energy_collect')
-                ){
-                    return;
-                }
 
                 var priority = 0.9;
 

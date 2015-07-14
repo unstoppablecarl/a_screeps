@@ -17,11 +17,9 @@ var job_energy_deliver = {
             return;
         }
 
-
+        // keep delivering energy as long as target has job
         var targetJob = target.job();
         if(!targetJob){
-        // }
-        // if (target.energy === target.energyCapacity) {
             job.end();
             return;
         }

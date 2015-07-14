@@ -10,7 +10,15 @@ var job_energy_store = {
         if(
             !target ||
             target.energy === target.energyCapacity ||
-            target.isRoom
+            target.isRoom ||
+
+            // prevent carriers passing energy back and forth
+            (
+                target.isCreep &&
+                target.role() === 'harvester' &&
+                target.job() &&
+                target.job().type() === 'energy_store'
+            )
         ){
             target = creep.pos.findClosestEnergyStore();
             if(target){
@@ -30,16 +38,6 @@ var job_energy_store = {
         if(!target){
             job.end();
             return;
-        }
-
-        if(
-            target.isCreep &&
-            target.role() === 'harvester' &&
-            target.job() &&
-            target.job().type() === 'energy_store'
-        ) {
-            job.target(false);
-            target = this._findTarget(creep, job);
         }
 
         var move = creep.moveTo(target);
