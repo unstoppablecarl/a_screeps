@@ -68,7 +68,7 @@ var job_energy_deliver = {
                 creep.isTargetOfJobType('energy_deliver')
             ){
                 if(role === 'healer'){
-                    console.log('adsfadfsadsfdfsa');
+                    console.log('adsfadfsadsfdfsa', 'creep.roleNeedsEnergy()', creep.roleNeedsEnergy());
                 }
                 return;
             }
