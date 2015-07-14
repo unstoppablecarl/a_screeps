@@ -35,7 +35,6 @@ RoomPosition.prototype.findClosestEnergyStore = function(){
         return s.energy < s.energyCapacity;
     });
 
-
     var targets = spawns.concat(extensions);
 
     if(!targets.length){
@@ -43,6 +42,7 @@ RoomPosition.prototype.findClosestEnergyStore = function(){
             return (
                 creep.energyCapacity &&
                 creep.energy !== creep.energyCapacity &&
+                // prevent carriers from passing energy back and forth
                 !(
                     creep.role() === 'carrier' &&
                     creep.job() &&

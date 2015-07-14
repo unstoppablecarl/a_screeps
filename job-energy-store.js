@@ -9,6 +9,7 @@ var job_energy_store = {
 
         if(
             !target ||
+            !target.energyCapacity ||
             target.energy === target.energyCapacity ||
             target.isRoom ||
 
