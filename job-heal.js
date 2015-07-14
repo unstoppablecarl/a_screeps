@@ -50,6 +50,8 @@ var job_heal = {
 
     getJobs: function(room){
 
+        var getPriority = this.getPriority;
+
         return room.creeps()
             .filter(function(creep){
                 return (
@@ -58,30 +60,23 @@ var job_heal = {
                 );
             })
             .map(function(creep){
-
-                var priority = 0.7;
-
-                if(room.containsHostiles()){
-                    priority = 0.8;
-                }
-
-                var damage = 1 - (creep.hits / creep.hitsMax);
-
-                // move one decimal over
-                priority += damage * 0.1;
-
                 return {
                     role: 'healer',
                     type: 'heal',
                     target: creep,
-                    priority: priority
+                    priority: getPriority(room, creep)
                 };
-
             });
     },
 
     getJobPriority: function(job){
-        return this.getPriority(job.room, job.target());
+
+        var target = job.target();
+        if(!target){
+            return 0;
+        }
+
+        return this.getPriority(job.room, target);
     },
 
     getPriority: function(room, target){
@@ -92,10 +87,10 @@ var job_heal = {
             priority = 0.8;
         }
 
-        var damage = 1 - (target.hits / target.hitsMax);
+        var damagePercent = 1 - (target.hits / target.hitsMax);
 
         // move one decimal over
-        priority += damage * 0.1;
+        priority += damagePercent * 0.1;
 
         return priority;
     },

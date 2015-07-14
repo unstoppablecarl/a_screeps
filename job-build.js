@@ -62,6 +62,7 @@ var job_build = {
         }
 
         var jobs = [];
+        var getPriority = this.getPriority;
 
         var sites = room.constructionSites().forEach(function(site){
             var currentCount = site.targetOfJobTypeCount('build');
@@ -75,17 +76,6 @@ var job_build = {
                 return;
             }
 
-            var priority = 0.5;
-
-            var allocationRatio = 1 - (currentCount / adjacentTiles);
-            var progress = site.progress / site.progressTotal;
-            var buildPriority = room.buildPriority(site.structureType);
-
-            // average
-            var buildJobPriority = (progress + buildPriority) / 2;
-            // move one decimal over
-            priority += buildJobPriority * 0.1;
-
             var jobsToAdd = adjacentTiles - currentCount;
 
             for (var i = 0; i < jobsToAdd; i++) {
@@ -94,7 +84,7 @@ var job_build = {
                     role: 'tech',
                     type: 'build',
                     target: site,
-                    priority: priority
+                    priority: getPriority(room, site)
                 });
             }
         });
@@ -106,6 +96,31 @@ var job_build = {
         }
 
         return jobs;
+    },
+
+    getJobPriority: function(job){
+
+        var target = job.target();
+        if(!target){
+            return 0;
+        }
+
+        return this.getPriority(job.room, target);
+    },
+
+    getPriority: function(room, target){
+        var priority = 0.5;
+
+        var progress = target.progress / target.progressTotal;
+        var buildPriority = room.buildPriority(target.structureType);
+
+        // average
+        var buildJobPriority = (progress + buildPriority) / 2;
+
+        // move one decimal over
+        priority += buildJobPriority * 0.1;
+
+        return priority;
     },
 };
 

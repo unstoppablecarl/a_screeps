@@ -171,11 +171,19 @@ Flag.prototype.creepRoleMax = function(role, value){
 };
 
 // priority of the flag when deciding what flag to assign a creep to
-Flag.prototype.priority = function(value){
+Flag.prototype.allocatePriority = function(value){
     if (value !== undefined) {
-        this.memory.priority = value;
+        this.memory.allocate_priority = value;
     }
-    return this.memory.priority;
+    return this.memory.allocate_priority;
+};
+
+// overrides the priority of jobs related to this flag
+Flag.prototype.jobPriorityOverride = function(value){
+    if (value !== undefined) {
+        this.memory.job_priority_override = value;
+    }
+    return this.memory.job_priority_override;
 };
 
 // the affected radius of the flag (heal, attack, etc)

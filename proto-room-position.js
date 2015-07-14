@@ -42,7 +42,12 @@ RoomPosition.prototype.findClosestEnergyStore = function(){
         targets = room.creeps(function(creep){
             return (
                 creep.energyCapacity &&
-                creep.energy !== creep.energyCapacity
+                creep.energy !== creep.energyCapacity &&
+                !(
+                    creep.role() === 'harvester' &&
+                    creep.job() &&
+                    creep.job().type() === 'energy_store'
+                )
             );
         });
     }
