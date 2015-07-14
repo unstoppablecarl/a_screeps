@@ -1,7 +1,7 @@
 'use strict';
 
 var job_energy_collect = require('job-energy-collect');
-
+var job_helpers = require('job-helpers');
 
 var job_build = {
     name: 'build',
@@ -20,12 +20,12 @@ var job_build = {
                 !creep.room.idleCreeps('carrier').length
             ){
                 job_energy_collect.startEnergyCollect(creep);
-                return;
+                return true;
             }
 
             // meet delivery
-            if(this._meetEnergyCarrier(creep, job)){
-                return;
+            if(job_helpers.meetEnergyCarrier(creep, job)){
+                return true;
             }
         }
 
@@ -55,56 +55,6 @@ var job_build = {
         if(!actionOK){
             job.end();
         }
-    },
-
-    _meetEnergyCarrier: function(creep, job){
-        var jobSettings = job.settings() || {};
-
-        var carrier;
-
-        if(jobSettings.energy_deliver_carrier_id){
-            carrier = Game.getObjectById(jobSettings.endnergy_deliver_carrier_id);
-        }
-        else{
-            var carriers = creep.targetOfJobs().filter(function(job){
-                return (
-                    job.type() === 'energy_deliver' &&
-                    job.active() &&
-                    job.source()
-                );
-            }).map(function(job){
-                return job.source();
-            });
-
-            if(carriers.length === 1){
-                carrier = carriers[0];
-            } else {
-                carrier = creep.pos.findClosestByRange(carriers);
-            }
-
-            if(carrier){
-                jobSettings.energy_deliver_carrier_id = carrier.id;
-            }
-        }
-
-        if(!carrier){
-            return false;
-        }
-
-        var move = creep.moveTo(carrier);
-
-        var moveOK = (
-            move === OK ||
-            move === ERR_TIRED ||
-            move === ERR_NO_PATH
-        );
-
-        if(!moveOK){
-            job.end();
-            return false;
-        }
-
-        return true;
     },
 
     getJobs: function(room) {

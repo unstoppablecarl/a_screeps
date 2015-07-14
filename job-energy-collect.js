@@ -3,25 +3,7 @@
 var job_energy_collect = {
     name: 'energy_collect',
 
-    // helper
-    startEnergyCollect: function(creep){
-        var targets = creep.room.energyPiles();
-        var target;
 
-        if(targets.length === 1){
-            target = targets[0];
-        } else {
-            target = creep.pos.findClosestByRange(targets);
-        }
-        if(target){
-            creep.room.jobList().add({
-                type: 'energy_collect',
-                role: 'tech',
-                source: creep,
-                target: target
-            }).start();
-        }
-    },
 
     _getTarget: function(creep, job) {
 
