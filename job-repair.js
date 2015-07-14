@@ -10,31 +10,38 @@ var job_repair = {
             return;
         }
 
-        if(
-            target &&
-            target.structureType === STRUCTURE_WALL &&
-            target.hits > 100000
-        ){
-            job.end();
-            return;
-        }
+        // if(
+        //     target &&
+        //     target.structureType === STRUCTURE_WALL &&
+        //     target.hits > 100000
+        // ){
+        //     job.end();
+        //     return;
+        // }
 
-        if(
-            target &&
-            target.structureType === STRUCTURE_RAMPART &&
-            target.hits > 50000
-        ){
-            job.end();
-            return;
-        }
+        // if(
+        //     target &&
+        //     target.structureType === STRUCTURE_RAMPART &&
+        //     target.hits > 50000
+        // ){
+        //     job.end();
+        //     return;
+        // }
 
+        var repairEnd = creep.room.repairEndThreshold(target.structureType);
+        if(repairEnd){
+            var repairPercent = target.hits / target.hitsMax;
+            if(repairPercent >= repairEnd){
+                job.end();
+                return;
+            }
+        }
 
         if(
             creep.energy === 0 &&
             !creep.isTargetOfJobType('energy_deliver', true) &&
             !creep.room.idleCreeps('carrier').length
         ){
-            job.end();
             this._startEnergyCollect(creep, job);
             return;
         }
@@ -81,12 +88,16 @@ var job_repair = {
         } else {
             target = creep.pos.findClosestByRange(targets);
         }
-        creep.room.jobList().add({
-            type: 'energy_collect',
-            role: 'tech',
-            source: creep,
-            target: target
-        }).start();
+        if(target){
+            job.end();
+            creep.room.jobList().add({
+                type: 'energy_collect',
+                role: 'tech',
+                source: creep,
+                target: target
+            }).start();
+        }
+
     },
 
     getJobs: function(room){
