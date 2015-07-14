@@ -73,6 +73,7 @@ var job_energy_collect = {
         var target = this._getTarget(creep, job);
 
         if (!target) {
+            console.log('asd');
             job.end();
             return;
         }

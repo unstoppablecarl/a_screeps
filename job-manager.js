@@ -67,6 +67,7 @@ JobManager.prototype = {
         jobs = jobs.concat(upgrade);
 
 
+        // destroy structure jobs
         room.flags().filter(function(flag){
             return flag.role() === 'destroy_structure';
         }).forEach(function(flag){
