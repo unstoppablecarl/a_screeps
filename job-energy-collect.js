@@ -22,7 +22,6 @@ var job_energy_collect = {
                 target: target
             }).start();
         }
-
     },
 
     _getTarget: function(creep, job) {
@@ -75,17 +74,20 @@ var job_energy_collect = {
             return;
         }
 
-        var move = creep.moveTo(target);
+        // do not stand on top of target
+        if(!creep.pos.isNearTo(target)){
+            var move = creep.moveTo(target);
 
-        var moveOK = (
-            move === OK ||
-            move === ERR_TIRED ||
-            move === ERR_NO_PATH
-        );
+            var moveOK = (
+                move === OK ||
+                move === ERR_TIRED ||
+                move === ERR_NO_PATH
+            );
 
-        if(!moveOK){
-            job.end();
-            return;
+            if(!moveOK){
+                job.end();
+                return;
+            }
         }
 
         // look for dropped harvester energy
