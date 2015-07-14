@@ -206,6 +206,11 @@ JobManager.prototype = {
             creeps = idleCreepsByRole.guard;
         }
 
+        else if(type === 'heal'){
+
+            creeps = idleCreepsByRole.healer;
+        }
+
         else if(type === 'attack'){
 
             creeps = idleCreepsByRole.guard;
