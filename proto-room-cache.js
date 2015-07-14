@@ -5,7 +5,6 @@
 
 Room.prototype.getIdleFlags = function(forceRefresh){
     if(forceRefresh || this._idle_flags === undefined){
-        var flagIds = this.getIdleFlagIds(forceRefresh);
         this._idle_flags = this.flags(function(flag){
             return flag.role() === 'idle';
         });
