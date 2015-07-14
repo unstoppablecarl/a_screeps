@@ -262,23 +262,28 @@ TOUGH:          10
             bodies: [
                 [
                     HEAL,
+                    CARRY,
                     MOVE
                 ],
                 [
                     HEAL, HEAL,
+                    CARRY,
                     MOVE
                 ],
                 [
                     HEAL, HEAL,
+                    CARRY, CARRY,
                     MOVE, MOVE
                 ],
 
                 [
                     HEAL, HEAL, HEAL,
+                    CARRY, CARRY,
                     MOVE, MOVE
                 ],
                 [
                     HEAL, HEAL, HEAL,
+                    CARRY, CARRY, CARRY,
                     MOVE, MOVE, MOVE
                 ],
             ]
