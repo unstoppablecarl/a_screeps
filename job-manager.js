@@ -73,8 +73,8 @@ JobManager.prototype = {
         }).forEach(function(flag){
             var structure = flag.pos.lookFor('structure');
             if(
-                structure
-
+                structure &&
+                structure.targetOfJobTypeCount('attack') < 3
             ){
                 jobs.push({
                     type: 'attack',
