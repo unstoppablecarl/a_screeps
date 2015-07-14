@@ -126,19 +126,19 @@ var job_repair = {
         //     });
         // });
 
-        // var walls = room.walls(function(wall){
-        //     if(wall.hits < wall.hitsMax && !wall.isTargetOfJobType('repair')){
-        //         var type = wall.structureType;
-        //         var threshold = room.repairStartThreshold(type);
-        //         var hitPercent = wall.hits / wall.hitsMax;
+        var walls = room.walls(function(wall){
+            if(wall.hits < wall.hitsMax && !wall.isTargetOfJobType('repair')){
+                var type = wall.structureType;
+                var threshold = room.repairStartThreshold(type);
+                var hitPercent = wall.hits / wall.hitsMax;
 
-        //         return hitPercent < threshold;
-        //     }
+                return hitPercent < threshold;
+            }
 
-        //     return false;
-        // });
+            return false;
+        });
 
-        structures = structures.concat(roads);
+        structures = structures.concat(roads, walls);
 
         return structures.map(function(structure){
 

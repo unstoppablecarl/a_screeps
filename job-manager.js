@@ -67,26 +67,26 @@ JobManager.prototype = {
         jobs = jobs.concat(upgrade);
 
 
-        // destroy structure jobs
-        room.flags().filter(function(flag){
-            return flag.role() === 'destroy_structure';
-        }).forEach(function(flag){
-            var structure = flag.pos.lookFor('structure');
-            if(
-                structure &&
-                structure.targetOfJobTypeCount('attack') < 10
-            ){
-                jobs.push({
-                    type: 'attack',
-                    role: 'guard',
-                    target: structure,
-                    priority: 1,
-                    allocation_settings: {
-                        allocate_to: 'existing'
-                    }
-                });
-            }
-        });
+        // // destroy structure jobs
+        // room.flags().filter(function(flag){
+        //     return flag.role() === 'destroy_structure';
+        // }).forEach(function(flag){
+        //     var structure = flag.pos.lookFor('structure');
+        //     if(
+        //         structure &&
+        //         structure.targetOfJobTypeCount('attack') < 10
+        //     ){
+        //         jobs.push({
+        //             type: 'attack',
+        //             role: 'guard',
+        //             target: structure,
+        //             priority: 1,
+        //             allocation_settings: {
+        //                 allocate_to: 'existing'
+        //             }
+        //         });
+        //     }
+        // });
 
         return jobs;
     },
