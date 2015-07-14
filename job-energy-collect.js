@@ -5,7 +5,6 @@ var job_energy_collect = {
 
     // helper
     startEnergyCollect: function(creep){
-        console.log('_startEnergyCollect', creep);
         var targets = creep.room.energyPiles();
         var target;
 
