@@ -43,7 +43,10 @@ var job_energy_collect = {
         ){
             var targets = creep.pos.findInRange(FIND_MY_CREEPS, 5, {
                 filter: function(creep){
-                    return creep.role() === 'harvester';
+                    return (
+                        creep.role() === 'harvester' &&
+                        !creep.isTargetOfJobType('energy_collect')
+                    );
                 }
             });
 

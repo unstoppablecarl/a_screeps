@@ -27,8 +27,6 @@ if(room){
         jobManager.auditHarvesters();
     }
 
-
-
     jobManager.update();
     jobManager.allocate();
 
