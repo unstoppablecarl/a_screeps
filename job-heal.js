@@ -31,7 +31,10 @@ var job_heal = {
 
         return room.creeps()
             .filter(function(creep){
-                return creep.hits < creep.hitsMax;
+                return (
+                    creep.hits < creep.hitsMax &&
+                    !creep.isTargetOfJobType('heal')
+                );
             })
             .map(function(creep){
 
