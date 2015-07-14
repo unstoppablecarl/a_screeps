@@ -30,7 +30,9 @@ if(room){
 
     jobManager.update();
     jobManager.allocate();
+
     jobList.report();
+    // jobList.report(jobList.getActive());
 
     room.reportHostiles();
 }
