@@ -335,7 +335,7 @@ JobManager.prototype = {
         // }
 
 
-        // if there are no harvesters spawn whatever type of harvester possible
+        // if there are no harvesters or carriers spawn whatever type of harvester possible
         if(
             role === 'harvester' ||
             role === 'carrier'

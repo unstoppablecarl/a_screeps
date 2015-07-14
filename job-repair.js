@@ -29,6 +29,16 @@ var job_repair = {
         }
 
 
+        if(
+            creep.energy === 0 &&
+            !creep.isTargetOfJobType('energy_deliver', true) &&
+            !creep.room.idleCreeps('carrier').length
+        ){
+            job.end();
+            this._startEnergyCollect(creep, job);
+            return;
+        }
+
         // do not stand on top of target
         if(!creep.pos.isNearTo(target)){
             var move = creep.moveTo(target);
@@ -60,6 +70,23 @@ var job_repair = {
             job.end();
         }
 
+    },
+
+    _startEnergyCollect: function(creep, job){
+        var targets = creep.room.energyPiles();
+        var target;
+
+        if(targets.length === 1){
+            target = targets[0];
+        } else {
+            target = creep.pos.findClosestByRange(targets);
+        }
+        creep.room.jobList().add({
+            type: 'energy_collect',
+            role: 'tech',
+            source: creep,
+            target: target
+        }).start();
     },
 
     getJobs: function(room){

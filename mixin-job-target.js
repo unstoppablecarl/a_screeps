@@ -60,13 +60,17 @@ var isTargetOfJobId = function(jobId) {
 };
 
 // check if object is the target of job with type
-var isTargetOfJobType = function(type) {
+var isTargetOfJobType = function(type, activeOnly) {
     var ids = this.targetOfJobIds();
     for(var i = ids.length - 1; i >= 0; i--){
         var id = ids[i];
         var job = this.room.jobList().get(id);
         if (job) {
-            if (job.type() === type) {
+
+            if (
+                job.type() === type &&
+                (!activeOnly || job.active())
+            ) {
                 return true;
             }
         }

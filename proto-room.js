@@ -174,7 +174,7 @@ Room.prototype.roomEnergyCapacity = function() {
 Room.prototype.ildeCreeps = function(role){
     return this.find(FIND_MY_CREEPS, {
         filter: function(creep){
-            if(role && creep.role() === role){
+            if(role && creep.role() !== role){
                 return false;
             }
             return creep.idle();
