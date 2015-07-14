@@ -137,6 +137,10 @@ JobManager.prototype = {
         var type = job.type();
         var target = job.target();
 
+        if(!target){
+            return false;
+        }
+
         var allocationSettings = job.allocationSettings();
         // all creeps valid for job
         var creeps;

@@ -29,7 +29,7 @@ var job_build = {
             }
         }
 
-         // do not stand on top of target
+        // do not stand on top of target
         if(!creep.pos.isNearTo(target)){
             var move = creep.moveTo(target);
 
