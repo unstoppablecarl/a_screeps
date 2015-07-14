@@ -139,6 +139,17 @@ Job.prototype = {
         return current;
     },
 
+    act: function(){
+        var source = this.source();
+        if(
+            source &&
+            this._handler &&
+            this._handler.act
+        ) {
+           this._handler.act(source, this);
+        }
+    },
+
     // the handler of the job
     handler: function() {
         return this._handler;

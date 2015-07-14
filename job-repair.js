@@ -1,6 +1,6 @@
 'use strict';
 
-var job_energy_collect = require('job-energy-collect');
+var job_helpers = require('job-helpers');
 
 var job_repair = {
     name: 'repair',
@@ -22,11 +22,11 @@ var job_repair = {
         }
 
         if(
-            creep.energy === 0 &&
-            !creep.isTargetOfJobType('energy_deliver', true) &&
-            !creep.room.idleCreeps('carrier').length
+            creep.energy === 0
         ){
-            job_energy_collect.startEnergyCollect(creep);
+            if(job_helpers.findEnergy(creep, job)){
+                return;
+            }
             return;
         }
 

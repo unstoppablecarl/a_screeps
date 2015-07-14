@@ -27,10 +27,7 @@ Creep.prototype.act = function() {
 
     if (job) {
         mem.ticks_without_job = 0;
-        var jobHandler = job.handler();
-        if(jobHandler.act){
-            jobHandler.act(this, job);
-        }
+        job.act();
     }
     else {
         if(mem.ticks_without_job === undefined){
