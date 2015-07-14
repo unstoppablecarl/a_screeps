@@ -32,10 +32,22 @@ RoomPosition.prototype.findClosestEnergyStore = function(){
     });
 
     var extensions = room.extensions(function(s) {
-        return s.structureType === 'extension' && s.energy < s.energyCapacity;
+        return s.energy < s.energyCapacity;
     });
+
+
     var targets = spawns.concat(extensions);
-    return this.findClosest(targets);
+
+    if(!targets.length){
+        targets = room.creeps(function(creep){
+            return (
+                creep.energyCapacity &&
+                creep.energy !== creep.energyCapacity
+            );
+        });
+    }
+
+    return this.findClosestByRange(targets);
 };
 
 var blockedTile = function(list) {

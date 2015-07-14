@@ -32,12 +32,14 @@ var job_helpers = {
             target = creep.pos.findClosestByRange(targets);
         }
         if(target){
-            creep.room.jobList().add({
+            var newJob = creep.room.jobList().add({
                 type: 'energy_collect',
                 role: 'tech',
                 source: creep,
                 target: target
-            }).start();
+            });
+            newJob.start();
+            newJob.act();
         }
     },
 
