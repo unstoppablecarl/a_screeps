@@ -405,6 +405,13 @@ JobManager.prototype = {
             return creep.energy < creep.energyCapacity;
         });
 
+        // if no carriers
+        if(!this.room.roleCount('carrier')){
+            creeps = idleCreepsByRole.tech.filter(function(creep){
+                return creep.energy < creep.energyCapacity;
+            });
+        }
+
         var minEnergyPile = this.room.energyPileThresholdMin();
         var energyPiles = this.room.energyPiles();
 
