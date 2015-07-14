@@ -20,6 +20,7 @@ var job_energy_deliver = {
 
         var targetJob = target.job();
         if(!targetJob){
+            console.log('zxc');
         // }
         // if (target.energy === target.energyCapacity) {
             job.end();
