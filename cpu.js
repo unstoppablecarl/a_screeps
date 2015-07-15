@@ -70,7 +70,7 @@ var out = {
 
     resultStr: function(key){
         var records = this.results[key];
-        return key + ': ' + records[records.length - 1] + ' (last) ' + _.round(average(records)) + ' (avg) ' + records.length + ' / ' + this.memory.max + ' (test count)';
+        return key + ': ' + _.round(records[records.length - 1]) + ' (last) ' + _.round(average(records)) + ' (avg) ' + records.length + ' / ' + this.memory.max + ' (test count)';
     },
 
     report: function(){
