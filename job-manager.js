@@ -384,7 +384,6 @@ JobManager.prototype = {
             var singleSpawnEnergyCap = 300;
             maxCreepCost = this.room.extensionEnergyCapacity() + singleSpawnEnergyCap;
         }
-        console.log('m', role, maxCreepCost);
         if(maxCreepCost === 0 ){
             console.log('no energy');
             return false;
@@ -395,6 +394,9 @@ JobManager.prototype = {
         };
 
         var body = rolesMeta.getBody(role, maxCreepCost);
+
+        console.log('m', role, rolesMeta.getBodyCost(body), '/', maxCreepCost);
+
         if(!body){
             console.log('no affordable body', role, maxCreepCost);
             return;
