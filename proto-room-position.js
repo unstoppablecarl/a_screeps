@@ -67,9 +67,6 @@ var blockedTile = function(list) {
         }
 
         if(tile.type ==='structure'){
-
-            console.log('tile.structure.structureType', tile.structure.structureType === STRUCTURE_RAMPART);
-            console.log('tile.structure.my', tile.structure.my);
             // road
             if(tile.structure.structureType === STRUCTURE_ROAD){
                 continue;
