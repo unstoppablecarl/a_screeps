@@ -12,7 +12,7 @@ var job_idle = {
         }
 
         var move = creep.moveTo(target, {
-            reusePath: 10
+            reusePath: Infinity
         });
 
         var moveOK = (
