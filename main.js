@@ -12,9 +12,13 @@ var room = Game.rooms['W15N4'];
 // var room = Game.rooms.sim;
 if(room){
     // room.populationReport();
+
+    cpu.start('creeps');
     _.each(room.creeps(), function(creep) {
         creep.act();
     });
+
+    cpu.end();
 
     var jobManager = room.jobManager();
     var jobList = room.jobList();
