@@ -88,6 +88,31 @@ var job_defend_rampart = {
                 };
             });
     },
+
+    getJobPriority: function(job){
+
+        var target = job.target();
+        if(!target){
+            return 0;
+        }
+
+        return this.getPriority(job.room, target);
+    },
+
+    getPriority: function(job, room, target){
+        var priority = 0.5;
+
+        var progress = target.progress / target.progressTotal;
+        var buildPriority = room.buildPriority(target.structureType);
+
+        // average
+        var buildJobPriority = (progress + buildPriority) / 2;
+
+        // move one decimal over
+        priority += buildJobPriority * 0.1;
+
+        return priority;
+    },
 };
 
 module.exports = job_defend_rampart;

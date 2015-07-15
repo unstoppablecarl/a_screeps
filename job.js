@@ -204,6 +204,19 @@ Job.prototype = {
         return this.memory.priority;
     },
 
+    updatePriority: function(){
+        this.memory.priority_updated_at = Game.time;
+
+        var target = this.target();
+        if(
+            target &&
+            this._handler &&
+            this._handler.getPriority
+        ) {
+           this._handler.getPriority(this, this.room, target);
+        }
+    },
+
     // if this job is actively being performed or pending allocation
     active: function(value){
         if(value !== undefined){

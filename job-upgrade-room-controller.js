@@ -1,5 +1,7 @@
 'use strict';
 
+var job_helpers = require('job-helpers');
+
 var job_upgrade_room_controller = {
     name: 'upgrade_room_controller',
     act: function(creep, job){
@@ -16,7 +18,13 @@ var job_upgrade_room_controller = {
             return;
         }
 
-         // do not stand on top of target
+        if(creep.energy === 0){
+            if(job_helpers.findEnergy(creep, job)){
+                return;
+            }
+        }
+
+        // do not stand on top of target
         if(!creep.pos.isNearTo(target)){
             var move = creep.moveTo(target);
 
