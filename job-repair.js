@@ -68,7 +68,7 @@ var job_repair = {
                 if(repairAmount > 10000){
 
                 var cpu = require('cpu');
-        cpu.start('xxx');
+        cpu.start('adj');
                     var adjacentTiles = s.pos.adjacentEmptyTileCount();
                     cpu.end();
                     if(adjacentTiles > 3){
