@@ -63,7 +63,9 @@ var job_energy_collect = {
 
         // do not stand on top of target
         if(!creep.pos.isNearTo(target)){
-            var move = creep.moveTo(target);
+            var move = creep.moveTo(target, {
+                reusePath: 7,
+            });
 
             var moveOK = (
                 move === OK ||
