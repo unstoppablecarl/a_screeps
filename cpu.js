@@ -39,7 +39,11 @@ var out = {
 
         var result = end - start;
 
-        this.results[name] = result;
+        if(!this.results[name]){
+            this.results[name] = [];
+        }
+
+        this.results[name].push(result);
     },
 
     shutdown: function(){
