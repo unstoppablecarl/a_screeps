@@ -29,7 +29,6 @@ JobManager.prototype = {
         var build = handlers.build.getJobs(room);
         jobs = jobs.concat(build);
 
-
         var defendRampart = handlers.defend_rampart.getJobs(room);
         jobs = jobs.concat(defendRampart);
 
@@ -48,6 +47,9 @@ JobManager.prototype = {
         var harvest = handlers.harvest.getJobs(room);
         jobs = jobs.concat(harvest);
 
+
+        // @TODO cache if room contains hurt creeps
+        // in creep.act set room.memory.contains_hurt_creeps = true if hurt
         var heal = handlers.heal.getJobs(room);
         jobs = jobs.concat(heal);
 
