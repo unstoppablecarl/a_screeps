@@ -90,8 +90,7 @@ var job_repair = {
             return false;
         });
 
-        var cpu = require('cpu');
-        cpu.start('roads');
+
         var roads = room.roads(function(road){
             if(
                 road.hits < road.hitsMax &&
@@ -106,7 +105,7 @@ var job_repair = {
 
             return false;
         });
-        cpu.end();
+
 
         // var repairWallsTo = 10000;
         // var wallFlags = room.flags().filter(function(flag){

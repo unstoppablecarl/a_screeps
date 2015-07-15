@@ -56,9 +56,11 @@ JobManager.prototype = {
         // var moveToFlag = handlers.move_to_flag.getJobs(room);
         // jobs = jobs.concat(moveToFlag);
 
+                var cpu = require('cpu');
+        cpu.start('xxx');
         var repair = handlers.repair.getJobs(room);
         jobs = jobs.concat(repair);
-
+cpu.end();
         var replace = handlers.replace.getJobs(room);
         jobs = jobs.concat(replace);
 
