@@ -116,7 +116,7 @@ var             adjacentTiles = 2;
         var progress = target.progress / target.progressTotal;
         var buildPriority = room.buildPriority(target.structureType);
 
-        var range = target.pos.getRangeTo(Game.spawns.Spawn1) / 100;
+        var range =  1 - (target.pos.getRangeTo(Game.spawns.Spawn1) / 100);
         // average
         var buildJobPriority = (progress + buildPriority + (range * 3)) / 5;
 
