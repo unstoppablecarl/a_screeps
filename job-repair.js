@@ -127,7 +127,11 @@ var job_repair = {
         // });
 
         var walls = room.walls(function(wall){
-            if(wall.hits < wall.hitsMax && !wall.isTargetOfJobType('repair')){
+            if(
+                wall.hits < wall.hitsMax &&
+                !wall.isTargetOfJobType('repair') &&
+                wall.pos.adjacentEmptyTileCount() > 0
+            ){
                 var type = wall.structureType;
                 var threshold = room.repairStartThreshold(type);
                 var hitPercent = wall.hits / wall.hitsMax;
