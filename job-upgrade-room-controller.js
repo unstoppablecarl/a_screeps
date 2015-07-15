@@ -18,11 +18,11 @@ var job_upgrade_room_controller = {
             return;
         }
 
-        if(creep.energy === 0){
-            if(job_helpers.findEnergy(creep, job)){
-                return;
-            }
-        }
+        // if(creep.energy === 0){
+        //     if(job_helpers.findEnergy(creep, job)){
+        //         return;
+        //     }
+        // }
 
         // do not stand on top of target
         if(!creep.pos.isNearTo(target)){
