@@ -66,8 +66,11 @@ var job_repair = {
 
                 var repairAmount = s.hitsMax - s.hits;
                 if(repairAmount > 10000){
-                    var adjacentTiles = s.pos.adjacentEmptyTileCount();
 
+                var cpu = require('cpu');
+        cpu.start('xxx');
+                    var adjacentTiles = s.pos.adjacentEmptyTileCount();
+                    cpu.end();
                     if(adjacentTiles > 3){
                         adjacentTiles = 3;
                     }
@@ -89,7 +92,6 @@ var job_repair = {
             }
             return false;
         });
-
 
         var roads = room.roads(function(road){
             if(
