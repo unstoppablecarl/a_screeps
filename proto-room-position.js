@@ -75,10 +75,12 @@ var blockedTile = function(list) {
                 continue;
             }
             // enemy rampart
-            else if(
-                tile.structure.structureType === STRUCTURE_RAMPART &&
-                !tile.structure.my
-            ){
+            else if(tile.structure.structureType === STRUCTURE_RAMPART){
+
+                if(tile.structure.my){
+                    continue;
+                }
+
                 return true;
             }
             // any other structure
