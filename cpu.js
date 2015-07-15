@@ -68,7 +68,7 @@ var out = {
 
     resultStr: function(key){
         var records = this.results[key];
-        return _.round(average(records)) + ' (avg) ' + records.length + '/' + this.max + '(test count)';
+        return key + ' ' + _.round(average(records)) + ' (avg) ' + records.length + '/' + this.max + '(test count)';
     },
 
     report: function(){
