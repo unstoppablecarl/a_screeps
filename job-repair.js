@@ -144,7 +144,7 @@ var job_repair = {
         //     return false;
         // });
 
-        structures = structures.concat(roadsu);
+        structures = structures.concat(roads);
 
         return structures.map(function(structure){
 
