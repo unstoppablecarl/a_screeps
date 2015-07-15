@@ -6,13 +6,14 @@ var job_idle = {
 
         var target = job.target();
 
-
         if(!target){
             job.end();
             return;
         }
 
-        var move = creep.moveTo(target);
+        var move = creep.moveTo(target, {
+            reusePath: 10
+        });
 
         var moveOK = (
             move === OK ||
