@@ -66,6 +66,10 @@ var job_build = {
 
         var sites = room.constructionSites().forEach(function(site){
             var currentCount = site.targetOfJobTypeCount('build');
+
+            if(currentCount >= 3){
+                return;
+            }
             var adjacentTiles = site.pos.adjacentEmptyTileCount();
             if(adjacentTiles > 3){
                 adjacentTiles = 3;
