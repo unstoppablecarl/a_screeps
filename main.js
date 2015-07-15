@@ -10,6 +10,7 @@ var room = Game.rooms['W15N4'];
 
 // var room = Game.rooms.sim;
 if(room){
+    // room.populationReport();
     _.each(room.creeps(), function(creep) {
         creep.act();
     });
