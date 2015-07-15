@@ -334,7 +334,7 @@ JobManager.prototype = {
 
             roleCount = creeps.length;
         } else {
-             roleCount = this.room.roleCount(role);
+            roleCount = this.room.roleCount(role);
         }
 
         return roleCount < roleCountMax;
@@ -384,7 +384,7 @@ JobManager.prototype = {
             var singleSpawnEnergyCap = 300;
             maxCreepCost = this.room.extensionEnergyCapacity() + singleSpawnEnergyCap;
         }
-
+        console.log('m', role, maxCreepCost);
         if(maxCreepCost === 0 ){
             console.log('no energy');
             return false;
