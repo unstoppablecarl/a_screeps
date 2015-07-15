@@ -55,70 +55,48 @@ RoomPosition.prototype.findClosestEnergyStore = function(){
     return this.findClosestByRange(targets);
 };
 
+var road = STRUCTURE_ROAD;
+var rampart = STRUCTURE_RAMPART;
 var blockedTile = function(list) {
     for(var i = list.length - 1; i >= 0; i--){
         var tile = list[i];
-        var type = list[i].type;
-        if (
-            tile.type === 'terrain' &&
-            tile.terrain === 'wall'
-        ) {
-            return true;
-        }
-
-        if(tile.type ==='structure'){
+        var type = tile.type;
+        if (type === 'terrain' && tile.terrain === 'wall')  return true;
+        if(type ==='structure'){
+            var s = tile.structure;
             // road
-            if(tile.structure.structureType === STRUCTURE_ROAD){
+            if(s.structureType === road){
                 continue;
             }
             // enemy rampart
-            else if(tile.structure.structureType === STRUCTURE_RAMPART){
-
-                if(tile.structure.my){
-                    continue;
-                }
-
-                return true;
+            else if(s.structureType === rampart){
+                if(s.my) continue;
             }
             // any other structure
-            else {
-
-                return true;
-            }
+            return true;
         }
     }
-
     return false;
 };
 
 // counts tiles adjacent to position that are not blocked by terrain or structures
-RoomPosition.prototype.adjacentEmptyTileCount = function(blockedTileFunc) {
-    if(blockedTileFunc === undefined){
-        blockedTileFunc = blockedTile;
-    }
-
+// manually minified to allow inlining in v8
+RoomPosition.prototype.adjacentEmptyTileCount = function(blockedFunc) {
+    var b = blockedFunc || blockedTile;
     var x = this.x;
     var y = this.y;
     var room = Game.rooms[this.roomName];
     var tiles = room.lookAtArea(y - 1, x - 1, y + 1, x + 1);
     var spaces = 0;
 
-    // top left
-    if (!blockedTileFunc(tiles[y - 1][x - 1])) spaces++;
-    // top'
-    if (!blockedTileFunc(tiles[y - 1][x]))     spaces++;
-    // top right'
-    if (!blockedTileFunc(tiles[y - 1][x + 1])) spaces++;
-    // left
-    if (!blockedTileFunc(tiles[y][x - 1]))     spaces++;
-    // right'
-    if (!blockedTileFunc(tiles[y][x + 1]))     spaces++;
-    // bottom left'
-    if (!blockedTileFunc(tiles[y + 1][x - 1])) spaces++;
-    // bottom'
-    if (!blockedTileFunc(tiles[y + 1][x]))     spaces++;
-    // bottom right'
-    if (!blockedTileFunc(tiles[y + 1][x + 1])) spaces++;
+    if (!b(tiles[y - 1][x - 1])) spaces++;
+    if (!b(tiles[y - 1][x]))     spaces++;
+    if (!b(tiles[y - 1][x + 1])) spaces++;
+    if (!b(tiles[y][x - 1]))     spaces++;
+    if (!b(tiles[y][x + 1]))     spaces++;
+    if (!b(tiles[y + 1][x - 1])) spaces++;
+    if (!b(tiles[y + 1][x]))     spaces++;
+    if (!b(tiles[y + 1][x + 1])) spaces++;
 
     return spaces;
 };
