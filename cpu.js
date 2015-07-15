@@ -5,7 +5,7 @@
 
 var out = {
 
-    max: 100,
+    max: 1000,
 
     data: {},
     results: {},
