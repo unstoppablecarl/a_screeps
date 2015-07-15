@@ -83,8 +83,8 @@ var out = {
             if(records && records.length){
                 data.push({
                     name: key,
-                    avg: _.round(average(records)),
-                    last: _.round(records[records.length - 1]),
+                    avg: _.round(average(records), 2),
+                    last: _.round(records[records.length - 1], 2),
                     count: records.length,
                     max: this.memory.max,
                 });
