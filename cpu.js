@@ -1,79 +1,80 @@
 'use strict';
 
+Memory.cpu = Memory.cpu || {};
+Memory.cpu.results = Memory.cpu.results || {};
+Memory.cpu.max = Memory.cpu.max || 1000;
+Memory.cpu.store_average = Memory.cpu.store_average || false;
 
-
+var average = function(arr){
+    return _.sum(arr) / arr.length;
+};
 
 var out = {
 
-    max: 1000,
-
-    data: {},
-    results: {},
-
+    startTimes: {},
     last: null,
 
+    memory: Memory.cpu,
+    results: Memory.cpu.results,
+
     start: function(name){
-        if(!Memory.cpu){
-            Memory.cpu = {};
-        }
-        this.data[name] = Game.getUsedCpu();
+
+        this.startTimes[name] = Game.getUsedCpu();
         this.last = name;
     },
 
     end: function(name){
+        var end = Game.getUsedCpu();
         name = name || this.last;
 
         if(!name) {
             return;
         }
 
-        var start = this.data[name];
+        var start = this.startTimes[name];
 
         if(!start){
             return;
         }
 
-        var result = Game.getUsedCpu() - start;
+        var result = end - start;
 
-        this.results[name] = Math.round(result * 100) / 100;
+        this.results[name] = result;
     },
 
     shutdown: function(){
+        var max = this.memory.max || 1000;
         for(var key in this.results){
-            var result = this.results[key];
 
-            if(!_.isArray(Memory.cpu[key])){
-                Memory.cpu[key] = [];
+            if(!_.isArray(this.results[key])){
+                this.results[key] = [];
             }
-            var dest = Memory.cpu[key];
-            dest.push(result);
 
-            if(dest.length > this.max){
-                Memory.cpu[key] = dest.slice(0, this.max);
+            var records = this.results[key];
+
+            if(records.length > max){
+                records = records.slice(0, max);
+            }
+
+            if(this.memory.store_average){
+                this.results[key + '_avg'] = this.resultStr(key);
             }
         }
     },
 
-    average: function(name){
-        var source = Memory.cpu[name];
-        var total = 0;
-
-        for (var i = 0; i < source.length; i++) {
-            total += source[i];
-        }
-        var average = total / source.length;
-
-        return Math.round(average * 100) / 100;
+    resultStr: function(key){
+        var records = this.results[key];
+        return _.round(average(records)) + ' (avg) ' + records.length + '/' + this.max + '(test count)';
     },
+
     report: function(){
-        console.log('cpu results');
+        console.log('** cpu results **');
 
-        for(var key in Memory.cpu){
+        for(var key in this.results){
+            var records = this.results[key];
 
-            var item = Memory.cpu[key];
-
-            if(item && item.length){
-                console.log(key, this.average(key), '(avg) ', item.length, '/', this.max, '(test count)');
+            if(records && records.length){
+                console.log(this.resultStr(key));
             }
         }
     }

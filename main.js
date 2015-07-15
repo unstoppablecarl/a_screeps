@@ -2,9 +2,8 @@
 require('proto-all');
 // return;
 
-// var cpu = require('cpu');
-
-// cpu.start('all');
+var cpu = require('cpu');
+cpu.start('all');
 
 var room = Game.rooms['W15N4'];
 
@@ -47,6 +46,6 @@ if (Game.time % 5 === 0) {
 }
 
 
-// cpu.end();
-// cpu.report();
-// cpu.shutdown();
+cpu.end();
+cpu.report();
+cpu.shutdown();
