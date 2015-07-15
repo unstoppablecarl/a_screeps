@@ -73,7 +73,7 @@ var out = {
             var item = Memory.cpu[key];
 
             if(item && item.length){
-                console.log(key, this.average(key), '(avg) ', item.length, '(test count)');
+                console.log(key, this.average(key), '(avg) ', item.length, '/', this.max, '(test count)');
             }
         }
     }
