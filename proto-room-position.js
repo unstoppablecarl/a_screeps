@@ -78,7 +78,7 @@ var blockedTile = function(list) {
     }
     return false;
 };
-
+var cpu = require('cpu');
 // counts tiles adjacent to position that are not blocked by terrain or structures
 // manually minified to allow inlining in v8
 RoomPosition.prototype.adjacentEmptyTileCount = function(blockedFunc) {
@@ -86,7 +86,9 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(blockedFunc) {
     var x = this.x;
     var y = this.y;
     var room = Game.rooms[this.roomName];
+    cpu.start('lookAtArea');
     var tiles = room.lookAtArea(y - 1, x - 1, y + 1, x + 1);
+    cpu.end();
     var spaces = 0;
 
     if (!b(tiles[y - 1][x - 1])) spaces++;
