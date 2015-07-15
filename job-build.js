@@ -88,7 +88,7 @@ var job_build = {
                 });
             }
         });
-
+        console.log('jobs', JSON.stringify(jobs));
         if(buildJobLimit !== false){
             jobs = _.sortBy(jobs, function(job){
                 return job.priority;

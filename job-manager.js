@@ -117,7 +117,6 @@ JobManager.prototype = {
                 allocateTo = settings.allocate_to;
             }
 
-            // @TODO do not spawn new carriers for energy_deliver jobs when there are idle carriers
             var allocated;
 
             if(!allocateTo || allocateTo === 'existing'){
