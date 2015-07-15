@@ -50,8 +50,16 @@ if(room){
         jobManager.auditHarvesters();
     }
 
-    jobManager.update();
-    jobManager.allocate();
+    if (Game.time % 2 === 0) {
+        cpu.start('update');
+        jobManager.update();
+        cpu.end();
+    }
+    else {
+        cpu.start('allocate');
+        jobManager.allocate();
+        cpu.end();
+    }
 
     // jobList.report();
     // jobList.report(jobList.getActive());
