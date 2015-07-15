@@ -18,7 +18,8 @@ var job_energy_store = {
                 target.isCreep &&
                 target.role() === 'carrier' &&
                 target.job() &&
-                target.job().type() === 'energy_store'
+                target.job().type() === 'energy_store' &&
+                !target.isTargetOfJobType('energy_store')
             )
         ){
             target = creep.pos.findClosestEnergyStore();
