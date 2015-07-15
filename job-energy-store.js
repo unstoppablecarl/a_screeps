@@ -43,7 +43,7 @@ var job_energy_store = {
         }
 
         var move = creep.moveTo(target, {
-            reusePath: 10,
+            reusePath: 20,
         });
 
         var moveOK = (
