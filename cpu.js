@@ -4,6 +4,8 @@ Memory.cpu = Memory.cpu || {};
 Memory.cpu.results = Memory.cpu.results || {};
 Memory.cpu.max = Memory.cpu.max || 1000;
 Memory.cpu.store_average = Memory.cpu.store_average || false;
+Memory.cpu.avg = Memory.cpu.avg || {};
+
 
 var average = function(arr){
     return _.sum(arr) / arr.length;
@@ -61,7 +63,7 @@ var out = {
             }
 
             if(this.memory.store_average){
-                this.results[key + '_avg'] = this.resultStr(key);
+                this.memory.avg[key] = this.resultStr(key);
             }
         }
     },
