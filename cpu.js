@@ -6,6 +6,7 @@ Memory.cpu.max = Memory.cpu.max || 1000;
 Memory.cpu.store_average = Memory.cpu.store_average || false;
 Memory.cpu.avg = Memory.cpu.avg || {};
 
+var util = require('util');
 
 var average = function(arr){
     return _.sum(arr) / arr.length;
@@ -75,14 +76,23 @@ var out = {
 
     report: function(){
         console.log('** cpu results **');
-
+        var data = [];
         for(var key in this.results){
             var records = this.results[key];
 
             if(records && records.length){
-                console.log(this.resultStr(key));
+                data.push({
+                    name: key,
+                    avg: _.round(average(records)),
+                    last: _.round(records[records.length - 1]),
+                    count: records.length,
+                    max: this.memory.max,
+                });
+
             }
         }
+
+        console.log(util.table(data));
     }
 };
 
