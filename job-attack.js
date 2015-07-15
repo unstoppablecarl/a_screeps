@@ -33,7 +33,7 @@ var job_attack = {
                 attackIsMelee ||
                 (
                     !attackIsMelee &&
-                    targetRange > 1
+                    targetRange > 3
                 )
             ){
                 var move = creep.moveTo(target);
