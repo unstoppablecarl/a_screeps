@@ -48,18 +48,18 @@ var job_build = {
 
     getJobs: function(room) {
         var buildJobLimit = false;
-        var maxBuildJobs = room.jobCountMax('build');
+        // var maxBuildJobs = room.jobCountMax('build');
 
-        if(_.isNumber(maxBuildJobs)){
-            var activeBuildJobs = room.jobList().all(function(job){
-                return job.type() === 'build';
-            }).length;
+        // if(_.isNumber(maxBuildJobs)){
+        //     var activeBuildJobs = room.jobList().all(function(job){
+        //         return job.type() === 'build';
+        //     }).length;
 
-            if(activeBuildJobs >= maxBuildJobs) {
-                return [];
-            }
-            buildJobLimit = maxBuildJobs - activeBuildJobs;
-        }
+        //     if(activeBuildJobs >= maxBuildJobs) {
+        //         return [];
+        //     }
+        //     buildJobLimit = maxBuildJobs - activeBuildJobs;
+        // }
 
         var jobs = [];
         var getPriority = this.getPriority;
@@ -87,11 +87,11 @@ var job_build = {
                 });
             }
         });
-        if(buildJobLimit !== false){
-            jobs = _.sortBy(jobs, function(job){
-                return job.priority;
-            }).reverse().slice(0, buildJobLimit);
-        }
+        // if(buildJobLimit !== false){
+        //     jobs = _.sortBy(jobs, function(job){
+        //         return job.priority;
+        //     }).reverse().slice(0, buildJobLimit);
+        // }
 
         return jobs;
     },
@@ -115,8 +115,6 @@ var job_build = {
         var range = target.pos.getRangeTo(Game.spawns.Spawn1) / 100;
         // average
         var buildJobPriority = (progress + buildPriority + (range * 3)) / 5;
-
-
 
         // move one decimal over
         priority += buildJobPriority * 0.1;
