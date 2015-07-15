@@ -60,7 +60,7 @@ var out = {
             var records = this.results[key];
 
             if(records.length > max){
-                records = records.slice(0, max);
+                this.results[key] = records = records.slice(0, max);
             }
 
             if(this.memory.store_average){
@@ -88,9 +88,11 @@ var out = {
                     count: records.length,
                     max: this.memory.max,
                 });
-
             }
         }
+
+        var total = _.sum(data, 'avg');
+
 
         console.log(util.table(data));
     }
