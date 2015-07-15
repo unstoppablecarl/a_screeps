@@ -24,9 +24,7 @@ var job_energy_deliver = {
             return;
         }
 
-        var move = creep.moveTo(target, {
-                reusePath: 7,
-            });
+        var move = creep.moveTo(target);
 
         var moveOK = (
             move === OK ||
