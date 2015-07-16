@@ -41,8 +41,9 @@ var util = {
                 var valLength = length(val);
                 console.log('keyLength', keyLength);
                 console.log('valLength', valLength);
+                console.log('columnMaxLength[key]', columnMaxLength[key]);
 
-                columnMaxLength[key] = _.max(columnMaxLength[key] || 0, keyLength, valLength);
+                columnMaxLength[key] = _.max(columnMaxLength[key], keyLength, valLength);
             });
         });
 
