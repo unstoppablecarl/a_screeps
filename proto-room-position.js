@@ -92,7 +92,7 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(forceRefresh, blockedFu
         recalc = true;
     } else {
         var cached = room.memory.__adjacent_empty_tile_count[id];
-        if(cached === undefined || (Game.time - cached.created_at) > 10){
+        if(cached === undefined || (Game.time - cached.created_at) > 100){
             recalc = true;
         }
     }
