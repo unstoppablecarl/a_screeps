@@ -43,6 +43,8 @@ var util = {
             });
         });
 
+        console.log('columnMaxLength', JSON.stringify(columnMaxLength));
+
         var strRows = [];
         var headerRow = '';
         _.each(defaultRow, function(val, key) {
