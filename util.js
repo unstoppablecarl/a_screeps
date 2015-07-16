@@ -44,13 +44,17 @@ var util = {
             });
         });
 
-        var strRows = [];
         var headerRow = '';
-        _.each(defaultRow, function(val, key) {
-            var width = columnMaxLength[key] + 2;
-            headerRow += padRight(key, width);
-        });
-        strRows.push(headerRow);
+        var strRows = [];
+        var out = {};
+        if(!indexBy){
+
+            _.each(defaultRow, function(val, key) {
+                var width = columnMaxLength[key] + 2;
+                headerRow += padRight(key, width);
+            });
+            strRows.push(headerRow);
+        }
 
         _.each(data, function(row) {
             row = _.defaults(row, defaultRow);
@@ -63,25 +67,18 @@ var util = {
                 rowStr += padRight(val, width);
             });
 
-            strRows.push(rowStr);
+            if(!indexBy){
+                strRows.push(rowStr);
+            } else {
+                out[row[indexBy]] = rowStr;
+            }
+
         });
 
+
+
         if(indexBy){
-            var out = {};
-
-            var len = string(strRows.length);
-            var rowNumberWidth = length(len) + 2;
-            _.each(strRows, function(row, i){
-                i = string(i);
-                // var key = padRight(i, rowNumberWidth);
-
-                var key = row[indexBy];
-
-                console.log('indexBy', indexBy, JSON.stringify(row));
-
-                out[key] = row;
-            });
-            return out;
+           return out;
         }
 
         return strRows;
