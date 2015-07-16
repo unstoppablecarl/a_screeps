@@ -78,7 +78,7 @@ var blockedTile = function(list) {
     }
     return false;
 };
-var cpu = require('cpu');
+// var cpu = require('cpu');
 // counts tiles adjacent to position that are not blocked by terrain or structures
 // manually minified to allow inlining in v8
 RoomPosition.prototype.adjacentEmptyTileCount = function(forceRefresh, blockedFunc) {
