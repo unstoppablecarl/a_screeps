@@ -77,7 +77,7 @@ var util = {
 
                 var key = row[indexBy];
 
-                console.log('indexBy', indexBy);
+                console.log('indexBy', indexBy, JSON.stringify(row));
 
                 out[key] = row;
             });
