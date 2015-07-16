@@ -47,13 +47,16 @@ var util = {
         var headerRow = '';
         var strRows = [];
         var out = {};
-        if(!indexBy){
 
-            _.each(defaultRow, function(val, key) {
-                var width = columnMaxLength[key] + 2;
-                headerRow += padRight(key, width, padStr);
-            });
+
+        _.each(defaultRow, function(val, key) {
+            var width = columnMaxLength[key] + 2;
+            headerRow += padRight(key, width, padStr);
+        });
+        if(!indexBy){
             strRows.push(headerRow);
+        } else {
+             out.columns = headerRow;
         }
 
         _.each(data, function(row) {
