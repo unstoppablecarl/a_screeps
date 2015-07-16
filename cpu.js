@@ -50,6 +50,11 @@ var out = {
     },
 
     shutdown: function(){
+    //     if(!this.results.all){
+    //         this.results.all = [];
+    //     }
+    //     this.results.all.push(Game.getUsedCpu());
+
         var max = this.memory.max || 1000;
         for(var key in this.results){
 

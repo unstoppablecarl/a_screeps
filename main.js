@@ -83,6 +83,6 @@ if (Game.time % 5 === 0) {
 
 
 
-cpu.end();
+cpu.end('all');
 cpu.report();
 cpu.shutdown();
