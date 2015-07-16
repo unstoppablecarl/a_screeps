@@ -3,7 +3,7 @@
 Memory.cpu = Memory.cpu || {};
 Memory.cpu.results = Memory.cpu.results || {};
 Memory.cpu.max = Memory.cpu.max || 1000;
-Memory.cpu.store_average = Memory.cpu.store_average || false;
+Memory.cpu.store_results = Memory.cpu.store_results || false;
 Memory.cpu.avg = Memory.cpu.avg || {};
 
 var util = require('util');
@@ -65,7 +65,7 @@ var out = {
             }
         }
 
-        if(this.memory.store_average){
+        if(this.memory.store_results){
             this.memory.report = util.tableData(this.getReportData(), 'name','\xA0');
         }
     },
