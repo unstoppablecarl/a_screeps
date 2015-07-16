@@ -72,7 +72,7 @@ var util = {
             var rowNumberWidth = length(strRows.length) + 2;
             _.each(strRows, function(row, i){
                 var key = padRight(i, rowNumberWidth);
-                out[key] = row;
+                out[key + ''] = row;
             });
             return out;
         }
