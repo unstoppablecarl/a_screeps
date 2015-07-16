@@ -87,7 +87,7 @@ var out = {
     },
 
     getReportData:function(){
-        console.log('** cpu results **');
+
         var data = [];
         for(var key in this.results){
             var records = this.results[key];
@@ -107,6 +107,7 @@ var out = {
     },
 
     report: function(){
+        console.log('** cpu results **');
         console.log(util.table(this.getReportData()));
     }
 };
