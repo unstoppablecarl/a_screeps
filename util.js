@@ -72,9 +72,9 @@ var util = {
             var len = string(strRows.length);
             var rowNumberWidth = length(len) + 2;
             _.each(strRows, function(row, i){
-                // i = string(i);
-                // var key = padRight(i, rowNumberWidth);
-                // out[key] = row;
+                i = string(i);
+                var key = padRight(i, rowNumberWidth);
+                out[key] = row;
             });
             return out;
         }
