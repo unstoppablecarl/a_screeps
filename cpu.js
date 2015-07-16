@@ -70,7 +70,7 @@ var out = {
 
             if(this.memory.store_average){
 
-                this.memory.report = util.tableData(this.getReportData(), true);
+                this.memory.report = util.tableData(this.getReportData(), 'name');
 
             }
         }
