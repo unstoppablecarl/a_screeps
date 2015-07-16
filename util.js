@@ -19,7 +19,7 @@ var util = {
     table: function(data) {
         return this.tableData(data).join('\n');
     },
-    tableData: function(data, withRowNumbers) {
+    tableData: function(data, indexBy) {
         var defaultRow = {};
         var columnMaxLength = {};
 
@@ -66,15 +66,15 @@ var util = {
             strRows.push(rowStr);
         });
 
-        if(withRowNumbers){
+        if(indexBy){
             var out = {};
 
             var len = string(strRows.length);
             var rowNumberWidth = length(len) + 2;
             _.each(strRows, function(row, i){
-                i = string(i);
-                var key = padRight(i, rowNumberWidth);
-                out[key] = row;
+                // i = string(i);
+                // var key = padRight(i, rowNumberWidth);
+                out[row[indexBy]] = row;
             });
             return out;
         }
