@@ -68,11 +68,12 @@ var out = {
                 this.results[key] = records = records.slice(0, max);
             }
 
-            if(this.memory.store_average){
+
+        }
+        if(this.memory.store_average){
                 console.log('save');
                 this.memory.report = util.tableData(this.getReportData(), 'name');
             }
-        }
     },
 
     resultStr: function(key){
