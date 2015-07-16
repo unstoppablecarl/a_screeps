@@ -64,16 +64,16 @@ var util = {
             strRows.push(rowStr);
         });
 
-        if(withRowNumbers){
-            var out = {};
+        // if(withRowNumbers){
+        //     var out = {};
 
-            var rowNumberWidth = length(strRows.length) + 2;
-            _.each(strRows, function(row, i){
-                var key = padRight(i, rowNumberWidth);
-                out[key] = row;
-            });
-            return out;
-        }
+        //     var rowNumberWidth = length(strRows.length) + 2;
+        //     _.each(strRows, function(row, i){
+        //         var key = padRight(i, rowNumberWidth);
+        //         out[key] = row;
+        //     });
+        //     return out;
+        // }
 
         return strRows;
     },
