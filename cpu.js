@@ -71,12 +71,6 @@ var out = {
 
         }
         if(this.memory.store_average){
-            console.log('save');
-
-            if(this.memory.save === undefined){
-                this.memory.save = 0;
-            }
-            this.memory.save++;
             this.memory.report = util.tableData(this.getReportData(), 'name','\xA0');
         }
     },
