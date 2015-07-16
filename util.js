@@ -8,10 +8,11 @@ var length = function(str) {
     return str.replace(/\u001b\[\d+m/g, '').length;
 };
 
-var padRight = function(val, width) {
+var padRight = function(val, width, padStr) {
+    padStr = padStr || ' ';
     var str = string(val);
     var len = length(str);
-    var pad = width > len ? Array(width - len + 1).join(' ') : '';
+    var pad = width > len ? Array(width - len + 1).join(padStr) : '';
     return str + pad;
 };
 
@@ -19,7 +20,7 @@ var util = {
     table: function(data) {
         return this.tableData(data).join('\n');
     },
-    tableData: function(data, indexBy) {
+    tableData: function(data, indexBy, padStr) {
         var defaultRow = {};
         var columnMaxLength = {};
 
@@ -51,7 +52,7 @@ var util = {
 
             _.each(defaultRow, function(val, key) {
                 var width = columnMaxLength[key] + 2;
-                headerRow += padRight(key, width);
+                headerRow += padRight(key, width, padStr);
             });
             strRows.push(headerRow);
         }
@@ -64,7 +65,7 @@ var util = {
             _.each(row, function(val, key) {
                 val = string(val);
                 var width = columnMaxLength[key] + 2;
-                rowStr += padRight(val, width);
+                rowStr += padRight(val, width, padStr);
             });
 
             if(!indexBy){
@@ -72,10 +73,7 @@ var util = {
             } else {
                 out[row[indexBy]] = rowStr;
             }
-
         });
-
-
 
         if(indexBy){
            return out;

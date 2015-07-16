@@ -77,7 +77,7 @@ var out = {
                 this.memory.save = 0;
             }
             this.memory.save++;
-            this.memory.report = util.tableData(this.getReportData(), 'name');
+            this.memory.report = util.tableData(this.getReportData(), 'name','_');
         }
     },
 
