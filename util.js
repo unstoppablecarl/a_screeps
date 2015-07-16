@@ -32,7 +32,7 @@ var util = {
                 if(defaultRow[key] === undefined){
                     defaultRow[key] = null;
                 }
-                if(!columnMaxLength[key]){
+                if(columnMaxLength[key] === undefined){
                     columnMaxLength[key] = 0;
                 }
                 key = string(key);
