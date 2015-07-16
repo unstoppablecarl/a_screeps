@@ -282,12 +282,16 @@ JobManager.prototype = {
         } else {
             creep = creeps[0];
         }
+        if(!creep){
+            return false;
+        }
         var originalArr = idleCreepsByRole[job.role()];
 
         var index = originalArr.indexOf(creep);
         if(index !== -1){
             originalArr.splice(index, 1);
         }
+
 
         job.source(creep);
         job.start();
