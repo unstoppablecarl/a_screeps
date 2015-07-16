@@ -75,7 +75,7 @@ var job_upgrade_room_controller = {
                 role: 'upgrader',
                 type: 'upgrade_room_controller',
                 target: controller,
-                priority: 0.1,
+                priority: 0.55,
             }];
         }
         return [];
