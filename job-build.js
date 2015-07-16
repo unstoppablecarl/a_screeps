@@ -74,7 +74,7 @@ var job_build = {
             // if(adjacentTiles > 3){
             //     adjacentTiles = 3;
             // }
-var             adjacentTiles = 2;
+            var adjacentTiles = 2;
             if(currentCount >= adjacentTiles){
                 return;
             }

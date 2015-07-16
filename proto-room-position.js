@@ -81,26 +81,45 @@ var blockedTile = function(list) {
 var cpu = require('cpu');
 // counts tiles adjacent to position that are not blocked by terrain or structures
 // manually minified to allow inlining in v8
-RoomPosition.prototype.adjacentEmptyTileCount = function(blockedFunc) {
-    var b = blockedFunc || blockedTile;
-    var x = this.x;
-    var y = this.y;
+RoomPosition.prototype.adjacentEmptyTileCount = function(forceRefresh, blockedFunc) {
     var room = Game.rooms[this.roomName];
-    cpu.start('lookAtArea');
-    var tiles = room.lookAtArea(y - 1, x - 1, y + 1, x + 1);
-    cpu.end();
-    var spaces = 0;
+    var recalc = false;
+    var id = this.x + ',' + this.y;
+    if(room.memory.__adjacent_empty_tile_count === undefined){
+        room.memory.__adjacent_empty_tile_count = {};
+    }
+    if(forceRefresh) {
+        recalc = true;
+    } else {
+        var cached = room.memory.__adjacent_empty_tile_count[id];
+        if(cached === undefined || (Game.time - cached.created_at) > 10){
+            recalc = true;
+        }
+    }
 
-    if (!b(tiles[y - 1][x - 1])) spaces++;
-    if (!b(tiles[y - 1][x]))     spaces++;
-    if (!b(tiles[y - 1][x + 1])) spaces++;
-    if (!b(tiles[y][x - 1]))     spaces++;
-    if (!b(tiles[y][x + 1]))     spaces++;
-    if (!b(tiles[y + 1][x - 1])) spaces++;
-    if (!b(tiles[y + 1][x]))     spaces++;
-    if (!b(tiles[y + 1][x + 1])) spaces++;
+    if(recalc){
+        var b = blockedFunc || blockedTile;
+        var x = this.x;
+        var y = this.y;
+        var tiles = room.lookAtArea(y - 1, x - 1, y + 1, x + 1);
+        var spaces = 0;
 
-    return spaces;
+        if (!b(tiles[y - 1][x - 1])) spaces++;
+        if (!b(tiles[y - 1][x]))     spaces++;
+        if (!b(tiles[y - 1][x + 1])) spaces++;
+        if (!b(tiles[y][x - 1]))     spaces++;
+        if (!b(tiles[y][x + 1]))     spaces++;
+        if (!b(tiles[y + 1][x - 1])) spaces++;
+        if (!b(tiles[y + 1][x]))     spaces++;
+        if (!b(tiles[y + 1][x + 1])) spaces++;
+
+        room.memory.__adjacent_empty_tile_count[id] = {
+            created_at: Game.time,
+            value: spaces
+        };
+    }
+
+    return room.memory.__adjacent_empty_tile_count[id];
 };
 
 RoomPosition.prototype.findHostileTarget = function(range){
