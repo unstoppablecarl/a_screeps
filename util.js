@@ -35,7 +35,8 @@ var util = {
                 if(!columnMaxLength[key]){
                     columnMaxLength[key] = 0;
                 }
-
+                key = string(key);
+                val = string(val);
                 var keyLength = length(key);
                 var valLength = length(val);
                 columnMaxLength[key] = _.max(columnMaxLength[key], keyLength, valLength);
