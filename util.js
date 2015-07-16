@@ -39,15 +39,10 @@ var util = {
                 val = string(val);
                 var keyLength = length(key);
                 var valLength = length(val);
-                console.log('keyLength', keyLength);
-                console.log('valLength', valLength);
-                console.log('columnMaxLength[key]', columnMaxLength[key]);
 
                 columnMaxLength[key] = _.max([columnMaxLength[key], keyLength, valLength]);
             });
         });
-
-        console.log('columnMaxLength', JSON.stringify(columnMaxLength));
 
         var strRows = [];
         var headerRow = '';
