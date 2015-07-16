@@ -56,7 +56,7 @@ var util = {
         if(!indexBy){
             strRows.push(headerRow);
         } else {
-             out.columns = headerRow;
+             out._columns = headerRow;
         }
 
         _.each(data, function(row) {
