@@ -92,7 +92,9 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(forceRefresh, blockedFu
         recalc = true;
     } else {
         var cached = room.memory.__adjacent_empty_tile_count[id];
-        if(cached === undefined || (Game.time - cached.created_at) > 100){
+        if(cached === undefined
+            // || (Game.time - cached.created_at) > 100
+            ){
             recalc = true;
         }
     }
@@ -119,7 +121,7 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(forceRefresh, blockedFu
         };
     }
 
-    return room.memory.__adjacent_empty_tile_count[id];
+    return room.memory.__adjacent_empty_tile_count[id].value;
 };
 
 RoomPosition.prototype.findHostileTarget = function(range){
