@@ -69,9 +69,8 @@ var out = {
             }
 
             if(this.memory.store_average){
-
+                console.log('save');
                 this.memory.report = util.tableData(this.getReportData(), 'name');
-
             }
         }
     },
