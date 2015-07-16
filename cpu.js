@@ -70,7 +70,7 @@ var out = {
 
             if(this.memory.store_average){
 
-                var table = util.tabletableData(this.getReportData(), true);
+                var table = util.tableData(this.getReportData(), true);
                 this.memory.report = {};
                 var tableRows = table.split('\n');
                 for (var i = 0; i < tableRows.length; i++) {
