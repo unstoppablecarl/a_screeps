@@ -72,8 +72,8 @@ var util = {
             var len = string(strRows.length);
             var rowNumberWidth = length(len) + 2;
             _.each(strRows, function(row, i){
-                // i = string(i);
-                // var key = padRight(i, rowNumberWidth);
+                i = string(i);
+                var key = padRight(i, rowNumberWidth);
                 out[row[indexBy]] = row;
             });
             return out;
