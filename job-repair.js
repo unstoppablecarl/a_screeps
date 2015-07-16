@@ -78,12 +78,8 @@ var job_repair = {
                 }
 
                 var repairAmount = s.hitsMax - s.hits;
-                var adjacentTiles = 1;
                 if(repairAmount > 10000){
-                    // var cpu = require('cpu');
-                    // cpu.start('adj');
-                    adjacentTiles = s.pos.adjacentEmptyTileCount();
-                    // cpu.end();
+                    var adjacentTiles = s.pos.adjacentEmptyTileCount();
                     if(adjacentTiles > 3){
                         adjacentTiles = 3;
                     }
