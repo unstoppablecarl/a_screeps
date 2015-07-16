@@ -469,7 +469,6 @@ JobManager.prototype = {
 
             var pile = job.target();
 
-            // @TODO make sure this is the correct sort direction
             var creeps = _.sortBy(creeps, function(creep){
                 return pile.pos.getRangeTo(creep);
             });

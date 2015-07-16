@@ -69,7 +69,7 @@ var out = {
             }
 
             if(this.memory.store_average){
-                this.memory.avg[key] = this.resultStr(key);
+                this.memory.report = util.table(this.getReportData());
             }
         }
     },
@@ -79,7 +79,7 @@ var out = {
         return key + ':: last: ' + _.round(records[records.length - 1], 2) + ', avg: ' + _.round(average(records), 2) + ', count: ' + records.length + ' / ' + this.memory.max;
     },
 
-    report: function(){
+    getReportData:function(){
         console.log('** cpu results **');
         var data = [];
         for(var key in this.results){
@@ -96,10 +96,11 @@ var out = {
             }
         }
 
-        var total = _.sum(data, 'avg');
+        return data;
+    },
 
-
-        console.log(util.table(data));
+    report: function(){
+        console.log(util.table(this.getReportData()));
     }
 };
 
