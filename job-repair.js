@@ -61,34 +61,38 @@ var job_repair = {
     },
 
     getJobs: function(room){
-        var structures = room.structures(function(s){
+        var structures = [];
+
+        room.structures().forEach(function(s){
             if(s.hits < s.hitsMax){
-
-                var repairAmount = s.hitsMax - s.hits;
-                if(repairAmount > 10000){
-
-                var cpu = require('cpu');
-                    cpu.start('adj');
-                    var adjacentTiles = s.pos.adjacentEmptyTileCount();
-                    cpu.end();
-                    if(adjacentTiles > 3){
-                        adjacentTiles = 3;
-                    }
-
-                    var currentCount = s.targetOfJobTypeCount('repair');
-                    if(currentCount >= adjacentTiles){
-                        return false;
-                    }
-                } else {
-                    if(s.isTargetOfJobType('repair')){
-                        return false;
-                    }
+                if(s.isTargetOfJobType('repair')){
+                    return;
                 }
 
                 var type = s.structureType;
                 var threshold = room.repairStartThreshold(type);
                 var hitPercent = s.hits / s.hitsMax;
-                return hitPercent < threshold;
+
+                if(hitPercent >= threshold){
+                    return;
+                }
+
+                var repairAmount = s.hitsMax - s.hits;
+                var adjacentTiles = 1;
+                if(repairAmount > 10000){
+                    // var cpu = require('cpu');
+                    // cpu.start('adj');
+                    adjacentTiles = s.pos.adjacentEmptyTileCount();
+                    // cpu.end();
+                    if(adjacentTiles > 3){
+                        adjacentTiles = 3;
+                    }
+                    for (var i = 0; i < adjacentTiles; i++) {
+                        structures.push(s);
+                    }
+                } else {
+                    structures.push(s);
+                }
             }
             return false;
         });

@@ -81,48 +81,23 @@ var blockedTile = function(list) {
 // var cpu = require('cpu');
 // counts tiles adjacent to position that are not blocked by terrain or structures
 // manually minified to allow inlining in v8
-RoomPosition.prototype.adjacentEmptyTileCount = function(forceRefresh, blockedFunc) {
+RoomPosition.prototype.adjacentEmptyTileCount = function(blockedFunc) {
     var room = Game.rooms[this.roomName];
-    var recalc = false;
-    var id = this.x + ',' + this.y;
-    if(room.memory.__adjacent_empty_tile_count === undefined){
-        room.memory.__adjacent_empty_tile_count = {};
-    }
-    if(forceRefresh) {
-        recalc = true;
-    } else {
-        var cached = room.memory.__adjacent_empty_tile_count[id];
-        if(cached === undefined
-            // || (Game.time - cached.created_at) > 100
-            ){
-            recalc = true;
-        }
-    }
+    var b = blockedFunc || blockedTile;
+    var x = this.x;
+    var y = this.y;
+    var tiles = room.lookAtArea(y - 1, x - 1, y + 1, x + 1);
+    var spaces = 0;
 
-    if(recalc){
-        // console.log('recalc');
-        var b = blockedFunc || blockedTile;
-        var x = this.x;
-        var y = this.y;
-        var tiles = room.lookAtArea(y - 1, x - 1, y + 1, x + 1);
-        var spaces = 0;
-
-        if (!b(tiles[y - 1][x - 1])) spaces++;
-        if (!b(tiles[y - 1][x]))     spaces++;
-        if (!b(tiles[y - 1][x + 1])) spaces++;
-        if (!b(tiles[y][x - 1]))     spaces++;
-        if (!b(tiles[y][x + 1]))     spaces++;
-        if (!b(tiles[y + 1][x - 1])) spaces++;
-        if (!b(tiles[y + 1][x]))     spaces++;
-        if (!b(tiles[y + 1][x + 1])) spaces++;
-
-        room.memory.__adjacent_empty_tile_count[id] = {
-            created_at: Game.time,
-            value: spaces
-        };
-    }
-
-    return room.memory.__adjacent_empty_tile_count[id].value;
+    if (!b(tiles[y - 1][x - 1])) spaces++;
+    if (!b(tiles[y - 1][x]))     spaces++;
+    if (!b(tiles[y - 1][x + 1])) spaces++;
+    if (!b(tiles[y][x - 1]))     spaces++;
+    if (!b(tiles[y][x + 1]))     spaces++;
+    if (!b(tiles[y + 1][x - 1])) spaces++;
+    if (!b(tiles[y + 1][x]))     spaces++;
+    if (!b(tiles[y + 1][x + 1])) spaces++;
+    return spaces;
 };
 
 RoomPosition.prototype.findHostileTarget = function(range){
