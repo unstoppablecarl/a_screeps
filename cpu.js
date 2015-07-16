@@ -70,13 +70,8 @@ var out = {
 
             if(this.memory.store_average){
 
-                var table = util.tableData(this.getReportData(), true);
-                this.memory.report = {};
-                var tableRows = table.split('\n');
-                for (var i = 0; i < tableRows.length; i++) {
-                    var row = tableRows[i];
-                    this.memory.report[i] = row;
-                }
+                this.memory.report = util.tableData(this.getReportData(), true);
+
             }
         }
     },
