@@ -77,11 +77,7 @@ var out = {
                     this.memory.save = 0;
                 }
                 this.memory.save++;
-                var d = util.tableData(this.getReportData(), 'name');
-                _.each(d, function(row){
-                    console.log(JSON.stringify(row));
-                });
-                this.memory.report = d;
+                this.memory.report = util.tableData(this.getReportData(), 'name');
             }
     },
 
