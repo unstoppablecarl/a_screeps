@@ -76,9 +76,7 @@ var out = {
                 for (var i = 0; i < tableRows.length; i++) {
                     var row = tableRows[i];
                     this.memory.report[i] = row;
-
                 }
-
             }
         }
     },

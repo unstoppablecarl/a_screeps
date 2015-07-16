@@ -17,25 +17,28 @@ var padRight = function(val, width) {
 
 var util = {
     table: function(data) {
+        return this.tableData(data).join('\n');
+    },
+    tableData: function(data, withRowNumbers) {
         var defaultRow = {};
         var columnMaxLength = {};
 
+        var allKeys =
+        _.map(data, 'user');
+
+
         _.each(data, function(row) {
-            _.defaults(defaultRow, row);
-
             _.each(row, function(val, key) {
-                var len = length(key);
-                if (!columnMaxLength[key] || columnMaxLength[key] < len) {
-                    columnMaxLength[key] = len;
+                if(defaultRow[key] === undefined){
+                    defaultRow[key] = null;
                 }
-            });
+                if(!columnMaxLength[key]){
+                    columnMaxLength[key] = 0;
+                }
 
-            _.each(row, function(val, key) {
-                val = string(val);
-                var len = length(val);
-                if (!columnMaxLength[key] || columnMaxLength[key] < len) {
-                    columnMaxLength[key] = len;
-                }
+                var keyLength = length(key);
+                var valLength = length(val);
+                columnMaxLength[key] = _.max(columnMaxLength[key], keyLength, valLength);
             });
         });
 
@@ -57,10 +60,22 @@ var util = {
                 var width = columnMaxLength[key] + 2;
                 rowStr += padRight(val, width);
             });
+
             strRows.push(rowStr);
         });
 
-        return strRows.join('\n');
+        if(withRowNumbers){
+            var out = {};
+
+            var rowNumberWidth = length(strRows.length) + 2;
+            _.each(strRows, function(row, i){
+                var key = padRight(i, rowNumberWidth);
+                out[key] = row;
+            });
+            return out;
+        }
+
+        return strRows;
     },
 };
 
