@@ -65,7 +65,7 @@ var out = {
             var records = this.results[key];
 
             if(records.length > max){
-                this.results[key] = records = records.slice(0, max);
+                this.results[key] = records = records.slice(-max);
             }
 
 
