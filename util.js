@@ -7,7 +7,6 @@ var string = function(val) {
 var length = function(str) {
     return str.replace(/\u001b\[\d+m/g, '').length;
 };
-
 var padRight = function(val, width, padStr) {
     padStr = padStr || ' ';
     var str = string(val);
