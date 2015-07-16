@@ -100,7 +100,7 @@ RoomPosition.prototype.adjacentEmptyTileCount = function(forceRefresh, blockedFu
     }
 
     if(recalc){
-        console.log('recalc');
+        // console.log('recalc');
         var b = blockedFunc || blockedTile;
         var x = this.x;
         var y = this.y;
