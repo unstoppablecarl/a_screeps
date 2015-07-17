@@ -95,6 +95,7 @@ cpu.end('all');
 // cpu.report();
 cpu.shutdown();
 
+Memory.cpu.__end = Game.getUsedCpu();
 
 /*
 @TODO flags to override priority of objects on tile (build, repair)
