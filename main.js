@@ -2,11 +2,6 @@
 
 var cpu = require('cpu');
 
-cpu.start('start');
-cpu.end('start');
-
-cpu.start('all');
-
 cpu.start('proto_all');
     require('proto-all');
 cpu.end('proto_all');
@@ -89,9 +84,6 @@ if (Game.time % 5 === 0) {
     }
 }
 
-
-
-cpu.end('all');
 // cpu.report();
 cpu.shutdown();
 

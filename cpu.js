@@ -51,6 +51,12 @@ var out = {
 
     shutdown: function(){
 
+        if(!this.results.end){
+            this.results.end = [];
+        }
+
+        this.results.end.push(Game.getUsedCpu());
+
         var max = this.memory.max || 1000;
         for(var key in this.results){
 
