@@ -8,7 +8,7 @@ cpu.end('proto_all');
 
 // return;
 
-var room = Game.rooms['W15N4'];
+var room = Game.rooms.W15N4;
 
 
 
