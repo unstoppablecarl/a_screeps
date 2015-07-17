@@ -15,6 +15,14 @@ var padRight = function(val, width, padStr) {
     return str + pad;
 };
 
+var padLeft = function(val, width, padStr) {
+    padStr = padStr || ' ';
+    var str = string(val);
+    var len = length(str);
+    var pad = width > len ? Array(width - len + 1).join(padStr) : '';
+    return pad + str;
+};
+
 var util = {
     table: function(data) {
         return this.tableData(data).join('\n');
@@ -46,7 +54,7 @@ var util = {
 
         _.each(defaultRow, function(val, key) {
             var width = columnMaxLength[key] + 2;
-            headerRow += padRight(key, width, padStr);
+            headerRow += padLeft(key, width, padStr);
         });
 
         if(!indexBy){
@@ -63,7 +71,7 @@ var util = {
             _.each(row, function(val, key) {
                 val = string(val);
                 var width = columnMaxLength[key] + 2;
-                rowStr += padRight(val, width, padStr);
+                rowStr += padLeft(val, width, padStr);
             });
 
             if(!indexBy){
