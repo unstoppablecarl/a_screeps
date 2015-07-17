@@ -23,10 +23,6 @@ var util = {
         var defaultRow = {};
         var columnMaxLength = {};
 
-        var allKeys =
-        _.map(data, 'user');
-
-
         _.each(data, function(row) {
             _.each(row, function(val, key) {
                 if(defaultRow[key] === undefined){
@@ -48,11 +44,11 @@ var util = {
         var strRows = [];
         var out = {};
 
-
         _.each(defaultRow, function(val, key) {
             var width = columnMaxLength[key] + 2;
             headerRow += padRight(key, width, padStr);
         });
+
         if(!indexBy){
             strRows.push(headerRow);
         } else {

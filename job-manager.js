@@ -292,7 +292,6 @@ JobManager.prototype = {
             originalArr.splice(index, 1);
         }
 
-
         job.source(creep);
         job.start();
 

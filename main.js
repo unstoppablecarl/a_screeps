@@ -1,9 +1,14 @@
 'use strict';
-require('proto-all');
-// return;
 
 var cpu = require('cpu');
+
 cpu.start('all');
+
+cpu.start('proto_all');
+    require('proto-all');
+cpu.end('proto_all');
+
+// return;
 
 var room = Game.rooms['W15N4'];
 
@@ -84,5 +89,19 @@ if (Game.time % 5 === 0) {
 
 
 cpu.end('all');
-cpu.report();
+// cpu.report();
 cpu.shutdown();
+
+
+/*
+@TODO flags to override priority of objects on tile (build, repair)
+@TODO flags to override settings of objects on tile (repair min/max, build/repair priority)
+@TODO base job priority as room config setting
+@TODO add higher cost creep bodies to metaroles
+@TODO optimize metaroles with precalculated body costs?
+@TODO write algo to calculate travel time
+@TODO calculate creep build time when replacing creeps
+@TODO carrier energy store waypoints to decide if they are too far away to comback to collect and store energy?
+@TODO more intellegently decide when a new creep needs to be created
+@TODO workflow for pulling energy out of extensions
+ */
