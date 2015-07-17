@@ -2,6 +2,9 @@
 
 var cpu = require('cpu');
 
+cpu.start('start');
+cpu.end('start');
+
 cpu.start('all');
 
 cpu.start('proto_all');
