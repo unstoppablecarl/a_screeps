@@ -76,9 +76,19 @@ TOUGH:          10
                     MOVE, MOVE
                 ],
                 [
-                    CARRY,
+                    CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE,
+                ],
+                [
+                    CARRY, CARRY, CARRY,
                     WORK, WORK, WORK, WORK, WORK,
                     MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE
                 ],
             ]
         },
@@ -119,6 +129,16 @@ TOUGH:          10
                 [
                     CARRY, CARRY, CARRY,
                     WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
                     MOVE, MOVE
                 ],
             ]
@@ -255,6 +275,16 @@ TOUGH:          10
                     CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
                     MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
                 ],
+
+                [
+                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                ],
+
+                [
+                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                ],
             ]
         },
         guard: {
@@ -279,6 +309,23 @@ TOUGH:          10
                     TOUGH, TOUGH,
                     RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
                     MOVE, MOVE, MOVE
+                ],
+
+                [
+                    TOUGH, TOUGH,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
+                    MOVE, MOVE, MOVE, MOVE
+                ],
+
+                [
+                    TOUGH, TOUGH, TOUGH,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
+                    MOVE, MOVE, MOVE, MOVE,
+                ],
+                [
+                    TOUGH, TOUGH, TOUGH,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE,
                 ],
             ]
         },
@@ -339,6 +386,21 @@ TOUGH:          10
                 [
                     MOVE, MOVE,
                     RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
+                ],
+
+                [
+                    MOVE, MOVE,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
+                ],
+
+                [
+                    MOVE, MOVE,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
+                ],
+
+                [
+                    MOVE, MOVE, MOVE,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
                 ],
             ]
         }
