@@ -1,5 +1,7 @@
 'use strict';
 
+var job_energy_store = require('job-energy-store');
+
 var job_harvest = {
     name: 'harvest',
     _getStoreTarget: function(creep, job) {
@@ -9,8 +11,8 @@ var job_harvest = {
             target = Game.getObjectById(settings.store_energy_id);
         }
 
-        if (!target || target.energy === target.energyCapacity) {
-            target = creep.pos.findClosestEnergyStore();
+        if(!job_energy_store.isValidTarget(target)){
+            target = job_energy_store.findClosestTarget(creep);
             if (target) {
                 settings.store_energy_id = target.id;
             }
@@ -171,6 +173,7 @@ var job_harvest = {
             };
         });
     },
+
 };
 
 module.exports = job_harvest;

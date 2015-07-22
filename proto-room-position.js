@@ -1,5 +1,6 @@
 'use strict';
 
+RoomPosition.prototype.isRoomPosition = true;
 
 RoomPosition.prototype.findClosestIdleFlag = function(creep){
     var role = creep.role();
@@ -25,38 +26,10 @@ RoomPosition.prototype.findClosestIdleFlag = function(creep){
     return false;
 };
 
-RoomPosition.prototype.findClosestEnergyStore = function(){
-    var room = Game.rooms[this.roomName];
-    var spawns = room.spawns(function(spawn) {
-        return spawn.energy < spawn.energyCapacity;
-    });
-
-    var extensions = room.extensions(function(s) {
-        return s.energy < s.energyCapacity;
-    });
-
-    var targets = spawns.concat(extensions);
-
-    if(!targets.length){
-        targets = room.creeps(function(creep){
-            return (
-                creep.energyCapacity &&
-                creep.energy !== creep.energyCapacity &&
-                // prevent carriers from passing energy back and forth
-                !(
-                    creep.role() === 'carrier' &&
-                    creep.job() &&
-                    creep.job().type() === 'energy_store'
-                )
-            );
-        });
-    }
-
-    return this.findClosestByRange(targets);
-};
 
 var road = STRUCTURE_ROAD;
 var rampart = STRUCTURE_RAMPART;
+
 var blockedTile = function(list) {
     for(var i = list.length - 1; i >= 0; i--){
         var tile = list[i];

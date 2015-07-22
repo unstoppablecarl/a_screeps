@@ -8,7 +8,7 @@ var job_energy_collect = {
         var target = job.target();
 
         if(!this.isValidTarget(target)){
-            target = this.findClosestTarget(creep.room, creep.pos);
+            target = this.findClosestTarget(creep);
             if (target) {
                 job.target(target);
             }
@@ -190,7 +190,7 @@ var job_energy_collect = {
             return false;
         }
     },
-    findClosestTarget: function(creep, job){
+    findClosestTarget: function(creep){
 
         var room = creep.room;
         var pos = creep.pos;
@@ -216,6 +216,7 @@ var job_energy_collect = {
         else {
             return pos.findClosestByRange(targets);
         }
+        return false;
     }
 };
 

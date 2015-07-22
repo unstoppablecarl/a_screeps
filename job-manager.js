@@ -106,7 +106,8 @@ JobManager.prototype = {
         pending = this.preAllocateEnergyDeliverJobs(pending, idleCreepsByRole);
         pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
 
-        this.preAllocateEnergyStoreJobs(idleCreepsByRole);
+        jobHandlers.energy_store.preGenerateJobs(this.room, idleCreepsByRole);
+
         this.preAllocateDefendJobs();
 
         for (var i = 0; i < pending.length; i++) {
@@ -609,52 +610,6 @@ JobManager.prototype = {
         });
 
         return jobs;
-    },
-
-    preAllocateEnergyStoreJobs: function(idleCreepsByRole){
-
-        // @TODO allocate more intellegently to specific energy drop off
-        if(!idleCreepsByRole.carrier || !idleCreepsByRole.carrier.length){
-            return;
-        }
-        // fill room energy first
-        // split energy jobs by energy amount
-        var energyStoreAmount = this.room.roomEnergyCapacity() - this.room.roomEnergy();
-        if(energyStoreAmount){
-            var creeps = idleCreepsByRole.carrier.filter(function(creep){
-                return creep.carry.energy;
-            });
-
-            var piles = this.room.energyPiles();
-
-            // allocate energy store tasks to creeps until full
-            for(var i = creeps.length - 1; i >= 0; i--){
-                if(energyStoreAmount <= 0){
-                    break;
-                }
-
-                var creep = creeps[i];
-                energyStoreAmount -= creep.carry.energy;
-                // allocate creep to energy_store
-
-                var index = idleCreepsByRole.carrier.indexOf(creep);
-                idleCreepsByRole.carrier.splice(index, 1);
-                creeps.splice(i, 1);
-
-                var target = creep.pos.findClosestEnergyStore();
-
-                if(!target){
-                    continue;
-                }
-                this.room.jobList().add({
-                    role: 'carrier',
-                    type: 'energy_store',
-                    source: creep,
-                    target: target,
-                    priority: 0.8,
-                }).start();
-            }
-        }
     },
 
     preAllocateDefendJobs: function() {
