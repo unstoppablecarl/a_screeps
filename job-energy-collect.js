@@ -99,7 +99,7 @@ var job_energy_collect = {
         energyPiles.forEach(function(pile){
 
             if(
-                pile.energy < minEnergyPile &&
+                pile.energy < minEnergyPile ||
                 // only returns 1 job per energy pile to be broken up later
                 pile.isTargetOfJobType('energy_collect')
             ){
