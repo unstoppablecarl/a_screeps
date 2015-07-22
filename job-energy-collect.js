@@ -6,51 +6,20 @@ var job_energy_collect = {
     _getTarget: function(creep, job) {
 
         var target = job.target();
-        var settings = job.settings() || {};
 
-        if(
-            target &&
-            target.isCreep &&
-            target.role() === 'harvester' &&
-            !target.idle()
-        ) {
-            return target;
-        }
-
-        if (
-            !target ||
-            target.energy === 0
-        ){
-            var targets = creep.room.creeps(function(creep){
-                return (
-                    creep.role() === 'harvester' &&
-                    !creep.idle() &&
-                    creep.targetOfJobTypeCount('energy_collect') < 2
-                );
-            });
-
-            targets = targets.concat(creep.room.energyPiles());
-
-            if(!targets.length){
-                return false;
-            }
-            else if(targets.length === 1){
-                target = targets[0];
-            }
-            else {
-                target = creep.pos.findClosestByRange(targets);
-            }
-
+        if(!this.isValidTarget(target)){
+            target = this.findClosestTarget(creep.room, creep.pos);
             if (target) {
                 job.target(target);
             }
         }
+
         return target;
     },
     act: function(creep, job) {
 
         // got energy from somewhere; target or a distributor
-        if (creep.energy === creep.energyCapacity) {
+        if (!creep.energyCanCarryMore()) {
             job.end();
             return;
         }
@@ -126,25 +95,19 @@ var job_energy_collect = {
 
         var jobs = [];
 
+        var isValidTarget = this.isValidTarget;
         energyPiles.forEach(function(pile){
 
             if(
-                pile.energy < minEnergyPile ||
+                pile.energy < minEnergyPile &&
+                // only returns 1 job per energy pile to be broken up later
                 pile.isTargetOfJobType('energy_collect')
             ){
                 return;
             }
 
-            var energyToBeCollected = pile.targetOfJobs(function(job){
-                return (
-                    job.type() === 'energy_collect' &&
-                    job.source()
-                );
-            }).reduce(function(total, job){
-                var source = job.source();
-                return total + (source.energyCapacity - source.energy);
-            }, 0);
-
+            // NOTE: this does not use isValidTarget as it needs the value of energyToBeCollected
+            var energyToBeCollected = pile.energyToBeCollected();
             if(energyToBeCollected >= pile.energy){
                 return;
             }
@@ -172,11 +135,7 @@ var job_energy_collect = {
 
         var harvesters = room.creeps()
             .filter(function(creep){
-                return (
-                    creep.role() === 'harvester' &&
-                    !creep.idle() &&
-                    !creep.isTargetOfJobType('energy_collect')
-                );
+                isValidTarget(creep, true);
             })
             .forEach(function(creep){
 
@@ -194,8 +153,70 @@ var job_energy_collect = {
             });
 
         return jobs;
-    }
+    },
+    // valid target for any energy_collect job potential or current
+    isValidTarget: function(target, forNewJobsOnly){
+        if(!target){
+            return false;
+        }
 
+        if(target.isEnergy){
+
+            if(forNewJobsOnly){
+                return (
+                    target.room.energyPileThresholdMin() < target.energy &&
+                    target.energy <= target.energyToBeCollected()
+                );
+            }
+            return true;
+        }
+
+        else if(target.isCreep){
+            if(
+                target.role() === 'harvester' &&
+                ( // has energy or job
+                    target.carry.energy ||
+                    !target.idle()
+                )
+            ) {
+
+                if(forNewJobsOnly){
+                    return target.targetOfJobTypeCount('energy_collect') < 2;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+    },
+    findClosestTarget: function(creep, job){
+
+        var room = creep.room;
+        var pos = creep.pos;
+
+        var isValidTarget = this.isValidTarget;
+
+        var creeps = room.creeps(function(creep){
+            return isValidTarget(creep, true);
+        });
+
+        var energyPiles = room.energyPiles(function(pile){
+            return isValidTarget(pile, true);
+        });
+
+        var targets = creeps.concat(energyPiles);
+
+        if(!targets.length){
+            return false;
+        }
+        else if(targets.length === 1){
+            return targets[0];
+        }
+        else {
+            return pos.findClosestByRange(targets);
+        }
+    }
 };
 
 module.exports = job_energy_collect;

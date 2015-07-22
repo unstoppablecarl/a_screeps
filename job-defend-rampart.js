@@ -5,6 +5,19 @@ var job_defend_rampart = {
     act: function(creep, job){
         var rampart = job.target();
 
+        var containsHostiles = creep.room.containsHostiles();
+        if(!rampart && containsHostiles){
+            // find new rampart to defend
+            rampart = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+                filter: function(structure){
+                    return (
+                        structure.type === STRUCTURE_RAMPART &&
+                        structure.pos.lookFor('creep') === undefined
+                    );
+                }
+            });
+        }
+
         if(!rampart){
             job.end();
             return;
@@ -21,28 +34,19 @@ var job_defend_rampart = {
             var moveOK = (
                 move === OK ||
                 move === ERR_TIRED ||
-                move === ERR_NO_PATH
+                move === ERR_NO_PATH ||
+                move === ERR_NO_BODYPART
             );
             if(!moveOK){
                 job.end();
             }
+        }
+
+        if(!containsHostiles){
             return;
         }
 
-        if(!creep.room.containsHostiles()){
-            return;
-        }
-
-        var rangedDamage = creep.rangedAttackDamage();
-        var meleeDamage = creep.attackDamage();
-        var attackIsMelee = meleeDamage > rangedDamage;
-
-        var range = 1;
-
-        if(rangedDamage){
-            range = 3;
-        }
-
+        var range = 3;
         var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, range);
         var target = _.min(targets, 'hits');
 
@@ -50,26 +54,12 @@ var job_defend_rampart = {
             return;
         }
 
-        var targetRange = creep.pos.getRangeTo(target);
-        var action;
+        var action = creep.rangedAttack(target);
 
-        if(
-            attackIsMelee &&
-            targetRange === 1
-        ){
-            action = creep.attack(target);
-        }
-        else if(
-            rangedDamage &&
-            targetRange <= 3
-        ){
-            action = creep.rangedAttack(target);
-        }
-
-        var actionOK = (
-            action === OK ||
-            action === ERR_NOT_IN_RANGE
-        );
+        // var actionOK = (
+        //     action === OK ||
+        //     action === ERR_NOT_IN_RANGE
+        // );
     },
     getJobs: function(room){
         return room.flags()
