@@ -137,9 +137,12 @@ JobManager.prototype = {
             }
         cpu.end('allocate_to_existing');
 
+            cpu.start('allocate_to_spawn');
             if(!allocated && (!allocateTo || allocateTo === 'spawn') && this.canAllocateJobToSpawn(job, idleCreepsByRole)){
                 allocated = this.allocateJobToSpawn(job);
             }
+            cpu.end('allocate_to_spawn');
+
             // if(Game.getUsedCpu() > 60){
             //     break;
             // }
