@@ -107,13 +107,14 @@ var job_energy_collect = {
             }
 
             // NOTE: this does not use isValidTarget as it needs the value of energyToBeCollected
-            var energyToBeCollected = pile.energyToBeCollected();
-            if(energyToBeCollected >= pile.energy){
-                return;
-            }
+            // var energyToBeCollected = pile.energyToBeCollected();
+            // if(energyToBeCollected >= pile.energy){
+            //     return;
+            // }
 
-            var energyCollectionNeeded = pile.energy - energyToBeCollected;
+            // var energyCollectionNeeded = pile.energy - energyToBeCollected;
 
+            var energyCollectionNeeded = pile.energy;
             var priority = 0.9;
 
             if(pile){
