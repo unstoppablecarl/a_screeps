@@ -28,7 +28,17 @@ if(room){
 
     Memory.job_length = Object.keys(room.memory.jobs).length;
 
-    console.log('collect', jobList.all().filter(function(job){ return job.type() === 'energy_collect'; }).length);
+
+    var jobCounts = {};
+    jobList.all().forEach(function(job){
+        var type = job.type();
+        if(jobCounts[type] === undefined){
+            jobCounts[type] = 0;
+        }
+        jobCounts[type]++;
+    });
+    Memory.jobCounts = jobCounts;
+    // console.log('collect', jobList.all().);
 // if(!Memory.cmd){
     // var body = [
     //  MOVE, MOVE, MOVE, MOVE, MOVE,
