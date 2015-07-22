@@ -18,7 +18,7 @@ var job_upgrade_room_controller = {
             return;
         }
 
-        // if(creep.energy === 0){
+        // if(creep.carry.energy === 0){
         //     if(job_helpers.findEnergy(creep, job)){
         //         return;
         //     }

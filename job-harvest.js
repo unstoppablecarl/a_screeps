@@ -30,9 +30,8 @@ var job_harvest = {
         var actionOK;
         var move;
         var moveOK;
-        var energyFull = creep.energy === creep.energyCapacity;
 
-        if (!energyFull) {
+        if (creep.energyCanCarryMore()) {
 
             move = creep.moveTo(target);
 

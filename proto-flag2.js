@@ -1,13 +1,15 @@
 'use strict';
 
 require('mixin-job-target')(Flag.prototype);
+Flag.prototype.isFlag = true;
 
 /**
  * flag roles
- * med
+ * idle
+ * medical
  * guard
  * rampart
- * source
+ * harvest
  *
  */
 
@@ -87,14 +89,14 @@ Flag.prototype.creepValid = function(creep) {
 
     if(
         this.excludeCreepEnergyFull() &&
-        creep.energy === creep.energyCapacity
+        !creep.energyCanCarryMore()
     ){
         return false;
     }
 
     if(
         this.excludeCreepEnergyEmpty() &&
-        creep.energy === 0
+        creep.carry.energy === 0
     ){
         return false;
     }
@@ -128,7 +130,7 @@ Flag.prototype.creepsByJobType = function(type){
 };
 
 // total creeps assigned to flag
-Flag.prototype.creepsCount = function(type){
+Flag.prototype.creepsCount = function(){
     return this.targetOfJobs(function(job){
         return (
             job &&
@@ -147,12 +149,7 @@ Flag.prototype.creepMax = function(value){
     var result = this.memory.creep_max;
 
     if(!_.isNumber(result)){
-        result = 0;
-        if(this.memory.role_count_max){
-            for(var key in this.memory.role_count_max){
-                result += this.memory.role_count_max[key];
-            }
-        }
+       return false;
     }
     return result;
 };
@@ -165,12 +162,18 @@ Flag.prototype.creepRoleMax = function(role, value){
     }
     var roleCountMax = this.memory.role_count_max;
     if (value !== undefined) {
+        // remove value from memory
+        if(!value){
+            value = undefined;
+        }
         roleCountMax[role] = value;
     }
     return roleCountMax[role];
 };
 
 // priority of the flag when deciding what flag to assign a creep to
+// not related to job priority
+// simply defines importance of flag among other flags with same role
 Flag.prototype.allocatePriority = function(value){
     if (value !== undefined) {
         this.memory.allocate_priority = value;
@@ -197,6 +200,9 @@ Flag.prototype.activeRadius = function(value){
 // if true creeps should never be spawned for
 // the purpose of being assigned to this flag
 Flag.prototype.allocateExistingOnly = function(value){
+    if(this.role() === 'idle'){
+        return true;
+    }
     if (value !== undefined) {
         this.memory.allocate_existing_only = value;
     }
@@ -209,4 +215,39 @@ Flag.prototype.settings = function(settings){
         this.memory.settings = settings;
     }
     return this.memory.settings;
+};
+
+
+// role specific
+
+// id of harvest source
+Flag.prototype.harvestSourceId = function(id) {
+    if(this.memory.role !== 'harvest'){
+        return false;
+    }
+
+    var settings = this.settings() || {};
+    if (id !== undefined) {
+        settings.source_id = id;
+        this.settings(settings);
+    }
+    else if(settings.source_id === undefined){
+        var sources = this.pos.findInRange(FIND_SOURCES, 2);
+        if(sources.length){
+            settings.source_id = sources[0].id;
+        }
+        this.settings(settings);
+    }
+    return settings.source_id;
+};
+
+// harvest source object
+Flag.prototype.harvestSource = function(source) {
+    if(this.memory.role !== 'harvest'){
+        return false;
+    }
+    if (source !== undefined) {
+        this.harvestSourceId(source.id);
+    }
+    return Game.getObjectById(this.harvestSourceId());
 };

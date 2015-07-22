@@ -12,7 +12,7 @@ var job_build = {
             return;
         }
 
-        if(creep.energy === 0){
+        if(creep.carry.energy === 0){
             if(job_helpers.findEnergy(creep, job)){
                 return;
             }

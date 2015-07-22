@@ -2,6 +2,9 @@
 
 require('mixin-job-target')(Flag.prototype);
 
+Flag.prototype.isFlag = true;
+
+
 Flag.prototype.role = function(role) {
     if (role !== void 0) {
         this.memory.role = role;
@@ -224,7 +227,7 @@ Flag.prototype.idleCreepValid = function(creep){
 
     if(
         idleCreepExcludeEnergyFull &&
-        creep.energy === creep.energyCapacity
+        !creep.energyCanCarryMore()
     ){
         return false;
     }

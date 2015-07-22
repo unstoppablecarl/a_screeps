@@ -31,7 +31,7 @@ var job_energy_store = {
         return target;
     },
     act: function(creep, job){
-        if(creep.energy === 0){
+        if(creep.carry.energy === 0){
             job.end();
             return;
         }

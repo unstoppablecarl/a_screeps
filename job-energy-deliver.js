@@ -5,7 +5,7 @@ var job_energy_deliver = {
     name: 'energy_deliver',
     act: function(creep, job) {
 
-        if(creep.energy === 0){
+        if(creep.carry.energy === 0){
             job.end();
             return;
         }
@@ -64,13 +64,13 @@ var job_energy_deliver = {
             if(
                 creep.idle() ||
                 !creep.roleNeedsEnergy() ||
-                creep.energy === creep.energyCapacity ||
+                !creep.energyCanCarryMore() ||
                 creep.isTargetOfJobType('energy_deliver')
             ){
                 return;
             }
 
-            var energyNeeded = creep.energyCapacity - creep.energy;
+            var energyNeeded = creep.carryCapacity - creep.carry.energy;
             var energyToBeDelivered = creep.targetOfJobs(function(job){
 
                 return (
@@ -80,14 +80,14 @@ var job_energy_deliver = {
 
             }).reduce(function(total, job){
 
-                return total + job.source().energy;
+                return total + job.source().carry.energy;
 
             }, 0);
 
             var energyDeliveryNeeded = energyNeeded - energyToBeDelivered;
 
             var priority = 0.6;
-            var energyPriority = (1 - (creep.energy / creep.energyCapacity));
+            var energyPriority = (1 - (creep.carry.energy / creep.carryCapacity));
             var jobPriority = creep.job().priority();
 
             // average

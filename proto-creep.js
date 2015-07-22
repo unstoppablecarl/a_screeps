@@ -173,3 +173,12 @@ Creep.prototype.toString = function(){
     return '[creep ' + this.name + ': ' + this.role() + ']';
 };
 
+
+// true if creep can currently pick and have room to carry energy
+Creep.prototype.energyCanCarryMore = function(){
+    return (
+        // make sure creep can carry at all
+        this.carryCapacity &&
+        this.carry.energy < this.carryCapacity
+    );
+};

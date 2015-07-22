@@ -188,14 +188,14 @@ JobManager.prototype = {
         else if(type === 'energy_collect'){
 
             creeps = idleCreepsByRole.carrier.filter(function(creep){
-                return creep.energy < creep.energyCapacity;
+                return creep.energyCanCarryMore();
             });
 
         }
         else if(type === 'energy_deliver'){
 
             creeps = idleCreepsByRole.carrier.filter(function(creep){
-                return creep.energy > 0;
+                return creep.carry.energy > 0;
             });
 
         }
@@ -446,7 +446,7 @@ JobManager.prototype = {
         }
 
         var creeps = idleCreepsByRole.carrier.filter(function(creep){
-            return creep.energy < creep.energyCapacity;
+            return creep.carry.energy < creep.carryCapacity;
         });
 
         // if no carriers
@@ -454,7 +454,7 @@ JobManager.prototype = {
             creeps = this.room.creeps().filter(function(creep){
                 return (
                     creep.role() === 'tech' &&
-                    creep.energy < creep.energyCapacity
+                    creep.energyCanCarryMore()
                 );
             });
         }
@@ -480,7 +480,7 @@ JobManager.prototype = {
 
                 if(collectionNeeded > 0){
 
-                    var collectableAmount = creep.energyCapacity - creep.energy;
+                    var collectableAmount = creep.carryCapacity - creep.carry.energy;
 
                     collectionNeeded -= collectableAmount;
                     var priority = 0.9;
@@ -547,7 +547,7 @@ JobManager.prototype = {
         }
 
         var creeps = idleCreepsByRole.carrier.filter(function(creep){
-            return creep.energy > 0;
+            return creep.carry.energy > 0;
         });
 
         if(!creeps.length){
@@ -573,7 +573,7 @@ JobManager.prototype = {
 
             var job = jobsByTargetId[target.id];
             var deliveryNeeded = job.getAllocationSetting('energy_delivery_needed');
-            var deliverableAmount = creep.energy;
+            var deliverableAmount = creep.carry.energy;
             deliveryNeeded -= deliverableAmount;
 
             room.jobList().add({
@@ -622,7 +622,7 @@ JobManager.prototype = {
         var energyStoreAmount = this.room.roomEnergyCapacity() - this.room.roomEnergy();
         if(energyStoreAmount){
             var creeps = idleCreepsByRole.carrier.filter(function(creep){
-                return creep.energy;
+                return creep.carry.energy;
             });
 
             var piles = this.room.energyPiles();
@@ -634,7 +634,7 @@ JobManager.prototype = {
                 }
 
                 var creep = creeps[i];
-                energyStoreAmount -= creep.energy;
+                energyStoreAmount -= creep.carry.energy;
                 // allocate creep to energy_store
 
                 var index = idleCreepsByRole.carrier.indexOf(creep);

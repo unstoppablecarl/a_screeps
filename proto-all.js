@@ -5,15 +5,14 @@ require('proto-flag');
 require('proto-room');
 require('proto-spawn');
 require('proto-room-position');
+require('proto-structure');
 
-require('mixin-job-target')(Structure.prototype);
 require('mixin-job-target')(Source.prototype);
-require('mixin-job-target')(Energy.prototype);
-require('mixin-job-target')(ConstructionSite.prototype);
+Source.prototype.isSource = true;
 
-Array.prototype.remove = function(value){
-    var index = this.indexOf(value);
-    if(index !== -1){
-        this.spice(index, 1);
-    }
-};
+
+
+require('mixin-job-target')(ConstructionSite.prototype);
+ConstructionSite.prototype.isConstructionSite = true;
+
+

@@ -29,7 +29,7 @@ var targetOfJobs = function(filter) {
     }
 
     if (filter) {
-        jobs = jobs.filter(filter);
+        jobs = _.filter(jobs, filter);
     }
     return jobs;
 };
