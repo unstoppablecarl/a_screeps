@@ -2,6 +2,7 @@
 
 var rolesMeta = require('roles-meta');
 var jobHandlers = require('job-all');
+var cpu = require('cpu');
 
 var JobManager = function JobManager(room) {
     this.room = room;
@@ -102,9 +103,13 @@ JobManager.prototype = {
         var jobList = this.room.jobList();
         var pending = jobList.getPending();
         pending =  jobList.sortByPriority(pending);
-
+        cpu.start('allocate_pre_deliver');
         pending = this.preAllocateEnergyDeliverJobs(pending, idleCreepsByRole);
+        cpu.end('allocate_pre_deliver');
+
+        cpu.start('allocate_pre_collect');
         pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
+        cpu.end('allocate_pre_collect');
 
         jobHandlers.energy_store.preGenerateJobs(this.room, idleCreepsByRole);
 
