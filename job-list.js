@@ -152,8 +152,8 @@ JobList.prototype = {
             return;
         }
 
-        var table = require('util').table;
-        var str = table(this.reportData(jobs));
+        var util = require('util');
+        var str = util.table(this.reportData(jobs));
         if(str){
             console.log(str);
             console.log('-');
