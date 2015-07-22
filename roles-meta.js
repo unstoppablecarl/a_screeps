@@ -1,18 +1,35 @@
 'use strict';
-
+var bodyAdd = function(body, part, count){
+    for (var i = 0; i < count; i++) {
+        body.push(part);
+    }
+};
 
 var roles_meta = {
 
     getBodyCost: function(body) {
         var total = 0;
-        for (var i = 0; i < body.length; i++) {
-            var part = body[i];
-            total += BODYPART_COST[part];
-        }
-        return total;
+        return body.reduce(function(total, part){
+            return total + BODYPART_COST[part];
+        }, 0);
     },
 
     getBody: function(type, maxCost) {
+
+        if(type === 'carrier'){
+            var count = Math.floor((maxCost / 50) );
+            var half = Math.floor(count / 2);
+            var remainder = count % 2;
+            var body = [];
+
+            bodyAdd(body, CARRY, half);
+            bodyAdd(body, CARRY, remainder);
+            bodyAdd(body, MOVE, half);
+
+            return body;
+        }
+
+
         var creepType = this.roles[type];
         var maxMatchCost = 0;
         var maxMatchBody;
@@ -64,7 +81,6 @@ TOUGH:          10
                     WORK, WORK, WORK, WORK,
                     MOVE
                 ],
-
                 [
                     CARRY,
                     WORK, WORK, WORK, WORK, WORK,
@@ -89,6 +105,21 @@ TOUGH:          10
                     CARRY, CARRY, CARRY, CARRY,
                     WORK, WORK, WORK, WORK, WORK,
                     MOVE, MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE,
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
+                ],
+                [ // 1200
+                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
                 ],
             ]
         },
@@ -140,6 +171,26 @@ TOUGH:          10
                     CARRY, CARRY, CARRY, CARRY,
                     WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
                     MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE
+                ],
+                [
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE
+                ],
+                [ // 1800
+                    CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
                 ],
             ]
         },
@@ -213,93 +264,26 @@ TOUGH:          10
                     WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
                     MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
                 ],
+
+                [
+                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                ],
+                [ // 1800
+                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
+                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                ],
             ]
         },
         carrier: {
             needs_energy_delivered: false,
             bodies: [
-                [
-                    CARRY,
-                    MOVE
-                ],
-                [
-                    CARRY,
-                    MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY,
-                    MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY,
-                    MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE
-                ],
-
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
-
-                [
-                    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ],
+                    // [
+                    //     CARRY,
+                    //     MOVE
+                    // ],
             ]
         },
         guard: {
@@ -341,6 +325,11 @@ TOUGH:          10
                     TOUGH, TOUGH, TOUGH,
                     RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
                     MOVE, MOVE, MOVE, MOVE, MOVE,
+                ],
+                [
+                    TOUGH, TOUGH, TOUGH,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
                 ],
             ]
         },
@@ -416,6 +405,15 @@ TOUGH:          10
                 [
                     MOVE, MOVE, MOVE,
                     RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK
+                ],
+                [
+                    MOVE, MOVE, MOVE, MOVE,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
+                ],
+
+                [
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
+                    RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK,
                 ],
             ]
         }
