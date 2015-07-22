@@ -111,9 +111,13 @@ JobManager.prototype = {
         pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
         cpu.end('allocate_pre_collect');
 
+        cpu.start('allocate_pre_gen_store');
         jobHandlers.energy_store.preGenerateJobs(this.room, idleCreepsByRole);
+        cpu.end('allocate_pre_gen_store');
 
         this.preAllocateDefendJobs();
+
+        cpu.start('allocate_remaining');
 
         for (var i = 0; i < pending.length; i++) {
             var job = pending[i];
@@ -135,6 +139,8 @@ JobManager.prototype = {
                 allocated = this.allocateJobToSpawn(job);
             }
         }
+        cpu.end('allocate_remaining');
+
     },
 
     getIdleCreepsByRole: function(){
