@@ -138,9 +138,9 @@ JobManager.prototype = {
             if(!allocated && (!allocateTo || allocateTo === 'spawn') && this.canAllocateJobToSpawn(job, idleCreepsByRole)){
                 allocated = this.allocateJobToSpawn(job);
             }
-            if(Game.getUsedCpu() > 60){
-                break;
-            }
+            // if(Game.getUsedCpu() > 60){
+            //     break;
+            // }
         }
         cpu.end('allocate_remaining');
 
