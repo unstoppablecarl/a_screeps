@@ -26,6 +26,9 @@ if(room){
     var jobManager = room.jobManager();
     var jobList = room.jobList();
 
+    Memory.job_length = Object.keys(room.memory.jobs).length;
+
+    console.log('collect', jobList.all().filter(function(job){ return job.type() === 'energy_collect'; }).length);
 // if(!Memory.cmd){
     // var body = [
     //  MOVE, MOVE, MOVE, MOVE, MOVE,
