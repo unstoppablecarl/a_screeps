@@ -130,10 +130,12 @@ JobManager.prototype = {
             }
 
             var allocated;
+        cpu.start('allocate_to_existing');
 
             if(!allocateTo || allocateTo === 'existing'){
                 allocated = this.allocateJobToExisting(job, idleCreepsByRole);
             }
+        cpu.end('allocate_to_existing');
 
             if(!allocated && (!allocateTo || allocateTo === 'spawn') && this.canAllocateJobToSpawn(job, idleCreepsByRole)){
                 allocated = this.allocateJobToSpawn(job);
