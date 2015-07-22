@@ -5,6 +5,7 @@ require('proto-flag');
 require('proto-room');
 require('proto-spawn');
 require('proto-room-position');
+require('proto-energy');
 
 require('mixin-job-target')(Source.prototype);
 Source.prototype.isSource = true;
