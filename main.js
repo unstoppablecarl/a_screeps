@@ -26,11 +26,11 @@ if(room){
     var jobManager = room.jobManager();
     var jobList = room.jobList();
 
-if(!Memory.cmd){
-Memory.jobCounts = undefined;
-Memory.job_length = undefined;
-    Memory.cmd = true;
-}
+// if(!Memory.cmd){
+// Memory.jobCounts = undefined;
+// Memory.job_length = undefined;
+//     Memory.cmd = true;
+// }
 // Memory.cmd = undefined;
 
     if (Game.time % 5 === 0) {
