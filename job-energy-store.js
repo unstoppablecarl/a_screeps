@@ -106,6 +106,7 @@ var job_energy_store = {
         }
 
         if(target.isStructure){
+            console.log('isStructure', target);
             if(target.energy === target.energyCapacity){
                 return false;
             }
