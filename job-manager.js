@@ -146,6 +146,7 @@ JobManager.prototype = {
                 (!allocateTo || allocateTo === 'spawn') &&
                 this.canAllocateJobToSpawn(job, idleCreepsByRole)
             ){
+                console.log('can allocate to spawn', job);
                 allocated = this.allocateJobToSpawn(job);
             }
             cpu.end('allocate_to_spawn');
