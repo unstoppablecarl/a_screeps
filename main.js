@@ -26,41 +26,12 @@ if(room){
     var jobManager = room.jobManager();
     var jobList = room.jobList();
 
-    Memory.job_length = Object.keys(room.memory.jobs).length;
-
-
-    var jobCounts = {};
-    jobList.all().forEach(function(job){
-        var type = job.type();
-        if(jobCounts[type] === undefined){
-            jobCounts[type] = 0;
-        }
-        jobCounts[type]++;
-    });
-    Memory.jobCounts = jobCounts;
-    // console.log('collect', jobList.all().);
-// if(!Memory.cmd){
-    // var body = [
-    //  MOVE, MOVE, MOVE, MOVE, MOVE,
-    //  ATTACK, ATTACK, ATTACK, ATTACK, ATTACK
-    // ];
-
-
-    // var job = jobList.add({
-    //     type: 'attack',
-    //     role: 'guard',
-    //     source: Game.creeps.Kylie,
-    //     target: room.lookAt(24,41)[0].structure
-    // });
-
-    // var memory = {
-    //     role: 'guard',
-    //     source_of_job_id: job.id(),
-    // };
-
-    // Game.spawns.Spawn1.spawnCreep(body, memory);
-//     Memory.cmd = true;
-// }
+if(!Memory.cmd){
+Memory.jobCounts = undefined;
+Memory.job_length = undefined;
+    Memory.cmd = true;
+}
+// Memory.cmd = undefined;
 
     if (Game.time % 5 === 0) {
         jobList.cleanup();
