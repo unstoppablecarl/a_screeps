@@ -123,6 +123,10 @@ var job_energy_store = {
                 return false;
             }
 
+
+            if(target.role() === 'harvester'){
+                return false;
+            }
             if(
                 target.role() === 'carrier' &&
                 target.job() &&
