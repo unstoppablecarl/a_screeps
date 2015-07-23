@@ -400,7 +400,7 @@ JobManager.prototype = {
             role === 'carrier'
         ){
             var roleCount = this.room.roleCount(role);
-            if(roleCount < this.room.sources().length){
+            if(roleCount < this.room.sources().length * 2){
                 maxCreepCost = this.room.extensionEnergy() + spawn.energy;
             }
         }
