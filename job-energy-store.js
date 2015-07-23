@@ -80,7 +80,7 @@ var job_energy_store = {
                 energyStoreAmount -= creep.carry.energy;
                 // allocate creep to energy_store
 
-                var target = this.findClosestTarget(creep);
+                var target = this.findClosestTarget(creep, true);
 
                 if(!target){
                     continue;
@@ -140,7 +140,7 @@ var job_energy_store = {
 
         return false;
     },
-    findClosestTarget: function(creep){
+    findClosestTarget: function(creep, forNewJobsOnly){
 
         var room = creep.room;
         var pos = creep.pos;
@@ -148,18 +148,18 @@ var job_energy_store = {
         var isValidTarget = this.isValidTarget;
 
         var spawns = room.spawns(function(spawn) {
-            return isValidTarget(spawn, true);
+            return isValidTarget(spawn, forNewJobsOnly);
         });
 
         var extensions = room.extensions(function(extension) {
-            return isValidTarget(extension, true);
+            return isValidTarget(extension, forNewJobsOnly);
         });
 
         var targets = spawns.concat(extensions);
 
         if(!targets.length){
             targets = room.creeps(function(creep){
-                return isValidTarget(creep, true);
+                return isValidTarget(creep, forNewJobsOnly);
             });
         }
 
