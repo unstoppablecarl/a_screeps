@@ -146,7 +146,6 @@ JobManager.prototype = {
                 (!allocateTo || allocateTo === 'spawn') &&
                 this.canAllocateJobToSpawn(job, idleCreepsByRole)
             ){
-                console.log('can allocate to spawn', job);
                 allocated = this.allocateJobToSpawn(job);
             }
             cpu.end('allocate_to_spawn');
@@ -442,7 +441,7 @@ JobManager.prototype = {
 
         var body = rolesMeta.getBody(role, maxCreepCost);
 
-        console.log('m', role, rolesMeta.getBodyCost(body), '/', maxCreepCost);
+        // console.log('m', role, rolesMeta.getBodyCost(body), '/', maxCreepCost);
 
         if(!body){
             console.log('no affordable body', role, maxCreepCost);
@@ -450,7 +449,6 @@ JobManager.prototype = {
         }
 
         var result = spawn.spawnCreep(body, memory);
-        console.log('result', result);
         if(result === ERR_NOT_ENOUGH_ENERGY ||
             result === ERR_NOT_OWNER ||
             result === ERR_NAME_EXISTS ||
