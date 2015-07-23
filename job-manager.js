@@ -132,13 +132,20 @@ JobManager.prototype = {
             var allocated;
         cpu.start('allocate_to_existing');
 
-            if(!allocateTo || allocateTo === 'existing'){
+            if(
+                !allocateTo ||
+                allocateTo === 'existing'
+            ){
                 allocated = this.allocateJobToExisting(job, idleCreepsByRole);
             }
         cpu.end('allocate_to_existing');
 
             cpu.start('allocate_to_spawn');
-            if(!allocated && (!allocateTo || allocateTo === 'spawn') && this.canAllocateJobToSpawn(job, idleCreepsByRole)){
+            if(
+                !allocated &&
+                (!allocateTo || allocateTo === 'spawn') &&
+                this.canAllocateJobToSpawn(job, idleCreepsByRole)
+            ){
                 allocated = this.allocateJobToSpawn(job);
             }
             cpu.end('allocate_to_spawn');
@@ -393,14 +400,26 @@ JobManager.prototype = {
         //     }
         // }
 
-
+        var roleCount;
         // if there are no harvesters or carriers spawn whatever type of harvester possible
-        if(
-            role === 'harvester' ||
-            role === 'carrier'
-        ){
-            var roleCount = this.room.roleCount(role);
-            if(roleCount < this.room.sources().length * 2){
+        if(role === 'harvester'){
+            roleCount = this.room.roleCount(role);
+            if(!roleCount){
+                maxCreepCost = this.room.extensionEnergy() + spawn.energy;
+            }
+        }
+
+        if(role === 'carrier'){
+            roleCount = this.room.roleCount(role);
+
+            var sourceCount = room.flagsWithRole('source').length;
+
+            // get at least 2 carriers per source before
+            // making max cost carriers
+            if(
+
+                roleCount < this.room.sources().length * 2
+            ){
                 maxCreepCost = this.room.extensionEnergy() + spawn.energy;
             }
         }
@@ -409,10 +428,11 @@ JobManager.prototype = {
             var singleSpawnEnergyCap = 300;
             maxCreepCost = this.room.extensionEnergyCapacity() + singleSpawnEnergyCap;
         }
-        if(maxCreepCost === 0 ){
+        if(maxCreepCost < 300){
             console.log('no energy');
             return false;
         }
+
         var memory = {
             role: role,
             source_of_job_id: job.id()

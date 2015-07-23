@@ -108,6 +108,12 @@ Room.prototype.flags = function(filter) {
     return finder(this, FIND_FLAGS, filter);
 };
 
+Room.prototype.flagsWithRole = function(role, filter) {
+    return finder(this, FIND_FLAGS, function(flag){
+        return flag.role() === role && (!filter || filter(flag));
+    });
+};
+
 Room.prototype.constructionSites = function(filter) {
     return finder(this, FIND_CONSTRUCTION_SITES, filter);
 };
