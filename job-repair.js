@@ -16,7 +16,6 @@ var job_repair = {
         if(repairEnd){
 
             var repairPercent = target.hits / target.hitsMax;
-            console.log('z', target.structureType, repairEnd, repairPercent);
             if(repairPercent >= repairEnd){
                 job.end();
                 return;
