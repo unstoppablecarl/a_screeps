@@ -321,6 +321,7 @@ JobManager.prototype = {
 
         job.source(creep);
         job.start();
+        creep.act();
 
         console.log('allocating job to existing', job);
 
