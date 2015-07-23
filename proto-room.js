@@ -41,14 +41,14 @@ Room.prototype.populationReport = function() {
     }
 
     console.log('* population report *');
-    var table = require('util').table;
+    var util = require('util');
 
     for (var roleName in populationData) {
         var roleData = populationData[roleName];
         var percent = roleData.count / totalPopulation;
         roleData.percent = (Math.round(percent * 100) / 100) + '%';
     }
-    console.log(table(populationData));
+    console.log(util.table(populationData));
 };
 
 var finder = function(room, key, filter){

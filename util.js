@@ -25,6 +25,7 @@ var padLeft = function(val, width, padStr) {
 
 var util = {
     table: function(data) {
+        console.log('this', this);
         return this.tableData(data).join('\n');
     },
     tableData: function(data, indexBy, padStr) {
