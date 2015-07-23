@@ -57,8 +57,8 @@ JobManager.prototype = {
         // var moveToFlag = handlers.move_to_flag.getJobs(room);
         // jobs = jobs.concat(moveToFlag);
 
-        var repair = handlers.repair.getJobs(room);
-        jobs = jobs.concat(repair);
+        // var repair = handlers.repair.getJobs(room);
+        // jobs = jobs.concat(repair);
 
         var replace = handlers.replace.getJobs(room);
         jobs = jobs.concat(replace);
