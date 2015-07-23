@@ -14,7 +14,9 @@ var job_repair = {
 
         var repairEnd = creep.room.repairEndThreshold(target.structureType);
         if(repairEnd){
+
             var repairPercent = target.hits / target.hitsMax;
+            console.log('z', target.structureType, repairEnd, repairPercent);
             if(repairPercent >= repairEnd){
                 job.end();
                 return;
