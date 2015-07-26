@@ -103,24 +103,24 @@ JobManager.prototype = {
         var jobList = this.room.jobList();
         var pending = jobList.getPending();
         pending =  jobList.sortByPriority(pending);
-        cpu.start('allocate_pre_deliver');
+        // cpu.start('allocate_pre_deliver');
         pending = this.preAllocateEnergyDeliverJobs(pending, idleCreepsByRole);
-        cpu.end('allocate_pre_deliver');
+        // cpu.end('allocate_pre_deliver');
 
-        cpu.start('allocate_pre_collect');
+        // cpu.start('allocate_pre_collect');
         pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
-        cpu.end('allocate_pre_collect');
+        // cpu.end('allocate_pre_collect');
 
-        cpu.start('allocate_pre_gen_store');
+        // cpu.start('allocate_pre_gen_store');
         jobHandlers.energy_store.preGenerateJobs(this.room, idleCreepsByRole);
-        cpu.end('allocate_pre_gen_store');
+        // cpu.end('allocate_pre_gen_store');
 
-        cpu.start('allocate_pre_defend');
+        // cpu.start('allocate_pre_defend');
 
         this.preAllocateDefendJobs();
-        cpu.end('allocate_pre_defend');
+        // cpu.end('allocate_pre_defend');
 
-        cpu.start('allocate_remaining');
+        // cpu.start('allocate_remaining');
 
         for (var i = 0; i < pending.length; i++) {
             var job = pending[i];
@@ -133,7 +133,7 @@ JobManager.prototype = {
             }
 
             var allocated;
-        cpu.start('allocate_to_existing');
+        // cpu.start('allocate_to_existing');
 
             if(
                 !allocateTo ||
@@ -141,9 +141,9 @@ JobManager.prototype = {
             ){
                 allocated = this.allocateJobToExisting(job, idleCreepsByRole);
             }
-        cpu.end('allocate_to_existing');
+        // cpu.end('allocate_to_existing');
 
-            cpu.start('allocate_to_spawn');
+            // cpu.start('allocate_to_spawn');
             if(
                 !allocated &&
                 (!allocateTo || allocateTo === 'spawn') &&
@@ -151,13 +151,13 @@ JobManager.prototype = {
             ){
                 allocated = this.allocateJobToSpawn(job);
             }
-            cpu.end('allocate_to_spawn');
+            // cpu.end('allocate_to_spawn');
 
             // if(Game.getUsedCpu() > 60){
             //     break;
             // }
         }
-        cpu.end('allocate_remaining');
+        // cpu.end('allocate_remaining');
 
     },
 
