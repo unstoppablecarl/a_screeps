@@ -111,11 +111,14 @@ JobManager.prototype = {
         pending = this.preAllocateEnergyCollectJobs(pending, idleCreepsByRole);
         cpu.end('allocate_pre_collect');
 
-        // cpu.start('allocate_pre_gen_store');
+        cpu.start('allocate_pre_gen_store');
         jobHandlers.energy_store.preGenerateJobs(this.room, idleCreepsByRole);
-        // cpu.end('allocate_pre_gen_store');
+        cpu.end('allocate_pre_gen_store');
+
+        cpu.start('allocate_pre_defend');
 
         this.preAllocateDefendJobs();
+        cpu.end('allocate_pre_defend');
 
         cpu.start('allocate_remaining');
 
