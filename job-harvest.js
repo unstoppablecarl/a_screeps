@@ -69,7 +69,7 @@ var job_harvest = {
             // or room energy is full and cannot store more
             if (
                 creep.room.roleCount('carrier') ||
-                creep.room.roomEnergy() === creep.room.roomEnergyCapacity()
+                creep.room.energyAvailable === creep.room.energyCapacityAvailable
             ) {
                 creep.dropEnergy();
                 return;
