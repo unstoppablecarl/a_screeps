@@ -62,7 +62,7 @@ var job_energy_store = {
         }
         // fill room energy first
         // split energy jobs by energy amount
-        var energyStoreAmount = room.roomEnergyCapacity() - room.roomEnergy();
+        var energyStoreAmount = room.energyCapacityAvailable - room.energyAvailable;
         if(energyStoreAmount){
             var creeps = idleCreepsByRole.carrier.filter(function(creep){
                 return creep.carry.energy;
