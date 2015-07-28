@@ -409,11 +409,11 @@ JobManager.prototype = {
         if(role === 'harvester'){
             roleCount = this.room.roleCount(role);
             if(!roleCount){
-                maxCreepCost = this.room.extensionEnergy() + spawn.energy;
+                maxCreepCost = this.room.energyAvailable;
             }
         }
 
-        if(role === 'carrier'){
+        else if(role === 'carrier'){
             roleCount = this.room.roleCount(role);
 
             var sourceCount = room.flagsWithRole('source').length;
@@ -421,16 +421,14 @@ JobManager.prototype = {
             // get at least 2 carriers per source before
             // making max cost carriers
             if(
-
                 roleCount < this.room.sources().length * 2
             ){
-                maxCreepCost = this.room.extensionEnergy() + spawn.energy;
+                maxCreepCost = this.room.energyAvailable;
             }
         }
 
         if(!maxCreepCost){
-            var singleSpawnEnergyCap = 300;
-            maxCreepCost = this.room.extensionEnergyCapacity() + singleSpawnEnergyCap;
+            maxCreepCost = this.room.energyCapacityAvailable;
         }
         if(maxCreepCost < 300){
             console.log('no energy');
