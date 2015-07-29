@@ -94,41 +94,20 @@ var job_repair = {
             return false;
         });
 
-        // var roads = room.roads(function(road){
-        //     if(
-        //         road.hits < road.hitsMax &&
-        //         !road.isTargetOfJobType('repair')
-        //     ){
-        //         var type = road.structureType;
-        //         var threshold = room.repairStartThreshold(type);
-        //         var hitPercent = road.hits / road.hitsMax;
+        var roads = room.roads(function(road){
+            if(
+                road.hits < road.hitsMax &&
+                !road.isTargetOfJobType('repair')
+            ){
+                var type = road.structureType;
+                var threshold = room.repairStartThreshold(type);
+                var hitPercent = road.hits / road.hitsMax;
 
-        //         return hitPercent < threshold;
-        //     }
+                return hitPercent < threshold;
+            }
 
-        //     return false;
-        // });
-
-
-        // var repairWallsTo = 10000;
-        // var wallFlags = room.flags().filter(function(flag){
-        //     return flag.role() === 'wall_repair';
-        // });
-
-        // wallFlags.forEach(function(flag){
-        //     var range = flag.memory.wall_repair_range || 2;
-        //     var walls = flag.pos.findInRange(FIND_STRUCTURES, range).filter(function(s){
-        //         return (
-        //             s.structureType === STRUCTURE_WALL &&
-        //             s.hits < repairWallsTo &&
-        //             !s.isTargetOfJobType('repair')
-        //         );
-        //     });
-
-        //     walls.forEach(function(wall){
-        //         structures.push(wall);
-        //     });
-        // });
+            return false;
+        });
 
         var walls = room.walls(function(wall){
             if(
@@ -145,14 +124,14 @@ var job_repair = {
             return false;
         });
 
-        structures = structures.concat(walls);
+        structures = structures.concat(walls, roads);
 
         return structures.map(function(structure){
 
             var priority = 0.6;
 
             // higher priority to repair rampart when under attack
-            if(room.containsHostiles()){
+            if(structure.structureType === STRUCTURE_RAMPART && room.containsHostiles()){
                 priority = 0.75;
             }
 
