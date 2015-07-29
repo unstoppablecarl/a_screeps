@@ -94,20 +94,20 @@ var job_repair = {
             return false;
         });
 
-        var roads = room.roads(function(road){
-            if(
-                road.hits < road.hitsMax &&
-                !road.isTargetOfJobType('repair')
-            ){
-                var type = road.structureType;
-                var threshold = room.repairStartThreshold(type);
-                var hitPercent = road.hits / road.hitsMax;
+        // var roads = room.roads(function(road){
+        //     if(
+        //         road.hits < road.hitsMax &&
+        //         !road.isTargetOfJobType('repair')
+        //     ){
+        //         var type = road.structureType;
+        //         var threshold = room.repairStartThreshold(type);
+        //         var hitPercent = road.hits / road.hitsMax;
 
-                return hitPercent < threshold;
-            }
+        //         return hitPercent < threshold;
+        //     }
 
-            return false;
-        });
+        //     return false;
+        // });
 
 
         // var repairWallsTo = 10000;
@@ -145,7 +145,7 @@ var job_repair = {
             return false;
         });
 
-        structures = structures.concat(roads, walls);
+        structures = structures.concat(walls);
 
         return structures.map(function(structure){
 
