@@ -55,6 +55,11 @@ Room.prototype.structureSettings = function(structure){
     if (this.memory.structure_settings === undefined) {
         this.memory.structure_settings = defaults;
     }
+    // if new structure type added
+    else if(this.memory.structure_settings[structure] === undefined){
+        this.memory.structure_settings[structure] = defaults[structure];
+    }
+
     if(structure !== undefined){
         return this.memory.structure_settings[structure];
     }
