@@ -122,14 +122,6 @@ Room.prototype.energyPileThresholdMin = function(value) {
     return this.memory.energy_pile_threshold_min || 50;
 };
 
-// the size of an energy pile required to prompt spawning another carrier
-// Room.prototype.energyPileThresholdSpawn = function(value) {
-//     if (value !== void 0) {
-//         this.memory.energy_pile_threshold_spawn = value;
-//     }
-//     return this.memory.energy_pile_threshold_spawn || 1500;
-// };
-
 // the hard max number of creeps with given role allowed in this room
 Room.prototype.roleCountMax = function(role, max) {
     if (this.memory.role_count_max === undefined) {

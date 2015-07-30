@@ -132,51 +132,6 @@ Room.prototype.availableSpawns = function() {
     });
 };
 
-// Room.prototype.extensionCount = function() {
-//     return this.extensions().length;
-// };
-
-// Room.prototype.extensionEnergyCapacity = function() {
-//     var extensionCount = this.extensionCount();
-//     if (extensionCount) {
-//         return extensionCount * 50;
-//     }
-//     return 0;
-// };
-
-// Room.prototype.extensionEnergy = function() {
-//     var extensions = this.extensions();
-//     var total = 0;
-//     for (var i = 0; i < extensions.length; i++) {
-//        var ex = extensions[i];
-//        total += ex.energy;
-//     }
-//     return total;
-// };
-
-// Room.prototype.spawnEnergy = function() {
-//     var spawns = this.spawns();
-//     var total = 0;
-//     for (var i = 0; i < spawns.length; i++) {
-//        var ex = spawns[i];
-//        total += ex.energy;
-//     }
-//     return total;
-// };
-
-// Room.prototype.spawnEnergyCapacity = function() {
-//     var spawns = this.spawns();
-//     return spawns.length * 300;
-// };
-
-// Room.prototype.roomEnergy = function() {
-//     return this.spawnEnergy() + this.extensionEnergy();
-// };
-
-// Room.prototype.roomEnergyCapacity = function() {
-//     return this.spawnEnergyCapacity() + this.extensionEnergyCapacity();
-// };
-
 Room.prototype.idleCreeps = function(role){
     return this.find(FIND_MY_CREEPS, {
         filter: function(creep){

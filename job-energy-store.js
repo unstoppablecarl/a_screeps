@@ -105,16 +105,16 @@ var job_energy_store = {
             return false;
         }
 
-        if(
-            target.isStructure ||
-            target.isSpawn
-        ){
-            // console.log('isStructure', target);
-            if(target.energy === target.energyCapacity){
+        if(target.isStructure){
+            if(target.store.energy === target.storeCapacity){
                 return false;
             }
 
-            if(forNewJobsOnly){
+            if(
+                forNewJobsOnly &&
+                // storage can have unlimited jobs assigned
+                target.structureType !== STRUCTURE_STORAGE
+            ){
                 return !target.isTargetOfJobType('energy_store');
             }
 
@@ -164,6 +164,13 @@ var job_energy_store = {
         });
 
         var targets = spawns.concat(extensions);
+
+        if(
+            !targets.length &&
+            room.storage
+        ){
+            targets.push(room.storage);
+        }
 
         if(!targets.length){
             targets = room.creeps(function(creep){

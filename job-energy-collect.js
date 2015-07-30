@@ -208,6 +208,14 @@ var job_energy_collect = {
 
         var targets = creeps.concat(energyPiles);
 
+        if(
+            !targets.length &&
+            room.storage &&
+            room.storage.store.energy
+        ){
+            return room.storage;
+        }
+
         if(!targets.length){
             return false;
         }
