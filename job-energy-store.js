@@ -106,9 +106,6 @@ var job_energy_store = {
         }
 
         if(target.isStructure){
-            if(!target.store){
-                console.log('t', target);
-            }
             if(
                 target.store &&
                 target.store.energy === target.storeCapacity
@@ -116,6 +113,12 @@ var job_energy_store = {
                 return false;
             }
 
+            if(
+                target.energy &&
+                target.energy === target.energyCapacityAvailable
+            ){
+                return false;
+            }
             if(
                 forNewJobsOnly &&
                 // storage can have unlimited jobs assigned
