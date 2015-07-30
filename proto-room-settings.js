@@ -44,6 +44,13 @@ defaults[STRUCTURE_SPAWN] = {
     repair_end: 1,
 };
 
+defaults[STRUCTURE_STORAGE] = {
+    build_priority: 0.5,
+    repair_priority: 0.6,
+    repair_start: 0.95,
+    repair_end: 1,
+};
+
 Room.prototype.structureSettings = function(structure){
     if (this.memory.structure_settings === undefined) {
         this.memory.structure_settings = defaults;
