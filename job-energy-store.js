@@ -115,7 +115,7 @@ var job_energy_store = {
 
             if(
                 target.energy &&
-                target.energy === target.energyCapacityAvailable
+                target.energy === target.energyCapacity
             ){
                 return false;
             }
