@@ -23,14 +23,24 @@ var job_helpers = {
     },
 
     startEnergyCollect: function(creep, job){
-        var targets = creep.room.energyPiles();
+
+        var room = creep.room;
         var target;
+
+        var targets = creep.room.energyPiles();
+        if(
+            room.storage &&
+            room.storage.store.energy
+        ){
+            targets.push(room.storage);
+        }
 
         if(targets.length === 1){
             target = targets[0];
         } else {
             target = creep.pos.findClosestByRange(targets);
         }
+
         if(target){
             var newJob = creep.room.jobList().add({
                 type: 'energy_collect',
