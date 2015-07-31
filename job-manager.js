@@ -187,6 +187,7 @@ JobManager.prototype = {
 
     allocateJobToExisting: function(job, idleCreepsByRole) {
         // console.log('allocateJobToExisting');
+        //
         var type = job.type();
         var target = job.target();
 
