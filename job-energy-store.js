@@ -176,7 +176,8 @@ var job_energy_store = {
 
         if(
             !targets.length &&
-            room.storage
+            room.storage &&
+            isValidTarget(room.store, forNewJobsOnly)
         ){
             targets.push(room.storage);
         }
