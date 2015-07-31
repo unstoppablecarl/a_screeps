@@ -444,11 +444,6 @@ JobManager.prototype = {
 
         var body = rolesMeta.getBody(role, maxCreepCost);
 
-        if(job.type() === 'build'){
-            console.log('m', role, rolesMeta.getBodyCost(body), '/', maxCreepCost);
-        }
-
-
         if(!body){
             console.log('no affordable body', role, maxCreepCost);
             return;

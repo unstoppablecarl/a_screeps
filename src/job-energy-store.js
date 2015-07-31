@@ -105,7 +105,10 @@ var job_energy_store = {
             return false;
         }
 
-        if(target.isStructure){
+        if(
+            target.isStructure ||
+            target.isSpawn
+        ){
             if(
                 target.store &&
                 target.store.energy === target.storeCapacity
@@ -113,10 +116,7 @@ var job_energy_store = {
                 return false;
             }
 
-            if(
-                target.energy &&
-                target.energy === target.energyCapacity
-            ){
+            if(target.energy === target.energyCapacity){
                 return false;
             }
             if(
