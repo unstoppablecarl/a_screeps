@@ -18,8 +18,8 @@ var roles_meta = {
 
         if(type === 'carrier'){
             var count = Math.floor((maxCost / 50) );
-            if(count > 30){
-                count = 30;
+            if(count > 22){
+                count = 22;
             }
             var half = Math.floor(count / 2);
             var remainder = count % 2;
