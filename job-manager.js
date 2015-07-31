@@ -149,7 +149,7 @@ JobManager.prototype = {
                 (!allocateTo || allocateTo === 'spawn') &&
                 this.canAllocateJobToSpawn(job, idleCreepsByRole)
             ){
-                console.log('job', job);
+
                 allocated = this.allocateJobToSpawn(job);
             }
             // cpu.end('allocate_to_spawn');
@@ -443,7 +443,10 @@ JobManager.prototype = {
 
         var body = rolesMeta.getBody(role, maxCreepCost);
 
-        // console.log('m', role, rolesMeta.getBodyCost(body), '/', maxCreepCost);
+        if(job.type() === 'build'){
+            console.log('m', role, rolesMeta.getBodyCost(body), '/', maxCreepCost);
+        }
+
 
         if(!body){
             console.log('no affordable body', role, maxCreepCost);
